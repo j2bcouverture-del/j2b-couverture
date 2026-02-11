@@ -157,6 +157,35 @@
     .list{margin:10px 0 0;padding-left:18px}
     .list li{margin:6px 0}
 
+    /* ===== Galerie photos (petit/moyen + responsive) ===== */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .gallery img{
+      width:100%;
+      height:auto;
+      aspect-ratio: 4 / 3;
+      object-fit:cover;
+      border-radius:12px;
+      border:1px solid var(--border);
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+      transition:transform .25s ease;
+      background:#fff;
+      display:block;
+    }
+    .gallery img:hover{transform:scale(1.03)}
+
+    @media (min-width: 900px){
+      .gallery{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 420px){
+      .gallery{ grid-template-columns:1fr; }
+      .gallery img{ aspect-ratio: 16 / 10; }
+    }
+
     /* Form */
     .form{
       display:grid;
@@ -203,27 +232,7 @@
       .btn{width:100%}
       .topLinks{display:none}
       .brand img{height:54px}
-    /* ===== Galerie photos ===== */
-
-.gallery{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.gallery img{
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  transition: transform 0.3s ease;
-}
-
-.gallery img:hover{
-  transform: scale(1.05);
-}
+    }
   </style>
 </head>
 
@@ -232,22 +241,19 @@
 <header>
   <nav class="nav container">
     <div class="brand">
-      <!-- ✅ TON LOGO : logo.png dans le même dossier -->
-  <img 
-  src="./logo-temp.png?v=1000"
-  alt="J2B Couverture"
-  style="height:70px; width:auto; display:block;"
->
-
-
+      <!-- Logo -->
+      <img
+        src="./logo-temp.png?v=1000"
+        alt="J2B Couverture"
+        style="height:70px; width:auto; display:block;"
+      >
       <div class="topLinks">
         <a class="link" href="#services">Services</a>
         <a class="link" href="#zone">Zone</a>
+        <a class="link" href="#realisations">Réalisations</a>
         <a class="link" href="#devis">Devis</a>
       </div>
     </div>
-
-    
   </nav>
 </header>
 
@@ -336,6 +342,26 @@
   </div>
 </section>
 
+<!-- ✅ Galerie AVANT Devis -->
+<section class="section alt" id="realisations">
+  <div class="container">
+    <h2>Nos réalisations</h2>
+    <p class="muted">
+      Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.
+    </p>
+
+    <div class="gallery">
+      <img src="./Temp1.jpg" alt="Réalisation toiture 1">
+      <img src="./Temp2.png" alt="Réalisation toiture 2">
+      <img src="./Temp3.png" alt="Réalisation toiture 3">
+      <img src="./Temp4.png" alt="Réalisation toiture 4">
+      <img src="./Temp6.JPG" alt="Réalisation toiture 5">
+      <img src="./Temp7.png" alt="Réalisation toiture 6">
+      <img src="./Temp8.png" alt="Réalisation toiture 7">
+    </div>
+  </div>
+</section>
+
 <section id="devis" class="section alt">
   <div class="container">
     <h2>Demande de devis</h2>
@@ -359,24 +385,7 @@
     </form>
   </div>
 </section>
-<section class="section alt" id="realisations">
-  <div class="container">
-    <h2>Nos réalisations</h2>
-    <p class="muted">
-      Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.
-    </p>
 
-    <div class="gallery">
-      <img src="Temp1.jpg" alt="Réalisation toiture 1">
-      <img src="Temp2.png" alt="Réalisation toiture 2">
-      <img src="Temp3.png" alt="Réalisation toiture 3">
-      <img src="Temp4.png" alt="Réalisation toiture 4">
-      <img src="Temp6.JPG" alt="Réalisation toiture 5">
-      <img src="Temp7.png" alt="Réalisation toiture 6">
-      <img src="Temp8.png" alt="Réalisation toiture 7">
-    </div>
-  </div>
-</section>
 </main>
 
 <footer>
