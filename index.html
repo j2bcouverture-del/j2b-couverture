@@ -157,6 +157,71 @@
     .list{margin:10px 0 0;padding-left:18px}
     .list li{margin:6px 0}
 
+    /* ===== Avis (carousel) ===== */
+    .reviews-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .reviews-actions{display:flex; gap:10px; flex-wrap:wrap}
+
+    .reviews{
+      position:relative;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:10px;
+      align-items:center;
+    }
+    .rev-viewport{overflow:hidden; border-radius: var(--radius)}
+    .rev-track{display:flex; gap:14px; transition: transform .35s ease; will-change: transform}
+
+    .rev-card{
+      flex: 0 0 100%;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+    .rev-top{display:flex; justify-content:space-between; gap:10px; margin-bottom:10px}
+    .rev-who{display:flex; flex-direction:column; gap:4px}
+    .rev-stars{letter-spacing:2px; color:#f59e0b; font-weight:900}
+    .rev-badge{
+      font-weight:900; font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+    }
+    .rev-text{margin:0; color:var(--muted); font-weight:600; line-height:1.6}
+
+    .rev-btn{
+      width:46px; height:46px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      box-shadow: var(--shadow);
+      cursor:pointer;
+      font-weight:1000;
+      font-size:24px;
+      line-height:1;
+    }
+    .reviews-dots{display:flex; gap:8px; justify-content:center; margin-top:12px}
+    .rev-dot{
+      width:10px; height:10px; border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff; cursor:pointer;
+    }
+    .rev-dot.active{background: var(--blue); border-color: rgba(37,99,235,.35)}
+
+    @media (min-width: 900px){
+      .rev-card{ flex-basis: calc(50% - 7px); } /* 2 avis visibles sur PC */
+    }
+
     /* ===== Galerie photos (petit/moyen + responsive) ===== */
     .gallery{
       display:grid;
@@ -232,6 +297,8 @@
       .btn{width:100%}
       .topLinks{display:none}
       .brand img{height:54px}
+      .reviews-actions{width:100%}
+      .reviews-actions .btn{width:100%}
     }
   </style>
 </head>
@@ -241,14 +308,11 @@
 <header>
   <nav class="nav container">
     <div class="brand">
-      <img
-        src="./logo-temp.png?v=1000"
-        alt="J2B Couverture"
-        style="height:70px; width:auto; display:block;"
-      >
+      <img src="./logo-temp.png?v=1000" alt="J2B Couverture" style="height:70px; width:auto; display:block;">
       <div class="topLinks">
         <a class="link" href="#services">Services</a>
         <a class="link" href="#zone">Zone</a>
+        <a class="link" href="#avis">Avis</a>
         <a class="link" href="#realisations">Réalisations</a>
         <a class="link" href="#devis">Devis</a>
       </div>
@@ -318,7 +382,7 @@
     <h2>Zone d’intervention</h2>
     <p class="muted">
       Basé à <strong>Toul</strong>, j’interviens dans les départements :
-      <strong>54</strong> (Meurthe-et-Moselle), <strong>55</strong> (Meuse),
+      <strong>54</strong> (Meurthe-et-Moselle), <strong>55</strong (Meuse),
       <strong>57</strong> (Moselle), <strong>88</strong> (Vosges).
     </p>
 
@@ -341,6 +405,71 @@
   </div>
 </section>
 
+<!-- ✅ AVIS CLIENTS -->
+<section class="section alt" id="avis">
+  <div class="container">
+    <div class="reviews-head">
+      <div>
+        <h2>Avis clients</h2>
+        <p class="muted">Ils recommandent J2B Couverture.</p>
+      </div>
+
+      <div class="reviews-actions">
+        <a class="btn ghost" target="_blank" rel="noopener"
+           href="https://www.google.com/search?client=safari&hs=FlKp&sca_esv=5b6dfac1f9c325dc&hl=fr-fr&sxsrf=ANbL-n62ur_WKn-GDD5VDqx9oKRNnPDPjg:1770837425075&q=avis+sur+j2b+couverture&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-hr95NtfnRQvAHKipv2vc_lOf-acaz5FbWkxMnjxipKiBlAaRfkPBX9D1b2yqeVGGEfl7ANrZpPFopSmwWCFgZZ0q5uaqUsGT75bNC8danE6rWhoLCnHicwhQ0MjO6kBXJtvlV3pkRYD8BrsmfzZvOvMTY1Y&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOSjn9n8MPcPtvekjlStR1s5UeRjhFIcNq_BVvvxwXa1UH9NEtFGzj10um3lKvio-xFpeK3AAl7wqhovDnBCspfGLey2K&sa=X&ictx=1&biw=393&bih=695&dpr=3&sei=stWMadnJF7zLi-gPo7WDiAo&dlnr=1">
+          ⭐ Voir tous les avis Google
+        </a>
+      </div>
+    </div>
+
+    <div class="reviews">
+      <button class="rev-btn prev" type="button" aria-label="Avis précédent">‹</button>
+
+      <div class="rev-viewport" aria-live="polite">
+        <div class="rev-track" id="revTrack">
+          <!-- Tu peux remplacer ces textes par tes vrais avis -->
+          <article class="rev-card">
+            <div class="rev-top">
+              <div class="rev-who">
+                <strong>Client</strong>
+                <span class="rev-stars" aria-label="5 étoiles">★★★★★</span>
+              </div>
+              <span class="rev-badge">Google</span>
+            </div>
+            <p class="rev-text">Travail très soigné, intervention rapide. Je recommande.</p>
+          </article>
+
+          <article class="rev-card">
+            <div class="rev-top">
+              <div class="rev-who">
+                <strong>Client</strong>
+                <span class="rev-stars" aria-label="5 étoiles">★★★★★</span>
+              </div>
+              <span class="rev-badge">Google</span>
+            </div>
+            <p class="rev-text">Devis clair, équipe sérieuse et toiture nickel.</p>
+          </article>
+
+          <article class="rev-card">
+            <div class="rev-top">
+              <div class="rev-who">
+                <strong>Client</strong>
+                <span class="rev-stars" aria-label="5 étoiles">★★★★★</span>
+              </div>
+              <span class="rev-badge">Google</span>
+            </div>
+            <p class="rev-text">Réparation de fuite efficace, bons conseils. Très pro.</p>
+          </article>
+        </div>
+      </div>
+
+      <button class="rev-btn next" type="button" aria-label="Avis suivant">›</button>
+    </div>
+
+    <div class="reviews-dots" id="revDots"></div>
+  </div>
+</section>
+
 <!-- ✅ Galerie AVANT Devis -->
 <section class="section alt" id="realisations">
   <div class="container">
@@ -349,15 +478,14 @@
       Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.
     </p>
 
-    <!-- ✅ NOMS EXACTS = ceux sur GitHub -->
     <div class="gallery">
-      <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1">
-      <img src="./temp2.png?v=1" alt="Réalisation toiture 2">
-      <img src="./temp3.png?v=1" alt="Réalisation toiture 3">
-      <img src="./temp4.png?v=1" alt="Réalisation toiture 4">
-      <img src="./temp6.JPG?v=1" alt="Réalisation toiture 5">
-      <img src="./temp7.png?v=1" alt="Réalisation toiture 6">
-      <img src="./Temp8.png?v=1" alt="Réalisation toiture 7">
+      <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1" loading="lazy" decoding="async">
+      <img src="./temp2.png?v=1" alt="Réalisation toiture 2" loading="lazy" decoding="async">
+      <img src="./temp3.png?v=1" alt="Réalisation toiture 3" loading="lazy" decoding="async">
+      <img src="./temp4.png?v=1" alt="Réalisation toiture 4" loading="lazy" decoding="async">
+      <img src="./temp6.JPG?v=1" alt="Réalisation toiture 5" loading="lazy" decoding="async">
+      <img src="./temp7.png?v=1" alt="Réalisation toiture 6" loading="lazy" decoding="async">
+      <img src="./Temp8.png?v=1" alt="Réalisation toiture 7" loading="lazy" decoding="async">
     </div>
   </div>
 </section>
@@ -404,6 +532,7 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // Form devis -> ouvre Mail
   const form = document.getElementById("devisForm");
   const hint = document.getElementById("formHint");
 
@@ -426,6 +555,58 @@
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     hint.textContent = "Si rien ne s’ouvre, vérifiez que l’app Mail est configurée sur l’iPad.";
   });
+
+  // Carousel avis (flèches + auto)
+  (function(){
+    const track = document.getElementById('revTrack');
+    const dotsWrap = document.getElementById('revDots');
+    if(!track || !dotsWrap) return;
+
+    const prev = document.querySelector('.rev-btn.prev');
+    const next = document.querySelector('.rev-btn.next');
+    const cards = Array.from(track.children);
+
+    let index = 0;
+    let timer = null;
+
+    function perView(){ return window.matchMedia('(min-width: 900px)').matches ? 2 : 1; }
+    function maxIndex(){ return Math.max(0, cards.length - perView()); }
+
+    function buildDots(){
+      dotsWrap.innerHTML = '';
+      const count = maxIndex() + 1;
+      for(let i=0;i<count;i++){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'rev-dot' + (i===index ? ' active' : '');
+        b.setAttribute('aria-label', 'Aller aux avis ' + (i+1));
+        b.addEventListener('click', ()=>{ go(i); restart(); });
+        dotsWrap.appendChild(b);
+      }
+    }
+    function updateDots(){
+      dotsWrap.querySelectorAll('.rev-dot').forEach((d,i)=>d.classList.toggle('active', i===index));
+    }
+    function go(i){
+      index = Math.min(maxIndex(), Math.max(0, i));
+      const gap = 14;
+      const w = cards[0].getBoundingClientRect().width;
+      track.style.transform = `translateX(${-((w + gap) * index)}px)`;
+      updateDots();
+    }
+    function stop(){ if(timer) clearInterval(timer); timer=null; }
+    function restart(){
+      stop();
+      timer = setInterval(()=> go(index >= maxIndex() ? 0 : index + 1), 4500);
+    }
+
+    prev?.addEventListener('click', ()=>{ go(index-1); restart(); });
+    next?.addEventListener('click', ()=>{ go(index+1); restart(); });
+
+    window.addEventListener('resize', ()=>{ buildDots(); go(index); });
+
+    buildDots(); go(0); restart();
+  })();
 </script>
 
 </body>
