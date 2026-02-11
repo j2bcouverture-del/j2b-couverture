@@ -62,24 +62,6 @@
       width:auto;
       display:block;
     }
-    .topLinks{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .link{
-      font-weight:900;
-      color:var(--muted);
-      padding:10px 10px;
-      border-radius:12px;
-      border:1px solid transparent;
-      font-size:13px;
-    }
-    .link:hover{
-      border-color:var(--border);
-      background:#fff;
-    }
 
     /* Buttons */
     .btn{
@@ -98,6 +80,54 @@
     .btn.blue{background:var(--blue);color:#fff}
     .btn.red{background:var(--red);color:#fff}
     .btn.ghost{background:#fff;border:1px solid var(--border);box-shadow:none}
+
+    /* ===== MENU BLEU ===== */
+    .menuWrap{position:relative}
+
+    .menuBtn{
+      width:46px;
+      height:46px;
+      background:var(--blue);
+      border-radius:14px;
+      border:none;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:5px;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .menuBtn span{
+      width:22px;
+      height:3px;
+      background:#fff;
+      border-radius:3px;
+    }
+
+    .menuPanel{
+      position:absolute;
+      right:0;
+      top:calc(100% + 10px);
+      width:min(280px, 86vw);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:10px;
+      display:none;
+      z-index:200;
+    }
+    .menuPanel.open{display:block}
+
+    .menuItem{
+      display:block;
+      padding:12px;
+      border-radius:12px;
+      font-weight:900;
+      color:var(--text);
+    }
+    .menuItem:hover{background:var(--card)}
 
     /* Hero */
     .hero{
@@ -219,10 +249,10 @@
     .rev-dot.active{background: var(--blue); border-color: rgba(37,99,235,.35)}
 
     @media (min-width: 900px){
-      .rev-card{ flex-basis: calc(50% - 7px); } /* 2 avis visibles sur PC */
+      .rev-card{ flex-basis: calc(50% - 7px); }
     }
 
-    /* ===== Galerie photos (petit/moyen + responsive) ===== */
+    /* ===== Galerie photos ===== */
     .gallery{
       display:grid;
       grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -295,7 +325,6 @@
     @media(max-width:980px){
       .heroGrid,.grid3,.split,.form{grid-template-columns:1fr}
       .btn{width:100%}
-      .topLinks{display:none}
       .brand img{height:54px}
       .reviews-actions{width:100%}
       .reviews-actions .btn{width:100%}
@@ -309,12 +338,21 @@
   <nav class="nav container">
     <div class="brand">
       <img src="./logo-temp.png?v=1000" alt="J2B Couverture" style="height:70px; width:auto; display:block;">
-      <div class="topLinks">
-        <a class="link" href="#services">Services</a>
-        <a class="link" href="#zone">Zone</a>
-        <a class="link" href="#avis">Avis</a>
-        <a class="link" href="#realisations">Réalisations</a>
-        <a class="link" href="#devis">Devis</a>
+    </div>
+
+    <!-- Bouton menu bleu -->
+    <div class="menuWrap">
+      <button class="menuBtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menuPanel" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="menuPanel" id="menuPanel">
+        <a class="menuItem" href="#services">Services</a>
+        <a class="menuItem" href="#zone">Zone</a>
+        <a class="menuItem" href="#avis">Avis</a>
+        <a class="menuItem" href="#realisations">Réalisations</a>
+        <a class="menuItem" href="#devis">Demande de devis</a>
+        <a class="menuItem" href="#contact">Contact</a>
       </div>
     </div>
   </nav>
@@ -345,7 +383,8 @@
       </div>
     </div>
 
-    <div class="card">
+    <!-- ✅ coordonnées = contact -->
+    <div class="card" id="contact">
       <h3>Contact</h3>
       <p class="muted" style="margin:0">
         <strong>Tél :</strong> 06 01 46 26 12<br>
@@ -382,7 +421,7 @@
     <h2>Zone d’intervention</h2>
     <p class="muted">
       Basé à <strong>Toul</strong>, j’interviens dans les départements :
-      <strong>54</strong> (Meurthe-et-Moselle), <strong>55</strong (Meuse),
+      <strong>54</strong> (Meurthe-et-Moselle), <strong>55</strong> (Meuse),
       <strong>57</strong> (Moselle), <strong>88</strong> (Vosges).
     </p>
 
@@ -405,7 +444,6 @@
   </div>
 </section>
 
-<!-- ✅ AVIS CLIENTS -->
 <section class="section alt" id="avis">
   <div class="container">
     <div class="reviews-head">
@@ -416,7 +454,7 @@
 
       <div class="reviews-actions">
         <a class="btn ghost" target="_blank" rel="noopener"
-           href="https://www.google.com/search?client=safari&hs=FlKp&sca_esv=5b6dfac1f9c325dc&hl=fr-fr&sxsrf=ANbL-n62ur_WKn-GDD5VDqx9oKRNnPDPjg:1770837425075&q=avis+sur+j2b+couverture&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-hr95NtfnRQvAHKipv2vc_lOf-acaz5FbWkxMnjxipKiBlAaRfkPBX9D1b2yqeVGGEfl7ANrZpPFopSmwWCFgZZ0q5uaqUsGT75bNC8danE6rWhoLCnHicwhQ0MjO6kBXJtvlV3pkRYD8BrsmfzZvOvMTY1Y&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOSjn9n8MPcPtvekjlStR1s5UeRjhFIcNq_BVvvxwXa1UH9NEtFGzj10um3lKvio-xFpeK3AAl7wqhovDnBCspfGLey2K&sa=X&ictx=1&biw=393&bih=695&dpr=3&sei=stWMadnJF7zLi-gPo7WDiAo&dlnr=1">
+          href="https://www.google.com/search?client=safari&hs=FlKp&sca_esv=5b6dfac1f9c325dc&hl=fr-fr&sxsrf=ANbL-n62ur_WKn-GDD5VDqx9oKRNnPDPjg:1770837425075&q=avis+sur+j2b+couverture&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-hr95NtfnRQvAHKipv2vc_lOf-acaz5FbWkxMnjxipKiBlAaRfkPBX9D1b2yqeVGGEfl7ANrZpPFopSmwWCFgZZ0q5uaqUsGT75bNC8danE6rWhoLCnHicwhQ0MjO6kBXJtvlV3pkRYD8BrsmfzZvOvMTY1Y&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOSjn9n8MPcPtvekjlStR1s5UeRjhFIcNq_BVvvxwXa1UH9NEtFGzj10um3lKvio-xFpeK3AAl7wqhovDnBCspfGLey2K&sa=X&ictx=1&biw=393&bih=695&dpr=3&sei=stWMadnJF7zLi-gPo7WDiAo&dlnr=1">
           ⭐ Voir tous les avis Google
         </a>
       </div>
@@ -427,7 +465,6 @@
 
       <div class="rev-viewport" aria-live="polite">
         <div class="rev-track" id="revTrack">
-          <!-- Tu peux remplacer ces textes par tes vrais avis -->
           <article class="rev-card">
             <div class="rev-top">
               <div class="rev-who">
@@ -470,7 +507,6 @@
   </div>
 </section>
 
-<!-- ✅ Galerie AVANT Devis -->
 <section class="section alt" id="realisations">
   <div class="container">
     <h2>Nos réalisations</h2>
@@ -606,6 +642,28 @@
     window.addEventListener('resize', ()=>{ buildDots(); go(index); });
 
     buildDots(); go(0); restart();
+  })();
+
+  // Menu hamburger
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    if(!btn || !panel) return;
+
+    function close(){
+      panel.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+    function toggle(e){
+      e.stopPropagation();
+      const open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', toggle);
+    document.addEventListener('click', close);
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
   })();
 </script>
 
