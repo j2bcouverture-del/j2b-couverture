@@ -606,7 +606,7 @@
     restart();
   })();
 
-  // ===== Simulateur (TEINTE SUR TUILES SEULEMENT - sans dessin) =====
+  // ===== Simulateur (TERRE CUITE SEULEMENT) =====
   (function(){
     const wrap = document.getElementById('roofWrap');
     const canvas = document.getElementById('roofCanvas');
@@ -618,37 +618,29 @@
     const msg = document.getElementById('tintMsg');
 
     const btnTerre = document.getElementById('modelTerre');
-    const btnBeton = document.getElementById('modelBeton');
+    const btnBeton = document.getElementById('modelBeton'); // sera supprimé
     const resetBtn = document.getElementById('tintReset');
 
-    if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !btnTerre || !btnBeton || !resetBtn) return;
+    if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !btnTerre || !resetBtn) return;
 
-    // ✅ NOMS EXACTS (casse sensible)
-    const MODELS = {
-      terre: './Terrecuite.JPG',
-      beton: './tuilesbeton.jpg'
-    };
+    // 🔥 On garde UN SEUL modèle
+    const MODEL_SRC = './Terrecuite.JPG';
 
-    // ✅ Palettes corrigées (tes derniers retours)
-    const PALETTES = {
-      terre: [
-        {name:'Terre cuite',        hex:'#c2410c'},
-        {name:'Rouge',              hex:'#b91c1c'},
-        {name:'Brun chocolat',      hex:'#2b160c'},  // + foncé (marron)
-        {name:'Orange',             hex:'#f97316'},
-        {name:'Ardoise',            hex:'#1f2937'}   // gris/noir plus lisible
-      ],
-      beton: [
-        {name:'Anthracite',         hex:'#06080f'},  // + foncé
-        {name:'Ardoise',            hex:'#1f2937'},
-        {name:'Orange',             hex:'#f97316'},  // doit vraiment teinter
-        {name:'Brun chocolat',      hex:'#2b160c'},  // + foncé
-        {name:'Rouge brillant',     hex:'#d10b22'}   // plus “propre”
-      ]
-    };
+    // ✅ Palette Terre cuite (Ardoise + grise/noire, Brun + foncé)
+    const PALETTE = [
+      {name:'Terre cuite',   hex:'#c2410c'},
+      {name:'Rouge',         hex:'#b91c1c'},
+      {name:'Brun chocolat', hex:'#1f0f08'},  // PLUS FONCÉ
+      {name:'Orange',        hex:'#f97316'},
+      {name:'Ardoise',       hex:'#0f172a'}   // GRIS/NOIR (moins de rouge visible)
+    ];
 
-    let currentModelKey = 'terre';
-    let currentHex = PALETTES[currentModelKey][0].hex;
+    // --- UI: supprime le bouton béton si présent ---
+    if(btnBeton){
+      btnBeton.remove();
+    }
+
+    let currentHex = PALETTE[0].hex;
 
     let baseImg = new Image();
     let loaded = false;
@@ -658,7 +650,6 @@
     let recoloredFull = null;
 
     function dpr(){ return Math.max(1, Math.min(2, window.devicePixelRatio || 1)); }
-
     function clamp255(x){ return x < 0 ? 0 : (x > 255 ? 255 : x); }
 
     function hexToRgb(hex){
@@ -705,9 +696,9 @@
     }
 
     function naturalStrength(){
-      // plus puissant qu’avant + courbe douce
+      // plus puissant, mais reste “propre”
       const v = Math.max(0, Math.min(70, Number(strength.value)||0)) / 70;
-      return Math.pow(v, 0.75) * 0.85;  // 0..0.85
+      return Math.pow(v, 0.72) * 0.90;  // 0..0.90
     }
 
     function sizeToWrap(img){
@@ -738,7 +729,7 @@
       ctx.font = `${Math.round(28*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
       ctx.fillText(text || 'Chargement…', 60*r, 160*r);
       ctx.font = `${Math.round(18*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
-      ctx.fillText('Si une image ne charge pas, vérifie le nom exact du fichier (casse).', 60*r, 205*r);
+      ctx.fillText('Si l’image ne charge pas, vérifie le nom exact du fichier (casse).', 60*r, 205*r);
     }
 
     function computeMaskFromBase(){
@@ -766,20 +757,23 @@
 
           const gx = Math.abs(iR - iL);
           const gy = Math.abs(iD - iU);
-          const grad = Math.min(1, (gx + gy) * 1.2);
+          const grad = Math.min(1, (gx + gy) * 1.25);
 
           if(lum > 0.94 || lum < 0.04){
             m[y*w + x] = 0;
             continue;
           }
 
-          const score = 0.60*sat + 0.40*grad;
+          const score = 0.58*sat + 0.42*grad;
+
+          // seuil un peu plus permissif -> meilleure zone tuile
           let v = 0;
-          if(score > 0.11) v = Math.min(1, (score - 0.11) / 0.32);
+          if(score > 0.10) v = Math.min(1, (score - 0.10) / 0.30);
           m[y*w + x] = v;
         }
       }
 
+      // blur 3x3
       const out = new Float32Array(w*h);
       for(let y=1; y<h-1; y++){
         for(let x=1; x<w-1; x++){
@@ -797,22 +791,22 @@
         }
       }
 
+      // contraste masque (plus franc)
       for(let i=0;i<out.length;i++){
         const v = out[i];
-        out[i] = Math.max(0, Math.min(1, (v*v) * 1.20));
+        out[i] = Math.max(0, Math.min(1, (v*v) * 1.35));
       }
 
       mask = out;
       recoloredFull = null;
     }
 
-    function computeRecoloredFullForCurrentHex(){
+    function computeRecoloredFull(){
       if(!baseImageData || !mask) return;
 
       const w = baseImageData.width;
       const h = baseImageData.height;
       const src = baseImageData.data;
-
       const dst = new Uint8ClampedArray(src.length);
 
       const tgt = hexToRgb(currentHex);
@@ -828,22 +822,36 @@
         if(mp > 0.001){
           const hsl = rgbToHsl(r,g,b);
 
-          // base : remplacement de teinte + saturation renforcée
+          // Teinte cible, saturation renforcée -> moins “couleur d’origine”
           const newH = tgtHsl.h;
-          const newS = Math.min(0.95, Math.max(0.20, (tgtHsl.s * 1.30) + (hsl.s * 0.15)));
 
-          const rgb1 = hslToRgb(newH, newS, hsl.l);
+          // sat: on force + pour les gris/noirs (ardoise), sinon on garde riche
+          let newS = (tgtHsl.s * 1.45) + (hsl.s * 0.10);
+          newS = Math.min(0.98, Math.max(0.22, newS));
 
-          // boost couleur (pour éviter "voile")
-          const k = 0.42; // force couleur
+          // Pour ardoise (gris/noir): on réduit légèrement la saturation mais on assombrit
+          const isSlate = (currentHex.toLowerCase() === '#0f172a');
+          let newL = hsl.l;
+
+          if(isSlate){
+            // plus gris/noir: assombrit un peu les pixels clairs
+            newS = Math.min(newS, 0.40);
+            newL = Math.max(0.08, Math.min(0.60, newL * 0.80));
+          }
+
+          const rgb1 = hslToRgb(newH, newS, newL);
+
+          // Boost couleur (évite “voile”)
+          const k = isSlate ? 0.55 : 0.48;
           rr = rgb1.r*(1-k) + tgt.r*k;
           gg = rgb1.g*(1-k) + tgt.g*k;
           bb = rgb1.b*(1-k) + tgt.b*k;
 
-          // préserver la lumière du pixel
+          // préserver luminosité globale (texture)
           const lumOrig = 0.2126*r + 0.7152*g + 0.0722*b;
           const lumNew  = 0.2126*rr + 0.7152*gg + 0.0722*bb;
-          const d = (lumOrig - lumNew) * 0.75;
+          const d = (lumOrig - lumNew) * (isSlate ? 0.55 : 0.70);
+
           rr = clamp255(rr + d);
           gg = clamp255(gg + d);
           bb = clamp255(bb + d);
@@ -861,7 +869,7 @@
         return;
       }
       if(!mask) computeMaskFromBase();
-      if(!recoloredFull) computeRecoloredFullForCurrentHex();
+      if(!recoloredFull) computeRecoloredFull();
 
       const w = baseImageData.width;
       const h = baseImageData.height;
@@ -886,18 +894,16 @@
 
       ctx.putImageData(out, 0, 0);
 
-      // lift léger pour aspect "plus propre"
+      // léger “clean” (sans dénaturer)
       ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
       ctx.globalCompositeOperation = 'source-over';
     }
 
     function buildColors(){
       colorsWrap.innerHTML = '';
-      const palette = PALETTES[currentModelKey];
-
-      palette.forEach((c, idx)=>{
+      PALETTE.forEach((c, idx)=>{
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'swatchBtn' + (idx===0 ? ' active' : '');
@@ -912,21 +918,11 @@
         });
         colorsWrap.appendChild(b);
       });
-
-      currentHex = palette[0].hex;
+      currentHex = PALETTE[0].hex;
       recoloredFull = null;
     }
 
-    function setActiveModelButton(){
-      btnTerre.classList.toggle('active', currentModelKey === 'terre');
-      btnBeton.classList.toggle('active', currentModelKey === 'beton');
-    }
-
-    function loadModel(key){
-      currentModelKey = key;
-      setActiveModelButton();
-      buildColors();
-
+    function loadModel(){
       loaded = false;
       baseImageData = null;
       mask = null;
@@ -947,15 +943,15 @@
         recoloredFull = null;
 
         render();
-        if(msg) msg.textContent = `Modèle chargé : ${key === 'terre' ? 'Terre cuite' : 'Tuile béton'} ✅`;
+        if(msg) msg.textContent = `Modèle chargé : Terre cuite ✅`;
       };
       baseImg.onerror = ()=>{
         loaded = false;
         drawPlaceholder('❌ Image introuvable');
-        if(msg) msg.textContent = `❌ Image introuvable : ${MODELS[key]} (vérifie la casse/extension)`;
+        if(msg) msg.textContent = `❌ Image introuvable : ${MODEL_SRC} (vérifie la casse/extension)`;
       };
 
-      baseImg.src = MODELS[key] + '?v=' + Date.now();
+      baseImg.src = MODEL_SRC + '?v=' + Date.now();
     }
 
     strength.addEventListener('input', ()=>{
@@ -963,23 +959,25 @@
       render();
     });
 
-    btnTerre.addEventListener('click', ()=> loadModel('terre'));
-    btnBeton.addEventListener('click', ()=> loadModel('beton'));
+    // bouton terre : recharge juste le modèle (utile si resize)
+    btnTerre.addEventListener('click', ()=> loadModel());
 
     resetBtn.addEventListener('click', ()=>{
       strength.value = 35;
       strengthLabel.textContent = '35%';
-      loadModel(currentModelKey);
+      buildColors();
+      loadModel();
       if(msg) msg.textContent = 'Réinitialisé ✅';
     });
 
     window.addEventListener('resize', ()=>{
-      if(loaded) loadModel(currentModelKey);
+      if(loaded) loadModel();
     });
 
+    // init
     strengthLabel.textContent = strength.value + '%';
     buildColors();
-    loadModel('terre');
+    loadModel();
   })();
 </script>
 
