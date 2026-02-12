@@ -244,8 +244,8 @@
 <header>
   <nav class="nav container">
     <div class="brand">
-      <!-- ✅ LOGO (capture) -->
-      <img src="./logo-temp.png?v=1000" alt="J2B Couverture" style="height:70px; width:auto; display:block;">
+      <!-- ✅ LOGO : nom exact (capture) -->
+      <img src="./logo-temp.png?v=1" alt="J2B Couverture" style="height:70px; width:auto; display:block;">
     </div>
 
     <div class="menuWrap">
@@ -361,7 +361,6 @@
       </div>
 
       <div class="reviews-actions">
-        <!-- ✅ garde TON lien Google -->
         <a class="btn ghost" target="_blank" rel="noopener"
            href="https://www.google.com/search?q=avis+j2b+couverture">
           ⭐ Voir tous les avis Google
@@ -453,7 +452,7 @@
     <p class="muted">Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.</p>
 
     <div class="gallery">
-      <!-- ✅ NOMS EXACTS CAPTURE -->
+      <!-- ✅ NOMS EXACTS (capture) -->
       <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1" loading="lazy" decoding="async">
       <img src="./Temp2.png?v=1" alt="Réalisation toiture 2" loading="lazy" decoding="async">
       <img src="./Temp3.png?v=1" alt="Réalisation toiture 3" loading="lazy" decoding="async">
@@ -635,10 +634,10 @@
 
     if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !btnTerre || !btnBeton || !resetBtn) return;
 
-    // ✅ NOMS EXACTS (capture)
+    // ✅ NOMS EXACTS (capture) — IMPORTANT: casse sensible sur GitHub
     const MODELS = {
-      terre: './Terrecuite.JPG',
-      beton: './Tuilesbeton.jpg'
+      terre: './Terrecuite.JPG',   // <-- JPG MAJUSCULE
+      beton: './Tuilesbeton.jpg'   // <-- jpg minuscule
     };
 
     const PALETTES = {
@@ -706,7 +705,7 @@
       ctx.font = `${Math.round(28*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
       ctx.fillText(text || 'Chargement…', 60*r, 160*r);
       ctx.font = `${Math.round(18*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
-      ctx.fillText('Si une image ne charge pas, vérifie le nom exact du fichier.', 60*r, 205*r);
+      ctx.fillText('Si une image ne charge pas, vérifie le nom exact du fichier (casse).', 60*r, 205*r);
     }
 
     function draw(){
@@ -727,11 +726,9 @@
       tctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
       tctx.fillRect(0,0,tintLayer.width,tintLayer.height);
 
-      // multiply => texture conservée
       ctx.globalCompositeOperation = 'multiply';
       ctx.drawImage(tintLayer, 0, 0);
 
-      // petit lift
       ctx.globalCompositeOperation = 'screen';
       ctx.fillStyle = 'rgba(255,255,255,0.10)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -784,7 +781,7 @@
       baseImg.onerror = ()=>{
         loaded = false;
         drawPlaceholder('❌ Image introuvable');
-        if(msg) msg.textContent = `❌ Image introuvable : ${MODELS[key]} (vérifie la casse)`;
+        if(msg) msg.textContent = `❌ Image introuvable : ${MODELS[key]} (vérifie la casse/extension)`;
       };
 
       baseImg.src = MODELS[key] + '?v=' + Date.now();
