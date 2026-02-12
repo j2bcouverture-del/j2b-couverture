@@ -413,16 +413,13 @@
 <section class="section" id="simulation">
   <div class="container">
     <h2>Simulateur couleur (toiture)</h2>
-    <p class="muted">Choisissez un modèle (terre cuite / béton), puis une teinte.</p>
+    <p class="muted">Choisissez une teinte pour voir le rendu sur le modèle.</p>
 
     <div class="card">
       <div class="simBar">
-        <span class="simLabel">Modèle :</span>
-        <button class="btn ghost active" type="button" id="modelTerre">Terre cuite</button>
-        <button class="btn ghost" type="button" id="modelBeton">Tuile béton</button>
-
-        <span class="simLabel" style="margin-left:6px">Intensité :</span>
-        <input class="simRange" id="tintStrength" type="range" min="0" max="70" value="35">
+        <span class="simLabel">Intensité :</span>
+        <!-- ✅ MAX 80 -->
+        <input class="simRange" id="tintStrength" type="range" min="0" max="80" value="35">
         <span class="muted small" id="tintStrengthLabel">35%</span>
 
         <button class="btn ghost" type="button" id="tintReset">Réinitialiser</button>
@@ -606,7 +603,7 @@
     restart();
   })();
 
-  // ===== Simulateur (TERRE CUITE SEULEMENT) =====
+  // ===== Simulateur (TEINTE SUR TUILES SEULEMENT - 1 modèle) =====
   (function(){
     const wrap = document.getElementById('roofWrap');
     const canvas = document.getElementById('roofCanvas');
@@ -616,29 +613,22 @@
     const strength = document.getElementById('tintStrength');
     const strengthLabel = document.getElementById('tintStrengthLabel');
     const msg = document.getElementById('tintMsg');
-
-    const btnTerre = document.getElementById('modelTerre');
-    const btnBeton = document.getElementById('modelBeton'); // sera supprimé
     const resetBtn = document.getElementById('tintReset');
 
-    if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !btnTerre || !resetBtn) return;
+    if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !resetBtn) return;
 
-    // 🔥 On garde UN SEUL modèle
+    // ✅ 1 seul modèle (nom exact)
     const MODEL_SRC = './Terrecuite.JPG';
 
-    // ✅ Palette Terre cuite (Ardoise + grise/noire, Brun + foncé)
+    // ✅ Palette Terre cuite (ardoise améliorée + brun plus foncé)
     const PALETTE = [
-      {name:'Terre cuite',   hex:'#c2410c'},
-      {name:'Rouge',         hex:'#b91c1c'},
-      {name:'Brun chocolat', hex:'#1f0f08'},  // PLUS FONCÉ
-      {name:'Orange',        hex:'#f97316'},
-      {name:'Ardoise',       hex:'#0f172a'}   // GRIS/NOIR (moins de rouge visible)
+      {name:'Terre cuite',        hex:'#c2410c'},
+      {name:'Rouge',              hex:'#b91c1c'},
+      {name:'Brun chocolat',      hex:'#1d0f08'},  // plus foncé
+      {name:'Orange',             hex:'#f97316'},
+      // ardoise plus “gris/noir”, moins bleutée
+      {name:'Ardoise',            hex:'#111827'}
     ];
-
-    // --- UI: supprime le bouton béton si présent ---
-    if(btnBeton){
-      btnBeton.remove();
-    }
 
     let currentHex = PALETTE[0].hex;
 
@@ -695,10 +685,14 @@
       };
     }
 
+    function isArdoise(){
+      return currentHex.toLowerCase() === '#111827';
+    }
+
     function naturalStrength(){
-      // plus puissant, mais reste “propre”
-      const v = Math.max(0, Math.min(70, Number(strength.value)||0)) / 70;
-      return Math.pow(v, 0.72) * 0.90;  // 0..0.90
+      // slider 0..80 -> plus “utile” et plus fort, mais naturel
+      const v = Math.max(0, Math.min(80, Number(strength.value)||0)) / 80;
+      return Math.pow(v, 0.78) * 0.90;  // 0..0.90
     }
 
     function sizeToWrap(img){
@@ -729,7 +723,7 @@
       ctx.font = `${Math.round(28*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
       ctx.fillText(text || 'Chargement…', 60*r, 160*r);
       ctx.font = `${Math.round(18*r)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
-      ctx.fillText('Si l’image ne charge pas, vérifie le nom exact du fichier (casse).', 60*r, 205*r);
+      ctx.fillText('Si une image ne charge pas, vérifie le nom exact du fichier (casse).', 60*r, 205*r);
     }
 
     function computeMaskFromBase(){
@@ -764,11 +758,11 @@
             continue;
           }
 
-          const score = 0.58*sat + 0.42*grad;
+          const score = 0.60*sat + 0.40*grad;
 
-          // seuil un peu plus permissif -> meilleure zone tuile
+          // seuil un peu plus "inclusif"
           let v = 0;
-          if(score > 0.10) v = Math.min(1, (score - 0.10) / 0.30);
+          if(score > 0.105) v = Math.min(1, (score - 0.105) / 0.30);
           m[y*w + x] = v;
         }
       }
@@ -791,22 +785,23 @@
         }
       }
 
-      // contraste masque (plus franc)
+      // boost masque (un peu)
       for(let i=0;i<out.length;i++){
         const v = out[i];
-        out[i] = Math.max(0, Math.min(1, (v*v) * 1.35));
+        out[i] = Math.max(0, Math.min(1, (v*v) * 1.25));
       }
 
       mask = out;
       recoloredFull = null;
     }
 
-    function computeRecoloredFull(){
+    function computeRecoloredFullForCurrentHex(){
       if(!baseImageData || !mask) return;
 
       const w = baseImageData.width;
       const h = baseImageData.height;
       const src = baseImageData.data;
+
       const dst = new Uint8ClampedArray(src.length);
 
       const tgt = hexToRgb(currentHex);
@@ -822,39 +817,40 @@
         if(mp > 0.001){
           const hsl = rgbToHsl(r,g,b);
 
-          // Teinte cible, saturation renforcée -> moins “couleur d’origine”
+          // Remplacement teinte
           const newH = tgtHsl.h;
 
-          // sat: on force + pour les gris/noirs (ardoise), sinon on garde riche
-          let newS = (tgtHsl.s * 1.45) + (hsl.s * 0.10);
-          newS = Math.min(0.98, Math.max(0.22, newS));
-
-          // Pour ardoise (gris/noir): on réduit légèrement la saturation mais on assombrit
-          const isSlate = (currentHex.toLowerCase() === '#0f172a');
-          let newL = hsl.l;
-
-          if(isSlate){
-            // plus gris/noir: assombrit un peu les pixels clairs
-            newS = Math.min(newS, 0.40);
-            newL = Math.max(0.08, Math.min(0.60, newL * 0.80));
+          // Ardoise : saturation plus basse (plus gris/noir)
+          // Autres : saturation plus "présente"
+          let newS;
+          if(isArdoise()){
+            newS = Math.min(0.22, Math.max(0.03, hsl.s * 0.25));
+          }else{
+            newS = Math.min(0.95, Math.max(0.22, (tgtHsl.s * 1.30) + (hsl.s * 0.15)));
           }
 
-          const rgb1 = hslToRgb(newH, newS, newL);
+          const rgb1 = hslToRgb(newH, newS, hsl.l);
 
-          // Boost couleur (évite “voile”)
-          const k = isSlate ? 0.55 : 0.48;
+          // Boost couleur (évite "voile")
+          const k = isArdoise() ? 0.55 : 0.42;
           rr = rgb1.r*(1-k) + tgt.r*k;
           gg = rgb1.g*(1-k) + tgt.g*k;
           bb = rgb1.b*(1-k) + tgt.b*k;
 
-          // préserver luminosité globale (texture)
+          // préserver la lumière globale
           const lumOrig = 0.2126*r + 0.7152*g + 0.0722*b;
           const lumNew  = 0.2126*rr + 0.7152*gg + 0.0722*bb;
-          const d = (lumOrig - lumNew) * (isSlate ? 0.55 : 0.70);
-
+          const d = (lumOrig - lumNew) * 0.78;
           rr = clamp255(rr + d);
           gg = clamp255(gg + d);
           bb = clamp255(bb + d);
+
+          // Ardoise : léger assombrissement “gris/noir + touche noir”
+          if(isArdoise()){
+            rr = clamp255(rr * 0.92);
+            gg = clamp255(gg * 0.94);
+            bb = clamp255(bb * 0.98);
+          }
         }
 
         dst[i] = rr; dst[i+1] = gg; dst[i+2] = bb; dst[i+3] = a;
@@ -869,7 +865,7 @@
         return;
       }
       if(!mask) computeMaskFromBase();
-      if(!recoloredFull) computeRecoloredFull();
+      if(!recoloredFull) computeRecoloredFullForCurrentHex();
 
       const w = baseImageData.width;
       const h = baseImageData.height;
@@ -880,23 +876,55 @@
       const outD = out.data;
 
       const s = naturalStrength();
+      const ardoise = isArdoise();
 
       for(let p=0; p<w*h; p++){
         const i = p*4;
-        const m = mask[p] * s;
+
+        let m = mask[p] * s; // 0..0.90
+        if(m < 0.0005){
+          outD[i] = src[i]; outD[i+1] = src[i+1]; outD[i+2] = src[i+2]; outD[i+3] = src[i+3];
+          continue;
+        }
+
+        // ✅ Nettoyage anti-orange (uniquement en ardoise)
+        // Si le pixel source est “orangé”, on force un peu plus le mélange + neutralisation
+        if(ardoise){
+          const r0 = src[i], g0 = src[i+1], b0 = src[i+2];
+          // heuristique orange
+          const orangeish = (r0 > 110 && g0 > 60 && b0 < 110 && (r0 - g0) > 18 && (g0 - b0) > 8);
+          if(orangeish){
+            m = Math.min(1, m * 1.35); // force recolor sur ces pixels
+          }
+        }
+
         const inv = 1 - m;
 
-        outD[i]   = Math.round(src[i]  *inv + rec[i]  *m);
-        outD[i+1] = Math.round(src[i+1]*inv + rec[i+1]*m);
-        outD[i+2] = Math.round(src[i+2]*inv + rec[i+2]*m);
+        let r = (src[i]  *inv + rec[i]  *m);
+        let g = (src[i+1]*inv + rec[i+1]*m);
+        let b = (src[i+2]*inv + rec[i+2]*m);
+
+        // ✅ Neutralisation finale ardoise (retire les restes chauds)
+        if(ardoise){
+          const gray = (0.2126*r + 0.7152*g + 0.0722*b);
+          // rapprocher du gris + enlever un poil de rouge
+          r = r*0.78 + gray*0.22;
+          g = g*0.82 + gray*0.18;
+          b = b*0.88 + gray*0.12;
+          r = r * 0.97;
+        }
+
+        outD[i]   = Math.round(clamp255(r));
+        outD[i+1] = Math.round(clamp255(g));
+        outD[i+2] = Math.round(clamp255(b));
         outD[i+3] = src[i+3];
       }
 
       ctx.putImageData(out, 0, 0);
 
-      // léger “clean” (sans dénaturer)
+      // lift léger
       ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
       ctx.globalCompositeOperation = 'source-over';
     }
@@ -918,6 +946,7 @@
         });
         colorsWrap.appendChild(b);
       });
+
       currentHex = PALETTE[0].hex;
       recoloredFull = null;
     }
@@ -943,7 +972,7 @@
         recoloredFull = null;
 
         render();
-        if(msg) msg.textContent = `Modèle chargé : Terre cuite ✅`;
+        if(msg) msg.textContent = `Modèle chargé ✅`;
       };
       baseImg.onerror = ()=>{
         loaded = false;
@@ -959,13 +988,11 @@
       render();
     });
 
-    // bouton terre : recharge juste le modèle (utile si resize)
-    btnTerre.addEventListener('click', ()=> loadModel());
-
     resetBtn.addEventListener('click', ()=>{
       strength.value = 35;
       strengthLabel.textContent = '35%';
-      buildColors();
+      recoloredFull = null;
+      mask = null; // on recalcule aussi le masque (plus “propre”)
       loadModel();
       if(msg) msg.textContent = 'Réinitialisé ✅';
     });
