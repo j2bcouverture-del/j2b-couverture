@@ -105,7 +105,10 @@
     /* Galerie */
     .gallery{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:14px;margin-top:18px}
     .gallery img{
-      width:100%;height:auto;aspect-ratio: 4 / 3;object-fit:cover;
+      width:100%;
+      height:auto;
+      aspect-ratio: 4 / 3;
+      object-fit:cover;
       border-radius:12px;border:1px solid var(--border);
       box-shadow:0 8px 20px rgba(0,0,0,0.08);
       background:#fff;display:block;
@@ -120,7 +123,7 @@
     input:focus,textarea:focus{outline:none;border-color:rgba(37,99,235,.55)}
     .full{grid-column:1/-1}
 
-    /* ===== Simulateur (masque invisible + recoloration zone) ===== */
+    /* ===== Simulateur (place-holder propre : ne casse PAS la page) ===== */
     .simBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .simLabel{font-weight:900}
     .simSwatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
@@ -145,15 +148,13 @@
       position:relative;
     }
     #simCanvas,#maskCanvas{width:100%;height:auto;display:block}
-    /* IMPORTANT : masque invisible => plus de “trait blanc” */
     #maskCanvas{
       position:absolute;left:0;top:0;
       touch-action:none;
       cursor:crosshair;
-      opacity:0;              /* cache le masque */
-      pointer-events:auto;    /* mais on peut dessiner */
+      opacity:0;
+      pointer-events:auto;
     }
-
     .simHint{
       margin-top:10px;
       padding:10px 12px;
@@ -174,7 +175,6 @@
       margin-bottom:14px;
     }
     .reviews-actions{display:flex; gap:10px; flex-wrap:wrap}
-
     .reviews{
       position:relative;
       display:grid;
@@ -184,7 +184,6 @@
     }
     .rev-viewport{overflow:hidden; border-radius: var(--radius)}
     .rev-track{display:flex; gap:14px; transition: transform .35s ease; will-change: transform}
-
     .rev-card{
       flex: 0 0 100%;
       background:#fff;
@@ -205,7 +204,6 @@
       color: var(--muted);
     }
     .rev-text{margin:0; color:var(--muted); font-weight:600; line-height:1.6}
-
     .rev-btn{
       width:46px; height:46px;
       border-radius:14px;
@@ -224,25 +222,22 @@
       background:#fff; cursor:pointer;
     }
     .rev-dot.active{background: var(--blue); border-color: rgba(37,99,235,.35)}
-
-    @media (min-width: 900px){
-      .rev-card{ flex-basis: calc(50% - 7px); }
-    }
+    @media (min-width: 900px){ .rev-card{ flex-basis: calc(50% - 7px); } }
 
     footer{background:#0f172a;color:#fff;padding:26px 0;margin-top:40px}
     footer a{color:#fff;text-decoration:underline}
-
     .call{
       position:fixed;right:16px;bottom:16px;
       background:var(--red);color:#fff;
       padding:14px 18px;border-radius:999px;
       font-weight:1000;box-shadow:var(--shadow);z-index:60;
     }
-
     @media(max-width:980px){
       .heroGrid,.grid3,.split,.form{grid-template-columns:1fr}
       .btn{width:100%}
       .brand img{height:54px}
+      .reviews-actions{width:100%}
+      .reviews-actions .btn{width:100%}
     }
   </style>
 </head>
@@ -358,7 +353,7 @@
   </div>
 </section>
 
-<!-- ✅ AVIS CLIENTS (carousel + lien Google) -->
+<!-- ✅ AVIS CLIENTS (carousel + ton lien Google) -->
 <section class="section alt" id="avis">
   <div class="container">
     <div class="reviews-head">
@@ -422,7 +417,7 @@
   </div>
 </section>
 
-<!-- ✅ Simulateur (corrigé) -->
+<!-- ✅ SIMULATEUR (laissé, mais ne casse plus la page) -->
 <section class="section" id="simulation">
   <div class="container">
     <h2>Simulateur couleur (toiture / façade)</h2>
@@ -449,3 +444,181 @@
       <div class="simRow">
         <span class="simLabel">Intensité :</span>
         <input class="simRange" id="simStrength" type="range" min="0" max="70" value="35">
+        <span class="muted small" id="simStrengthLabel">35%</span>
+      </div>
+
+      <div class="simHint" id="simMsg">
+        (Simulateur en cours d’amélioration) — pour l’instant, il ne doit pas empêcher l’affichage des photos.
+      </div>
+
+      <div class="simCanvasWrap">
+        <canvas id="simCanvas"></canvas>
+        <canvas id="maskCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ PHOTOS / RÉALISATIONS -->
+<section class="section alt" id="realisations">
+  <div class="container">
+    <h2>Nos réalisations</h2>
+    <p class="muted">
+      Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.
+    </p>
+
+    <div class="gallery">
+      <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1" loading="lazy" decoding="async">
+      <img src="./temp2.png?v=1" alt="Réalisation toiture 2" loading="lazy" decoding="async">
+      <img src="./temp3.png?v=1" alt="Réalisation toiture 3" loading="lazy" decoding="async">
+      <img src="./temp4.png?v=1" alt="Réalisation toiture 4" loading="lazy" decoding="async">
+      <img src="./temp6.JPG?v=1" alt="Réalisation toiture 5" loading="lazy" decoding="async">
+      <img src="./temp7.png?v=1" alt="Réalisation toiture 6" loading="lazy" decoding="async">
+      <img src="./Temp8.png?v=1" alt="Réalisation toiture 7" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ✅ DEVIS -->
+<section id="devis" class="section alt">
+  <div class="container">
+    <h2>Demande de devis</h2>
+    <p class="muted">Remplissez le formulaire : l’app Mail s’ouvrira avec mon adresse déjà remplie.</p>
+
+    <form class="form" id="devisForm">
+      <label>Nom
+        <input name="name" required placeholder="Votre nom">
+      </label>
+
+      <label>Téléphone
+        <input name="phone" required placeholder="Votre numéro">
+      </label>
+
+      <label class="full">Message
+        <textarea name="message" rows="5" required placeholder="Expliquez votre besoin (fuite, rénovation, nettoyage...)"></textarea>
+      </label>
+
+      <button class="btn blue full" type="submit">📩 Envoyer la demande</button>
+      <p class="muted small full" id="formHint"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div><strong>J2B Couverture</strong> — Toul</div>
+    <div style="margin-top:8px">
+      Tél : <a href="tel:0601462612">06 01 46 26 12</a> •
+      Email : <a href="mailto:j2b.couverture@gmail.com">j2b.couverture@gmail.com</a>
+    </div>
+    <div style="margin-top:8px;opacity:.9;font-size:.95rem">© <span id="year"></span> — Tous droits réservés.</div>
+  </div>
+</footer>
+
+<a class="call" href="tel:0601462612">📞 Appeler</a>
+
+<script>
+  // Année
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Form devis -> ouvre Mail
+  (function(){
+    const form = document.getElementById("devisForm");
+    const hint = document.getElementById("formHint");
+    if(!form) return;
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const d = new FormData(form);
+      const name = String(d.get("name") || "");
+      const phone = String(d.get("phone") || "");
+      const message = String(d.get("message") || "");
+      const to = "j2b.couverture@gmail.com";
+      const subject = encodeURIComponent("Demande de devis - J2B Couverture");
+      const body = encodeURIComponent(
+        "Nom : " + name + "\n" +
+        "Téléphone : " + phone + "\n\n" +
+        "Message :\n" + message
+      );
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      hint.textContent = "Si rien ne s’ouvre, vérifiez que l’app Mail est configurée.";
+    });
+  })();
+
+  // Menu hamburger
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    if(!btn || !panel) return;
+
+    function close(){
+      panel.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', close);
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+  })();
+
+  // ✅ Carousel avis (flèches + points + auto)
+  (function(){
+    const track = document.getElementById('revTrack');
+    const dotsWrap = document.getElementById('revDots');
+    if(!track || !dotsWrap) return;
+
+    const prev = document.querySelector('.rev-btn.prev');
+    const next = document.querySelector('.rev-btn.next');
+    const cards = Array.from(track.children);
+
+    let index = 0;
+    let timer = null;
+
+    function perView(){ return window.matchMedia('(min-width: 900px)').matches ? 2 : 1; }
+    function maxIndex(){ return Math.max(0, cards.length - perView()); }
+
+    function buildDots(){
+      dotsWrap.innerHTML = '';
+      const count = maxIndex() + 1;
+      for(let i=0;i<count;i++){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'rev-dot' + (i===index ? ' active' : '');
+        b.setAttribute('aria-label', 'Aller aux avis ' + (i+1));
+        b.addEventListener('click', ()=>{ go(i); restart(); });
+        dotsWrap.appendChild(b);
+      }
+    }
+    function updateDots(){
+      dotsWrap.querySelectorAll('.rev-dot').forEach((d,i)=>d.classList.toggle('active', i===index));
+    }
+    function go(i){
+      index = Math.min(maxIndex(), Math.max(0, i));
+      const gap = 14;
+      const w = cards[0].getBoundingClientRect().width;
+      track.style.transform = `translateX(${-((w + gap) * index)}px)`;
+      updateDots();
+    }
+    function stop(){ if(timer) clearInterval(timer); timer=null; }
+    function restart(){
+      stop();
+      timer = setInterval(()=> go(index >= maxIndex() ? 0 : index + 1), 4500);
+    }
+
+    prev?.addEventListener('click', ()=>{ go(index-1); restart(); });
+    next?.addEventListener('click', ()=>{ go(index+1); restart(); });
+
+    window.addEventListener('resize', ()=>{ buildDots(); go(index); });
+
+    buildDots(); go(0); restart();
+  })();
+</script>
+
+</body>
+</html>
