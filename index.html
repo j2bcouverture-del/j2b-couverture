@@ -56,24 +56,13 @@
       gap:12px;
       min-width:0;
     }
-    .brand img{
-      height:64px;
-      width:auto;
-      display:block;
-    }
+    .brand img{height:64px;width:auto;display:block}
 
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:12px 16px;
-      border-radius:var(--radius);
-      font-weight:900;
-      border:0;
-      cursor:pointer;
-      box-shadow:var(--shadow);
-      white-space:nowrap;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:12px 16px;border-radius:var(--radius);
+      font-weight:900;border:0;cursor:pointer;
+      box-shadow:var(--shadow);white-space:nowrap;
     }
     .btn.blue{background:var(--blue);color:#fff}
     .btn.red{background:var(--red);color:#fff}
@@ -82,144 +71,61 @@
     /* Menu hamburger */
     .menuWrap{position:relative}
     .menuBtn{
-      width:46px;height:46px;
-      background:var(--blue);
-      border-radius:14px;
-      border:none;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:5px;
-      cursor:pointer;
-      box-shadow:var(--shadow);
+      width:46px;height:46px;background:var(--blue);
+      border-radius:14px;border:none;
+      display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;
+      cursor:pointer;box-shadow:var(--shadow);
     }
     .menuBtn span{width:22px;height:3px;background:#fff;border-radius:3px}
     .menuPanel{
-      position:absolute;
-      right:0;
-      top:calc(100% + 10px);
+      position:absolute;right:0;top:calc(100% + 10px);
       width:min(300px, 86vw);
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      padding:10px;
-      display:none;
-      z-index:200;
+      background:#fff;border:1px solid var(--border);
+      border-radius:16px;box-shadow:var(--shadow);
+      padding:10px;display:none;z-index:200;
     }
     .menuPanel.open{display:block}
-    .menuItem{
-      display:block;
-      padding:12px;
-      border-radius:12px;
-      font-weight:900;
-      color:var(--text);
-    }
+    .menuItem{display:block;padding:12px;border-radius:12px;font-weight:900;color:var(--text)}
     .menuItem:hover{background:var(--card)}
 
     /* Hero */
-    .hero{
-      padding:70px 0 34px;
-      background:linear-gradient(to bottom,#fff,#f8fafc);
-    }
-    .heroGrid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:18px;
-      align-items:start;
-    }
+    .hero{padding:70px 0 34px;background:linear-gradient(to bottom,#fff,#f8fafc)}
+    .heroGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:start}
     .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
     .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .badge{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:8px 10px;
-      font-weight:900;
-      color:var(--muted);
-    }
+    .badge{background:#fff;border:1px solid var(--border);border-radius:999px;padding:8px 10px;font-weight:900;color:var(--muted)}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:var(--shadow);
-    }
-
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
     .section{padding:56px 0}
     .section.alt{background:#f1f5f9}
 
-    .grid3{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:18px;
-    }
-    .tile{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow:var(--shadow);
-    }
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .tile{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
     .tile p{margin:0;color:var(--muted)}
 
-    .split{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
     .list{margin:10px 0 0;padding-left:18px}
     .list li{margin:6px 0}
 
     /* Galerie */
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:14px;
-      margin-top:18px;
-    }
+    .gallery{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:14px;margin-top:18px}
     .gallery img{
-      width:100%;
-      height:auto;
-      aspect-ratio: 4 / 3;
-      object-fit:cover;
-      border-radius:12px;
-      border:1px solid var(--border);
+      width:100%;height:auto;aspect-ratio: 4 / 3;object-fit:cover;
+      border-radius:12px;border:1px solid var(--border);
       box-shadow:0 8px 20px rgba(0,0,0,0.08);
-      background:#fff;
-      display:block;
+      background:#fff;display:block;
     }
-    @media (min-width: 900px){
-      .gallery{ grid-template-columns:repeat(3, minmax(0, 1fr)); }
-    }
-    @media (max-width: 420px){
-      .gallery{ grid-template-columns:1fr; }
-      .gallery img{ aspect-ratio: 16 / 10; }
-    }
+    @media (min-width: 900px){ .gallery{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 420px){ .gallery{ grid-template-columns:1fr; } .gallery img{ aspect-ratio: 16 / 10; } }
 
     /* Form */
-    .form{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:16px;
-    }
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
     label{display:flex;flex-direction:column;gap:6px;font-weight:900}
-    input,textarea{
-      padding:12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      font-family:inherit;
-      background:#fff;
-    }
+    input,textarea{padding:12px;border-radius:12px;border:1px solid var(--border);font-family:inherit;background:#fff}
     input:focus,textarea:focus{outline:none;border-color:rgba(37,99,235,.55)}
     .full{grid-column:1/-1}
 
-    /* Simulateur */
+    /* Simulateur (solution 1 = masque dessiné) */
     .simBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .simLabel{font-weight:900}
     .simSwatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
@@ -231,10 +137,7 @@
       font-weight:900;
       cursor:pointer;
     }
-    .swatch.active{
-      outline:3px solid rgba(37,99,235,.25);
-      border-color: rgba(37,99,235,.35);
-    }
+    .swatch.active{outline:3px solid rgba(37,99,235,.25);border-color: rgba(37,99,235,.35)}
     .simRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:10px}
     .simRange{flex:1;min-width:180px}
     .simCanvasWrap{
@@ -244,28 +147,32 @@
       overflow:hidden;
       box-shadow: var(--shadow);
       margin-top:14px;
+      position:relative;
     }
-    #simCanvas{width:100%;height:auto;display:block}
+    #simCanvas,#maskCanvas{width:100%;height:auto;display:block}
+    #maskCanvas{
+      position:absolute;left:0;top:0;
+      touch-action:none; /* important iPhone pour dessiner */
+      cursor:crosshair;
+    }
+    .simHint{
+      margin-top:10px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+      color:var(--muted);
+      font-weight:700;
+    }
 
-    footer{
-      background:#0f172a;
-      color:#fff;
-      padding:26px 0;
-      margin-top:40px;
-    }
+    footer{background:#0f172a;color:#fff;padding:26px 0;margin-top:40px}
     footer a{color:#fff;text-decoration:underline}
 
     .call{
-      position:fixed;
-      right:16px;
-      bottom:16px;
-      background:var(--red);
-      color:#fff;
-      padding:14px 18px;
-      border-radius:999px;
-      font-weight:1000;
-      box-shadow:var(--shadow);
-      z-index:60;
+      position:fixed;right:16px;bottom:16px;
+      background:var(--red);color:#fff;
+      padding:14px 18px;border-radius:999px;
+      font-weight:1000;box-shadow:var(--shadow);z-index:60;
     }
 
     @media(max-width:980px){
@@ -386,11 +293,11 @@
   </div>
 </section>
 
-<!-- ✅ Simulateur caméra (sans téléchargement) -->
+<!-- ✅ Simulateur (solution 1) -->
 <section class="section" id="simulation">
   <div class="container">
     <h2>Simulateur couleur (toiture / façade)</h2>
-    <p class="muted">Prenez une photo et testez des teintes (aperçu rapide, sans téléchargement).</p>
+    <p class="muted">Étape 1 : prenez une photo. Étape 2 : dessinez la zone (toiture). Étape 3 : choisissez une teinte.</p>
 
     <div class="card">
       <div class="simBar">
@@ -404,6 +311,7 @@
           <input id="simFile" type="file" accept="image/*" capture="environment" style="display:none">
         </label>
 
+        <button class="btn ghost" id="maskClear" type="button">Effacer le masque</button>
         <button class="btn ghost" id="simReset" type="button">Réinitialiser</button>
       </div>
 
@@ -415,13 +323,14 @@
         <span class="muted small" id="simStrengthLabel">35%</span>
       </div>
 
-      <div class="simCanvasWrap">
-        <canvas id="simCanvas"></canvas>
+      <div class="simHint" id="simMsg">
+        Dessinez au doigt sur la toiture (zone à recolorer). Ensuite choisissez une couleur.
       </div>
 
-      <p class="muted small" id="simMsg" style="margin-top:10px">
-        Sur iPhone : accepte l’accès caméra si Safari le demande.
-      </p>
+      <div class="simCanvasWrap">
+        <canvas id="simCanvas"></canvas>
+        <canvas id="maskCanvas"></canvas>
+      </div>
     </div>
   </div>
 </section>
@@ -485,28 +394,31 @@
 <a class="call" href="tel:0601462612">📞 Appeler</a>
 
 <script>
-  // Année
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // Form devis -> ouvre Mail
-  const form = document.getElementById("devisForm");
-  const hint = document.getElementById("formHint");
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    const d = new FormData(form);
-    const name = String(d.get("name") || "");
-    const phone = String(d.get("phone") || "");
-    const message = String(d.get("message") || "");
-    const to = "j2b.couverture@gmail.com";
-    const subject = encodeURIComponent("Demande de devis - J2B Couverture");
-    const body = encodeURIComponent(
-      "Nom : " + name + "\n" +
-      "Téléphone : " + phone + "\n\n" +
-      "Message :\n" + message
-    );
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-    hint.textContent = "Si rien ne s’ouvre, vérifiez que l’app Mail est configurée.";
-  });
+  // Form devis
+  (function(){
+    const form = document.getElementById("devisForm");
+    const hint = document.getElementById("formHint");
+    if(!form) return;
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const d = new FormData(form);
+      const name = String(d.get("name") || "");
+      const phone = String(d.get("phone") || "");
+      const message = String(d.get("message") || "");
+      const to = "j2b.couverture@gmail.com";
+      const subject = encodeURIComponent("Demande de devis - J2B Couverture");
+      const body = encodeURIComponent(
+        "Nom : " + name + "\n" +
+        "Téléphone : " + phone + "\n\n" +
+        "Message :\n" + message
+      );
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      hint.textContent = "Si rien ne s’ouvre, vérifiez que l’app Mail est configurée.";
+    });
+  })();
 
   // Menu hamburger
   (function(){
@@ -528,93 +440,161 @@
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
   })();
 
-  // Simulateur (photo + voile couleur)
+  // ===== Simulateur Solution 1 (masque dessiné) =====
   (function(){
-    const canvas = document.getElementById('simCanvas');
-    const ctx = canvas && canvas.getContext('2d');
+    const simCanvas = document.getElementById('simCanvas');
+    const maskCanvas = document.getElementById('maskCanvas');
     const file = document.getElementById('simFile');
     const resetBtn = document.getElementById('simReset');
+    const maskClearBtn = document.getElementById('maskClear');
     const colorsWrap = document.getElementById('simColors');
     const strength = document.getElementById('simStrength');
     const strengthLabel = document.getElementById('simStrengthLabel');
     const msg = document.getElementById('simMsg');
     const presetBtns = document.querySelectorAll('#simulation .swatch[data-preset]');
 
-    if(!canvas || !ctx || !file || !colorsWrap || !strength) return;
+    if(!simCanvas || !maskCanvas || !file || !colorsWrap || !strength) return;
+
+    const sctx = simCanvas.getContext('2d');
+    const mctx = maskCanvas.getContext('2d');
 
     const PRESETS = {
       terre: [
-        {name:'Rouge', hex:'#b91c1c'},
         {name:'Terre cuite', hex:'#c2410c'},
+        {name:'Rouge', hex:'#b91c1c'},
         {name:'Brun', hex:'#7c2d12'},
         {name:'Ocre', hex:'#92400e'},
-        {name:'Noir', hex:'#111827'},
+        {name:'Noir', hex:'#111827'}
       ],
       beton: [
         {name:'Anthracite', hex:'#111827'},
         {name:'Gris', hex:'#6b7280'},
         {name:'Gris clair', hex:'#9ca3af'},
         {name:'Brun', hex:'#7c2d12'},
-        {name:'Rouge', hex:'#b91c1c'},
+        {name:'Rouge', hex:'#b91c1c'}
       ],
       facade: [
         {name:'Blanc cassé', hex:'#f5f5f4'},
         {name:'Sable', hex:'#d6d3d1'},
-        {name:'Gris', hex:'#9ca3af'},
         {name:'Taupe', hex:'#a8a29e'},
-        {name:'Bleu', hex:'#1d4ed8'},
-      ],
+        {name:'Gris', hex:'#9ca3af'},
+        {name:'Bleu', hex:'#1d4ed8'}
+      ]
     };
 
     let currentPreset = 'terre';
     let currentHex = PRESETS[currentPreset][0].hex;
-    let img = new Image();
+
+    let baseImg = new Image();
     let hasImage = false;
 
-    function hexToRgba(hex, a){
+    // dessin masque
+    let drawing = false;
+    let last = null;
+
+    function deviceScale(){
+      return Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    }
+
+    function hexToRgb(hex){
       const h = hex.replace('#','').trim();
-      const bigint = parseInt(h.length===3 ? h.split('').map(x=>x+x).join('') : h, 16);
-      const r = (bigint >> 16) & 255;
-      const g = (bigint >> 8) & 255;
-      const b = bigint & 255;
-      return `rgba(${r},${g},${b},${a})`;
+      const full = h.length===3 ? h.split('').map(x=>x+x).join('') : h;
+      const n = parseInt(full, 16);
+      return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+    }
+
+    function setCanvasSizeForImage(w, h){
+      const maxW = 1400;
+      const scale = Math.min(1, maxW / w);
+      const cw = Math.round(w * scale);
+      const ch = Math.round(h * scale);
+
+      const dpr = deviceScale();
+      simCanvas.width = cw * dpr;
+      simCanvas.height = ch * dpr;
+      simCanvas.style.width = cw + 'px';
+      simCanvas.style.height = ch + 'px';
+
+      maskCanvas.width = cw * dpr;
+      maskCanvas.height = ch * dpr;
+      maskCanvas.style.width = cw + 'px';
+      maskCanvas.style.height = ch + 'px';
+
+      sctx.setTransform(dpr,0,0,dpr,0,0);
+      mctx.setTransform(dpr,0,0,dpr,0,0);
+
+      // pinceau masque
+      mctx.lineCap = 'round';
+      mctx.lineJoin = 'round';
+      mctx.strokeStyle = 'rgba(255,255,255,1)';
+      mctx.lineWidth = 26; // épaisseur
     }
 
     function drawPlaceholder(){
-      canvas.width = 1200;
-      canvas.height = 700;
-      ctx.fillStyle = '#f1f5f9';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle = '#475569';
-      ctx.font = '700 32px system-ui, -apple-system, Segoe UI, Roboto, Arial';
-      ctx.fillText('📷 Ajoutez une photo pour tester une teinte', 70, 180);
-      ctx.font = '500 22px system-ui, -apple-system, Segoe UI, Roboto, Arial';
-      ctx.fillText('Cliquez sur “Prendre une photo” (caméra) ou choisissez une image.', 70, 230);
+      const dpr = deviceScale();
+      const cw = 1100, ch = 650;
+      simCanvas.width = cw*dpr; simCanvas.height = ch*dpr;
+      simCanvas.style.width = cw+'px'; simCanvas.style.height = ch+'px';
+      maskCanvas.width = cw*dpr; maskCanvas.height = ch*dpr;
+      maskCanvas.style.width = cw+'px'; maskCanvas.style.height = ch+'px';
+
+      sctx.setTransform(dpr,0,0,dpr,0,0);
+      mctx.setTransform(dpr,0,0,dpr,0,0);
+
+      sctx.fillStyle = '#f1f5f9';
+      sctx.fillRect(0,0,cw,ch);
+      sctx.fillStyle = '#475569';
+      sctx.font = '700 28px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      sctx.fillText('📷 Ajoutez une photo pour tester une teinte', 60, 160);
+      sctx.font = '500 20px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      sctx.fillText('Ensuite : dessinez la zone toiture, puis choisissez une couleur.', 60, 210);
+
+      mctx.clearRect(0,0,cw,ch);
     }
 
-    function fitCanvasTo(imgW, imgH){
-      const maxW = 1400;
-      const scale = Math.min(1, maxW / imgW);
-      canvas.width = Math.round(imgW * scale);
-      canvas.height = Math.round(imgH * scale);
-    }
+    function render(){
+      // base
+      const cw = parseFloat(simCanvas.style.width) || (simCanvas.width/(window.devicePixelRatio||1));
+      const ch = parseFloat(simCanvas.style.height) || (simCanvas.height/(window.devicePixelRatio||1));
 
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      if(!hasImage){ drawPlaceholder(); return; }
+      sctx.clearRect(0,0,cw,ch);
+      if(!hasImage){
+        drawPlaceholder();
+        return;
+      }
 
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      sctx.drawImage(baseImg, 0, 0, cw, ch);
 
-      const alpha = Math.max(0, Math.min(0.70, (Number(strength.value)||0) / 100));
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = hexToRgba(currentHex, alpha);
-      ctx.fillRect(0,0,canvas.width,canvas.height);
+      // si pas de masque -> on ne colorise pas
+      // on regarde si le masque a du contenu (pixel alpha > 0)
+      // pour être rapide : on teste un petit échantillon
+      const sample = mctx.getImageData(0,0,Math.min(200, maskCanvas.width), Math.min(200, maskCanvas.height)).data;
+      let hasMask = false;
+      for(let i=3;i<sample.length;i+=16){
+        if(sample[i] > 0){ hasMask = true; break; }
+      }
+      if(!hasMask){
+        return;
+      }
 
-      ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = 'rgba(255,255,255,0.12)';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
+      const alpha = Math.max(0, Math.min(0.7, (Number(strength.value)||0)/100));
+      const {r,g,b} = hexToRgb(currentHex);
 
-      ctx.globalCompositeOperation = 'source-over';
+      // 1) Créer une couche couleur
+      sctx.save();
+      sctx.globalCompositeOperation = 'source-over';
+      sctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+      sctx.fillRect(0,0,cw,ch);
+
+      // 2) Appliquer le MASQUE (on garde la couleur uniquement où le masque est blanc)
+      sctx.globalCompositeOperation = 'destination-in';
+      sctx.drawImage(maskCanvas, 0, 0, cw, ch);
+
+      // 3) Mélanger avec l'image en mode "multiply" pour garder la texture des tuiles
+      sctx.globalCompositeOperation = 'multiply';
+      sctx.drawImage(baseImg, 0, 0, cw, ch);
+
+      sctx.restore();
     }
 
     function buildColors(){
@@ -628,11 +608,12 @@
           currentHex = c.hex;
           colorsWrap.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active'));
           b.classList.add('active');
-          draw();
+          render();
         });
         colorsWrap.appendChild(b);
       });
       currentHex = PRESETS[currentPreset][0].hex;
+      render();
     }
 
     presetBtns.forEach(btn=>{
@@ -641,13 +622,13 @@
         btn.classList.add('active');
         currentPreset = btn.getAttribute('data-preset') || 'terre';
         buildColors();
-        draw();
+        if(msg) msg.textContent = 'Dessinez la zone (toiture/façade), puis choisissez une teinte.';
       });
     });
 
     strength.addEventListener('input', ()=>{
       strengthLabel.textContent = strength.value + '%';
-      draw();
+      render();
     });
 
     file.addEventListener('change', ()=>{
@@ -655,19 +636,29 @@
       if(!f) return;
 
       const url = URL.createObjectURL(f);
-      img = new Image();
-      img.onload = ()=>{
+      baseImg = new Image();
+      baseImg.onload = ()=>{
         hasImage = true;
-        fitCanvasTo(img.naturalWidth, img.naturalHeight);
-        draw();
+        setCanvasSizeForImage(baseImg.naturalWidth, baseImg.naturalHeight);
+        mctx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+        render();
         URL.revokeObjectURL(url);
-        if(msg) msg.textContent = 'Photo chargée ✅ Choisissez une teinte et ajustez l’intensité.';
+        if(msg) msg.textContent = 'Photo chargée ✅ Dessinez la zone toiture, puis choisissez une teinte.';
       };
-      img.onerror = ()=>{
+      baseImg.onerror = ()=>{
         if(msg) msg.textContent = "Impossible de charger la photo. Essaie une autre image.";
       };
-      img.src = url;
+      baseImg.src = url;
     });
+
+    function clearMask(){
+      mctx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+      last = null;
+      render();
+      if(msg) msg.textContent = 'Masque effacé. Redessinez la zone toiture.';
+    }
+
+    maskClearBtn.addEventListener('click', clearMask);
 
     resetBtn.addEventListener('click', ()=>{
       hasImage = false;
@@ -678,12 +669,56 @@
       presetBtns.forEach(x=>x.classList.remove('active'));
       document.querySelector('#simulation .swatch[data-preset="terre"]')?.classList.add('active');
       buildColors();
-      if(msg) msg.textContent = 'Réinitialisé. Clique sur “Prendre une photo”.';
-      draw();
+      clearMask();
+      if(msg) msg.textContent = 'Réinitialisé. Cliquez sur “Prendre une photo”.';
+      drawPlaceholder();
     });
 
+    function getPos(e){
+      const rect = maskCanvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left);
+      const y = (e.clientY - rect.top);
+      return {x,y};
+    }
+
+    function startDraw(e){
+      if(!hasImage){
+        if(msg) msg.textContent = 'Ajoutez d’abord une photo.';
+        return;
+      }
+      drawing = true;
+      const p = getPos(e);
+      last = p;
+      mctx.beginPath();
+      mctx.moveTo(p.x, p.y);
+      mctx.lineTo(p.x+0.01, p.y+0.01);
+      mctx.stroke();
+      render();
+    }
+    function moveDraw(e){
+      if(!drawing || !last) return;
+      const p = getPos(e);
+      mctx.beginPath();
+      mctx.moveTo(last.x, last.y);
+      mctx.lineTo(p.x, p.y);
+      mctx.stroke();
+      last = p;
+      render();
+    }
+    function endDraw(){
+      drawing = false;
+      last = null;
+    }
+
+    // Pointer events (iPhone OK)
+    maskCanvas.addEventListener('pointerdown', (e)=>{ maskCanvas.setPointerCapture?.(e.pointerId); startDraw(e); });
+    maskCanvas.addEventListener('pointermove', moveDraw);
+    maskCanvas.addEventListener('pointerup', endDraw);
+    maskCanvas.addEventListener('pointercancel', endDraw);
+
     buildColors();
-    draw();
+    drawPlaceholder();
+    window.addEventListener('resize', ()=>{ if(hasImage) render(); });
   })();
 </script>
 
