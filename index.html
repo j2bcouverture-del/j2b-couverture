@@ -121,7 +121,7 @@
     input:focus,textarea:focus{outline:none;border-color:rgba(37,99,235,.55)}
     .full{grid-column:1/-1}
 
-    /* ===== Simulateur (MODELES PHOTO + teintes) ===== */
+    /* ===== Simulateur ===== */
     .simBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .simLabel{font-weight:900}
     .simSwatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
@@ -134,7 +134,6 @@
       cursor:pointer;
     }
     .swatchBtn.active{outline:3px solid rgba(37,99,235,.25);border-color: rgba(37,99,235,.35)}
-    .simRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:10px}
     .simRange{flex:1;min-width:180px}
     .simCanvasWrap{
       border:1px solid var(--border);
@@ -350,7 +349,6 @@
   </div>
 </section>
 
-<!-- ✅ AVIS CLIENTS -->
 <section class="section alt" id="avis">
   <div class="container">
     <div class="reviews-head">
@@ -358,10 +356,8 @@
         <h2>Avis clients</h2>
         <p class="muted">Ils recommandent J2B Couverture.</p>
       </div>
-
       <div class="reviews-actions">
-        <a class="btn ghost" target="_blank" rel="noopener"
-           href="https://www.google.com/search?q=avis+j2b+couverture">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=avis+j2b+couverture">
           ⭐ Voir tous les avis Google
         </a>
       </div>
@@ -414,7 +410,6 @@
   </div>
 </section>
 
-<!-- ✅ SIMULATEUR -->
 <section class="section" id="simulation">
   <div class="container">
     <h2>Simulateur couleur (toiture)</h2>
@@ -444,14 +439,12 @@
   </div>
 </section>
 
-<!-- ✅ PHOTOS -->
 <section class="section alt" id="realisations">
   <div class="container">
     <h2>Nos réalisations</h2>
     <p class="muted">Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.</p>
 
     <div class="gallery">
-      <!-- ✅ CORRIGÉ : casse/nom pour éviter que GitHub ne casse les images -->
       <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1" loading="lazy" decoding="async">
       <img src="./temp2.png?v=1" alt="Réalisation toiture 2" loading="lazy" decoding="async">
       <img src="./temp3.png?v=1" alt="Réalisation toiture 3" loading="lazy" decoding="async">
@@ -463,7 +456,6 @@
   </div>
 </section>
 
-<!-- ✅ DEVIS -->
 <section id="devis" class="section alt">
   <div class="container">
     <h2>Demande de devis</h2>
@@ -504,7 +496,6 @@
 <a class="call" href="tel:0601462612">📞 Appeler</a>
 
 <script>
-  // Année
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // Form devis
@@ -551,7 +542,7 @@
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
   })();
 
-  // ===== Avis carousel =====
+  // Avis carousel
   (function(){
     const track = document.getElementById('revTrack');
     const dotsWrap = document.getElementById('revDots');
@@ -588,7 +579,6 @@
       const gap = 14;
       const viewport = track.parentElement;
       const vw = viewport.getBoundingClientRect().width;
-
       track.style.transform = `translateX(${-((vw + gap) * index)}px)`;
 
       dotsWrap.querySelectorAll('.rev-dot').forEach((d,i)=>{
@@ -635,25 +625,25 @@
 
     // ✅ NOMS EXACTS (casse sensible)
     const MODELS = {
-      terre: './Terrecuite.JPG',   // JPG majuscule
-      beton: './tuilesbeton.jpg'   // jpg minuscule
+      terre: './Terrecuite.JPG',
+      beton: './tuilesbeton.jpg'
     };
 
-    // ✅ Nouvelles palettes (tes demandes)
+    // ✅ Palettes corrigées (tes derniers retours)
     const PALETTES = {
       terre: [
         {name:'Terre cuite',        hex:'#c2410c'},
         {name:'Rouge',              hex:'#b91c1c'},
-        {name:'Brun chocolat',      hex:'#4b2a1a'},  // brun + chocolat
-        {name:'Orange',             hex:'#f97316'},  // remplace ocre
-        {name:'Ardoise',            hex:'#334155'}   // remplace noir (anthracite/ardoise)
+        {name:'Brun chocolat',      hex:'#2b160c'},  // + foncé (marron)
+        {name:'Orange',             hex:'#f97316'},
+        {name:'Ardoise',            hex:'#1f2937'}   // gris/noir plus lisible
       ],
       beton: [
-        {name:'Anthracite',         hex:'#111827'},
-        {name:'Gris clair',         hex:'#9ca3af'},
-        {name:'Orange',             hex:'#f97316'},  // remplace gris
-        {name:'Brun chocolat',      hex:'#4b2a1a'},  // même brun que terre
-        {name:'Rouge brillant',     hex:'#d11a2a'}   // rouge + “propre/brillant”
+        {name:'Anthracite',         hex:'#06080f'},  // + foncé
+        {name:'Ardoise',            hex:'#1f2937'},
+        {name:'Orange',             hex:'#f97316'},  // doit vraiment teinter
+        {name:'Brun chocolat',      hex:'#2b160c'},  // + foncé
+        {name:'Rouge brillant',     hex:'#d10b22'}   // plus “propre”
       ]
     };
 
@@ -663,12 +653,13 @@
     let baseImg = new Image();
     let loaded = false;
 
-    // caches
-    let baseImageData = null;     // ImageData base
-    let mask = null;              // Float32Array [0..1] par pixel
-    let recoloredFull = null;     // Uint8ClampedArray (RGB full recolor) pour la couleur courante
+    let baseImageData = null;
+    let mask = null;
+    let recoloredFull = null;
 
     function dpr(){ return Math.max(1, Math.min(2, window.devicePixelRatio || 1)); }
+
+    function clamp255(x){ return x < 0 ? 0 : (x > 255 ? 255 : x); }
 
     function hexToRgb(hex){
       const h = hex.replace('#','').trim();
@@ -677,7 +668,6 @@
       return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
     }
 
-    // --- HSL helpers ---
     function rgbToHsl(r,g,b){
       r/=255; g/=255; b/=255;
       const max = Math.max(r,g,b), min = Math.min(r,g,b);
@@ -715,9 +705,9 @@
     }
 
     function naturalStrength(){
-      // slider 0..70 -> 0..~0.62 (courbe douce)
+      // plus puissant qu’avant + courbe douce
       const v = Math.max(0, Math.min(70, Number(strength.value)||0)) / 70;
-      return Math.pow(v, 0.85) * 0.62;
+      return Math.pow(v, 0.75) * 0.85;  // 0..0.85
     }
 
     function sizeToWrap(img){
@@ -752,8 +742,6 @@
     }
 
     function computeMaskFromBase(){
-      // masque auto (tuiles = zones texturées + chroma)
-      // marche bien quand les modèles sont des photos de tuiles "stables"
       if(!baseImageData) return;
 
       const w = baseImageData.width;
@@ -762,19 +750,15 @@
 
       const m = new Float32Array(w*h);
 
-      // 1) score = saturation + gradient (texture)
-      // gradient simple (diff x/y) + saturation
       for(let y=1; y<h-1; y++){
         for(let x=1; x<w-1; x++){
           const i = (y*w + x) * 4;
-
           const r = data[i], g = data[i+1], b = data[i+2];
 
           const max = Math.max(r,g,b), min = Math.min(r,g,b);
-          const sat = max === 0 ? 0 : (max - min) / max; // 0..1
-          const lum = (0.2126*r + 0.7152*g + 0.0722*b) / 255; // 0..1
+          const sat = max === 0 ? 0 : (max - min) / max;
+          const lum = (0.2126*r + 0.7152*g + 0.0722*b) / 255;
 
-          // gradient luminance
           const iL = (0.2126*data[i-4] + 0.7152*data[i-3] + 0.0722*data[i-2]) / 255;
           const iR = (0.2126*data[i+4] + 0.7152*data[i+5] + 0.0722*data[i+6]) / 255;
           const iU = (0.2126*data[i-w*4] + 0.7152*data[i-w*4+1] + 0.0722*data[i-w*4+2]) / 255;
@@ -782,25 +766,20 @@
 
           const gx = Math.abs(iR - iL);
           const gy = Math.abs(iD - iU);
-          const grad = Math.min(1, (gx + gy) * 1.2); // 0..1
+          const grad = Math.min(1, (gx + gy) * 1.2);
 
-          // exclusions (très clair / très sombre = pas tuile)
           if(lum > 0.94 || lum < 0.04){
             m[y*w + x] = 0;
             continue;
           }
 
-          // score final
           const score = 0.60*sat + 0.40*grad;
-
-          // seuil doux (tu peux ajuster si besoin)
           let v = 0;
-          if(score > 0.12) v = Math.min(1, (score - 0.12) / 0.35);
+          if(score > 0.11) v = Math.min(1, (score - 0.11) / 0.32);
           m[y*w + x] = v;
         }
       }
 
-      // 2) petit flou (box blur 3x3) pour lisser
       const out = new Float32Array(w*h);
       for(let y=1; y<h-1; y++){
         for(let x=1; x<w-1; x++){
@@ -818,15 +797,13 @@
         }
       }
 
-      // 3) légère montée de contraste du masque
       for(let i=0;i<out.length;i++){
         const v = out[i];
-        // courbe en S
-        out[i] = Math.max(0, Math.min(1, (v*v) * 1.15));
+        out[i] = Math.max(0, Math.min(1, (v*v) * 1.20));
       }
 
       mask = out;
-      recoloredFull = null; // reset cache couleur
+      recoloredFull = null;
     }
 
     function computeRecoloredFullForCurrentHex(){
@@ -845,23 +822,31 @@
         const i = p*4;
         const r = src[i], g = src[i+1], b = src[i+2], a = src[i+3];
 
-        // défaut = original
         let rr=r, gg=g, bb=b;
 
-        const m = mask[p];
-        if(m > 0.001){
+        const mp = mask[p];
+        if(mp > 0.001){
           const hsl = rgbToHsl(r,g,b);
 
-          // On remplace la teinte, mais on garde la lumière du pixel
-          // Saturation contrôlée (pas trop flashy)
-          const newSat = Math.min(0.85, Math.max(0.10, tgtHsl.s * 0.95));
+          // base : remplacement de teinte + saturation renforcée
           const newH = tgtHsl.h;
+          const newS = Math.min(0.95, Math.max(0.20, (tgtHsl.s * 1.30) + (hsl.s * 0.15)));
 
-          const rgb = hslToRgb(newH, newSat, hsl.l);
+          const rgb1 = hslToRgb(newH, newS, hsl.l);
 
-          rr = rgb.r;
-          gg = rgb.g;
-          bb = rgb.b;
+          // boost couleur (pour éviter "voile")
+          const k = 0.42; // force couleur
+          rr = rgb1.r*(1-k) + tgt.r*k;
+          gg = rgb1.g*(1-k) + tgt.g*k;
+          bb = rgb1.b*(1-k) + tgt.b*k;
+
+          // préserver la lumière du pixel
+          const lumOrig = 0.2126*r + 0.7152*g + 0.0722*b;
+          const lumNew  = 0.2126*rr + 0.7152*gg + 0.0722*bb;
+          const d = (lumOrig - lumNew) * 0.75;
+          rr = clamp255(rr + d);
+          gg = clamp255(gg + d);
+          bb = clamp255(bb + d);
         }
 
         dst[i] = rr; dst[i+1] = gg; dst[i+2] = bb; dst[i+3] = a;
@@ -878,7 +863,6 @@
       if(!mask) computeMaskFromBase();
       if(!recoloredFull) computeRecoloredFullForCurrentHex();
 
-      // blend base <-> recolored sur masque
       const w = baseImageData.width;
       const h = baseImageData.height;
 
@@ -891,11 +875,9 @@
 
       for(let p=0; p<w*h; p++){
         const i = p*4;
-
-        const m = mask[p] * s; // 0..~0.62
+        const m = mask[p] * s;
         const inv = 1 - m;
 
-        // mélange (maské)
         outD[i]   = Math.round(src[i]  *inv + rec[i]  *m);
         outD[i+1] = Math.round(src[i+1]*inv + rec[i+1]*m);
         outD[i+2] = Math.round(src[i+2]*inv + rec[i+2]*m);
@@ -904,9 +886,9 @@
 
       ctx.putImageData(out, 0, 0);
 
-      // petit “lift” très léger (rend plus naturel)
+      // lift léger pour aspect "plus propre"
       ctx.globalCompositeOperation = 'screen';
-      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
       ctx.globalCompositeOperation = 'source-over';
     }
@@ -924,7 +906,7 @@
           currentHex = c.hex;
           colorsWrap.querySelectorAll('.swatchBtn').forEach(x=>x.classList.remove('active'));
           b.classList.add('active');
-          recoloredFull = null; // recalcul couleur
+          recoloredFull = null;
           render();
           if(msg) msg.textContent = `Couleur : ${c.name}`;
         });
@@ -992,11 +974,9 @@
     });
 
     window.addEventListener('resize', ()=>{
-      // on recharge le modèle pour recalculer la taille + le masque
       if(loaded) loadModel(currentModelKey);
     });
 
-    // init
     strengthLabel.textContent = strength.value + '%';
     buildColors();
     loadModel('terre');
