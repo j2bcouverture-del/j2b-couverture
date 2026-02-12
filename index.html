@@ -50,12 +50,7 @@
       gap:12px;
       padding:14px 0;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
     .brand img{height:64px;width:auto;display:block}
 
     .btn{
@@ -125,11 +120,11 @@
     input:focus,textarea:focus{outline:none;border-color:rgba(37,99,235,.55)}
     .full{grid-column:1/-1}
 
-    /* Simulateur (solution 1 = masque dessiné) */
+    /* ===== Simulateur (masque invisible + recoloration zone) ===== */
     .simBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .simLabel{font-weight:900}
     .simSwatches{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .swatch{
+    .swatchBtn{
       border:1px solid var(--border);
       background:#fff;
       border-radius:999px;
@@ -137,7 +132,7 @@
       font-weight:900;
       cursor:pointer;
     }
-    .swatch.active{outline:3px solid rgba(37,99,235,.25);border-color: rgba(37,99,235,.35)}
+    .swatchBtn.active{outline:3px solid rgba(37,99,235,.25);border-color: rgba(37,99,235,.35)}
     .simRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:10px}
     .simRange{flex:1;min-width:180px}
     .simCanvasWrap{
@@ -150,13 +145,13 @@
       position:relative;
     }
     #simCanvas,#maskCanvas{width:100%;height:auto;display:block}
-
-    /* ✅ IMPORTANT : on cache le masque (plus de trait blanc visible) */
+    /* IMPORTANT : masque invisible => plus de “trait blanc” */
     #maskCanvas{
       position:absolute;left:0;top:0;
-      touch-action:none; /* important iPhone pour dessiner */
+      touch-action:none;
       cursor:crosshair;
-      opacity:0;         /* <-- C’EST ÇA QUI SUPPRIME LES TRAITS BLANCS */
+      opacity:0;              /* cache le masque */
+      pointer-events:auto;    /* mais on peut dessiner */
     }
 
     .simHint{
@@ -297,29 +292,452 @@
   </div>
 </section>
 
-<!-- ✅ Simulateur (solution 1) -->
+<!-- ✅ Simulateur (corrigé) -->
 <section class="section" id="simulation">
   <div class="container">
     <h2>Simulateur couleur (toiture / façade)</h2>
-    <p class="muted">Étape 1 : prenez une photo. Étape 2 : dessinez la zone (toiture). Étape 3 : choisissez une teinte.</p>
+    <p class="muted">1) Prenez une photo • 2) Dessinez la zone • 3) Choisissez une teinte (aucun téléchargement)</p>
 
     <div class="card">
       <div class="simBar">
         <span class="simLabel">Type :</span>
-        <button class="swatch active" type="button" data-preset="terre">Terre cuite</button>
-        <button class="swatch" type="button" data-preset="beton">Tuile béton</button>
-        <button class="swatch" type="button" data-preset="facade">Façade</button>
+        <button class="swatchBtn active" type="button" data-preset="terre">Terre cuite</button>
+        <button class="swatchBtn" type="button" data-preset="beton">Tuile béton</button>
+        <button class="swatchBtn" type="button" data-preset="facade">Façade</button>
 
         <label class="btn blue" style="cursor:pointer">
           📷 Prendre une photo
           <input id="simFile" type="file" accept="image/*" capture="environment" style="display:none">
         </label>
 
-        <button class="btn ghost" id="maskClear" type="button">Effacer le masque</button>
+        <button class="btn ghost" id="maskClear" type="button">Effacer la zone</button>
         <button class="btn ghost" id="simReset" type="button">Réinitialiser</button>
       </div>
 
       <div class="simSwatches" id="simColors"></div>
 
       <div class="simRow">
-        <span class
+        <span class="simLabel">Intensité :</span>
+        <input class="simRange" id="simStrength" type="range" min="0" max="70" value="35">
+        <span class="muted small" id="simStrengthLabel">35%</span>
+      </div>
+
+      <div class="simHint" id="simMsg">
+        Dessinez au doigt sur les tuiles (la trace est invisible), puis choisissez une couleur.
+      </div>
+
+      <div class="simCanvasWrap">
+        <canvas id="simCanvas"></canvas>
+        <canvas id="maskCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ PHOTOS -->
+<section class="section alt" id="realisations">
+  <div class="container">
+    <h2>Nos réalisations</h2>
+    <p class="muted">Quelques chantiers réalisés par <strong>J2B Couverture</strong> dans le 54, 55, 57 et 88.</p>
+
+    <div class="gallery">
+      <img src="./Temp1.jpg?v=1" alt="Réalisation toiture 1" loading="lazy" decoding="async">
+      <img src="./temp2.png?v=1" alt="Réalisation toiture 2" loading="lazy" decoding="async">
+      <img src="./temp3.png?v=1" alt="Réalisation toiture 3" loading="lazy" decoding="async">
+      <img src="./temp4.png?v=1" alt="Réalisation toiture 4" loading="lazy" decoding="async">
+      <img src="./temp6.JPG?v=1" alt="Réalisation toiture 5" loading="lazy" decoding="async">
+      <img src="./temp7.png?v=1" alt="Réalisation toiture 6" loading="lazy" decoding="async">
+      <img src="./Temp8.png?v=1" alt="Réalisation toiture 7" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>
+
+<!-- ✅ DEVIS -->
+<section id="devis" class="section alt">
+  <div class="container">
+    <h2>Demande de devis</h2>
+    <p class="muted">Remplissez le formulaire : l’app Mail s’ouvrira avec mon adresse déjà remplie.</p>
+
+    <form class="form" id="devisForm">
+      <label>Nom
+        <input name="name" required placeholder="Votre nom">
+      </label>
+
+      <label>Téléphone
+        <input name="phone" required placeholder="Votre numéro">
+      </label>
+
+      <label class="full">Message
+        <textarea name="message" rows="5" required placeholder="Expliquez votre besoin (fuite, rénovation, nettoyage...)"></textarea>
+      </label>
+
+      <button class="btn blue full" type="submit">📩 Envoyer la demande</button>
+      <p class="muted small full" id="formHint"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div><strong>J2B Couverture</strong> — Toul</div>
+    <div style="margin-top:8px">
+      Tél : <a href="tel:0601462612">06 01 46 26 12</a> •
+      Email : <a href="mailto:j2b.couverture@gmail.com">j2b.couverture@gmail.com</a>
+    </div>
+    <div style="margin-top:8px;opacity:.9;font-size:.95rem">© <span id="year"></span> — Tous droits réservés.</div>
+  </div>
+</footer>
+
+<a class="call" href="tel:0601462612">📞 Appeler</a>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Form devis
+  (function(){
+    const form = document.getElementById("devisForm");
+    const hint = document.getElementById("formHint");
+    if(!form) return;
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      const d = new FormData(form);
+      const name = String(d.get("name") || "");
+      const phone = String(d.get("phone") || "");
+      const message = String(d.get("message") || "");
+      const to = "j2b.couverture@gmail.com";
+      const subject = encodeURIComponent("Demande de devis - J2B Couverture");
+      const body = encodeURIComponent(
+        "Nom : " + name + "\n" +
+        "Téléphone : " + phone + "\n\n" +
+        "Message :\n" + message
+      );
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      hint.textContent = "Si rien ne s’ouvre, vérifiez que l’app Mail est configurée.";
+    });
+  })();
+
+  // Menu hamburger
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const panel = document.getElementById('menuPanel');
+    if(!btn || !panel) return;
+
+    function close(){
+      panel.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', close);
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+  })();
+
+  // ===== Simulateur (masque invisible + recoloration zone) =====
+  (function(){
+    const simCanvas = document.getElementById('simCanvas');
+    const maskCanvas = document.getElementById('maskCanvas');
+    const file = document.getElementById('simFile');
+    const resetBtn = document.getElementById('simReset');
+    const maskClearBtn = document.getElementById('maskClear');
+    const colorsWrap = document.getElementById('simColors');
+    const strength = document.getElementById('simStrength');
+    const strengthLabel = document.getElementById('simStrengthLabel');
+    const msg = document.getElementById('simMsg');
+    const presetBtns = document.querySelectorAll('#simulation .swatchBtn[data-preset]');
+
+    if(!simCanvas || !maskCanvas || !file || !colorsWrap || !strength) return;
+
+    const sctx = simCanvas.getContext('2d');
+    const mctx = maskCanvas.getContext('2d');
+
+    const PRESETS = {
+      terre: [
+        {name:'Terre cuite', hex:'#c2410c'},
+        {name:'Rouge', hex:'#b91c1c'},
+        {name:'Brun', hex:'#7c2d12'},
+        {name:'Ocre', hex:'#92400e'},
+        {name:'Noir', hex:'#111827'}
+      ],
+      beton: [
+        {name:'Anthracite', hex:'#111827'},
+        {name:'Gris', hex:'#6b7280'},
+        {name:'Gris clair', hex:'#9ca3af'},
+        {name:'Brun', hex:'#7c2d12'},
+        {name:'Rouge', hex:'#b91c1c'}
+      ],
+      facade: [
+        {name:'Blanc cassé', hex:'#f5f5f4'},
+        {name:'Sable', hex:'#d6d3d1'},
+        {name:'Taupe', hex:'#a8a29e'},
+        {name:'Gris', hex:'#9ca3af'},
+        {name:'Bleu', hex:'#1d4ed8'}
+      ]
+    };
+
+    let currentPreset = 'terre';
+    let currentHex = PRESETS[currentPreset][0].hex;
+
+    let baseImg = new Image();
+    let hasImage = false;
+
+    // masque dessiné
+    let drawing = false;
+    let last = null;
+    let hasMask = false; // <- IMPORTANT: évite les tests pixels (plus fiable)
+
+    // couche couleur (offscreen)
+    const tintCanvas = document.createElement('canvas');
+    const tctx = tintCanvas.getContext('2d');
+
+    function deviceScale(){
+      return Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    }
+
+    function hexToRgb(hex){
+      const h = hex.replace('#','').trim();
+      const full = h.length===3 ? h.split('').map(x=>x+x).join('') : h;
+      const n = parseInt(full, 16);
+      return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+    }
+
+    function setCanvasSizeForImage(w, h){
+      const maxW = 1400;
+      const scale = Math.min(1, maxW / w);
+      const cw = Math.round(w * scale);
+      const ch = Math.round(h * scale);
+
+      const dpr = deviceScale();
+
+      // visuel
+      simCanvas.style.width = '100%';
+      simCanvas.style.height = 'auto';
+      maskCanvas.style.width = '100%';
+      maskCanvas.style.height = 'auto';
+
+      // taille interne
+      simCanvas.width = cw * dpr;
+      simCanvas.height = ch * dpr;
+      maskCanvas.width = cw * dpr;
+      maskCanvas.height = ch * dpr;
+
+      // taille offscreen
+      tintCanvas.width = simCanvas.width;
+      tintCanvas.height = simCanvas.height;
+
+      // scale context
+      sctx.setTransform(1,0,0,1,0,0);
+      mctx.setTransform(1,0,0,1,0,0);
+
+      // pinceau masque (en pixels internes)
+      mctx.lineCap = 'round';
+      mctx.lineJoin = 'round';
+      mctx.strokeStyle = 'rgba(255,255,255,1)';
+      mctx.lineWidth = 46 * dpr; // épaisseur un peu + pour toiture
+    }
+
+    function drawPlaceholder(){
+      const dpr = deviceScale();
+      const cw = 1100, ch = 650;
+      simCanvas.width = cw*dpr; simCanvas.height = ch*dpr;
+      maskCanvas.width = cw*dpr; maskCanvas.height = ch*dpr;
+      tintCanvas.width = simCanvas.width; tintCanvas.height = simCanvas.height;
+
+      simCanvas.style.width = '100%';
+      simCanvas.style.height = 'auto';
+      maskCanvas.style.width = '100%';
+      maskCanvas.style.height = 'auto';
+
+      sctx.setTransform(1,0,0,1,0,0);
+      mctx.setTransform(1,0,0,1,0,0);
+
+      sctx.clearRect(0,0,simCanvas.width,simCanvas.height);
+      sctx.fillStyle = '#f1f5f9';
+      sctx.fillRect(0,0,simCanvas.width,simCanvas.height);
+      sctx.fillStyle = '#475569';
+      sctx.font = `${Math.round(28*dpr)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+      sctx.fillText('📷 Ajoutez une photo pour tester une teinte', 60*dpr, 160*dpr);
+      sctx.font = `${Math.round(20*dpr)}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+      sctx.fillText('Ensuite : dessinez la zone, puis choisissez une couleur.', 60*dpr, 210*dpr);
+
+      mctx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+      hasMask = false;
+    }
+
+    function render(){
+      sctx.clearRect(0,0,simCanvas.width,simCanvas.height);
+
+      if(!hasImage){
+        drawPlaceholder();
+        return;
+      }
+
+      // 1) base
+      sctx.globalCompositeOperation = 'source-over';
+      sctx.drawImage(baseImg, 0, 0, simCanvas.width, simCanvas.height);
+
+      if(!hasMask){
+        return; // rien dessiné => pas de recolor
+      }
+
+      // 2) tint layer = couleur + masque
+      const alpha = Math.max(0, Math.min(0.70, (Number(strength.value)||0)/100));
+      const {r,g,b} = hexToRgb(currentHex);
+
+      tctx.clearRect(0,0,tintCanvas.width,tintCanvas.height);
+      tctx.globalCompositeOperation = 'source-over';
+      tctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+      tctx.fillRect(0,0,tintCanvas.width,tintCanvas.height);
+
+      // garder la couleur uniquement où le masque est dessiné
+      tctx.globalCompositeOperation = 'destination-in';
+      tctx.drawImage(maskCanvas, 0, 0);
+
+      // 3) appliquer la couche en multiply (texture tuiles conservée)
+      sctx.globalCompositeOperation = 'multiply';
+      sctx.drawImage(tintCanvas, 0, 0);
+
+      // revenir normal
+      sctx.globalCompositeOperation = 'source-over';
+    }
+
+    function buildColors(){
+      colorsWrap.innerHTML = '';
+      PRESETS[currentPreset].forEach((c, idx)=>{
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'swatchBtn' + (idx===0 ? ' active' : '');
+        b.textContent = c.name;
+        b.addEventListener('click', ()=>{
+          currentHex = c.hex;
+          colorsWrap.querySelectorAll('.swatchBtn').forEach(x=>x.classList.remove('active'));
+          b.classList.add('active');
+          render();
+        });
+        colorsWrap.appendChild(b);
+      });
+      currentHex = PRESETS[currentPreset][0].hex;
+      render();
+    }
+
+    presetBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        presetBtns.forEach(x=>x.classList.remove('active'));
+        btn.classList.add('active');
+        currentPreset = btn.getAttribute('data-preset') || 'terre';
+        buildColors();
+        if(msg) msg.textContent = 'Dessinez la zone, puis choisissez une teinte.';
+      });
+    });
+
+    strength.addEventListener('input', ()=>{
+      strengthLabel.textContent = strength.value + '%';
+      render();
+    });
+
+    file.addEventListener('change', ()=>{
+      const f = file.files && file.files[0];
+      if(!f) return;
+
+      const url = URL.createObjectURL(f);
+      baseImg = new Image();
+      baseImg.onload = ()=>{
+        hasImage = true;
+        setCanvasSizeForImage(baseImg.naturalWidth, baseImg.naturalHeight);
+        mctx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+        hasMask = false;
+        render();
+        URL.revokeObjectURL(url);
+        if(msg) msg.textContent = 'Photo chargée ✅ Dessinez la zone (trace invisible), puis choisissez une teinte.';
+      };
+      baseImg.onerror = ()=>{
+        if(msg) msg.textContent = "Impossible de charger la photo. Essaie une autre image.";
+      };
+      baseImg.src = url;
+    });
+
+    function clearMask(){
+      mctx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+      last = null;
+      hasMask = false;
+      render();
+      if(msg) msg.textContent = 'Zone effacée. Redessinez la toiture.';
+    }
+
+    maskClearBtn.addEventListener('click', clearMask);
+
+    resetBtn.addEventListener('click', ()=>{
+      hasImage = false;
+      file.value = '';
+      strength.value = 35;
+      strengthLabel.textContent = '35%';
+      currentPreset = 'terre';
+      presetBtns.forEach(x=>x.classList.remove('active'));
+      document.querySelector('#simulation .swatchBtn[data-preset="terre"]')?.classList.add('active');
+      buildColors();
+      clearMask();
+      if(msg) msg.textContent = 'Réinitialisé. Cliquez sur “Prendre une photo”.';
+      drawPlaceholder();
+    });
+
+    function getPos(e){
+      const rect = maskCanvas.getBoundingClientRect();
+      const xCss = (e.clientX - rect.left);
+      const yCss = (e.clientY - rect.top);
+
+      // conversion CSS -> pixels internes canvas
+      const sx = maskCanvas.width / rect.width;
+      const sy = maskCanvas.height / rect.height;
+      return {x: xCss * sx, y: yCss * sy};
+    }
+
+    function startDraw(e){
+      if(!hasImage){
+        if(msg) msg.textContent = 'Ajoutez d’abord une photo.';
+        return;
+      }
+      drawing = true;
+      const p = getPos(e);
+      last = p;
+      mctx.beginPath();
+      mctx.moveTo(p.x, p.y);
+      mctx.lineTo(p.x+0.01, p.y+0.01);
+      mctx.stroke();
+      hasMask = true;
+      render();
+    }
+    function moveDraw(e){
+      if(!drawing || !last) return;
+      const p = getPos(e);
+      mctx.beginPath();
+      mctx.moveTo(last.x, last.y);
+      mctx.lineTo(p.x, p.y);
+      mctx.stroke();
+      last = p;
+      hasMask = true;
+      render();
+    }
+    function endDraw(){
+      drawing = false;
+      last = null;
+    }
+
+    maskCanvas.addEventListener('pointerdown', (e)=>{ maskCanvas.setPointerCapture?.(e.pointerId); startDraw(e); });
+    maskCanvas.addEventListener('pointermove', moveDraw);
+    maskCanvas.addEventListener('pointerup', endDraw);
+    maskCanvas.addEventListener('pointercancel', endDraw);
+
+    // init
+    buildColors();
+    drawPlaceholder();
+  })();
+</script>
+
+</body>
+</html>
