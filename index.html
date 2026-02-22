@@ -1044,6 +1044,18 @@
     loadModel();
   })();
 </script>
-
+<script>
+document.addEventListener("click", function(e){
+  const link = e.target.closest("a[href^='tel:']");
+  if(link){
+    if(typeof gtag === "function"){
+      gtag("event", "click_appel", {
+        event_category: "contact",
+        event_label: link.getAttribute("href")
+      });
+    }
+  }
+});
+</script>
 </body>
 </html>
