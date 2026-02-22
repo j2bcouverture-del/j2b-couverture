@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>J2B Couverture | Couvreur à Toul</title>
   <meta name="description" content="J2B Couverture : rénovation de toiture, réparation de fuites, zinguerie, nettoyage/démoussage. Intervention : 54, 55, 57, 88. Devis gratuit.">
-  <!-- Goggle Analytics -->
+
+  <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
   <script>
-    window.dataLayer = window.datalayer || [];
-    function gtag(){datalayer.push(arguments);}
-    gtag(‘js‘, new Date());
-    gtag(‘config‘, ‘G-ZGCBS6FYZR‘);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ZGCBS6FYZR');
   </script>
+
   <style>
     :root{
       --bg:#ffffff;
@@ -250,22 +252,10 @@
     "@type": "RoofingContractor",
     "name": "J2B Couverture",
     "areaServed": [
-      {
-        "@type": "AdministrativeArea",
-        "name": "Meurthe-et-Moselle (54)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Meuse (55)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Moselle (57)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Vosges (88)"
-      }
+      {"@type":"AdministrativeArea","name":"Meurthe-et-Moselle (54)"},
+      {"@type":"AdministrativeArea","name":"Meuse (55)"},
+      {"@type":"AdministrativeArea","name":"Moselle (57)"},
+      {"@type":"AdministrativeArea","name":"Vosges (88)"}
     ],
     "address": {
       "@type": "PostalAddress",
@@ -274,25 +264,10 @@
       "addressCountry": "FR"
     },
     "serviceType": [
-      "Rénovation toiture",
-      "Réparation toiture",
-      "Réparation de fuites",
-      "Recherche d’infiltration",
-      "Dépannage urgence toiture",
-      "Zinguerie",
-      "Gouttières",
-      "Pose gouttières",
-      "Remplacement gouttières",
-      "Nettoyage toiture",
-      "Démoussage toiture",
-      "Entretien toiture",
-      "Isolation",
-      "Isolation toiture",
-      "Isolation combles",
-      "Étanchéité toiture",
-      "Faîtage",
-      "Solins",
-      "Noues"
+      "Rénovation toiture","Réparation toiture","Réparation de fuites","Recherche d’infiltration",
+      "Dépannage urgence toiture","Zinguerie","Gouttières","Pose gouttières","Remplacement gouttières",
+      "Nettoyage toiture","Démoussage toiture","Entretien toiture","Isolation","Isolation toiture",
+      "Isolation combles","Étanchéité toiture","Faîtage","Solins","Noues"
     ]
   }
   </script>
@@ -311,22 +286,10 @@
       "addressCountry": "FR"
     },
     "areaServed": [
-      {
-        "@type": "AdministrativeArea",
-        "name": "Meurthe-et-Moselle (54)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Meuse (55)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Moselle (57)"
-      },
-      {
-        "@type": "AdministrativeArea",
-        "name": "Vosges (88)"
-      }
+      {"@type":"AdministrativeArea","name":"Meurthe-et-Moselle (54)"},
+      {"@type":"AdministrativeArea","name":"Meuse (55)"},
+      {"@type":"AdministrativeArea","name":"Moselle (57)"},
+      {"@type":"AdministrativeArea","name":"Vosges (88)"}
     ],
     "description": "Couvreur à Toul : rénovation de toiture, réparation de fuites, zinguerie, gouttières, nettoyage/démoussage, isolation et entretien. Intervention 54, 55, 57, 88. Devis gratuit."
   }
@@ -514,10 +477,8 @@
     <div class="card">
       <div class="simBar">
         <span class="simLabel">Intensité :</span>
-        <!-- ✅ MAX 80 -->
         <input class="simRange" id="tintStrength" type="range" min="0" max="80" value="35">
         <span class="muted small" id="tintStrengthLabel">35%</span>
-
         <button class="btn ghost" type="button" id="tintReset">Réinitialiser</button>
       </div>
 
@@ -713,16 +674,13 @@
 
     if(!wrap || !canvas || !ctx || !colorsWrap || !strength || !resetBtn) return;
 
-    // ✅ 1 seul modèle (nom exact)
     const MODEL_SRC = './Terrecuite.JPG';
 
-    // ✅ Palette Terre cuite (ardoise améliorée + brun plus foncé)
     const PALETTE = [
       {name:'Terre cuite',        hex:'#c2410c'},
       {name:'Rouge',              hex:'#b91c1c'},
-      {name:'Brun chocolat',      hex:'#1d0f08'},  // plus foncé
+      {name:'Brun chocolat',      hex:'#1d0f08'},
       {name:'Orange',             hex:'#f97316'},
-      // ardoise plus “gris/noir”, moins bleutée
       {name:'Ardoise',            hex:'#111827'}
     ];
 
@@ -763,6 +721,7 @@
       }
       return {h, s, l};
     }
+
     function hslToRgb(h,s,l){
       const c = (1 - Math.abs(2*l - 1)) * s;
       const x = c * (1 - Math.abs(((h/60) % 2) - 1));
@@ -786,9 +745,8 @@
     }
 
     function naturalStrength(){
-      // slider 0..80 -> plus “utile” et plus fort, mais naturel
       const v = Math.max(0, Math.min(80, Number(strength.value)||0)) / 80;
-      return Math.pow(v, 0.78) * 0.90;  // 0..0.90
+      return Math.pow(v, 0.78) * 0.90;
     }
 
     function sizeToWrap(img){
@@ -856,14 +814,12 @@
 
           const score = 0.60*sat + 0.40*grad;
 
-          // seuil un peu plus "inclusif"
           let v = 0;
           if(score > 0.105) v = Math.min(1, (score - 0.105) / 0.30);
           m[y*w + x] = v;
         }
       }
 
-      // blur 3x3
       const out = new Float32Array(w*h);
       for(let y=1; y<h-1; y++){
         for(let x=1; x<w-1; x++){
@@ -881,7 +837,6 @@
         }
       }
 
-      // boost masque (un peu)
       for(let i=0;i<out.length;i++){
         const v = out[i];
         out[i] = Math.max(0, Math.min(1, (v*v) * 1.25));
@@ -895,7 +850,6 @@
       if(!baseImageData || !mask) return;
 
       const w = baseImageData.width;
-      const h = baseImageData.height;
       const src = baseImageData.data;
 
       const dst = new Uint8ClampedArray(src.length);
@@ -903,7 +857,7 @@
       const tgt = hexToRgb(currentHex);
       const tgtHsl = rgbToHsl(tgt.r, tgt.g, tgt.b);
 
-      for(let p=0; p<w*h; p++){
+      for(let p=0; p<w*w; p++){
         const i = p*4;
         const r = src[i], g = src[i+1], b = src[i+2], a = src[i+3];
 
@@ -913,11 +867,8 @@
         if(mp > 0.001){
           const hsl = rgbToHsl(r,g,b);
 
-          // Remplacement teinte
           const newH = tgtHsl.h;
 
-          // Ardoise : saturation plus basse (plus gris/noir)
-          // Autres : saturation plus "présente"
           let newS;
           if(isArdoise()){
             newS = Math.min(0.22, Math.max(0.03, hsl.s * 0.25));
@@ -927,13 +878,11 @@
 
           const rgb1 = hslToRgb(newH, newS, hsl.l);
 
-          // Boost couleur (évite "voile")
           const k = isArdoise() ? 0.55 : 0.42;
           rr = rgb1.r*(1-k) + tgt.r*k;
           gg = rgb1.g*(1-k) + tgt.g*k;
           bb = rgb1.b*(1-k) + tgt.b*k;
 
-          // préserver la lumière globale
           const lumOrig = 0.2126*r + 0.7152*g + 0.0722*b;
           const lumNew  = 0.2126*rr + 0.7152*gg + 0.0722*bb;
           const d = (lumOrig - lumNew) * 0.78;
@@ -941,7 +890,6 @@
           gg = clamp255(gg + d);
           bb = clamp255(bb + d);
 
-          // Ardoise : léger assombrissement “gris/noir + touche noir”
           if(isArdoise()){
             rr = clamp255(rr * 0.92);
             gg = clamp255(gg * 0.94);
@@ -977,20 +925,17 @@
       for(let p=0; p<w*h; p++){
         const i = p*4;
 
-        let m = mask[p] * s; // 0..0.90
+        let m = mask[p] * s;
         if(m < 0.0005){
           outD[i] = src[i]; outD[i+1] = src[i+1]; outD[i+2] = src[i+2]; outD[i+3] = src[i+3];
           continue;
         }
 
-        // ✅ Nettoyage anti-orange (uniquement en ardoise)
-        // Si le pixel source est “orangé”, on force un peu plus le mélange + neutralisation
         if(ardoise){
           const r0 = src[i], g0 = src[i+1], b0 = src[i+2];
-          // heuristique orange
           const orangeish = (r0 > 110 && g0 > 60 && b0 < 110 && (r0 - g0) > 18 && (g0 - b0) > 8);
           if(orangeish){
-            m = Math.min(1, m * 1.35); // force recolor sur ces pixels
+            m = Math.min(1, m * 1.35);
           }
         }
 
@@ -1000,10 +945,8 @@
         let g = (src[i+1]*inv + rec[i+1]*m);
         let b = (src[i+2]*inv + rec[i+2]*m);
 
-        // ✅ Neutralisation finale ardoise (retire les restes chauds)
         if(ardoise){
           const gray = (0.2126*r + 0.7152*g + 0.0722*b);
-          // rapprocher du gris + enlever un poil de rouge
           r = r*0.78 + gray*0.22;
           g = g*0.82 + gray*0.18;
           b = b*0.88 + gray*0.12;
@@ -1018,7 +961,6 @@
 
       ctx.putImageData(out, 0, 0);
 
-      // lift léger
       ctx.globalCompositeOperation = 'screen';
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -1088,7 +1030,7 @@
       strength.value = 35;
       strengthLabel.textContent = '35%';
       recoloredFull = null;
-      mask = null; // on recalcule aussi le masque (plus “propre”)
+      mask = null;
       loadModel();
       if(msg) msg.textContent = 'Réinitialisé ✅';
     });
@@ -1097,7 +1039,6 @@
       if(loaded) loadModel();
     });
 
-    // init
     strengthLabel.textContent = strength.value + '%';
     buildColors();
     loadModel();
