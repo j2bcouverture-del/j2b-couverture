@@ -10,7 +10,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-ZGCBS6FYZR');
   </script>
@@ -294,7 +294,6 @@
     "description": "Couvreur à Toul : rénovation de toiture, réparation de fuites, zinguerie, gouttières, nettoyage/démoussage, isolation et entretien. Intervention 54, 55, 57, 88. Devis gratuit."
   }
   </script>
-
 </head>
 
 <body>
@@ -551,20 +550,6 @@
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
-
-  // ✅ Tracking clic téléphone (GA4)
-  (function(){
-    document.querySelectorAll("a[href^='tel:']").forEach(function(a){
-      a.addEventListener("click", function(){
-        if (typeof gtag === "function") {
-          gtag('event', 'click_call', {
-            event_category: 'engagement',
-            event_label: a.getAttribute('href') || 'tel'
-          });
-        }
-      });
-    });
-  })();
 
   // Form devis
   (function(){
@@ -882,7 +867,6 @@
         const mp = mask[p];
         if(mp > 0.001){
           const hsl = rgbToHsl(r,g,b);
-
           const newH = tgtHsl.h;
 
           let newS;
