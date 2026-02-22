@@ -10,7 +10,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-ZGCBS6FYZR');
   </script>
@@ -552,6 +552,20 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
+  // ✅ Tracking clic téléphone (GA4)
+  (function(){
+    document.querySelectorAll("a[href^='tel:']").forEach(function(a){
+      a.addEventListener("click", function(){
+        if (typeof gtag === "function") {
+          gtag('event', 'click_call', {
+            event_category: 'engagement',
+            event_label: a.getAttribute('href') || 'tel'
+          });
+        }
+      });
+    });
+  })();
+
   // Form devis
   (function(){
     const form = document.getElementById("devisForm");
@@ -850,6 +864,7 @@
       if(!baseImageData || !mask) return;
 
       const w = baseImageData.width;
+      const h = baseImageData.height;
       const src = baseImageData.data;
 
       const dst = new Uint8ClampedArray(src.length);
@@ -857,7 +872,8 @@
       const tgt = hexToRgb(currentHex);
       const tgtHsl = rgbToHsl(tgt.r, tgt.g, tgt.b);
 
-      for(let p=0; p<w*w; p++){
+      // ✅ CORRECTION ICI : w*h (et pas w*w)
+      for(let p=0; p<w*h; p++){
         const i = p*4;
         const r = src[i], g = src[i+1], b = src[i+2], a = src[i+3];
 
