@@ -122,7 +122,30 @@
     }
     @media (min-width: 900px){ .gallery{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
     @media (max-width: 420px){ .gallery{ grid-template-columns:1fr; } .gallery img{ aspect-ratio: 16 / 10; } }
+/* Galerie vidéo */
+.video-gallery{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
 
+.video-gallery video{
+  width:100%;
+  height:auto;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid var(--border);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  background:#000;
+}
+
+@media (min-width:900px){
+  .video-gallery{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
     /* Form */
     .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
     label{display:flex;flex-direction:column;gap:6px;font-weight:900}
@@ -510,6 +533,39 @@
   <img src="./Temp11.jpeg?v=1" alt="Réalisation toiture 9" loading="lazy" decoding="async">
   <img src="./Temp12.png?v=1" alt="Réalisation toiture 10" loading="lazy" decoding="async">
 </div>
+  </div>
+  <section class="section" id="videos">
+  <div class="container">
+    <h2>Vidéos de chantiers</h2>
+    <p class="muted">Découvrez quelques interventions réalisées par <strong>J2B Couverture</strong>.</p>
+
+    <div class="video-gallery">
+
+      <video controls preload="metadata">
+        <source src="./Video1.mp4" type="video/mp4">
+      </video>
+
+      <video controls preload="metadata">
+        <source src="./Video2.mp4" type="video/mp4">
+      </video>
+
+      <video controls preload="metadata">
+        <source src="./Video3.mp4" type="video/mp4">
+      </video>
+
+      <video controls preload="metadata">
+        <source src="./Video4.mp4" type="video/mp4">
+      </video>
+
+      <video controls preload="metadata">
+        <source src="./Video5.mp4" type="video/mp4">
+      </video>
+
+      <video controls preload="metadata">
+        <source src="./Video6.mp4" type="video/mp4">
+      </video>
+
+    </div>
   </div>
 </section>
 
