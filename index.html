@@ -5,7 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>J2B Couverture | Couvreur à Toul</title>
   <meta name="description" content="J2B Couverture : rénovation de toiture, réparation de fuites, zinguerie, nettoyage/démoussage. Intervention : 54, 55, 57, 88. Devis gratuit.">
+/* ===== Simulateur de prix toiture ===== */
 
+.simulateur {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 35px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.simulateur h2 {
+    margin-bottom: 25px;
+    font-size: 26px;
+    color: #222;
+}
+
+.simulateur label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.simulateur input,
+.simulateur select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: border 0.2s ease;
+}
+
+.simulateur input:focus,
+.simulateur select:focus {
+    outline: none;
+    border-color: #c8102e;
+}
+
+.simulateur button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    background: #c8102e;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.1s ease;
+}
+
+.simulateur button:hover {
+    background: #a80d24;
+}
+
+.simulateur button:active {
+    transform: scale(0.97);
+}
+
+#resultat {
+    margin-top: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #111;
+}
+
+#resultat a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+#resultat a:hover {
+    background: #218838;
+}
+
+/* Responsive mobile */
+
+@media (max-width: 600px) {
+    .simulateur {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+
+    .simulateur h2 {
+        font-size: 22px;
+    }
+}
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
   <script>
@@ -385,7 +483,35 @@
     </div>
   </div>
 </section>
+<body>
 
+<h1>J2B Couverture</h1>
+
+<section class="simulateur">
+
+<h2>Simulateur de prix toiture</h2>
+
+<label>Surface toiture (m²)</label>
+<input type="number" id="surface" placeholder="Ex : 120">
+
+<label>Type de toiture</label>
+<select id="type">
+<option value="80">Tuiles</option>
+<option value="120">Ardoise</option>
+</select>
+
+<label>État de la toiture</label>
+<select id="etat">
+<option value="1">Bon état</option>
+<option value="1.2">Usure moyenne</option>
+<option value="1.5">Très abîmée</option>
+</select>
+
+<button onclick="calculPrix()">Calculer le prix</button>
+
+<p id="resultat"></p>
+
+</section>
 <section id="services" class="section alt">
   <div class="container">
     <h2>Nos services</h2>
@@ -1116,6 +1242,38 @@ document.addEventListener("click", function(e){
     }
   }
 });
+</script>
+<script>
+
+function calculPrix(){
+
+    let surface = document.getElementById("surface").value;
+    let type = document.getElementById("type").value;
+    let etat = document.getElementById("etat").value;
+
+    if(surface === "" || surface <= 0){
+        document.getElementById("resultat").innerHTML =
+        "⚠️ Veuillez entrer une surface de toiture.";
+        return;
+    }
+
+    surface = parseFloat(surface);
+    type = parseFloat(type);
+    etat = parseFloat(etat);
+
+    let prix = surface * type * etat;
+
+    let min = Math.round(prix * 0.9);
+    let max = Math.round(prix * 1.1);
+
+    document.getElementById("resultat").innerHTML =
+    "💰 Estimation des travaux : <br><br>" +
+    min + " € à " + max + " €<br><br>" +
+    "📞 Pour un devis précis :<br>" +
+    "<a href='tel:0601462612'>Appeler J2B Couverture</a>";
+
+}
+
 </script>
 </body>
 </html>
