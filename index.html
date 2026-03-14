@@ -1226,8 +1226,23 @@ function calculPrix(){
     }
 
     surface = parseFloat(surface);
-    type = parseFloat(type);
-    etat = parseFloat(etat);
+etat = parseFloat(etat);
+
+// TES TARIFS
+let prix_tuile = 150;
+let prix_ardoise = 220;
+
+let prix_m2 = 0;
+
+if(type == "80"){
+prix_m2 = prix_tuile;
+}
+
+if(type == "120"){
+prix_m2 = prix_ardoise;
+}
+
+let prix = surface * prix_m2 * etat;
 
     let prix = surface * type * etat;
 
