@@ -1215,39 +1215,48 @@ document.addEventListener("click", function(e){
 
 function calculPrix(){
 
-    let surface = document.getElementById("surface").value;
-    let type = document.getElementById("type").value;
-    let etat = document.getElementById("etat").value;
+let surface = document.getElementById("surface").value;
+let type = document.getElementById("type").value;
+let etat = document.getElementById("etat").value;
 
-    if(surface === "" || surface <= 0){
-        document.getElementById("resultat").innerHTML =
-        "⚠️ Veuillez entrer une surface de toiture.";
-        return;
-    }
+if(surface === "" || surface <= 0){
+document.getElementById("resultat").innerHTML =
+"⚠️ Veuillez entrer une surface de toiture.";
+return;
+}
 
-    surface = parseFloat(surface);
+surface = parseFloat(surface);
 etat = parseFloat(etat);
 
-// TES TARIFS
+// TARIFS MOYENS UTILISÉS
 let prix_tuile = 150;
 let prix_ardoise = 220;
 
 let prix_m2 = 0;
+let type_toiture = "";
 
-if(type == "80"){
+if(type === "80"){
 prix_m2 = prix_tuile;
+type_toiture = "tuile";
 }
 
-if(type == "120"){
+if(type === "120"){
 prix_m2 = prix_ardoise;
+type_toiture = "ardoise";
 }
 
 let prix = surface * prix_m2 * etat;
 
-    let prix = surface * type * etat;
+let min = Math.round(prix * 0.9);
+let max = Math.round(prix * 1.1);
 
-    let min = Math.round(prix * 0.9);
-    let max = Math.round(prix * 1.1);
+document.getElementById("resultat").innerHTML =
+"💰 Estimation des travaux : <br><br>" +
+min + " € à " + max + " €<br><br>" +
+"Prix moyen utilisé : " + prix_m2 + " €/m² (" + type_toiture + ")<br><br>" +
+"<a href='tel:0601462612'>📞 Appeler J2B Couverture</a>";
+
+}
 
     document.getElementById("resultat").innerHTML =
     "💰 Estimation des travaux : <br><br>" +
