@@ -714,6 +714,77 @@
       .quoteContactFields .full{grid-column:auto}
     }
 
+
+    .quoteProgress{margin-bottom:24px}
+    .quoteProgressTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:.9rem;
+      font-weight:900;
+    }
+    .quoteProgressTrack{
+      height:8px;
+      border-radius:999px;
+      background:#ECE8DF;
+      overflow:hidden;
+    }
+    .quoteProgressTrack span{
+      display:block;
+      width:25%;
+      height:100%;
+      border-radius:999px;
+      background:#C1A66B;
+      transition:width .25s ease;
+    }
+    .quoteCityChoices{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .quoteOtherCity{
+      margin-top:16px;
+      padding-top:16px;
+      border-top:1px solid var(--border);
+      text-align:left;
+    }
+    .quoteOtherCity label{
+      display:block;
+      margin-bottom:7px;
+      font-weight:900;
+    }
+    .quoteCityRow{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+    }
+    .quoteCityRow input{
+      width:100%;
+      min-width:0;
+      padding:14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+    }
+    .quoteCityRow input:focus{
+      outline:3px solid rgba(193,166,107,.20);
+      border-color:#C1A66B;
+    }
+    .quotePhotoAfter{
+      margin:22px auto 0;
+      max-width:620px;
+      padding:16px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#F7F5F1;
+    }
+    .quotePhotoAfter p{margin:6px 0 12px}
+    @media(max-width:640px){
+      .quoteCityChoices{grid-template-columns:1fr 1fr}
+      .quoteCityRow{grid-template-columns:1fr}
+      .quoteCityRow .btn{width:100%}
+    }
+
 </style>
 
   <script type="application/ld+json">
@@ -1000,11 +1071,18 @@
   <section id="devis" class="section alt">
     <div class="container">
       <h2>Votre demande en quelques clics</h2>
-      <p class="muted">Choisissez votre besoin, votre secteur et, si nécessaire, la surface. Vos coordonnées ne sont demandées qu’à la fin.</p>
+      <p class="muted">Un parcours rapide qui s’adapte automatiquement à vos travaux.</p>
 
       <div class="quoteWizard card" id="quoteWizard">
+        <div class="quoteProgress" aria-hidden="true">
+          <div class="quoteProgressTop">
+            <span id="quoteProgressText">Étape 1 sur 4</span>
+            <span id="quoteProgressPercent">25 %</span>
+          </div>
+          <div class="quoteProgressTrack"><span id="quoteProgressBar"></span></div>
+        </div>
 
-        <!-- ÉTAPE 1 : TYPE DE TRAVAUX -->
+        <!-- TYPE -->
         <div class="quoteStep active" data-step="1">
           <div class="quoteStepTop">
             <span class="quoteStepNumber">1</span>
@@ -1015,44 +1093,49 @@
           </div>
 
           <div class="quoteChoices" data-group="need">
-            <button type="button" class="quoteChoice" data-value="Fuite / urgence toiture">💧 Fuite / urgence</button>
-            <button type="button" class="quoteChoice" data-value="Rénovation de toiture" data-needs-surface="true">🏠 Rénovation toiture</button>
-            <button type="button" class="quoteChoice" data-value="Zinguerie / gouttières">🔧 Zinguerie / gouttières</button>
-            <button type="button" class="quoteChoice" data-value="Nettoyage / démoussage" data-needs-surface="true">✨ Nettoyage / démoussage</button>
-            <button type="button" class="quoteChoice" data-value="Isolation toiture / combles">🛡️ Isolation</button>
-            <button type="button" class="quoteChoice" data-value="Autre besoin toiture">🧰 Autre besoin</button>
+            <button type="button" class="quoteChoice" data-value="Fuite / urgence toiture" data-flow="leak">💧 Fuite / urgence</button>
+            <button type="button" class="quoteChoice" data-value="Rénovation de toiture" data-flow="renovation">🏠 Rénovation toiture</button>
+            <button type="button" class="quoteChoice" data-value="Zinguerie / gouttières" data-flow="simple">🔧 Zinguerie / gouttières</button>
+            <button type="button" class="quoteChoice" data-value="Nettoyage / démoussage" data-flow="cleaning">✨ Nettoyage / démoussage</button>
+            <button type="button" class="quoteChoice" data-value="Isolation toiture / combles" data-flow="simple">🛡️ Isolation</button>
+            <button type="button" class="quoteChoice" data-value="Autre besoin toiture" data-flow="simple">🧰 Autre besoin</button>
           </div>
         </div>
 
-        <!-- ÉTAPE 2 : SECTEUR -->
+        <!-- SECTEUR -->
         <div class="quoteStep" data-step="2">
           <div class="quoteStepTop">
             <span class="quoteStepNumber">2</span>
             <div>
-              <h3>Dans quel secteur ?</h3>
-              <p class="muted small">Choisissez la zone la plus proche du chantier.</p>
+              <h3>Dans quelle ville est le chantier ?</h3>
+              <p class="muted small">Choisissez Toul ou Nancy, ou saisissez une autre ville.</p>
             </div>
           </div>
 
-          <div class="quoteChoices" data-group="area">
-            <button type="button" class="quoteChoice" data-value="Toul et alentours">📍 Toul</button>
-            <button type="button" class="quoteChoice" data-value="Nancy et alentours">📍 Nancy</button>
-            <button type="button" class="quoteChoice" data-value="Meurthe-et-Moselle 54">54</button>
-            <button type="button" class="quoteChoice" data-value="Meuse 55">55</button>
-            <button type="button" class="quoteChoice" data-value="Moselle 57">57</button>
-            <button type="button" class="quoteChoice" data-value="Vosges 88">88</button>
+          <div class="quoteChoices quoteCityChoices" data-group="area">
+            <button type="button" class="quoteChoice" data-value="Toul">📍 Toul</button>
+            <button type="button" class="quoteChoice" data-value="Nancy">📍 Nancy</button>
+          </div>
+
+          <div class="quoteOtherCity">
+            <label for="quoteCity">Autre ville</label>
+            <div class="quoteCityRow">
+              <input id="quoteCity" type="text" autocomplete="address-level2" placeholder="Ex : Pont-à-Mousson">
+              <button class="btn yellow" type="button" id="quoteCityNext">Continuer →</button>
+            </div>
+            <p class="callbackStatus" id="quoteCityStatus" aria-live="polite"></p>
           </div>
 
           <button type="button" class="quoteBack" data-back="1">← Modifier le type de travaux</button>
         </div>
 
-        <!-- ÉTAPE 3 : SURFACE, UNIQUEMENT POUR RÉNOVATION / NETTOYAGE -->
+        <!-- SURFACE -->
         <div class="quoteStep" data-step="3" id="surfaceStep">
           <div class="quoteStepTop">
             <span class="quoteStepNumber">3</span>
             <div>
               <h3>Quelle est la surface approximative ?</h3>
-              <p class="muted small">Pas besoin de connaître la mesure exacte.</p>
+              <p class="muted small">Cette information permet de mieux préparer votre estimation. Une approximation suffit.</p>
             </div>
           </div>
 
@@ -1065,22 +1148,62 @@
             <button type="button" class="quoteChoice" data-value="Je ne sais pas">❓ Je ne sais pas</button>
           </div>
 
-          <button type="button" class="quoteBack" data-back="2">← Modifier le secteur</button>
+          <button type="button" class="quoteBack" data-back="2">← Modifier la ville</button>
         </div>
 
-        <!-- ÉTAPE 4 : COORDONNÉES -->
-        <div class="quoteStep" data-step="4">
+        <!-- MATÉRIAU RÉNOVATION -->
+        <div class="quoteStep" data-step="4" id="materialStep">
+          <div class="quoteStepTop">
+            <span class="quoteStepNumber">4</span>
+            <div>
+              <h3>Quel est le matériau de couverture ?</h3>
+              <p class="muted small">Si vous n’êtes pas sûr, choisissez « Je ne sais pas ».</p>
+            </div>
+          </div>
+
+          <div class="quoteChoices" data-group="material">
+            <button type="button" class="quoteChoice" data-value="Tuiles">🧱 Tuiles</button>
+            <button type="button" class="quoteChoice" data-value="Ardoises">◼️ Ardoises</button>
+            <button type="button" class="quoteChoice" data-value="Bac acier">🏗️ Bac acier</button>
+            <button type="button" class="quoteChoice" data-value="Je ne sais pas">❓ Je ne sais pas</button>
+          </div>
+
+          <button type="button" class="quoteBack" data-back="3">← Modifier la surface</button>
+        </div>
+
+        <!-- FUITE -->
+        <div class="quoteStep" data-step="6" id="leakStep">
+          <div class="quoteStepTop">
+            <span class="quoteStepNumber">3</span>
+            <div>
+              <h3>Quel problème constatez-vous ?</h3>
+              <p class="muted small">Cela nous aide à préparer l’intervention.</p>
+            </div>
+          </div>
+
+          <div class="quoteChoices" data-group="issue">
+            <button type="button" class="quoteChoice" data-value="Fuite actuellement en cours">🚨 Fuite actuellement</button>
+            <button type="button" class="quoteChoice" data-value="Traces d’humidité / infiltration">💧 Traces d’humidité</button>
+            <button type="button" class="quoteChoice" data-value="Tuiles cassées ou déplacées">🧱 Tuiles cassées</button>
+            <button type="button" class="quoteChoice" data-value="Je ne sais pas">❓ Je ne sais pas</button>
+          </div>
+
+          <button type="button" class="quoteBack" data-back="2">← Modifier la ville</button>
+        </div>
+
+        <!-- COORDONNÉES -->
+        <div class="quoteStep" data-step="5" id="contactStep">
           <div class="quoteStepTop">
             <span class="quoteStepNumber" id="contactStepNumber">4</span>
             <div>
               <h3>Vos coordonnées</h3>
-              <p class="muted small">Dernière étape avant l’envoi.</p>
+              <p class="muted small">Téléphone obligatoire. Le nom et l’e-mail sont facultatifs.</p>
             </div>
           </div>
 
           <div class="quoteContactFields">
             <label>
-              Nom
+              Nom <span class="muted small">(facultatif)</span>
               <input id="quoteName" type="text" autocomplete="name" placeholder="Votre nom">
             </label>
 
@@ -1096,12 +1219,12 @@
           </div>
 
           <p class="callbackStatus" id="quoteContactStatus" aria-live="polite"></p>
-          <button type="button" class="btn red full" id="quoteContactNext">Continuer →</button>
+          <button type="button" class="btn red full" id="quoteContactNext">Voir ma demande →</button>
           <button type="button" class="quoteBack" id="quoteContactBack">← Étape précédente</button>
         </div>
 
-        <!-- ÉTAPE 5 : RÉCAPITULATIF / ENVOI -->
-        <div class="quoteStep quoteResult" data-step="5">
+        <!-- FINAL -->
+        <div class="quoteStep quoteResult" data-step="7">
           <div class="quoteCheck">✓</div>
           <h3>Votre demande est prête</h3>
           <p class="quoteSummary" id="quoteSummary"></p>
@@ -1113,6 +1236,12 @@
 
           <p class="quoteSpeed">⚡ Rappel généralement sous 5 à 10 minutes, de 7h à 20h.</p>
           <p class="callbackStatus" id="quoteFinalStatus" aria-live="polite"></p>
+
+          <div class="quotePhotoAfter" id="quotePhotoAfter">
+            <strong>📷 Photos facultatives</strong>
+            <p class="muted small">Pour une fuite ou un problème visible, des photos peuvent nous aider à préparer le rendez-vous.</p>
+            <a class="btn ghost whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20envoie%20des%20photos%20pour%20ma%20demande%20de%20devis." target="_blank" rel="noopener">Ajouter des photos sur WhatsApp</a>
+          </div>
 
           <button type="button" class="quoteRestart" id="quoteRestart">Recommencer</button>
         </div>
@@ -2308,9 +2437,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
   const state = {
     need:"",
+    flow:"simple",
     area:"",
     surface:"",
-    needsSurface:false,
+    material:"",
+    issue:"",
     name:"",
     phone:"",
     email:""
@@ -2318,28 +2449,82 @@ document.addEventListener("DOMContentLoaded", function(){
 
   window.j2bQuoteSelection = state;
 
+  const progressText = document.getElementById("quoteProgressText");
+  const progressPercent = document.getElementById("quoteProgressPercent");
+  const progressBar = document.getElementById("quoteProgressBar");
+  const contactStepNumber = document.getElementById("contactStepNumber");
+
+  function flowSteps(){
+    if(state.flow === "renovation") return [1,2,3,4,5];
+    if(state.flow === "cleaning") return [1,2,3,5];
+    if(state.flow === "leak") return [1,2,6,5];
+    return [1,2,5];
+  }
+
+  function visibleIndex(step){
+    const steps = flowSteps();
+    const i = steps.indexOf(Number(step));
+    return i >= 0 ? i + 1 : steps.length;
+  }
+
+  function updateProgress(step){
+    if(Number(step) === 7){
+      if(progressText) progressText.textContent = "Demande prête";
+      if(progressPercent) progressPercent.textContent = "100 %";
+      if(progressBar) progressBar.style.width = "100%";
+      return;
+    }
+
+    const total = flowSteps().length;
+    const current = visibleIndex(step);
+    const pct = Math.round((current / total) * 100);
+
+    if(progressText) progressText.textContent = "Étape " + current + " sur " + total;
+    if(progressPercent) progressPercent.textContent = pct + " %";
+    if(progressBar) progressBar.style.width = pct + "%";
+    if(contactStepNumber && Number(step) === 5) contactStepNumber.textContent = String(current);
+  }
+
   function showStep(step){
     wizard.querySelectorAll(".quoteStep").forEach(function(el){
       el.classList.toggle("active", el.dataset.step === String(step));
     });
+    updateProgress(step);
 
     const top = wizard.getBoundingClientRect().top + window.scrollY - 100;
     window.scrollTo({top:top, behavior:"smooth"});
   }
 
+  function nextAfterArea(){
+    if(state.flow === "renovation" || state.flow === "cleaning") return 3;
+    if(state.flow === "leak") return 6;
+    return 5;
+  }
+
+  function nextAfterSurface(){
+    return state.flow === "renovation" ? 4 : 5;
+  }
+
   function previousBeforeContact(){
-    return state.needsSurface ? 3 : 2;
+    if(state.flow === "renovation") return 4;
+    if(state.flow === "cleaning") return 3;
+    if(state.flow === "leak") return 6;
+    return 2;
+  }
+
+  function optionalLinesHtml(){
+    let out = "";
+    if(state.surface) out += "<br><strong>Surface :</strong> " + state.surface;
+    if(state.material) out += "<br><strong>Couverture :</strong> " + state.material;
+    if(state.issue) out += "<br><strong>Problème :</strong> " + state.issue;
+    return out;
   }
 
   function buildSummaryHtml(){
-    const surfaceLine = state.needsSurface
-      ? "<br><strong>Surface :</strong> " + (state.surface || "Non précisée")
-      : "";
-
     return (
       "<strong>Travaux :</strong> " + state.need +
-      "<br><strong>Secteur :</strong> " + state.area +
-      surfaceLine +
+      "<br><strong>Ville :</strong> " + state.area +
+      optionalLinesHtml() +
       "<br><strong>Nom :</strong> " + (state.name || "Non renseigné") +
       "<br><strong>Téléphone :</strong> " + state.phone +
       (state.email ? "<br><strong>E-mail :</strong> " + state.email : "")
@@ -2351,12 +2536,12 @@ document.addEventListener("DOMContentLoaded", function(){
       "DEMANDE DE DEVIS - J2B COUVERTURE",
       "",
       "Travaux : " + state.need,
-      "Secteur : " + state.area
+      "Ville : " + state.area
     ];
 
-    if(state.needsSurface){
-      lines.push("Surface : " + (state.surface || "Non précisée"));
-    }
+    if(state.surface) lines.push("Surface : " + state.surface);
+    if(state.material) lines.push("Couverture : " + state.material);
+    if(state.issue) lines.push("Problème : " + state.issue);
 
     lines.push(
       "",
@@ -2380,48 +2565,90 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   }
 
+  function selectChoice(btn){
+    const group = btn.closest("[data-group]");
+    if(!group) return;
+
+    const key = group.dataset.group;
+    group.querySelectorAll(".quoteChoice").forEach(function(b){
+      b.classList.remove("selected");
+    });
+    btn.classList.add("selected");
+    state[key] = btn.dataset.value || btn.textContent.trim();
+
+    if(key === "need"){
+      state.flow = btn.dataset.flow || "simple";
+      state.surface = "";
+      state.material = "";
+      state.issue = "";
+    }
+
+    window.j2bQuoteSelection = state;
+
+    if(typeof window.gtag === "function"){
+      window.gtag("event","devis_choix",{
+        event_category:"Devis rapide",
+        event_label:key + " : " + state[key]
+      });
+    }
+
+    if(key === "need"){
+      setTimeout(function(){ showStep(2); },160);
+    }else if(key === "area"){
+      const cityInput = document.getElementById("quoteCity");
+      if(cityInput) cityInput.value = "";
+      setTimeout(function(){ showStep(nextAfterArea()); },160);
+    }else if(key === "surface"){
+      setTimeout(function(){ showStep(nextAfterSurface()); },160);
+    }else if(key === "material" || key === "issue"){
+      setTimeout(function(){ showStep(5); },160);
+    }
+  }
+
   wizard.querySelectorAll(".quoteChoice").forEach(function(btn){
     btn.addEventListener("click", function(){
-      const group = btn.closest("[data-group]");
-      if(!group) return;
-
-      const key = group.dataset.group;
-      group.querySelectorAll(".quoteChoice").forEach(function(b){
-        b.classList.remove("selected");
-      });
-      btn.classList.add("selected");
-
-      state[key] = btn.dataset.value || btn.textContent.trim();
-
-      if(key === "need"){
-        state.needsSurface = btn.dataset.needsSurface === "true";
-        if(!state.needsSurface) state.surface = "";
-      }
-
-      window.j2bQuoteSelection = state;
-
-      if(typeof window.gtag === "function"){
-        window.gtag("event","devis_choix",{
-          event_category:"Devis rapide",
-          event_label:key + " : " + state[key]
-        });
-      }
-
-      if(key === "need"){
-        setTimeout(function(){ showStep(2); },160);
-      }
-
-      if(key === "area"){
-        setTimeout(function(){
-          showStep(state.needsSurface ? 3 : 4);
-        },160);
-      }
-
-      if(key === "surface"){
-        setTimeout(function(){ showStep(4); },160);
-      }
+      selectChoice(btn);
     });
   });
+
+  const cityInput = document.getElementById("quoteCity");
+  const cityNext = document.getElementById("quoteCityNext");
+  const cityStatus = document.getElementById("quoteCityStatus");
+
+  function submitOtherCity(){
+    const city = cityInput ? cityInput.value.trim() : "";
+    if(!city){
+      if(cityStatus){
+        cityStatus.textContent = "Indiquez le nom de la ville.";
+        cityStatus.className = "callbackStatus error";
+      }
+      if(cityInput) cityInput.focus();
+      return;
+    }
+
+    state.area = city;
+    wizard.querySelectorAll('[data-group="area"] .quoteChoice').forEach(function(b){
+      b.classList.remove("selected");
+    });
+
+    if(cityStatus){
+      cityStatus.textContent = "";
+      cityStatus.className = "callbackStatus";
+    }
+
+    window.j2bQuoteSelection = state;
+    showStep(nextAfterArea());
+  }
+
+  if(cityNext) cityNext.addEventListener("click", submitOtherCity);
+  if(cityInput){
+    cityInput.addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        submitOtherCity();
+      }
+    });
+  }
 
   wizard.querySelectorAll("[data-back]").forEach(function(btn){
     btn.addEventListener("click", function(){
@@ -2465,7 +2692,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
       window.j2bQuoteSelection = state;
       updateFinal();
-      showStep(5);
+      showStep(7);
 
       fetch("https://ntfy.sh/j2b-visites-X83LmP91Qa",{
         method:"POST",
@@ -2489,6 +2716,12 @@ document.addEventListener("DOMContentLoaded", function(){
   const mailBtn = document.getElementById("quoteMailBtn");
   if(mailBtn){
     mailBtn.addEventListener("click", function(){
+      const finalStatus = document.getElementById("quoteFinalStatus");
+      if(finalStatus){
+        finalStatus.textContent = "✓ Votre message est prêt. Ajoutez éventuellement des photos dans l’e-mail avant de l’envoyer.";
+        finalStatus.className = "callbackStatus success";
+      }
+
       if(typeof window.gtag === "function"){
         window.gtag("event","generate_lead",{
           method:"devis_email",
@@ -2505,21 +2738,12 @@ document.addEventListener("DOMContentLoaded", function(){
   if(recallBtn){
     recallBtn.addEventListener("click", async function(){
       if(!state.phone){
-        showStep(4);
+        showStep(5);
         return;
       }
 
       recallBtn.disabled = true;
       recallBtn.textContent = "Envoi en cours…";
-
-      const message = [
-        "NOUVELLE DEMANDE DE RAPPEL - DEVIS",
-        "",
-        buildPlainText(),
-        "",
-        "URL : " + location.href,
-        "Heure : " + new Date().toLocaleString("fr-FR")
-      ].join("\\n");
 
       try{
         const response = await fetch("https://ntfy.sh/j2b-visites-X83LmP91Qa",{
@@ -2529,13 +2753,20 @@ document.addEventListener("DOMContentLoaded", function(){
             "Priority":"urgent",
             "Tags":"telephone,memo,rotating_light"
           },
-          body:message
+          body:[
+            "NOUVELLE DEMANDE DE RAPPEL - DEVIS",
+            "",
+            buildPlainText(),
+            "",
+            "URL : " + location.href,
+            "Heure : " + new Date().toLocaleString("fr-FR")
+          ].join("\\n")
         });
 
         if(!response.ok) throw new Error("HTTP " + response.status);
 
         if(finalStatus){
-          finalStatus.textContent = "✓ Demande envoyée. Nous vous rappelons rapidement.";
+          finalStatus.textContent = "✓ Demande reçue. Nous vous rappelons généralement sous 5 à 10 minutes, de 7h à 20h.";
           finalStatus.className = "callbackStatus success";
         }
 
@@ -2546,7 +2777,6 @@ document.addEventListener("DOMContentLoaded", function(){
             event_label:"Rappel après devis Toul"
           });
         }
-
       }catch(error){
         if(finalStatus){
           finalStatus.textContent = "L’envoi a échoué. Appelez-nous directement au 06 01 46 26 12.";
@@ -2563,9 +2793,11 @@ document.addEventListener("DOMContentLoaded", function(){
   if(restart){
     restart.addEventListener("click", function(){
       state.need = "";
+      state.flow = "simple";
       state.area = "";
       state.surface = "";
-      state.needsSurface = false;
+      state.material = "";
+      state.issue = "";
       state.name = "";
       state.phone = "";
       state.email = "";
@@ -2574,17 +2806,17 @@ document.addEventListener("DOMContentLoaded", function(){
         b.classList.remove("selected");
       });
 
-      ["quoteName","quotePhone","quoteEmail"].forEach(function(id){
+      ["quoteCity","quoteName","quotePhone","quoteEmail"].forEach(function(id){
         const input = document.getElementById(id);
         if(input) input.value = "";
       });
 
-      const finalStatus = document.getElementById("quoteFinalStatus");
       if(finalStatus) finalStatus.textContent = "";
-
       showStep(1);
     });
   }
+
+  updateProgress(1);
 })();
 </script>
 
