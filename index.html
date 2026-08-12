@@ -445,6 +445,121 @@
     footer{background:#182536;border-top:3px solid #C1A66B}
     .call{background:#B32025}
     
+
+    /* =====================================================
+       DEMANDE DE RAPPEL
+       ===================================================== */
+    .btn.callbackBtn{
+      background:#fff;
+      color:#182536;
+      border:1px solid rgba(24,37,54,.18);
+      box-shadow:0 10px 24px rgba(24,37,54,.10);
+    }
+    .hero .btn.callbackBtn{
+      background:rgba(255,255,255,.96);
+      color:#182536;
+      border-color:rgba(255,255,255,.65);
+    }
+    .btn.callbackBtn:hover{
+      background:#EEE5D2;
+      border-color:#C1A66B;
+      transform:translateY(-1px);
+    }
+
+    .callbackModal{
+      position:fixed;
+      inset:0;
+      z-index:5000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(7,14,24,.74);
+      backdrop-filter:blur(5px);
+    }
+    .callbackModal.open{display:flex}
+    .callbackDialog{
+      position:relative;
+      width:min(520px,100%);
+      max-height:calc(100vh - 36px);
+      overflow:auto;
+      background:#fff;
+      color:var(--text);
+      border-radius:22px;
+      border:1px solid var(--border);
+      box-shadow:0 28px 80px rgba(0,0,0,.34);
+      padding:28px;
+    }
+    .callbackDialog h2{
+      margin:0 44px 8px 0;
+      font-size:clamp(1.7rem,5vw,2.15rem);
+    }
+    .callbackDialog h2::after{width:48px}
+    .callbackClose{
+      position:absolute;
+      top:16px;
+      right:16px;
+      width:42px;
+      height:42px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#fff;
+      color:#182536;
+      font-size:27px;
+      line-height:1;
+      cursor:pointer;
+    }
+    .callbackClose:hover{background:var(--card)}
+    .callbackForm{
+      display:grid;
+      gap:13px;
+      margin-top:20px;
+    }
+    .callbackForm label{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-weight:850;
+    }
+    .callbackForm input,
+    .callbackForm textarea{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:13px;
+      background:#fff;
+      color:var(--text);
+    }
+    .callbackForm input:focus,
+    .callbackForm textarea:focus{
+      outline:3px solid rgba(193,166,107,.20);
+      border-color:#C1A66B;
+    }
+    .callbackSubmit{width:100%}
+    .callbackPrivacy{
+      margin:0;
+      font-size:.82rem;
+      color:var(--muted);
+      text-align:center;
+    }
+    .callbackStatus{
+      min-height:22px;
+      margin:0;
+      text-align:center;
+      font-weight:800;
+    }
+    .callbackStatus.success{color:#16794b}
+    .callbackStatus.error{color:#b42318}
+
+    @media(max-width:640px){
+      .callbackDialog{
+        padding:23px 18px 20px;
+        border-radius:18px;
+      }
+    }
+
 </style>
 
   <script type="application/ld+json">
@@ -548,6 +663,7 @@
         <div class="cta">
           <a class="btn red" href="tel:+33601462612">📞 Appeler : 06 01 46 26 12</a>
           <a class="btn yellow" href="#devis">📩 Demander un devis</a>
+          <button class="btn callbackBtn" type="button" data-open-callback>☎️ Être rappelé</button>
           <a class="btn whatsapp whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul%20pour%20obtenir%20un%20devis%20gratuit.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A%0A%F0%9F%8F%A0%20Travaux%20souhait%C3%A9s%20%3A%0A%F0%9F%93%B8%20Je%20peux%20vous%20transmettre%20des%20photos%20de%20la%20toiture.%0A%0AMerci." target="_blank" rel="noopener">💬 Envoyer des photos</a>
           <a class="btn ghost" href="#services">Voir nos services</a>
         </div>
@@ -575,6 +691,7 @@
         <a class="btn red" href="tel:+33601462612">📞 Appeler J2B Couverture</a>
         <a class="btn whatsapp whatsapp-link" style="margin-top:10px" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul%20pour%20obtenir%20un%20devis%20gratuit.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A%0A%F0%9F%8F%A0%20Travaux%20souhait%C3%A9s%20%3A%0A%F0%9F%93%B8%20Je%20peux%20vous%20transmettre%20des%20photos%20de%20la%20toiture.%0A%0AMerci." target="_blank" rel="noopener">💬 Demander un devis sur WhatsApp</a>
         <a class="btn ghost" style="margin-top:10px" href="#devis">Recevoir un devis gratuit</a>
+        <button class="btn callbackBtn" style="margin-top:10px" type="button" data-open-callback>☎️ Demander à être rappelé</button>
       </aside>
     </div>
 
@@ -1466,6 +1583,191 @@ document.addEventListener("DOMContentLoaded", function(){
     }else{
       clearTimeout(minuteurPageMasquee);
       relancerMinuteurInactivite();
+    }
+  });
+})();
+</script>
+
+
+<div class="callbackModal" id="callbackModal" aria-hidden="true">
+  <div class="callbackDialog" role="dialog" aria-modal="true" aria-labelledby="callbackTitle">
+    <button class="callbackClose" id="callbackClose" type="button" aria-label="Fermer">×</button>
+
+    <h2 id="callbackTitle">Être rappelé gratuitement</h2>
+    <p class="muted">Laissez votre numéro et votre besoin. J2B Couverture vous recontactera dès que possible.</p>
+    <p style="margin:10px 0 0;font-weight:900;color:#182536">⚡ Rappel généralement sous 5 à 10 minutes, de 7h à 20h.</p>
+
+    <form class="callbackForm" id="callbackForm">
+      <label>
+        Nom <span class="muted small">(facultatif)</span>
+        <input type="text" name="callbackName" autocomplete="name" placeholder="Votre nom">
+      </label>
+
+      <label>
+        Téléphone
+        <input
+          type="tel"
+          name="callbackPhone"
+          inputmode="tel"
+          autocomplete="tel"
+          required
+          minlength="10"
+          maxlength="20"
+          placeholder="Ex : 06 12 34 56 78">
+      </label>
+
+      <label>
+        Votre besoin
+        <textarea
+          name="callbackNeed"
+          rows="4"
+          required
+          maxlength="500"
+          placeholder="Ex : fuite de toiture, rénovation, zinguerie, démoussage..."></textarea>
+      </label>
+
+      <button class="btn red callbackSubmit" type="submit">☎️ Demander mon rappel</button>
+      <p class="callbackPrivacy">Ces informations sont utilisées uniquement pour vous recontacter au sujet de votre demande.</p>
+      <p class="callbackStatus" id="callbackStatus" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  "use strict";
+
+  const modal = document.getElementById("callbackModal");
+  const form = document.getElementById("callbackForm");
+  const closeBtn = document.getElementById("callbackClose");
+  const status = document.getElementById("callbackStatus");
+  const topic = "j2b-visites-X83LmP91Qa";
+  const ntfyUrl = "https://ntfy.sh/" + topic;
+  let lastFocusedElement = null;
+
+  if(!modal || !form || !closeBtn) return;
+
+  function openCallback(){
+    lastFocusedElement = document.activeElement;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    if(status){
+      status.textContent = "";
+      status.className = "callbackStatus";
+    }
+
+    const phone = form.querySelector('[name="callbackPhone"]');
+    setTimeout(function(){ if(phone) phone.focus(); }, 50);
+
+    if(typeof window.gtag === "function"){
+      window.gtag("event","callback_open",{
+        event_category:"Contact",
+        event_label:"Ouverture demande de rappel Toul"
+      });
+    }
+  }
+
+  function closeCallback(){
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+    if(lastFocusedElement && typeof lastFocusedElement.focus === "function"){
+      lastFocusedElement.focus();
+    }
+  }
+
+  document.querySelectorAll("[data-open-callback]").forEach(function(btn){
+    btn.addEventListener("click", openCallback);
+  });
+
+  closeBtn.addEventListener("click", closeCallback);
+
+  modal.addEventListener("click", function(e){
+    if(e.target === modal) closeCallback();
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && modal.classList.contains("open")){
+      closeCallback();
+    }
+  });
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const data = new FormData(form);
+    const nom = String(data.get("callbackName") || "").trim();
+    const telephone = String(data.get("callbackPhone") || "").trim();
+    const besoin = String(data.get("callbackNeed") || "").trim();
+
+    if(!telephone || !besoin){
+      if(status){
+        status.textContent = "Merci d’indiquer votre téléphone et votre besoin.";
+        status.className = "callbackStatus error";
+      }
+      return;
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if(submitBtn){
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Envoi en cours…";
+    }
+
+    const message =
+      "NOUVELLE DEMANDE DE RAPPEL\n\n" +
+      "Nom : " + (nom || "Non renseigné") + "\n" +
+      "Téléphone : " + telephone + "\n" +
+      "Besoin : " + besoin + "\n\n" +
+      "Page : " + document.title + "\n" +
+      "URL : " + location.href + "\n" +
+      "Heure : " + new Date().toLocaleString("fr-FR");
+
+    try{
+      const response = await fetch(ntfyUrl,{
+        method:"POST",
+        headers:{
+          "Title":"Demande de rappel J2B Toul",
+          "Priority":"urgent",
+          "Tags":"telephone,memo,rotating_light"
+        },
+        body:message
+      });
+
+      if(!response.ok) throw new Error("HTTP " + response.status);
+
+      if(typeof window.gtag === "function"){
+        window.gtag("event","generate_lead",{
+          method:"demande_rappel",
+          event_category:"Contact",
+          event_label:"Demande de rappel Toul"
+        });
+      }
+
+      if(status){
+        status.textContent = "✓ Demande envoyée. J2B Couverture vous recontactera rapidement.";
+        status.className = "callbackStatus success";
+      }
+
+      form.reset();
+
+      setTimeout(function(){
+        closeCallback();
+      }, 2200);
+
+    }catch(error){
+      console.warn("Demande de rappel non envoyée :", error);
+      if(status){
+        status.textContent = "L’envoi a échoué. Vous pouvez nous appeler directement au 06 01 46 26 12.";
+        status.className = "callbackStatus error";
+      }
+    }finally{
+      if(submitBtn){
+        submitBtn.disabled = false;
+        submitBtn.textContent = "☎️ Demander mon rappel";
+      }
     }
   });
 })();
