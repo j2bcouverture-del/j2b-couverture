@@ -1595,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     <h2 id="callbackTitle">Être rappelé gratuitement</h2>
     <p class="muted">Laissez votre numéro et votre besoin. J2B Couverture vous recontactera dès que possible.</p>
-    <p style="margin:10px 0 0;font-weight:900;color:#182536">⚡ Rappel généralement sous 5 à 10 minutes, de 7h à 20h.</p>
+    <p style="margin:10px 0 0;font-weight:900;color:#182536">⚡ Rappel généralement sous 5 à 10 minutes, de 7h à 20h. Sans engagement.</p>
 
     <form class="callbackForm" id="callbackForm">
       <label>
@@ -1770,6 +1770,285 @@ document.addEventListener("DOMContentLoaded", function(){
       }
     }
   });
+})();
+</script>
+
+
+<script>
+(function(){
+  "use strict";
+
+  /* =====================================================
+     DÉCLENCHEURS INTELLIGENTS — DEMANDE DE RAPPEL
+     Une seule ouverture automatique par visite.
+     Désactivés dès qu'une conversion réelle est détectée.
+     ===================================================== */
+
+  const modal = document.getElementById("callbackModal");
+  const callbackForm = document.getElementById("callbackForm");
+  const devisForm = document.getElementById("devisForm");
+
+  if(!modal || !callbackForm) return;
+
+  const AUTO_SHOWN_KEY = "j2b_callback_auto_shown";
+  const CONVERTED_KEY = "j2b_callback_converted";
+
+  const startTime = Date.now();
+  let autoShown = sessionStorage.getItem(AUTO_SHOWN_KEY) === "1";
+  let converted = sessionStorage.getItem(CONVERTED_KEY) === "1";
+  let contactInterestClicks = 0;
+  let devisStarted = false;
+  let devisSubmitted = false;
+  let estimateUsed = false;
+  let inactivityTimer = null;
+  let estimateTimer = null;
+  let devisAbandonTimer = null;
+
+  function elapsedSeconds(){
+    return Math.round((Date.now() - startTime) / 1000);
+  }
+
+  function isModalOpen(){
+    return modal.classList.contains("open");
+  }
+
+  function markConverted(reason){
+    converted = true;
+    sessionStorage.setItem(CONVERTED_KEY, "1");
+    clearTimeout(inactivityTimer);
+    clearTimeout(estimateTimer);
+    clearTimeout(devisAbandonTimer);
+
+    if(typeof window.gtag === "function"){
+      window.gtag("event","callback_smart_stop",{
+        event_category:"Contact",
+        event_label:reason || "Conversion détectée"
+      });
+    }
+  }
+
+  function notifyAutoTrigger(reason){
+    const topic = "j2b-visites-X83LmP91Qa";
+    fetch("https://ntfy.sh/" + topic,{
+      method:"POST",
+      headers:{
+        "Title":"Rappel propose automatiquement - J2B Toul",
+        "Priority":"default",
+        "Tags":"telephone,bulb"
+      },
+      body:
+        "Déclencheur : " + reason +
+        "\nTemps passé : " + elapsedSeconds() + " s" +
+        "\nPage : " + document.title +
+        "\nURL : " + location.href +
+        "\nHeure : " + new Date().toLocaleString("fr-FR"),
+      keepalive:true
+    }).catch(function(){});
+  }
+
+  function openSmartCallback(reason){
+    if(autoShown || converted || isModalOpen()) return;
+    if(document.visibilityState !== "visible") return;
+    if(elapsedSeconds() < 10) return;
+
+    const openBtn = document.querySelector("[data-open-callback]");
+    if(!openBtn) return;
+
+    autoShown = true;
+    sessionStorage.setItem(AUTO_SHOWN_KEY, "1");
+
+    openBtn.click();
+
+    const status = document.getElementById("callbackStatus");
+    if(status){
+      status.textContent = "";
+      status.className = "callbackStatus";
+    }
+
+    const title = document.getElementById("callbackTitle");
+    if(title) title.textContent = "Besoin qu’on vous rappelle ?";
+
+    notifyAutoTrigger(reason);
+
+    if(typeof window.gtag === "function"){
+      window.gtag("event","callback_auto_open",{
+        event_category:"Contact",
+        event_label:reason
+      });
+    }
+  }
+
+  /* -----------------------------------------------------
+     1. Temps passé : 30 secondes
+     ----------------------------------------------------- */
+  setTimeout(function(){
+    openSmartCallback("30 secondes sur le site");
+  },30000);
+
+  /* -----------------------------------------------------
+     2. Scroll important : 65 % de la page
+     ----------------------------------------------------- */
+  let scrollTriggered = false;
+  window.addEventListener("scroll",function(){
+    if(scrollTriggered || autoShown || converted) return;
+
+    const doc = document.documentElement;
+    const scrollable = Math.max(1,doc.scrollHeight - window.innerHeight);
+    const percent = Math.round((window.scrollY / scrollable) * 100);
+
+    if(percent >= 65 && elapsedSeconds() >= 12){
+      scrollTriggered = true;
+      openSmartCallback("65 % de la page consultée");
+    }
+  },{passive:true});
+
+  /* -----------------------------------------------------
+     3. Hésitation : 2 clics sur des éléments de contact
+     sans conversion réelle
+     ----------------------------------------------------- */
+  document.addEventListener("click",function(e){
+    const target = e.target.closest("a,button");
+    if(!target) return;
+
+    const href = (target.getAttribute("href") || "").toLowerCase();
+    const txt = (target.innerText || target.textContent || "").toLowerCase();
+
+    // Conversion réelle : téléphone, WhatsApp ou mail
+    if(href.startsWith("tel:")){
+      markConverted("Clic téléphone");
+      return;
+    }
+    if(target.classList.contains("whatsapp-link") || href.includes("wa.me")){
+      markConverted("Clic WhatsApp");
+      return;
+    }
+    if(href.startsWith("mailto:")){
+      markConverted("Clic email");
+      return;
+    }
+
+    // Bouton manuel de rappel : ne pas compter comme hésitation
+    if(target.matches("[data-open-callback]")) return;
+
+    const contactInterest =
+      href === "#devis" ||
+      href.includes("#contact") ||
+      txt.includes("devis") ||
+      txt.includes("contact");
+
+    if(contactInterest){
+      contactInterestClicks++;
+      if(contactInterestClicks >= 2 && elapsedSeconds() >= 10){
+        setTimeout(function(){
+          openSmartCallback("Plusieurs clics sur les boutons de contact/devis");
+        },1200);
+      }
+    }
+  },true);
+
+  /* -----------------------------------------------------
+     4. Estimation de prix utilisée puis aucune action
+     ----------------------------------------------------- */
+  const estimateBtn = document.getElementById("calculPrixBtn");
+  if(estimateBtn){
+    estimateBtn.addEventListener("click",function(){
+      estimateUsed = true;
+      clearTimeout(estimateTimer);
+      estimateTimer = setTimeout(function(){
+        if(estimateUsed && !converted){
+          openSmartCallback("Estimation de toiture effectuée sans prise de contact");
+        }
+      },9000);
+    });
+  }
+
+  /* -----------------------------------------------------
+     5. Formulaire devis commencé puis abandonné
+     ----------------------------------------------------- */
+  if(devisForm){
+    devisForm.addEventListener("focusin",function(){
+      devisStarted = true;
+      clearTimeout(devisAbandonTimer);
+    });
+
+    devisForm.addEventListener("input",function(){
+      devisStarted = true;
+      clearTimeout(devisAbandonTimer);
+      devisAbandonTimer = setTimeout(function(){
+        if(devisStarted && !devisSubmitted && !converted){
+          openSmartCallback("Formulaire de devis commencé puis laissé sans envoi");
+        }
+      },18000);
+    });
+
+    devisForm.addEventListener("submit",function(){
+      devisSubmitted = true;
+      markConverted("Formulaire devis envoyé");
+    });
+  }
+
+  /* -----------------------------------------------------
+     6. Inactivité : 18 secondes, seulement après
+     au moins 20 secondes de présence
+     ----------------------------------------------------- */
+  function resetInactivity(){
+    clearTimeout(inactivityTimer);
+
+    if(autoShown || converted) return;
+
+    inactivityTimer = setTimeout(function(){
+      if(elapsedSeconds() >= 20){
+        openSmartCallback("Visiteur inactif depuis 18 secondes");
+      }
+    },18000);
+  }
+
+  ["mousemove","mousedown","keydown","touchstart","scroll"].forEach(function(evt){
+    window.addEventListener(evt,resetInactivity,{passive:true});
+  });
+  resetInactivity();
+
+  /* -----------------------------------------------------
+     7. Intention de quitter — ordinateur uniquement
+     ----------------------------------------------------- */
+  if(window.matchMedia("(pointer:fine)").matches){
+    document.addEventListener("mouseout",function(e){
+      if(autoShown || converted || elapsedSeconds() < 12) return;
+      if(e.clientY <= 0 && !e.relatedTarget){
+        openSmartCallback("Intention de quitter la page");
+      }
+    });
+  }
+
+  /* -----------------------------------------------------
+     8. Retour vers le haut après avoir beaucoup consulté
+     utile surtout sur mobile
+     ----------------------------------------------------- */
+  let maxScrollPercent = 0;
+  let lastY = window.scrollY;
+  window.addEventListener("scroll",function(){
+    if(autoShown || converted) return;
+
+    const doc = document.documentElement;
+    const scrollable = Math.max(1,doc.scrollHeight - window.innerHeight);
+    const percent = Math.round((window.scrollY / scrollable) * 100);
+    if(percent > maxScrollPercent) maxScrollPercent = percent;
+
+    const scrollingUp = window.scrollY < lastY;
+    lastY = window.scrollY;
+
+    if(maxScrollPercent >= 45 && scrollingUp && window.scrollY < 180 && elapsedSeconds() >= 20){
+      openSmartCallback("Retour en haut après consultation du site");
+    }
+  },{passive:true});
+
+  /* -----------------------------------------------------
+     Confirmation : demande de rappel envoyée
+     ----------------------------------------------------- */
+  callbackForm.addEventListener("submit",function(){
+    markConverted("Demande de rappel envoyée");
+  });
+
 })();
 </script>
 
