@@ -21,7 +21,6 @@
   <meta property="og:image" content="https://j2bcouverture-del.github.io/j2b-couverture/Temp1.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Google tag (gtag.js) - Google Ads -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18272915896"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -47,127 +46,780 @@
       --radius:20px;
       --max:1180px;
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:#fff
+    }
+
     body.modal-open{overflow:hidden}
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
+
+    a{
+      color:inherit;
+      text-decoration:none
+    }
+
+    img{
+      max-width:100%;
+      display:block
+    }
+
     button,input{font:inherit}
-    .container{width:min(var(--max),92%);margin:auto}
+
+    .container{
+      width:min(var(--max),92%);
+      margin:auto
+    }
+
     .muted{color:var(--muted)}
     .small{font-size:.92rem}
+
     .section{padding:74px 0}
-    .section.alt{background:linear-gradient(180deg,#fbfaf7,#f5f0e6)}
+
+    .section.alt{
+      background:linear-gradient(180deg,#fbfaf7,#f5f0e6)
+    }
+
     h1,h2,h3{line-height:1.15}
-    h1{font-size:clamp(2.45rem,5.5vw,4.65rem);letter-spacing:-.045em;margin:0 0 18px}
-    h2{font-size:clamp(1.85rem,3.5vw,2.7rem);letter-spacing:-.025em;margin:0 0 12px}
-    h2::after{content:"";display:block;width:58px;height:4px;border-radius:999px;background:var(--gold);margin-top:13px}
+
+    h1{
+      font-size:clamp(2.45rem,5.5vw,4.65rem);
+      letter-spacing:-.045em;
+      margin:0 0 18px
+    }
+
+    h2{
+      font-size:clamp(1.85rem,3.5vw,2.7rem);
+      letter-spacing:-.025em;
+      margin:0 0 12px
+    }
+
+    h2::after{
+      content:"";
+      display:block;
+      width:58px;
+      height:4px;
+      border-radius:999px;
+      background:var(--gold);
+      margin-top:13px
+    }
+
     p{line-height:1.68}
 
-    .trustBar{background:var(--navy);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
-    .trustBar .container{min-height:38px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:.84rem;font-weight:800;padding:7px 0;text-align:center}
+    .trustBar{
+      background:var(--navy);
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.12)
+    }
+
+    .trustBar .container{
+      min-height:38px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      font-size:.84rem;
+      font-weight:800;
+      padding:7px 0;
+      text-align:center
+    }
+
     .sep{opacity:.35}
 
-    header{position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 6px 20px rgba(24,37,54,.06)}
-    header::after{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--navy) 0 88%,var(--gold) 88%)}
-    .nav{min-height:84px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .brand img{height:64px;width:auto}
-    .navLinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .navLinks a{padding:10px 12px;border-radius:10px;font-weight:850;font-size:.92rem}
-    .navLinks a:hover{background:var(--card)}
+    header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:#fff;
+      box-shadow:0 6px 20px rgba(24,37,54,.06)
+    }
 
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 19px;border:0;border-radius:12px;font-weight:900;cursor:pointer;transition:.18s ease}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.red{background:var(--red);color:#fff}.btn.red:hover{background:var(--red-dark)}
-    .btn.gold{background:var(--gold);color:var(--navy)}
-    .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--border)}
-    .btn.whatsapp{background:var(--navy2);color:#fff}
+    header::after{
+      content:"";
+      display:block;
+      height:4px;
+      background:linear-gradient(90deg,var(--navy) 0 88%,var(--gold) 88%)
+    }
 
-    .hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(24,37,54,.97) 0%,rgba(24,37,54,.88) 47%,rgba(24,37,54,.56) 100%),url('./Temp1.jpg') center/cover no-repeat}
-    .heroInner{min-height:620px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(340px,.7fr);gap:44px;align-items:center;padding:68px 0}
-    .breadcrumb{font-size:.9rem;color:#e7dfd0;margin-bottom:18px}.breadcrumb a{text-decoration:underline}
-    .eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(193,166,107,.15);border:1px solid rgba(193,166,107,.32);color:#E7D8B5;font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:.8rem;margin-bottom:18px}
-    .hero h1 span{color:#D7BF89}
-    .heroLead{max-width:760px;font-size:1.13rem;color:#eef1f4}
-    .heroActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .nav{
+      min-height:84px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px
+    }
 
-    .heroCard{background:linear-gradient(180deg,rgba(35,53,74,.98),rgba(19,31,45,.98));border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:27px;box-shadow:0 28px 70px rgba(0,0,0,.28)}
-    .heroCard h2{font-size:1.55rem}.heroCard h2::after{width:42px}
-    .heroCard p{color:#dce3e9}
-    .heroCard .btn{width:100%;margin-top:10px}
-    .checkLine{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-    .checkLine:last-of-type{border-bottom:0}
-    .check{width:28px;height:28px;flex:0 0 28px;border-radius:9px;display:grid;place-items:center;background:rgba(193,166,107,.17);color:#E7D8B5;font-weight:1000}
+    .brand img{
+      height:64px;
+      width:auto
+    }
 
-    .quickTrust{background:var(--navy);color:#fff}
-    .quickGrid{display:grid;grid-template-columns:repeat(4,1fr)}
-    .quickItem{padding:20px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.1)}
-    .quickItem:last-child{border-right:0}
-    .quickItem strong{display:block}.quickItem span{display:block;color:#cbd5de;font-size:.84rem;margin-top:4px}
+    .navLinks{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end
+    }
 
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
-    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
-    .icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--gold-soft);font-size:24px;margin-bottom:16px}
-    .card h3{margin:0 0 8px}.card p{margin:0;color:var(--muted)}
+    .navLinks a{
+      padding:10px 12px;
+      border-radius:10px;
+      font-weight:850;
+      font-size:.92rem
+    }
 
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;margin-top:28px}
-    .photo{overflow:hidden;border-radius:22px;border:1px solid var(--border);box-shadow:var(--shadow)}
-    .photo img{width:100%;height:100%;min-height:390px;object-fit:cover}
-    .list{padding:0;margin:18px 0 0;list-style:none;display:grid;gap:10px}
-    .list li{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff}
-    .list li::before{content:"✓";font-weight:1000;color:var(--red)}
+    .navLinks a:hover{
+      background:var(--card)
+    }
 
-    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:30px;counter-reset:step}
-    .step{position:relative;background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;counter-increment:step}
-    .step::before{content:counter(step);width:38px;height:38px;display:grid;place-items:center;border-radius:999px;background:var(--navy);color:#fff;font-weight:1000;margin-bottom:14px}
-    .step h3{margin:0 0 7px}.step p{margin:0;color:var(--muted);font-size:.94rem}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:14px 19px;
+      border:0;
+      border-radius:12px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.18s ease
+    }
 
-    .ctaBand{background:linear-gradient(135deg,var(--navy),#2d455f);color:#fff;border-radius:26px;padding:34px;display:grid;grid-template-columns:1.2fr auto;gap:24px;align-items:center;box-shadow:var(--shadow)}
-    .ctaBand h2{margin:0 0 8px}.ctaBand h2::after{display:none}.ctaBand p{margin:0;color:#dce4eb}.ctaBand .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn:hover{
+      transform:translateY(-1px)
+    }
 
-    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
-    .gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px;border:1px solid var(--border);box-shadow:0 12px 30px rgba(24,37,54,.10)}
+    .btn.red{
+      background:var(--red);
+      color:#fff
+    }
 
-    .faq{display:grid;gap:12px;margin-top:24px}
-    details{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 18px}
-    summary{cursor:pointer;font-weight:900;color:var(--navy)}
-    details p{margin:12px 0 0;color:var(--muted)}
+    .btn.red:hover{
+      background:var(--red-dark)
+    }
 
-    .contactBox{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
-    .contactBox .card .btn{margin-top:10px}
+    .btn.gold{
+      background:var(--gold);
+      color:var(--navy)
+    }
 
-    footer{background:var(--navy);color:#fff;padding:38px 0;border-top:3px solid var(--gold)}
-    footer .footerGrid{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
-    footer p{margin:5px 0;color:#d8e0e7}footer a{text-decoration:underline}
+    .btn.ghost{
+      background:#fff;
+      color:var(--navy);
+      border:1px solid var(--border)
+    }
 
-    .floatWhats,.floatCall{position:fixed;right:18px;z-index:900;padding:13px 17px;border-radius:999px;color:#fff;font-weight:900;box-shadow:0 14px 34px rgba(24,37,54,.22)}
-    .floatWhats{bottom:76px;background:var(--navy2)}
-    .floatCall{bottom:18px;background:var(--red)}
+    .btn.whatsapp{
+      background:var(--navy2);
+      color:#fff
+    }
 
-    .modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(7,14,24,.76);backdrop-filter:blur(5px)}
-    .modal.open{display:flex}
-    .dialog{position:relative;width:min(500px,100%);background:#fff;border-radius:22px;padding:27px;border:1px solid var(--border);box-shadow:0 30px 90px rgba(0,0,0,.35)}
-    .dialog h2{font-size:1.9rem;margin-right:40px}.dialog h2::after{width:42px}
-    .close{position:absolute;right:15px;top:15px;width:42px;height:42px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:25px;cursor:pointer}
-    .callbackForm{display:grid;gap:12px;margin-top:18px}.callbackForm label{font-weight:900;display:grid;gap:6px}.callbackForm input{width:100%;padding:13px;border:1px solid var(--border);border-radius:12px}.callbackForm .btn{width:100%}
-    .status{min-height:22px;margin:0;text-align:center;font-weight:800}.status.ok{color:#16794b}.status.err{color:#b42318}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(24,37,54,.97) 0%,
+          rgba(24,37,54,.88) 47%,
+          rgba(24,37,54,.56) 100%
+        ),
+        url('./Temp1.jpg') center/cover no-repeat
+    }
+
+    .heroInner{
+      min-height:620px;
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(340px,.7fr);
+      gap:44px;
+      align-items:center;
+      padding:68px 0
+    }
+
+    .breadcrumb{
+      font-size:.9rem;
+      color:#e7dfd0;
+      margin-bottom:18px
+    }
+
+    .breadcrumb a{
+      text-decoration:underline
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(193,166,107,.15);
+      border:1px solid rgba(193,166,107,.32);
+      color:#E7D8B5;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      font-size:.8rem;
+      margin-bottom:18px
+    }
+
+    .hero h1 span{
+      color:#D7BF89
+    }
+
+    .heroLead{
+      max-width:760px;
+      font-size:1.13rem;
+      color:#eef1f4
+    }
+
+    .heroActions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:28px
+    }
+
+    .heroCard{
+      background:linear-gradient(
+        180deg,
+        rgba(35,53,74,.98),
+        rgba(19,31,45,.98)
+      );
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      padding:27px;
+      box-shadow:0 28px 70px rgba(0,0,0,.28)
+    }
+
+    .heroCard h2{
+      font-size:1.55rem
+    }
+
+    .heroCard h2::after{
+      width:42px
+    }
+
+    .heroCard p{
+      color:#dce3e9
+    }
+
+    .heroCard .btn{
+      width:100%;
+      margin-top:10px
+    }
+
+    .checkLine{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,.08)
+    }
+
+    .checkLine:last-of-type{
+      border-bottom:0
+    }
+
+    .check{
+      width:28px;
+      height:28px;
+      flex:0 0 28px;
+      border-radius:9px;
+      display:grid;
+      place-items:center;
+      background:rgba(193,166,107,.17);
+      color:#E7D8B5;
+      font-weight:1000
+    }
+
+    .quickTrust{
+      background:var(--navy);
+      color:#fff
+    }
+
+    .quickGrid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr)
+    }
+
+    .quickItem{
+      padding:20px 16px;
+      text-align:center;
+      border-right:1px solid rgba(255,255,255,.1)
+    }
+
+    .quickItem:last-child{
+      border-right:0
+    }
+
+    .quickItem strong{
+      display:block
+    }
+
+    .quickItem span{
+      display:block;
+      color:#cbd5de;
+      font-size:.84rem;
+      margin-top:4px
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:28px
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow)
+    }
+
+    .icon{
+      width:48px;
+      height:48px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:var(--gold-soft);
+      font-size:24px;
+      margin-bottom:16px
+    }
+
+    .card h3{
+      margin:0 0 8px
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted)
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:center;
+      margin-top:28px
+    }
+
+    .photo{
+      overflow:hidden;
+      border-radius:22px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow)
+    }
+
+    .photo img{
+      width:100%;
+      height:100%;
+      min-height:390px;
+      object-fit:cover
+    }
+
+    .list{
+      padding:0;
+      margin:18px 0 0;
+      list-style:none;
+      display:grid;
+      gap:10px
+    }
+
+    .list li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff
+    }
+
+    .list li::before{
+      content:"✓";
+      font-weight:1000;
+      color:var(--red)
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-top:30px;
+      counter-reset:step
+    }
+
+    .step{
+      position:relative;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+      counter-increment:step
+    }
+
+    .step::before{
+      content:counter(step);
+      width:38px;
+      height:38px;
+      display:grid;
+      place-items:center;
+      border-radius:999px;
+      background:var(--navy);
+      color:#fff;
+      font-weight:1000;
+      margin-bottom:14px
+    }
+
+    .step h3{
+      margin:0 0 7px
+    }
+
+    .step p{
+      margin:0;
+      color:var(--muted);
+      font-size:.94rem
+    }
+
+    .ctaBand{
+      background:linear-gradient(135deg,var(--navy),#2d455f);
+      color:#fff;
+      border-radius:26px;
+      padding:34px;
+      display:grid;
+      grid-template-columns:1.2fr auto;
+      gap:24px;
+      align-items:center;
+      box-shadow:var(--shadow)
+    }
+
+    .ctaBand h2{
+      margin:0 0 8px
+    }
+
+    .ctaBand h2::after{
+      display:none
+    }
+
+    .ctaBand p{
+      margin:0;
+      color:#dce4eb
+    }
+
+    .ctaBand .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:24px
+    }
+
+    .gallery img{
+      width:100%;
+      aspect-ratio:4/3;
+      object-fit:cover;
+      border-radius:18px;
+      border:1px solid var(--border);
+      box-shadow:0 12px 30px rgba(24,37,54,.10)
+    }
+
+    .faq{
+      display:grid;
+      gap:12px;
+      margin-top:24px
+    }
+
+    details{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:15px;
+      padding:17px 18px
+    }
+
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      color:var(--navy)
+    }
+
+    details p{
+      margin:12px 0 0;
+      color:var(--muted)
+    }
+
+    .contactBox{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:26px
+    }
+
+    .contactBox .card .btn{
+      margin-top:10px
+    }
+
+    footer{
+      background:var(--navy);
+      color:#fff;
+      padding:38px 0;
+      border-top:3px solid var(--gold)
+    }
+
+    footer .footerGrid{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:20px;
+      align-items:center
+    }
+
+    footer p{
+      margin:5px 0;
+      color:#d8e0e7
+    }
+
+    footer a{
+      text-decoration:underline
+    }
+
+    .floatWhats,
+    .floatCall{
+      position:fixed;
+      right:18px;
+      z-index:900;
+      padding:13px 17px;
+      border-radius:999px;
+      color:#fff;
+      font-weight:900;
+      box-shadow:0 14px 34px rgba(24,37,54,.22)
+    }
+
+    .floatWhats{
+      bottom:76px;
+      background:var(--navy2)
+    }
+
+    .floatCall{
+      bottom:18px;
+      background:var(--red)
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:5000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(7,14,24,.76);
+      backdrop-filter:blur(5px)
+    }
+
+    .modal.open{
+      display:flex
+    }
+
+    .dialog{
+      position:relative;
+      width:min(500px,100%);
+      background:#fff;
+      border-radius:22px;
+      padding:27px;
+      border:1px solid var(--border);
+      box-shadow:0 30px 90px rgba(0,0,0,.35)
+    }
+
+    .dialog h2{
+      font-size:1.9rem;
+      margin-right:40px
+    }
+
+    .dialog h2::after{
+      width:42px
+    }
+
+    .close{
+      position:absolute;
+      right:15px;
+      top:15px;
+      width:42px;
+      height:42px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size:25px;
+      cursor:pointer
+    }
+
+    .callbackForm{
+      display:grid;
+      gap:12px;
+      margin-top:18px
+    }
+
+    .callbackForm label{
+      font-weight:900;
+      display:grid;
+      gap:6px
+    }
+
+    .callbackForm input{
+      width:100%;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:12px
+    }
+
+    .callbackForm .btn{
+      width:100%
+    }
+
+    .status{
+      min-height:22px;
+      margin:0;
+      text-align:center;
+      font-weight:800
+    }
+
+    .status.ok{
+      color:#16794b
+    }
+
+    .status.err{
+      color:#b42318
+    }
 
     @media(max-width:980px){
-      .heroInner,.split{grid-template-columns:1fr}.heroInner{min-height:auto}.heroCard{max-width:650px}
-      .grid3{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:repeat(2,1fr)}.quickGrid{grid-template-columns:repeat(2,1fr)}
-      .ctaBand{grid-template-columns:1fr}.ctaBand .actions{justify-content:flex-start}
-      .contactBox{grid-template-columns:1fr}
+      .heroInner,
+      .split{
+        grid-template-columns:1fr
+      }
+
+      .heroInner{
+        min-height:auto
+      }
+
+      .heroCard{
+        max-width:650px
+      }
+
+      .grid3{
+        grid-template-columns:repeat(2,1fr)
+      }
+
+      .steps{
+        grid-template-columns:repeat(2,1fr)
+      }
+
+      .quickGrid{
+        grid-template-columns:repeat(2,1fr)
+      }
+
+      .ctaBand{
+        grid-template-columns:1fr
+      }
+
+      .ctaBand .actions{
+        justify-content:flex-start
+      }
+
+      .contactBox{
+        grid-template-columns:1fr
+      }
     }
+
     @media(max-width:720px){
-      .navLinks a:not(.navCall){display:none}.brand img{height:54px}.nav{min-height:72px}
-      .heroInner{padding:50px 0}.hero h1{font-size:2.6rem}.heroActions{display:grid}.heroActions .btn{width:100%}
-      .grid3,.steps,.gallery{grid-template-columns:1fr}.quickGrid{grid-template-columns:1fr 1fr}.quickItem:nth-child(2n){border-right:0}
-      .section{padding:56px 0}.photo img{min-height:280px}
-      footer .footerGrid{grid-template-columns:1fr}
-      .floatWhats{left:12px;right:calc(50% + 5px);bottom:12px;border-radius:14px;text-align:center;padding:13px 6px;font-size:.9rem}
-      .floatCall{left:calc(50% + 5px);right:12px;bottom:12px;border-radius:14px;text-align:center;padding:13px 6px}
-      footer{padding-bottom:90px}
+      .navLinks a:not(.navCall){
+        display:none
+      }
+
+      .brand img{
+        height:54px
+      }
+
+      .nav{
+        min-height:72px
+      }
+
+      .heroInner{
+        padding:50px 0
+      }
+
+      .hero h1{
+        font-size:2.6rem
+      }
+
+      .heroActions{
+        display:grid
+      }
+
+      .heroActions .btn{
+        width:100%
+      }
+
+      .grid3,
+      .steps,
+      .gallery{
+        grid-template-columns:1fr
+      }
+
+      .quickGrid{
+        grid-template-columns:1fr 1fr
+      }
+
+      .quickItem:nth-child(2n){
+        border-right:0
+      }
+
+      .section{
+        padding:56px 0
+      }
+
+      .photo img{
+        min-height:280px
+      }
+
+      footer .footerGrid{
+        grid-template-columns:1fr
+      }
+
+      .floatWhats{
+        left:12px;
+        right:calc(50% + 5px);
+        bottom:12px;
+        border-radius:14px;
+        text-align:center;
+        padding:13px 6px;
+        font-size:.9rem
+      }
+
+      .floatCall{
+        left:calc(50% + 5px);
+        right:12px;
+        bottom:12px;
+        border-radius:14px;
+        text-align:center;
+        padding:13px 6px
+      }
+
+      footer{
+        padding-bottom:90px
+      }
     }
   </style>
 
@@ -182,259 +834,1193 @@
         "url":"https://j2bcouverture-del.github.io/j2b-couverture/",
         "telephone":"+33601462612",
         "email":"j2b.couverture@gmail.com",
-        "areaServed":["Toul","Nancy","Meurthe-et-Moselle","Meuse","Moselle","Vosges"],
-        "address":{"@type":"PostalAddress","postalCode":"54200","addressLocality":"Toul","addressRegion":"Grand Est","addressCountry":"FR"}
+        "areaServed":[
+          "Toul",
+          "Nancy",
+          "Meurthe-et-Moselle",
+          "Meuse",
+          "Moselle",
+          "Vosges"
+        ],
+        "address":{
+          "@type":"PostalAddress",
+          "postalCode":"54200",
+          "addressLocality":"Toul",
+          "addressRegion":"Grand Est",
+          "addressCountry":"FR"
+        }
       },
       {
         "@type":"Service",
         "@id":"https://j2bcouverture-del.github.io/j2b-couverture/renovation-toiture.html#service",
         "name":"Rénovation de toiture",
         "serviceType":"Rénovation et réfection de toiture",
-        "provider":{"@id":"https://j2bcouverture-del.github.io/j2b-couverture/#entreprise"},
-        "areaServed":["Toul","Nancy","Grand Est"],
+        "provider":{
+          "@id":"https://j2bcouverture-del.github.io/j2b-couverture/#entreprise"
+        },
+        "areaServed":[
+          "Toul",
+          "Nancy",
+          "Grand Est"
+        ],
         "url":"https://j2bcouverture-del.github.io/j2b-couverture/renovation-toiture.html",
         "description":"Réfection complète ou partielle de toiture, remplacement de couverture, écran sous-toiture, lattage, zinguerie, faîtage et isolation."
       },
       {
         "@type":"FAQPage",
         "mainEntity":[
-          {"@type":"Question","name":"Quand faut-il envisager une rénovation de toiture ?","acceptedAnswer":{"@type":"Answer","text":"Une rénovation peut être nécessaire lorsque les tuiles ou ardoises sont fortement dégradées, que les infiltrations deviennent récurrentes, que le faîtage ou la zinguerie sont en mauvais état ou que la couverture arrive en fin de vie."}},
-          {"@type":"Question","name":"Faut-il toujours remplacer toute la toiture ?","acceptedAnswer":{"@type":"Answer","text":"Non. Après inspection, une réparation ciblée ou une rénovation partielle peut parfois suffire. J2B Couverture propose une solution adaptée à l'état réel de la couverture."}},
-          {"@type":"Question","name":"La charpente doit-elle être remplacée pendant la rénovation ?","acceptedAnswer":{"@type":"Answer","text":"Pas systématiquement. La charpente est contrôlée et seules les pièces dégradées ou insuffisantes nécessitent une reprise ou un remplacement."}},
-          {"@type":"Question","name":"La rénovation de toiture est-elle couverte par une garantie décennale ?","acceptedAnswer":{"@type":"Answer","text":"Les travaux relevant de la garantie décennale sont couverts conformément au contrat d'assurance décennale de l'entreprise."}}
+          {
+            "@type":"Question",
+            "name":"Quand faut-il envisager une rénovation de toiture ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Une rénovation peut être nécessaire lorsque les tuiles ou ardoises sont fortement dégradées, que les infiltrations deviennent récurrentes, que le faîtage ou la zinguerie sont en mauvais état ou que la couverture arrive en fin de vie."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Faut-il toujours remplacer toute la toiture ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Non. Après inspection, une réparation ciblée ou une rénovation partielle peut parfois suffire. J2B Couverture propose une solution adaptée à l'état réel de la couverture."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"La charpente doit-elle être remplacée pendant la rénovation ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Pas systématiquement. La charpente est contrôlée et seules les pièces dégradées ou insuffisantes nécessitent une reprise ou un remplacement."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"La rénovation de toiture est-elle couverte par une garantie décennale ?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Les travaux relevant de la garantie décennale sont couverts conformément au contrat d'assurance décennale de l'entreprise."
+            }
+          }
         ]
       }
     ]
   }
   </script>
 </head>
+
 <body>
 
 <header>
+
   <div class="trustBar">
     <div class="container">
-      🛡️ <strong>Décennale QBE Europe SA/NV</strong><span class="sep">•</span><strong>SIRET 851 484 717 00018</strong><span class="sep">•</span>📱 <a href="tel:+33601462612">06 01 46 26 12</a>
+      🛡️ <strong>Décennale QBE Europe SA/NV</strong>
+      <span class="sep">•</span>
+      <strong>SIRET 851 484 717 00018</strong>
+      <span class="sep">•</span>
+      📱 <a href="tel:+33601462612">06 01 46 26 12</a>
     </div>
   </div>
+
   <nav class="nav container">
-    <a class="brand" href="./index.html" aria-label="Accueil J2B Couverture"><img src="./logo-temp.png?v=1" alt="J2B Couverture"></a>
+
+    <a
+      class="brand"
+      href="./index.html"
+      aria-label="Accueil J2B Couverture"
+    >
+      <img
+        src="./logo-temp.png?v=1"
+        alt="J2B Couverture"
+      >
+    </a>
+
     <div class="navLinks">
       <a href="./index.html">Accueil</a>
       <a href="#travaux">Travaux</a>
       <a href="#realisations">Réalisations</a>
       <a href="#faq">FAQ</a>
-      <a class="btn red navCall" href="tel:+33601462612">📞 Appeler</a>
+      <a class="btn red navCall" href="tel:+33601462612">
+        📞 Appeler
+      </a>
     </div>
+
   </nav>
+
 </header>
 
+
 <main>
+
   <section class="hero">
+
     <div class="container heroInner">
+
       <div>
-        <div class="breadcrumb"><a href="./index.html">Accueil</a> › Rénovation de toiture</div>
-        <span class="eyebrow">Rénovation complète ou partielle</span>
-        <h1>Rénovation de toiture à Toul &amp; Nancy : <span>une couverture durable et soignée.</span></h1>
-        <p class="heroLead"><strong>J2B Couverture</strong> réalise la rénovation de toitures en tuiles, ardoises et autres couvertures à Toul, Nancy et dans le Grand Est. De la dépose de l’ancienne couverture aux finitions de zinguerie, chaque étape est étudiée selon l’état réel du bâtiment.</p>
-        <div class="heroActions">
-          <a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a>
-          <button class="btn gold" type="button" data-open-callback>☎️ Être rappelé</button>
-          <a class="btn whatsapp whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture.%20Je%20peux%20vous%20envoyer%20des%20photos." target="_blank" rel="noopener">💬 Envoyer des photos</a>
+
+        <div class="breadcrumb">
+          <a href="./index.html">Accueil</a>
+          › Rénovation de toiture
         </div>
+
+        <span class="eyebrow">
+          Rénovation complète ou partielle
+        </span>
+
+        <h1>
+          Rénovation de toiture à Toul &amp; Nancy :
+          <span>une couverture durable et soignée.</span>
+        </h1>
+
+        <p class="heroLead">
+          <strong>J2B Couverture</strong> réalise la rénovation de
+          toitures en tuiles, ardoises et autres couvertures à Toul,
+          Nancy et dans le Grand Est. De la dépose de l’ancienne
+          couverture aux finitions de zinguerie, chaque étape est
+          étudiée selon l’état réel du bâtiment.
+        </p>
+
+        <div class="heroActions">
+
+          <a
+            class="btn red"
+            href="tel:+33601462612"
+          >
+            📞 06 01 46 26 12
+          </a>
+
+          <button
+            class="btn gold"
+            type="button"
+            data-open-callback
+          >
+            ☎️ Être rappelé
+          </button>
+
+          <a
+            class="btn whatsapp whatsapp-link"
+            href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture.%20Je%20peux%20vous%20envoyer%20des%20photos."
+            target="_blank"
+            rel="noopener"
+          >
+            💬 Envoyer des photos
+          </a>
+
+        </div>
+
       </div>
+
 
       <aside class="heroCard">
+
         <h2>Votre projet de rénovation</h2>
-        <p>Une toiture vieillissante ne nécessite pas toujours la même intervention. Nous contrôlons les éléments essentiels avant de définir les travaux.</p>
-        <div class="checkLine"><span class="check">✓</span><div><strong>Couverture</strong><br><span class="small">Tuiles, ardoises, éléments cassés ou poreux</span></div></div>
-        <div class="checkLine"><span class="check">✓</span><div><strong>Étanchéité</strong><br><span class="small">Écran sous-toiture, raccords, faîtage, noues et solins</span></div></div>
-        <div class="checkLine"><span class="check">✓</span><div><strong>Support</strong><br><span class="small">Lattage, contre-lattage et contrôle du support bois</span></div></div>
-        <div class="checkLine"><span class="check">✓</span><div><strong>Finitions</strong><br><span class="small">Zinguerie, gouttières, rives et ventilation</span></div></div>
-        <a class="btn red" href="./index.html#devis">📩 Demander un devis gratuit</a>
+
+        <p>
+          Une toiture vieillissante ne nécessite pas toujours la même
+          intervention. Nous contrôlons les éléments essentiels avant
+          de définir les travaux.
+        </p>
+
+        <div class="checkLine">
+          <span class="check">✓</span>
+
+          <div>
+            <strong>Couverture</strong><br>
+            <span class="small">
+              Tuiles, ardoises, éléments cassés ou poreux
+            </span>
+          </div>
+        </div>
+
+        <div class="checkLine">
+          <span class="check">✓</span>
+
+          <div>
+            <strong>Étanchéité</strong><br>
+            <span class="small">
+              Écran sous-toiture, raccords, faîtage, noues et solins
+            </span>
+          </div>
+        </div>
+
+        <div class="checkLine">
+          <span class="check">✓</span>
+
+          <div>
+            <strong>Support</strong><br>
+            <span class="small">
+              Lattage, contre-lattage et contrôle du support bois
+            </span>
+          </div>
+        </div>
+
+        <div class="checkLine">
+          <span class="check">✓</span>
+
+          <div>
+            <strong>Finitions</strong><br>
+            <span class="small">
+              Zinguerie, gouttières, rives et ventilation
+            </span>
+          </div>
+        </div>
+
+        <a
+          class="btn red"
+          href="./index.html#devis"
+        >
+          📩 Demander un devis gratuit
+        </a>
+
       </aside>
+
     </div>
+
   </section>
+
 
   <section class="quickTrust">
+
     <div class="container quickGrid">
-      <div class="quickItem"><strong>Devis gratuit</strong><span>Étude claire du projet</span></div>
-      <div class="quickItem"><strong>Garantie décennale</strong><span>Travaux assurés</span></div>
-      <div class="quickItem"><strong>Intervention Grand Est</strong><span>54 • 55 • 57 • 88</span></div>
-      <div class="quickItem"><strong>Conseil adapté</strong><span>Selon l’état réel du toit</span></div>
+
+      <div class="quickItem">
+        <strong>Devis gratuit</strong>
+        <span>Étude claire du projet</span>
+      </div>
+
+      <div class="quickItem">
+        <strong>Garantie décennale</strong>
+        <span>Travaux assurés</span>
+      </div>
+
+      <div class="quickItem">
+        <strong>Intervention Grand Est</strong>
+        <span>54 • 55 • 57 • 88</span>
+      </div>
+
+      <div class="quickItem">
+        <strong>Conseil adapté</strong>
+        <span>Selon l’état réel du toit</span>
+      </div>
+
     </div>
+
   </section>
+
 
   <section class="section" id="travaux">
+
     <div class="container">
+
       <h2>Que comprend une rénovation de toiture ?</h2>
-      <p class="muted">Selon l’état de votre couverture, la rénovation peut concerner uniquement certaines zones ou l’ensemble de la toiture. Le devis détaille les travaux réellement nécessaires.</p>
+
+      <p class="muted">
+        Selon l’état de votre couverture, la rénovation peut concerner
+        uniquement certaines zones ou l’ensemble de la toiture.
+        Le devis détaille les travaux réellement nécessaires.
+      </p>
+
       <div class="grid3">
-        <article class="card"><div class="icon">🏠</div><h3>Dépose et couverture</h3><p>Dépose des éléments à remplacer puis pose d’une nouvelle couverture adaptée au bâtiment et à la pente.</p></article>
-        <article class="card"><div class="icon">🛡️</div><h3>Écran sous-toiture</h3><p>Mise en œuvre ou remplacement d’un écran lorsque la configuration et le projet le nécessitent.</p></article>
-        <article class="card"><div class="icon">🪵</div><h3>Lattage & support</h3><p>Contrôle des liteaux, contre-liteaux et pièces de bois accessibles avant la remise en couverture.</p></article>
-        <article class="card"><div class="icon">🔧</div><h3>Zinguerie</h3><p>Reprise ou remplacement des noues, solins, abergements, rives, gouttières et autres points singuliers.</p></article>
-        <article class="card"><div class="icon">🔺</div><h3>Faîtage & arêtiers</h3><p>Révision ou réfection des faîtages et arêtiers avec une solution adaptée à la couverture.</p></article>
-        <article class="card"><div class="icon">🌡️</div><h3>Isolation</h3><p>La rénovation peut être l’occasion d’améliorer l’isolation de la toiture ou des combles lorsque cela est pertinent.</p></article>
+
+        <article class="card">
+          <div class="icon">🏠</div>
+          <h3>Dépose et couverture</h3>
+          <p>
+            Dépose des éléments à remplacer puis pose d’une nouvelle
+            couverture adaptée au bâtiment et à la pente.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🛡️</div>
+          <h3>Écran sous-toiture</h3>
+          <p>
+            Mise en œuvre ou remplacement d’un écran lorsque la
+            configuration et le projet le nécessitent.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🪵</div>
+          <h3>Lattage &amp; support</h3>
+          <p>
+            Contrôle des liteaux, contre-liteaux et pièces de bois
+            accessibles avant la remise en couverture.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🔧</div>
+          <h3>Zinguerie</h3>
+          <p>
+            Reprise ou remplacement des noues, solins, abergements,
+            rives, gouttières et autres points singuliers.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🔺</div>
+          <h3>Faîtage &amp; arêtiers</h3>
+          <p>
+            Révision ou réfection des faîtages et arêtiers avec une
+            solution adaptée à la couverture.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🌡️</div>
+          <h3>Isolation</h3>
+          <p>
+            La rénovation peut être l’occasion d’améliorer l’isolation
+            de la toiture ou des combles lorsque cela est pertinent.
+          </p>
+        </article>
+
       </div>
+
     </div>
+
   </section>
 
+
   <section class="section alt">
+
     <div class="container split">
-      <div class="photo"><img src="./temp3.png?v=1" alt="Rénovation de toiture réalisée par J2B Couverture" loading="lazy"></div>
-      <div>
-        <h2>Quand envisager une réfection de toiture ?</h2>
-        <p class="muted">Une toiture peut continuer à protéger correctement le bâtiment malgré quelques défauts ponctuels. En revanche, l’accumulation de désordres peut rendre une rénovation plus cohérente qu’une succession de réparations.</p>
-        <ul class="list">
-          <li>Tuiles ou ardoises très dégradées, cassantes ou devenues poreuses</li>
-          <li>Infiltrations récurrentes malgré plusieurs réparations</li>
-          <li>Faîtage, arêtiers, noues ou solins fortement vieillissants</li>
-          <li>Lattage ou éléments bois présentant des dégradations</li>
-          <li>Couverture ancienne nécessitant une remise à niveau générale</li>
-          <li>Projet d’amélioration de l’isolation ou de l’étanchéité</li>
-        </ul>
+
+      <div class="photo">
+
+        <img
+          src="./temp3.png?v=1"
+          alt="Rénovation de toiture réalisée par J2B Couverture"
+          loading="lazy"
+        >
+
       </div>
+
+      <div>
+
+        <h2>Quand envisager une réfection de toiture ?</h2>
+
+        <p class="muted">
+          Une toiture peut continuer à protéger correctement le
+          bâtiment malgré quelques défauts ponctuels. En revanche,
+          l’accumulation de désordres peut rendre une rénovation plus
+          cohérente qu’une succession de réparations.
+        </p>
+
+        <ul class="list">
+
+          <li>
+            Tuiles ou ardoises très dégradées, cassantes ou devenues
+            poreuses
+          </li>
+
+          <li>
+            Infiltrations récurrentes malgré plusieurs réparations
+          </li>
+
+          <li>
+            Faîtage, arêtiers, noues ou solins fortement vieillissants
+          </li>
+
+          <li>
+            Lattage ou éléments bois présentant des dégradations
+          </li>
+
+          <li>
+            Couverture ancienne nécessitant une remise à niveau générale
+          </li>
+
+          <li>
+            Projet d’amélioration de l’isolation ou de l’étanchéité
+          </li>
+
+        </ul>
+
+      </div>
+
     </div>
+
   </section>
+
 
   <section class="section">
+
     <div class="container">
+
       <h2>Comment se déroule votre chantier ?</h2>
-      <p class="muted">Le déroulement est adapté à la configuration du bâtiment, à l’accès et aux matériaux choisis.</p>
+
+      <p class="muted">
+        Le déroulement est adapté à la configuration du bâtiment,
+        à l’accès et aux matériaux choisis.
+      </p>
+
       <div class="steps">
-        <article class="step"><h3>Visite & diagnostic</h3><p>Contrôle visuel des principaux points de la toiture et échange sur vos besoins.</p></article>
-        <article class="step"><h3>Devis détaillé</h3><p>Présentation des travaux prévus, matériaux et principales finitions.</p></article>
-        <article class="step"><h3>Réalisation</h3><p>Protection, dépose si nécessaire, reprise des supports puis pose de la couverture.</p></article>
-        <article class="step"><h3>Finitions & contrôle</h3><p>Raccords, zinguerie, nettoyage du chantier et contrôle des principaux points d’étanchéité.</p></article>
+
+        <article class="step">
+          <h3>Visite &amp; diagnostic</h3>
+          <p>
+            Contrôle visuel des principaux points de la toiture et
+            échange sur vos besoins.
+          </p>
+        </article>
+
+        <article class="step">
+          <h3>Devis détaillé</h3>
+          <p>
+            Présentation des travaux prévus, matériaux et principales
+            finitions.
+          </p>
+        </article>
+
+        <article class="step">
+          <h3>Réalisation</h3>
+          <p>
+            Protection, dépose si nécessaire, reprise des supports
+            puis pose de la couverture.
+          </p>
+        </article>
+
+        <article class="step">
+          <h3>Finitions &amp; contrôle</h3>
+          <p>
+            Raccords, zinguerie, nettoyage du chantier et contrôle des
+            principaux points d’étanchéité.
+          </p>
+        </article>
+
       </div>
+
     </div>
+
   </section>
 
+
   <section class="section alt">
+
     <div class="container">
+
       <div class="ctaBand">
-        <div><h2>Vous hésitez entre réparation et rénovation complète ?</h2><p>Envoyez quelques photos ou demandez une visite. Nous vous orienterons vers une solution cohérente avec l’état de votre toiture.</p></div>
-        <div class="actions"><button class="btn gold" type="button" data-open-callback>☎️ Être rappelé</button><a class="btn red" href="tel:+33601462612">📞 Appeler</a></div>
+
+        <div>
+
+          <h2>
+            Vous hésitez entre réparation et rénovation complète ?
+          </h2>
+
+          <p>
+            Envoyez quelques photos ou demandez une visite.
+            Nous vous orienterons vers une solution cohérente avec
+            l’état de votre toiture.
+          </p>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="btn gold"
+            type="button"
+            data-open-callback
+          >
+            ☎️ Être rappelé
+          </button>
+
+          <a
+            class="btn red"
+            href="tel:+33601462612"
+          >
+            📞 Appeler
+          </a>
+
+        </div>
+
       </div>
+
     </div>
+
   </section>
+
 
   <section class="section" id="realisations">
+
     <div class="container">
+
       <h2>Quelques réalisations</h2>
-      <p class="muted">Exemples de travaux de couverture et de rénovation réalisés par J2B Couverture.</p>
+
+      <p class="muted">
+        Exemples de travaux de couverture et de rénovation réalisés
+        par J2B Couverture.
+      </p>
+
       <div class="gallery">
-        <img src="./Temp1.jpg?v=1" alt="Chantier de rénovation de toiture J2B Couverture" loading="lazy">
-        <img src="./temp2.png?v=1" alt="Travaux de couverture à Toul et Nancy" loading="lazy">
-        <img src="./temp4.png?v=1" alt="Finitions de toiture et zinguerie" loading="lazy">
-        <img src="./temp6.JPG?v=1" alt="Rénovation de couverture en Lorraine" loading="lazy">
-        <img src="./temp7.png?v=1" alt="Réfection de toiture J2B Couverture" loading="lazy">
-        <img src="./Temp8.png?v=1" alt="Chantier toiture dans le Grand Est" loading="lazy">
+
+        <img
+          src="./Temp1.jpg?v=1"
+          alt="Chantier de rénovation de toiture J2B Couverture"
+          loading="lazy"
+        >
+
+        <img
+          src="./temp2.png?v=1"
+          alt="Travaux de couverture à Toul et Nancy"
+          loading="lazy"
+        >
+
+        <img
+          src="./temp6.JPG?v=1"
+          alt="Rénovation de couverture en Lorraine"
+          loading="lazy"
+        >
+
+        <img
+          src="./temp7.png?v=1"
+          alt="Réfection de toiture J2B Couverture"
+          loading="lazy"
+        >
+
+        <img
+          src="./Temp8.png?v=1"
+          alt="Chantier toiture dans le Grand Est"
+          loading="lazy"
+        >
+
+        <img
+          src="./renovation-toiture-tuiles-lattage-01.jpg?v=1"
+          alt="Rénovation de toiture avec écran sous-toiture, lattage et tuiles prêtes à poser"
+          loading="lazy"
+        >
+
+        <img
+          src="./renovation-toiture-ecran-lattage-02.jpg?v=1"
+          alt="Pose d'un écran sous-toiture et d'un lattage lors d'une rénovation complète"
+          loading="lazy"
+        >
+
+        <img
+          src="./renovation-toiture-ecran-sous-toiture-03.jpg?v=1"
+          alt="Réfection de toiture avec écran sous-toiture et liteaux avant pose des tuiles"
+          loading="lazy"
+        >
+
+        <img
+          src="./renovation-toiture-pose-tuiles-04.jpg?v=1"
+          alt="Pose de tuiles neuves pendant un chantier de rénovation de toiture"
+          loading="lazy"
+        >
+
       </div>
+
     </div>
+
   </section>
+
 
   <section class="section alt" id="faq">
+
     <div class="container">
+
       <h2>Questions fréquentes sur la rénovation de toiture</h2>
+
       <div class="faq">
-        <details><summary>Quand faut-il envisager une rénovation de toiture ?</summary><p>Lorsque la couverture présente de nombreuses dégradations, des infiltrations récurrentes, des éléments d’étanchéité très vieillissants ou lorsqu’une succession de réparations ne suffit plus à fiabiliser la toiture.</p></details>
-        <details><summary>Faut-il toujours remplacer toute la toiture ?</summary><p>Non. Une rénovation partielle peut parfois suffire. La solution dépend de l’état des matériaux, du support, des raccords et de la cohérence économique des réparations envisagées.</p></details>
-        <details><summary>La charpente est-elle systématiquement remplacée ?</summary><p>Non. Elle est contrôlée dans les zones accessibles. Les pièces saines sont conservées et les éléments dégradés peuvent faire l’objet d’une reprise adaptée.</p></details>
-        <details><summary>Peut-on profiter des travaux pour améliorer l’isolation ?</summary><p>Oui, selon la configuration du bâtiment. Une rénovation de toiture peut être l’occasion d’étudier l’isolation des combles ou de la toiture.</p></details>
-        <details><summary>Les travaux sont-ils couverts par une garantie décennale ?</summary><p>Les travaux relevant de la garantie décennale sont couverts conformément au contrat d’assurance décennale de l’entreprise.</p></details>
+
+        <details>
+
+          <summary>
+            Quand faut-il envisager une rénovation de toiture ?
+          </summary>
+
+          <p>
+            Lorsque la couverture présente de nombreuses dégradations,
+            des infiltrations récurrentes, des éléments d’étanchéité
+            très vieillissants ou lorsqu’une succession de réparations
+            ne suffit plus à fiabiliser la toiture.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Faut-il toujours remplacer toute la toiture ?
+          </summary>
+
+          <p>
+            Non. Une rénovation partielle peut parfois suffire.
+            La solution dépend de l’état des matériaux, du support,
+            des raccords et de la cohérence économique des réparations
+            envisagées.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            La charpente est-elle systématiquement remplacée ?
+          </summary>
+
+          <p>
+            Non. Elle est contrôlée dans les zones accessibles.
+            Les pièces saines sont conservées et les éléments dégradés
+            peuvent faire l’objet d’une reprise adaptée.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Peut-on profiter des travaux pour améliorer l’isolation ?
+          </summary>
+
+          <p>
+            Oui, selon la configuration du bâtiment.
+            Une rénovation de toiture peut être l’occasion d’étudier
+            l’isolation des combles ou de la toiture.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            Les travaux sont-ils couverts par une garantie décennale ?
+          </summary>
+
+          <p>
+            Les travaux relevant de la garantie décennale sont couverts
+            conformément au contrat d’assurance décennale de
+            l’entreprise.
+          </p>
+
+        </details>
+
       </div>
+
     </div>
+
   </section>
+
 
   <section class="section">
+
     <div class="container">
+
       <h2>Demandez votre devis de rénovation de toiture</h2>
-      <p class="muted">J2B Couverture intervient depuis Toul vers Nancy et plus largement en Meurthe-et-Moselle, Meuse, Moselle et Vosges selon le chantier.</p>
+
+      <p class="muted">
+        J2B Couverture intervient depuis Toul vers Nancy et plus
+        largement en Meurthe-et-Moselle, Meuse, Moselle et Vosges
+        selon le chantier.
+      </p>
+
       <div class="contactBox">
-        <div class="card"><h3>Par téléphone</h3><p>Expliquez-nous votre projet et l’état actuel de la toiture.</p><a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a></div>
-        <div class="card"><h3>Avec des photos</h3><p>Vous pouvez envoyer des photos de la toiture sur WhatsApp avant la visite.</p><a class="btn whatsapp whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture.%20Voici%20des%20photos%20du%20projet." target="_blank" rel="noopener">💬 Envoyer des photos</a></div>
+
+        <div class="card">
+
+          <h3>Par téléphone</h3>
+
+          <p>
+            Expliquez-nous votre projet et l’état actuel de la toiture.
+          </p>
+
+          <a
+            class="btn red"
+            href="tel:+33601462612"
+          >
+            📞 06 01 46 26 12
+          </a>
+
+        </div>
+
+
+        <div class="card">
+
+          <h3>Avec des photos</h3>
+
+          <p>
+            Vous pouvez envoyer des photos de la toiture sur WhatsApp
+            avant la visite.
+          </p>
+
+          <a
+            class="btn whatsapp whatsapp-link"
+            href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture.%20Voici%20des%20photos%20du%20projet."
+            target="_blank"
+            rel="noopener"
+          >
+            💬 Envoyer des photos
+          </a>
+
+        </div>
+
       </div>
+
     </div>
+
   </section>
+
 </main>
 
+
 <footer>
+
   <div class="container footerGrid">
-    <div><strong>J2B Couverture</strong><p>Couvreur à Toul • Nancy • Grand Est</p><p>🛡️ QBE Europe SA/NV • SIRET 851 484 717 00018</p></div>
-    <div><p>📱 <a href="tel:+33601462612">06 01 46 26 12</a></p><p>✉️ <a href="mailto:j2b.couverture@gmail.com">j2b.couverture@gmail.com</a></p><p><a href="./index.html">Retour à l’accueil</a></p></div>
+
+    <div>
+
+      <strong>J2B Couverture</strong>
+
+      <p>
+        Couvreur à Toul • Nancy • Grand Est
+      </p>
+
+      <p>
+        🛡️ QBE Europe SA/NV • SIRET 851 484 717 00018
+      </p>
+
+    </div>
+
+    <div>
+
+      <p>
+        📱
+        <a href="tel:+33601462612">
+          06 01 46 26 12
+        </a>
+      </p>
+
+      <p>
+        ✉️
+        <a href="mailto:j2b.couverture@gmail.com">
+          j2b.couverture@gmail.com
+        </a>
+      </p>
+
+      <p>
+        <a href="./index.html">
+          Retour à l’accueil
+        </a>
+      </p>
+
+    </div>
+
   </div>
+
 </footer>
 
-<a class="floatWhats whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture." target="_blank" rel="noopener">💬 WhatsApp</a>
-<a class="floatCall" href="tel:+33601462612">📞 Appeler</a>
 
-<div class="modal" id="callbackModal" aria-hidden="true">
-  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="callbackTitle">
-    <button class="close" id="callbackClose" type="button" aria-label="Fermer">×</button>
-    <h2 id="callbackTitle">Être rappelé gratuitement</h2>
-    <p class="muted">Laissez votre numéro. J2B Couverture vous recontactera pour votre projet de rénovation.</p>
-    <form class="callbackForm" id="callbackForm">
-      <label>Votre numéro de téléphone<input type="tel" name="phone" autocomplete="tel" inputmode="tel" required minlength="10" maxlength="20" placeholder="Ex : 06 12 34 56 78"></label>
-      <button class="btn red" type="submit">☎️ Me rappeler</button>
-      <p class="small muted" style="text-align:center;margin:0">Rappel généralement sous 5 à 10 minutes, de 7h à 20h.</p>
-      <p class="status" id="callbackStatus" aria-live="polite"></p>
+<a
+  class="floatWhats whatsapp-link"
+  href="https://wa.me/33601462612?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20une%20r%C3%A9novation%20de%20toiture."
+  target="_blank"
+  rel="noopener"
+>
+  💬 WhatsApp
+</a>
+
+
+<a
+  class="floatCall"
+  href="tel:+33601462612"
+>
+  📞 Appeler
+</a>
+
+
+<div
+  class="modal"
+  id="callbackModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="callbackTitle"
+  >
+
+    <button
+      class="close"
+      id="callbackClose"
+      type="button"
+      aria-label="Fermer"
+    >
+      ×
+    </button>
+
+    <h2 id="callbackTitle">
+      Être rappelé gratuitement
+    </h2>
+
+    <p class="muted">
+      Laissez votre numéro. J2B Couverture vous recontactera pour
+      votre projet de rénovation.
+    </p>
+
+    <form
+      class="callbackForm"
+      id="callbackForm"
+    >
+
+      <label>
+        Votre numéro de téléphone
+
+        <input
+          type="tel"
+          name="phone"
+          autocomplete="tel"
+          inputmode="tel"
+          required
+          minlength="10"
+          maxlength="20"
+          placeholder="Ex : 06 12 34 56 78"
+        >
+
+      </label>
+
+      <button
+        class="btn red"
+        type="submit"
+      >
+        ☎️ Me rappeler
+      </button>
+
+      <p
+        class="small muted"
+        style="text-align:center;margin:0"
+      >
+        Rappel généralement sous 5 à 10 minutes, de 7h à 20h.
+      </p>
+
+      <p
+        class="status"
+        id="callbackStatus"
+        aria-live="polite"
+      ></p>
+
     </form>
+
   </div>
+
 </div>
+
 
 <script>
 (function(){
+
   'use strict';
+
   const modal = document.getElementById('callbackModal');
   const closeBtn = document.getElementById('callbackClose');
   const form = document.getElementById('callbackForm');
   const status = document.getElementById('callbackStatus');
-  const ntfyUrl = 'https://ntfy.sh/j2b-visites-X83LmP91Qa';
+
+  const ntfyUrl =
+    'https://ntfy.sh/j2b-visites-X83LmP91Qa';
+
 
   function openModal(){
+
     modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.body.classList.add('modal-open');
-    const input = form.querySelector('input[name="phone"]');
-    setTimeout(function(){ if(input) input.focus(); },50);
+
+    modal.setAttribute(
+      'aria-hidden',
+      'false'
+    );
+
+    document.body.classList.add(
+      'modal-open'
+    );
+
+    const input =
+      form.querySelector(
+        'input[name="phone"]'
+      );
+
+    setTimeout(function(){
+
+      if(input){
+        input.focus();
+      }
+
+    },50);
+
+
     if(typeof window.gtag === 'function'){
-      window.gtag('event','callback_open',{event_category:'Contact',event_label:'Rénovation toiture'});
+
+      window.gtag(
+        'event',
+        'callback_open',
+        {
+          event_category:'Contact',
+          event_label:'Rénovation toiture'
+        }
+      );
+
     }
+
   }
+
+
   function closeModal(){
+
     modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-    document.body.classList.remove('modal-open');
+
+    modal.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+
+    document.body.classList.remove(
+      'modal-open'
+    );
+
   }
 
-  document.querySelectorAll('[data-open-callback]').forEach(function(btn){btn.addEventListener('click',openModal);});
-  closeBtn.addEventListener('click',closeModal);
-  modal.addEventListener('click',function(e){if(e.target===modal) closeModal();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape') closeModal();});
 
-  document.addEventListener('click',function(e){
-    const tel=e.target.closest('a[href^="tel:"]');
-    const wa=e.target.closest('.whatsapp-link');
-    if(tel && typeof window.gtag==='function') window.gtag('event','click_appel',{event_category:'Contact',event_label:'Rénovation toiture'});
-    if(wa && typeof window.gtag==='function') window.gtag('event','click_whatsapp',{event_category:'Contact',event_label:'Rénovation toiture'});
-  });
+  document
+    .querySelectorAll('[data-open-callback]')
+    .forEach(function(btn){
 
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    const phone=String(new FormData(form).get('phone')||'').trim();
-    if(!phone){status.textContent='Merci d’indiquer votre numéro.';status.className='status err';return;}
-    const btn=form.querySelector('button[type="submit"]');
-    btn.disabled=true;btn.textContent='Envoi en cours…';
-    try{
-      const response=await fetch(ntfyUrl,{method:'POST',headers:{'Title':'Demande de rappel - Renovation toiture Toul','Priority':'urgent','Tags':'telephone,hammer,house'},body:['NOUVELLE DEMANDE DE RAPPEL','Page : Rénovation de toiture','Téléphone : '+phone,'URL : '+location.href,'Heure : '+new Date().toLocaleString('fr-FR')].join('\n')});
-      if(!response.ok) throw new Error('HTTP '+response.status);
-      status.textContent='✓ Demande envoyée. Nous vous rappelons rapidement.';status.className='status ok';
-      if(typeof window.gtag==='function') window.gtag('event','generate_lead',{event_category:'Contact',event_label:'Rappel rénovation toiture'});
-      form.reset();setTimeout(closeModal,2000);
-    }catch(err){status.textContent='Envoi impossible. Appelez directement le 06 01 46 26 12.';status.className='status err';}
-    finally{btn.disabled=false;btn.textContent='☎️ Me rappeler';}
-  });
+      btn.addEventListener(
+        'click',
+        openModal
+      );
+
+    });
+
+
+  closeBtn.addEventListener(
+    'click',
+    closeModal
+  );
+
+
+  modal.addEventListener(
+    'click',
+    function(e){
+
+      if(e.target === modal){
+        closeModal();
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    'keydown',
+    function(e){
+
+      if(e.key === 'Escape'){
+        closeModal();
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    'click',
+    function(e){
+
+      const tel =
+        e.target.closest(
+          'a[href^="tel:"]'
+        );
+
+      const wa =
+        e.target.closest(
+          '.whatsapp-link'
+        );
+
+
+      if(
+        tel &&
+        typeof window.gtag === 'function'
+      ){
+
+        window.gtag(
+          'event',
+          'click_appel',
+          {
+            event_category:'Contact',
+            event_label:'Rénovation toiture'
+          }
+        );
+
+      }
+
+
+      if(
+        wa &&
+        typeof window.gtag === 'function'
+      ){
+
+        window.gtag(
+          'event',
+          'click_whatsapp',
+          {
+            event_category:'Contact',
+            event_label:'Rénovation toiture'
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  form.addEventListener(
+    'submit',
+    async function(e){
+
+      e.preventDefault();
+
+
+      const phone =
+        String(
+          new FormData(form)
+            .get('phone') || ''
+        ).trim();
+
+
+      if(!phone){
+
+        status.textContent =
+          'Merci d’indiquer votre numéro.';
+
+        status.className =
+          'status err';
+
+        return;
+
+      }
+
+
+      const btn =
+        form.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      btn.disabled = true;
+
+      btn.textContent =
+        'Envoi en cours…';
+
+
+      try{
+
+
+        const response =
+          await fetch(
+            ntfyUrl,
+            {
+
+              method:'POST',
+
+              headers:{
+
+                'Title':
+                  'Demande de rappel - Renovation toiture Toul',
+
+                'Priority':
+                  'urgent',
+
+                'Tags':
+                  'telephone,hammer,house'
+
+              },
+
+              body:[
+                'NOUVELLE DEMANDE DE RAPPEL',
+                'Page : Rénovation de toiture',
+                'Téléphone : ' + phone,
+                'URL : ' + location.href,
+                'Heure : ' +
+                  new Date()
+                    .toLocaleString('fr-FR')
+              ].join('\n')
+
+            }
+          );
+
+
+        if(!response.ok){
+
+          throw new Error(
+            'HTTP ' + response.status
+          );
+
+        }
+
+
+        status.textContent =
+          '✓ Demande envoyée. Nous vous rappelons rapidement.';
+
+        status.className =
+          'status ok';
+
+
+        if(
+          typeof window.gtag ===
+          'function'
+        ){
+
+          window.gtag(
+            'event',
+            'generate_lead',
+            {
+              event_category:'Contact',
+              event_label:'Rappel rénovation toiture'
+            }
+          );
+
+        }
+
+
+        form.reset();
+
+
+        setTimeout(
+          closeModal,
+          2000
+        );
+
+
+      }catch(err){
+
+
+        status.textContent =
+          'Envoi impossible. Appelez directement le 06 01 46 26 12.';
+
+        status.className =
+          'status err';
+
+
+      }finally{
+
+
+        btn.disabled = false;
+
+        btn.textContent =
+          '☎️ Me rappeler';
+
+
+      }
+
+    }
+  );
+
 })();
 </script>
 
