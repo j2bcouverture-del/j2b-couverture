@@ -1016,61 +1016,23 @@
         <div class="roofDiagIntro">
           <div class="roofDiagIcon" aria-hidden="true">🔎</div>
           <div>
-            <span class="eyebrow">Diagnostic toiture express</span>
-            <h2 style="margin-top:8px">Votre toiture présente un problème ?</h2>
-            <p class="muted">Répondez à 4 questions. Vous obtenez immédiatement un niveau de priorité indicatif et pouvez transmettre le diagnostic à J2B Couverture avec vos photos.</p>
+            <span class="eyebrow">Diagnostic toiture interactif</span>
+            <h2 style="margin-top:8px">Que se passe-t-il sur votre toiture ?</h2>
+            <p class="muted">Les questions s’adaptent automatiquement à votre situation. À la fin, vous obtenez un niveau de priorité indicatif et un message prêt à envoyer à J2B Couverture avec vos photos.</p>
           </div>
         </div>
 
         <div class="diagProgress" aria-hidden="true"><span id="diagProgressBar"></span></div>
 
         <div id="roofDiagnostic">
-          <div class="diagStep active" data-diag-step="1">
-            <h3>1. Quel problème voyez-vous ?</h3>
-            <p class="muted small">Choisissez ce qui correspond le mieux.</p>
-            <div class="diagChoices" data-diag-group="problem">
-              <button class="diagChoice" type="button" data-value="Fuite ou infiltration" data-score="4">💧 Fuite / infiltration</button>
-              <button class="diagChoice" type="button" data-value="Tuile cassée ou déplacée" data-score="3">🧱 Tuile cassée / déplacée</button>
-              <button class="diagChoice" type="button" data-value="Faîtage ou arêtier endommagé" data-score="3">🏠 Faîtage / arêtier</button>
-              <button class="diagChoice" type="button" data-value="Gouttière ou zinguerie endommagée" data-score="2">🌧️ Gouttière / zinguerie</button>
-              <button class="diagChoice" type="button" data-value="Mousse ou toiture très encrassée" data-score="1">🌿 Mousse / encrassement</button>
-              <button class="diagChoice" type="button" data-value="Toiture ancienne ou état incertain" data-score="2">🕰️ Toiture ancienne / doute</button>
-            </div>
+          <div class="diagStep active" id="diagDynamicStep">
+            <h3 id="diagQuestion"></h3>
+            <p class="muted small" id="diagHelp"></p>
+            <div class="diagChoices" id="diagChoices"></div>
           </div>
 
-          <div class="diagStep" data-diag-step="2">
-            <h3>2. Depuis quand avez-vous remarqué le problème ?</h3>
-            <div class="diagChoices" data-diag-group="when">
-              <button class="diagChoice" type="button" data-value="Aujourd’hui ou depuis moins de 48 h" data-score="3">⚡ Moins de 48 h</button>
-              <button class="diagChoice" type="button" data-value="Depuis quelques jours" data-score="2">📅 Quelques jours</button>
-              <button class="diagChoice" type="button" data-value="Depuis plusieurs semaines" data-score="1">🗓️ Plusieurs semaines</button>
-              <button class="diagChoice" type="button" data-value="Je ne sais pas" data-score="1">❓ Je ne sais pas</button>
-            </div>
-          </div>
-
-          <div class="diagStep" data-diag-step="3">
-            <h3>3. Y a-t-il de l’eau à l’intérieur ?</h3>
-            <div class="diagChoices" data-diag-group="water">
-              <button class="diagChoice" type="button" data-value="Oui, l’eau entre actuellement" data-score="5">🚨 Oui, actuellement</button>
-              <button class="diagChoice" type="button" data-value="Traces d’humidité ou auréoles" data-score="3">💦 Traces / auréoles</button>
-              <button class="diagChoice" type="button" data-value="Non, aucune eau visible" data-score="0">✅ Non</button>
-              <button class="diagChoice" type="button" data-value="Impossible à vérifier" data-score="1">🔍 Impossible à vérifier</button>
-            </div>
-          </div>
-
-          <div class="diagStep" data-diag-step="4">
-            <h3>4. Le problème s’est-il aggravé après pluie ou vent ?</h3>
-            <div class="diagChoices" data-diag-group="weather">
-              <button class="diagChoice" type="button" data-value="Oui, nettement" data-score="3">🌧️ Oui, nettement</button>
-              <button class="diagChoice" type="button" data-value="Peut-être" data-score="1">🤔 Peut-être</button>
-              <button class="diagChoice" type="button" data-value="Non" data-score="0">👍 Non</button>
-              <button class="diagChoice" type="button" data-value="Je ne sais pas" data-score="1">❓ Je ne sais pas</button>
-            </div>
-          </div>
-
-          <div class="diagNav">
+          <div class="diagNav" id="diagNav">
             <button type="button" class="btn ghost" id="diagBack" style="visibility:hidden">← Précédent</button>
-            <button type="button" class="btn red" id="diagNext" disabled>Continuer →</button>
           </div>
 
           <div class="diagResult" id="diagResult" aria-live="polite">
@@ -1083,7 +1045,7 @@
               <button class="btn callbackBtn" type="button" data-open-callback>☎️ Être rappelé</button>
               <button class="btn ghost" type="button" id="diagRestart">Recommencer</button>
             </div>
-            <p class="diagDisclaimer">Ce diagnostic en ligne est indicatif et ne remplace pas un contrôle visuel de la toiture par un professionnel.</p>
+            <p class="diagDisclaimer">Ce diagnostic est indicatif. Ne montez pas sur une toiture humide, endommagée ou instable. Un contrôle sur place reste nécessaire pour confirmer la cause et les travaux à prévoir.</p>
           </div>
         </div>
       </div>
@@ -2958,9 +2920,12 @@ document.addEventListener("DOMContentLoaded", function(){
   "use strict";
   const root=document.getElementById("roofDiagnostic");
   if(!root) return;
-  const steps=[...root.querySelectorAll(".diagStep")];
-  const next=document.getElementById("diagNext");
+
+  const questionEl=document.getElementById("diagQuestion");
+  const helpEl=document.getElementById("diagHelp");
+  const choicesEl=document.getElementById("diagChoices");
   const back=document.getElementById("diagBack");
+  const nav=document.getElementById("diagNav");
   const bar=document.getElementById("diagProgressBar");
   const result=document.getElementById("diagResult");
   const levelEl=document.getElementById("diagLevel");
@@ -2968,93 +2933,329 @@ document.addEventListener("DOMContentLoaded", function(){
   const textEl=document.getElementById("diagText");
   const wa=document.getElementById("diagWhatsapp");
   const restart=document.getElementById("diagRestart");
-  let current=0;
-  const answers={};
 
-  function show(i){
-    current=Math.max(0,Math.min(i,steps.length-1));
-    steps.forEach((s,n)=>s.classList.toggle("active",n===current));
+  const branches={
+    fuite:{
+      label:"Fuite / infiltration",
+      base:4,
+      questions:[
+        {id:"fuite_endroit",q:"Où voyez-vous l’eau ou l’humidité ?",help:"Choisissez la situation la plus proche.",options:[
+          ["Eau qui coule actuellement au plafond ou dans les combles",6,"critical"],
+          ["Auréole / trace humide au plafond ou sur un mur",4],
+          ["Humidité visible uniquement dans les combles",3],
+          ["Je ne localise pas précisément",2]
+        ]},
+        {id:"fuite_meteo",q:"Quand l’infiltration apparaît-elle ?",help:"Cela aide à distinguer une entrée d’eau ponctuelle d’un défaut plus permanent.",options:[
+          ["Pendant ou juste après chaque pluie",4],
+          ["Surtout avec pluie forte ou vent",4],
+          ["Même sans pluie récente",5,"critical"],
+          ["Je ne sais pas encore",2]
+        ]},
+        {id:"fuite_visible",q:"Voyez-vous un défaut depuis le sol ou une fenêtre ?",help:"Ne montez pas sur le toit pour vérifier.",options:[
+          ["Oui : tuile cassée, déplacée ou manquante",4],
+          ["Oui : faîtage, rive ou zinguerie semble abîmé",4],
+          ["Non, rien de visible",2],
+          ["Impossible à voir",1]
+        ]}
+      ]
+    },
+    tuile:{
+      label:"Tuile cassée / déplacée",
+      base:3,
+      questions:[
+        {id:"tuile_etat",q:"Que constatez-vous exactement ?",help:"Regardez uniquement depuis un endroit sécurisé.",options:[
+          ["Une ou plusieurs tuiles sont manquantes",5,"critical"],
+          ["Une tuile est cassée ou fendue",4],
+          ["Une tuile semble déplacée / soulevée",4],
+          ["Je vois seulement quelque chose d’anormal",2]
+        ]},
+        {id:"tuile_eau",q:"Y a-t-il déjà des traces d’eau à l’intérieur ?",help:"Plafond, mur, isolant ou combles.",options:[
+          ["Oui, l’eau entre actuellement",6,"critical"],
+          ["Oui, traces ou auréoles",4],
+          ["Non",0],
+          ["Je ne peux pas vérifier",1]
+        ]},
+        {id:"tuile_nombre",q:"Le problème semble-t-il localisé ?",help:"Le nombre de tuiles touchées peut changer la priorité.",options:[
+          ["Une seule tuile",1],
+          ["Plusieurs tuiles",3],
+          ["Une zone entière semble bouger",5,"critical"],
+          ["Je ne sais pas",1]
+        ]}
+      ]
+    },
+    faitage:{
+      label:"Faîtage / arêtier",
+      base:3,
+      questions:[
+        {id:"faitage_constat",q:"Quel défaut voyez-vous au faîtage ou sur un arêtier ?",help:"Faîtières = tuiles tout en haut ; arêtiers = lignes inclinées de jonction.",options:[
+          ["Une tuile faîtière / d’arêtier est déplacée ou absente",5,"critical"],
+          ["Mortier fissuré / cassé",3],
+          ["Closoir qui se relève ou semble décollé",3],
+          ["Je vois un défaut sans pouvoir l’identifier",2]
+        ]},
+        {id:"faitage_mouvement",q:"Des éléments semblent-ils pouvoir tomber ?",help:"En cas de risque de chute, évitez la zone située dessous.",options:[
+          ["Oui, clairement",6,"critical"],
+          ["Peut-être / ça bouge au vent",4],
+          ["Non",0],
+          ["Impossible à savoir",1]
+        ]},
+        {id:"faitage_eau",q:"Avez-vous une infiltration ou une trace d’humidité ?",help:"Même une petite ouverture au faîtage peut laisser entrer de l’eau poussée par le vent.",options:[
+          ["Oui, infiltration active",6,"critical"],
+          ["Oui, traces anciennes ou auréoles",3],
+          ["Non",0],
+          ["Je ne sais pas",1]
+        ]}
+      ]
+    },
+    zinguerie:{
+      label:"Gouttière / zinguerie",
+      base:2,
+      questions:[
+        {id:"zinc_type",q:"Quel problème constatez-vous ?",help:"Gouttière, descente, solin, noue ou autre élément métallique.",options:[
+          ["Gouttière décrochée / élément prêt à tomber",6,"critical"],
+          ["Gouttière percée ou qui fuit",3],
+          ["Débordement quand il pleut",2],
+          ["Solin / zinc près d’un mur ou d’une cheminée semble ouvert",4]
+        ]},
+        {id:"zinc_degats",q:"L’eau provoque-t-elle déjà des dégâts ?",help:"Façade mouillée, infiltration, bois de rive humide, etc.",options:[
+          ["Oui, infiltration à l’intérieur",6,"critical"],
+          ["Oui, façade ou bois sont fortement mouillés",4],
+          ["Un peu, mais sans dégât visible",2],
+          ["Non",0]
+        ]},
+        {id:"zinc_pluie",q:"Le problème se produit-il à chaque pluie ?",help:"Un défaut régulier mérite généralement une réparation plutôt qu’une simple surveillance.",options:[
+          ["Oui, à chaque pluie",3],
+          ["Seulement lors de fortes pluies",2],
+          ["Non / problème surtout mécanique",1],
+          ["Je ne sais pas",1]
+        ]}
+      ]
+    },
+    mousse:{
+      label:"Mousse / toiture encrassée",
+      base:1,
+      questions:[
+        {id:"mousse_niveau",q:"À quel point la toiture est-elle encrassée ?",help:"Un simple dépôt léger n’a pas la même priorité qu’une couverture très colonisée.",options:[
+          ["Quelques traces vertes / noires",1],
+          ["Mousse présente sur plusieurs zones",2],
+          ["Mousse épaisse sur une grande partie du toit",3],
+          ["Les tuiles semblent très poreuses / friables",5,"critical"]
+        ]},
+        {id:"mousse_age",q:"Quel âge approximatif a la couverture ?",help:"Une toiture ancienne doit être contrôlée avant un nettoyage agressif.",options:[
+          ["Moins de 10 ans",0],
+          ["10 à 20 ans",1],
+          ["Plus de 20 ans",2],
+          ["Je ne sais pas",1]
+        ]},
+        {id:"mousse_defauts",q:"Voyez-vous aussi des tuiles cassées, déplacées ou des infiltrations ?",help:"Si oui, la réparation passe avant le nettoyage.",options:[
+          ["Oui, et j’ai une infiltration",6,"critical"],
+          ["Oui, quelques tuiles semblent abîmées",4],
+          ["Non, seulement mousse / salissures",0],
+          ["Je ne sais pas",1]
+        ]}
+      ]
+    },
+    ancienne:{
+      label:"Toiture ancienne / état incertain",
+      base:2,
+      questions:[
+        {id:"ancienne_age",q:"Quel âge pensez-vous que la toiture a ?",help:"Une estimation suffit.",options:[
+          ["Moins de 15 ans",0],
+          ["15 à 30 ans",1],
+          ["Plus de 30 ans",3],
+          ["Je ne sais pas",1]
+        ]},
+        {id:"ancienne_signes",q:"Quels signes vous inquiètent le plus ?",help:"Choisissez le signe principal.",options:[
+          ["Tuiles fissurées, poreuses ou qui s’effritent",4],
+          ["Plusieurs réparations anciennes / bricolages visibles",3],
+          ["Affaissement ou ondulation du toit",6,"critical"],
+          ["Rien de précis, je veux surtout contrôler",0]
+        ]},
+        {id:"ancienne_humidite",q:"Avez-vous déjà constaté de l’humidité à l’intérieur ?",help:"Combles, plafond, murs ou isolant.",options:[
+          ["Oui, infiltration actuelle",6,"critical"],
+          ["Oui, anciennes traces",3],
+          ["Non",0],
+          ["Je ne sais pas",1]
+        ]}
+      ]
+    },
+    inconnu:{
+      label:"Je ne sais pas",
+      base:2,
+      questions:[
+        {id:"inc_symptome",q:"Qu’est-ce qui vous a alerté ?",help:"Même sans connaître l’origine, le symptôme permet d’orienter le contrôle.",options:[
+          ["De l’eau / une auréole à l’intérieur",5,"critical"],
+          ["Un bruit, une tuile ou un élément a bougé après le vent",4],
+          ["Quelque chose paraît abîmé depuis le sol",3],
+          ["Je souhaite seulement un contrôle préventif",0]
+        ]},
+        {id:"inc_meteo",q:"Le problème est-il apparu après une pluie, du vent ou un orage ?",help:"Cela peut orienter vers une fuite ou un déplacement d’élément.",options:[
+          ["Oui, juste après",4],
+          ["Peut-être",2],
+          ["Non",0],
+          ["Je ne sais pas",1]
+        ]},
+        {id:"inc_danger",q:"Voyez-vous un élément qui risque de tomber ?",help:"Tuile, zinc, gouttière, morceau de cheminée ou autre.",options:[
+          ["Oui",6,"critical"],
+          ["Peut-être",3],
+          ["Non",0],
+          ["Impossible à voir",1]
+        ]}
+      ]
+    }
+  };
+
+  const first={
+    id:"problem",
+    q:"Quel est le problème principal ?",
+    help:"Choisissez ce qui ressemble le plus à votre situation. Les questions suivantes changeront automatiquement.",
+    options:[
+      ["💧 Fuite / infiltration","fuite"],
+      ["🧱 Tuile cassée / déplacée","tuile"],
+      ["🏠 Faîtage / arêtier","faitage"],
+      ["🌧️ Gouttière / zinguerie","zinguerie"],
+      ["🌿 Mousse / encrassement","mousse"],
+      ["🕰️ Toiture ancienne / doute","ancienne"],
+      ["❓ Je ne sais pas","inconnu"]
+    ]
+  };
+
+  let branchKey=null;
+  let index=-1;
+  let answers=[];
+
+  function currentQuestion(){ return index===-1 ? first : branches[branchKey].questions[index]; }
+  function totalSteps(){ return 1 + (branchKey ? branches[branchKey].questions.length : 3); }
+  function completedSteps(){ return Math.max(0, index+1); }
+
+  function render(){
     result.classList.remove("show");
-    back.style.visibility=current===0?"hidden":"visible";
-    next.textContent=current===steps.length-1?"Voir mon diagnostic →":"Continuer →";
-    const group=steps[current].querySelector(".diagChoices").dataset.diagGroup;
-    next.disabled=!answers[group];
-    bar.style.width=((current+1)/steps.length*100)+"%";
+    nav.style.display="flex";
+    const item=currentQuestion();
+    questionEl.textContent=(index===-1?"1. ":(index+2)+". ")+item.q;
+    helpEl.textContent=item.help||"";
+    choicesEl.innerHTML="";
+
+    item.options.forEach(function(opt){
+      const btn=document.createElement("button");
+      btn.type="button";
+      btn.className="diagChoice";
+      if(index===-1){
+        btn.textContent=opt[0];
+        btn.dataset.branch=opt[1];
+      }else{
+        btn.textContent=opt[0];
+        btn.dataset.value=opt[0];
+        btn.dataset.score=String(opt[1]||0);
+        if(opt[2]) btn.dataset.flag=opt[2];
+      }
+      choicesEl.appendChild(btn);
+    });
+
+    back.style.visibility=(index===-1)?"hidden":"visible";
+    const progress=branchKey ? ((answers.length)/(1+branches[branchKey].questions.length))*100 : 5;
+    bar.style.width=Math.max(5,Math.min(95,progress))+"%";
   }
 
-  root.addEventListener("click",function(e){
-    const choice=e.target.closest(".diagChoice");
-    if(!choice) return;
-    const wrap=choice.closest(".diagChoices");
-    const group=wrap.dataset.diagGroup;
-    wrap.querySelectorAll(".diagChoice").forEach(b=>b.classList.remove("selected"));
-    choice.classList.add("selected");
-    answers[group]={value:choice.dataset.value,score:Number(choice.dataset.score||0)};
-    next.disabled=false;
-  });
-
   function finish(){
-    const total=Object.values(answers).reduce((sum,a)=>sum+a.score,0);
+    const branch=branches[branchKey];
+    const score=branch.base + answers.reduce((sum,a)=>sum+(a.score||0),0);
+    const critical=answers.some(a=>a.flag==="critical");
     let level,title,text,cls;
-    if(total>=11 || (answers.water && answers.water.score>=5)){
-      level="🚨 Priorité élevée"; cls="urgent";
-      title="Un contrôle rapide est conseillé.";
-      text="Les réponses indiquent un risque d'infiltration ou d'aggravation. Si l'eau entre actuellement, protégez l'intérieur sans monter sur la toiture et contactez J2B Couverture rapidement.";
-    }else if(total>=6){
-      level="⚠️ À contrôler rapidement"; cls="fast";
-      title="Une vérification de la toiture est recommandée.";
-      text="Le problème peut évoluer avec la pluie, le vent ou le gel. Des photos permettent souvent de préparer le diagnostic avant déplacement.";
+
+    if(critical || score>=15){
+      level="🚨 Intervention rapide conseillée"; cls="urgent";
+      title="La situation mérite un contrôle rapidement.";
+      text="Vos réponses indiquent un risque d’infiltration, de chute d’élément ou d’aggravation. Évitez de monter sur la toiture. Si de l’eau entre, protégez l’intérieur si possible puis contactez J2B Couverture.";
+    }else if(score>=8){
+      level="⚠️ Contrôle recommandé"; cls="fast";
+      title="Il est préférable de faire vérifier la toiture.";
+      text="Le défaut n’est pas forcément une urgence immédiate, mais il peut évoluer avec la pluie, le vent ou le gel. Des photos permettront de préparer le contrôle avant déplacement.";
     }else{
-      level="✅ Contrôle préventif"; cls="watch";
-      title="Pas d'urgence apparente d'après vos réponses.";
-      text="Une vérification reste utile pour éviter qu'un défaut mineur ne devienne une infiltration ou une réparation plus importante.";
+      level="✅ Entretien / contrôle préventif"; cls="watch";
+      title="Aucune urgence évidente d’après vos réponses.";
+      text="Un contrôle ou un entretien peut néanmoins éviter qu’un petit défaut ne se transforme en réparation plus importante. Vous pouvez envoyer quelques photos pour obtenir un premier avis.";
     }
+
     levelEl.className="diagLevel "+cls;
     levelEl.textContent=level;
     titleEl.textContent=title;
     textEl.textContent=text;
-    steps.forEach(s=>s.classList.remove("active"));
-    document.querySelector(".diagNav").style.display="none";
+    document.getElementById("diagDynamicStep").classList.remove("active");
+    nav.style.display="none";
     bar.style.width="100%";
     result.classList.add("show");
 
-    const msg=[
+    const lines=[
       "Bonjour, je viens de faire le diagnostic toiture sur le site J2B Couverture Toul.",
       "",
+      "Situation : "+branch.label,
       "Résultat : "+level.replace(/^[^ ]+ /,""),
-      "Problème : "+answers.problem.value,
-      "Depuis : "+answers.when.value,
-      "Eau à l'intérieur : "+answers.water.value,
-      "Après pluie/vent : "+answers.weather.value,
-      "",
-      "Je peux vous envoyer des photos de la toiture."
-    ].join("\n");
-    wa.href="https://wa.me/33601462612?text="+encodeURIComponent(msg);
+      ""
+    ];
+    answers.forEach(function(a){ lines.push("• "+a.question+" : "+a.value); });
+    lines.push("", "Je peux vous envoyer des photos de la toiture.");
+    wa.href="https://wa.me/33601462612?text="+encodeURIComponent(lines.join("\n"));
 
     if(typeof window.gtag==="function"){
-      window.gtag("event","diagnostic_toiture_termine",{event_category:"Lead",event_label:level,value:1});
+      window.gtag("event","diagnostic_toiture_termine",{event_category:"Lead",event_label:branch.label+" - "+level,value:1});
     }
     fetch("https://ntfy.sh/j2b-visites-X83LmP91Qa",{
       method:"POST",
-      headers:{"Title":"Diagnostic toiture termine - J2B Toul","Priority":cls==="urgent"?"high":"default","Tags":"mag,house,hammer"},
-      body:"Résultat : "+level+"\nProblème : "+answers.problem.value+"\nDepuis : "+answers.when.value+"\nEau : "+answers.water.value+"\nMétéo : "+answers.weather.value+"\nURL : "+location.href,
+      headers:{"Title":"Diagnostic toiture - "+branch.label,"Priority":cls==="urgent"?"high":"default","Tags":"mag,house,hammer"},
+      body:["Résultat : "+level,"Situation : "+branch.label].concat(answers.map(a=>a.question+" : "+a.value)).concat(["URL : "+location.href]).join("\n"),
       keepalive:true
     }).catch(function(){});
   }
 
-  next.addEventListener("click",function(){
-    if(next.disabled) return;
-    if(current<steps.length-1) show(current+1); else finish();
+  choicesEl.addEventListener("click",function(e){
+    const choice=e.target.closest(".diagChoice");
+    if(!choice) return;
+
+    if(index===-1){
+      branchKey=choice.dataset.branch;
+      answers=[];
+      index=0;
+      render();
+      return;
+    }
+
+    const q=branches[branchKey].questions[index];
+    answers=answers.slice(0,index);
+    answers[index]={question:q.q,value:choice.dataset.value,score:Number(choice.dataset.score||0),flag:choice.dataset.flag||""};
+
+    if(index>=branches[branchKey].questions.length-1){
+      finish();
+    }else{
+      index++;
+      render();
+    }
   });
-  back.addEventListener("click",function(){ show(current-1); });
+
+  back.addEventListener("click",function(){
+    if(index<=0){
+      branchKey=null;
+      index=-1;
+      answers=[];
+    }else{
+      index--;
+      answers=answers.slice(0,index);
+    }
+    document.getElementById("diagDynamicStep").classList.add("active");
+    render();
+  });
+
   restart.addEventListener("click",function(){
-    Object.keys(answers).forEach(k=>delete answers[k]);
-    root.querySelectorAll(".diagChoice").forEach(b=>b.classList.remove("selected"));
-    document.querySelector(".diagNav").style.display="flex";
-    show(0);
+    branchKey=null;
+    index=-1;
+    answers=[];
+    result.classList.remove("show");
+    document.getElementById("diagDynamicStep").classList.add("active");
+    render();
     document.getElementById("diagnostic").scrollIntoView({behavior:"smooth",block:"start"});
   });
-  show(0);
+
+  render();
 })();
 </script>
 
