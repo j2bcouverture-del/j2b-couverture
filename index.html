@@ -1,15 +1,6 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<!-- Google tag (Google Ads) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18272915896"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'AW-18272915896');
-</script>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -35,7 +26,17 @@
   <meta name="twitter:title" content="Couvreur à Toul et Nancy | J2B Couverture">
   <meta name="twitter:description" content="Travaux de toiture à Toul, Nancy et dans le Grand Est. Devis gratuit.">
   <meta name="twitter:image" content="https://j2bcouverture-del.github.io/j2b-couverture/place-stanislas-2.png">
-<style>
+
+  <!-- Google tag - Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18272915896"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18272915896');
+  </script>
+
+  <style>
     :root{
       --lorraine-red:#182536;
       --lorraine-red-dark:#101A26;
@@ -690,6 +691,33 @@
       .quoteCityRow{grid-template-columns:1fr}
       .quoteCityRow .btn{width:100%}
     }
+
+
+    /* Diagnostic toiture interactif */
+    .roofDiag{max-width:980px;margin:0 auto}
+    .roofDiagIntro{display:flex;gap:18px;align-items:flex-start;margin-bottom:22px}
+    .roofDiagIcon{width:54px;height:54px;display:grid;place-items:center;border-radius:16px;background:var(--lorraine-yellow-soft);font-size:27px;flex:0 0 auto}
+    .diagProgress{height:8px;background:var(--border);border-radius:999px;overflow:hidden;margin:18px 0 24px}
+    .diagProgress span{display:block;height:100%;width:25%;background:var(--lorraine-red);transition:width .25s ease}
+    .diagStep{display:none}
+    .diagStep.active{display:block}
+    .diagStep h3{margin:0 0 8px}
+    .diagChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+    .diagChoice{appearance:none;border:1px solid var(--border);background:#fff;border-radius:14px;padding:16px;text-align:left;font:inherit;font-weight:750;color:var(--text);cursor:pointer;transition:.18s ease;min-height:64px}
+    .diagChoice:hover,.diagChoice:focus-visible{border-color:var(--lorraine-red);transform:translateY(-1px);box-shadow:0 8px 22px rgba(49,30,10,.08);outline:none}
+    .diagChoice.selected{border-color:var(--lorraine-red);background:#fff7f7}
+    .diagNav{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+    .diagResult{display:none;margin-top:22px;border:1px solid var(--border);border-radius:18px;padding:22px;background:#fff}
+    .diagResult.show{display:block}
+    .diagLevel{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 12px;font-weight:800;margin-bottom:12px}
+    .diagLevel.urgent{background:#ffe5e5;color:#8D181C}
+    .diagLevel.fast{background:#fff2cc;color:#6c4f00}
+    .diagLevel.watch{background:#eaf4ea;color:#245d2b}
+    .diagResult h3{margin:0 0 8px}
+    .diagActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .diagDisclaimer{font-size:.86rem;color:var(--muted);margin-top:14px}
+    @media(max-width:700px){.diagChoices{grid-template-columns:1fr}.roofDiagIntro{gap:12px}.diagNav{flex-direction:column-reverse}.diagNav .btn{width:100%}}
+
   </style>
 
   <script type="application/ld+json">
@@ -975,6 +1003,88 @@
           <a class="servicePageLink isSoon autoServiceLink" href="#services" data-page="./traitement-charpente.html">
             <span>🪚 Traitement charpente</span><span class="pageSoon">Bientôt</span>
           </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="diagnostic" class="section">
+    <div class="container">
+      <div class="roofDiag card">
+        <div class="roofDiagIntro">
+          <div class="roofDiagIcon" aria-hidden="true">🔎</div>
+          <div>
+            <span class="eyebrow">Diagnostic toiture express</span>
+            <h2 style="margin-top:8px">Votre toiture présente un problème ?</h2>
+            <p class="muted">Répondez à 4 questions. Vous obtenez immédiatement un niveau de priorité indicatif et pouvez transmettre le diagnostic à J2B Couverture avec vos photos.</p>
+          </div>
+        </div>
+
+        <div class="diagProgress" aria-hidden="true"><span id="diagProgressBar"></span></div>
+
+        <div id="roofDiagnostic">
+          <div class="diagStep active" data-diag-step="1">
+            <h3>1. Quel problème voyez-vous ?</h3>
+            <p class="muted small">Choisissez ce qui correspond le mieux.</p>
+            <div class="diagChoices" data-diag-group="problem">
+              <button class="diagChoice" type="button" data-value="Fuite ou infiltration" data-score="4">💧 Fuite / infiltration</button>
+              <button class="diagChoice" type="button" data-value="Tuile cassée ou déplacée" data-score="3">🧱 Tuile cassée / déplacée</button>
+              <button class="diagChoice" type="button" data-value="Faîtage ou arêtier endommagé" data-score="3">🏠 Faîtage / arêtier</button>
+              <button class="diagChoice" type="button" data-value="Gouttière ou zinguerie endommagée" data-score="2">🌧️ Gouttière / zinguerie</button>
+              <button class="diagChoice" type="button" data-value="Mousse ou toiture très encrassée" data-score="1">🌿 Mousse / encrassement</button>
+              <button class="diagChoice" type="button" data-value="Toiture ancienne ou état incertain" data-score="2">🕰️ Toiture ancienne / doute</button>
+            </div>
+          </div>
+
+          <div class="diagStep" data-diag-step="2">
+            <h3>2. Depuis quand avez-vous remarqué le problème ?</h3>
+            <div class="diagChoices" data-diag-group="when">
+              <button class="diagChoice" type="button" data-value="Aujourd’hui ou depuis moins de 48 h" data-score="3">⚡ Moins de 48 h</button>
+              <button class="diagChoice" type="button" data-value="Depuis quelques jours" data-score="2">📅 Quelques jours</button>
+              <button class="diagChoice" type="button" data-value="Depuis plusieurs semaines" data-score="1">🗓️ Plusieurs semaines</button>
+              <button class="diagChoice" type="button" data-value="Je ne sais pas" data-score="1">❓ Je ne sais pas</button>
+            </div>
+          </div>
+
+          <div class="diagStep" data-diag-step="3">
+            <h3>3. Y a-t-il de l’eau à l’intérieur ?</h3>
+            <div class="diagChoices" data-diag-group="water">
+              <button class="diagChoice" type="button" data-value="Oui, l’eau entre actuellement" data-score="5">🚨 Oui, actuellement</button>
+              <button class="diagChoice" type="button" data-value="Traces d’humidité ou auréoles" data-score="3">💦 Traces / auréoles</button>
+              <button class="diagChoice" type="button" data-value="Non, aucune eau visible" data-score="0">✅ Non</button>
+              <button class="diagChoice" type="button" data-value="Impossible à vérifier" data-score="1">🔍 Impossible à vérifier</button>
+            </div>
+          </div>
+
+          <div class="diagStep" data-diag-step="4">
+            <h3>4. Le problème s’est-il aggravé après pluie ou vent ?</h3>
+            <div class="diagChoices" data-diag-group="weather">
+              <button class="diagChoice" type="button" data-value="Oui, nettement" data-score="3">🌧️ Oui, nettement</button>
+              <button class="diagChoice" type="button" data-value="Peut-être" data-score="1">🤔 Peut-être</button>
+              <button class="diagChoice" type="button" data-value="Non" data-score="0">👍 Non</button>
+              <button class="diagChoice" type="button" data-value="Je ne sais pas" data-score="1">❓ Je ne sais pas</button>
+            </div>
+          </div>
+
+          <div class="diagNav">
+            <button type="button" class="btn ghost" id="diagBack" style="visibility:hidden">← Précédent</button>
+            <button type="button" class="btn red" id="diagNext" disabled>Continuer →</button>
+          </div>
+
+          <div class="diagResult" id="diagResult" aria-live="polite">
+            <span class="diagLevel" id="diagLevel"></span>
+            <h3 id="diagTitle"></h3>
+            <p id="diagText"></p>
+            <div class="diagActions">
+              <a class="btn whatsapp whatsapp-link" id="diagWhatsapp" href="#" target="_blank" rel="noopener">💬 Envoyer le diagnostic + photos</a>
+              <a class="btn red" href="tel:+33601462612">📞 Appeler J2B Couverture</a>
+              <button class="btn callbackBtn" type="button" data-open-callback>☎️ Être rappelé</button>
+              <button class="btn ghost" type="button" id="diagRestart">Recommencer</button>
+            </div>
+            <p class="diagDisclaimer">Ce diagnostic en ligne est indicatif et ne remplace pas un contrôle visuel de la toiture par un professionnel.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2838,6 +2948,113 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   updateProgress(1);
+})();
+</script>
+
+
+
+<script>
+(function(){
+  "use strict";
+  const root=document.getElementById("roofDiagnostic");
+  if(!root) return;
+  const steps=[...root.querySelectorAll(".diagStep")];
+  const next=document.getElementById("diagNext");
+  const back=document.getElementById("diagBack");
+  const bar=document.getElementById("diagProgressBar");
+  const result=document.getElementById("diagResult");
+  const levelEl=document.getElementById("diagLevel");
+  const titleEl=document.getElementById("diagTitle");
+  const textEl=document.getElementById("diagText");
+  const wa=document.getElementById("diagWhatsapp");
+  const restart=document.getElementById("diagRestart");
+  let current=0;
+  const answers={};
+
+  function show(i){
+    current=Math.max(0,Math.min(i,steps.length-1));
+    steps.forEach((s,n)=>s.classList.toggle("active",n===current));
+    result.classList.remove("show");
+    back.style.visibility=current===0?"hidden":"visible";
+    next.textContent=current===steps.length-1?"Voir mon diagnostic →":"Continuer →";
+    const group=steps[current].querySelector(".diagChoices").dataset.diagGroup;
+    next.disabled=!answers[group];
+    bar.style.width=((current+1)/steps.length*100)+"%";
+  }
+
+  root.addEventListener("click",function(e){
+    const choice=e.target.closest(".diagChoice");
+    if(!choice) return;
+    const wrap=choice.closest(".diagChoices");
+    const group=wrap.dataset.diagGroup;
+    wrap.querySelectorAll(".diagChoice").forEach(b=>b.classList.remove("selected"));
+    choice.classList.add("selected");
+    answers[group]={value:choice.dataset.value,score:Number(choice.dataset.score||0)};
+    next.disabled=false;
+  });
+
+  function finish(){
+    const total=Object.values(answers).reduce((sum,a)=>sum+a.score,0);
+    let level,title,text,cls;
+    if(total>=11 || (answers.water && answers.water.score>=5)){
+      level="🚨 Priorité élevée"; cls="urgent";
+      title="Un contrôle rapide est conseillé.";
+      text="Les réponses indiquent un risque d'infiltration ou d'aggravation. Si l'eau entre actuellement, protégez l'intérieur sans monter sur la toiture et contactez J2B Couverture rapidement.";
+    }else if(total>=6){
+      level="⚠️ À contrôler rapidement"; cls="fast";
+      title="Une vérification de la toiture est recommandée.";
+      text="Le problème peut évoluer avec la pluie, le vent ou le gel. Des photos permettent souvent de préparer le diagnostic avant déplacement.";
+    }else{
+      level="✅ Contrôle préventif"; cls="watch";
+      title="Pas d'urgence apparente d'après vos réponses.";
+      text="Une vérification reste utile pour éviter qu'un défaut mineur ne devienne une infiltration ou une réparation plus importante.";
+    }
+    levelEl.className="diagLevel "+cls;
+    levelEl.textContent=level;
+    titleEl.textContent=title;
+    textEl.textContent=text;
+    steps.forEach(s=>s.classList.remove("active"));
+    document.querySelector(".diagNav").style.display="none";
+    bar.style.width="100%";
+    result.classList.add("show");
+
+    const msg=[
+      "Bonjour, je viens de faire le diagnostic toiture sur le site J2B Couverture Toul.",
+      "",
+      "Résultat : "+level.replace(/^[^ ]+ /,""),
+      "Problème : "+answers.problem.value,
+      "Depuis : "+answers.when.value,
+      "Eau à l'intérieur : "+answers.water.value,
+      "Après pluie/vent : "+answers.weather.value,
+      "",
+      "Je peux vous envoyer des photos de la toiture."
+    ].join("\n");
+    wa.href="https://wa.me/33601462612?text="+encodeURIComponent(msg);
+
+    if(typeof window.gtag==="function"){
+      window.gtag("event","diagnostic_toiture_termine",{event_category:"Lead",event_label:level,value:1});
+    }
+    fetch("https://ntfy.sh/j2b-visites-X83LmP91Qa",{
+      method:"POST",
+      headers:{"Title":"Diagnostic toiture termine - J2B Toul","Priority":cls==="urgent"?"high":"default","Tags":"mag,house,hammer"},
+      body:"Résultat : "+level+"\nProblème : "+answers.problem.value+"\nDepuis : "+answers.when.value+"\nEau : "+answers.water.value+"\nMétéo : "+answers.weather.value+"\nURL : "+location.href,
+      keepalive:true
+    }).catch(function(){});
+  }
+
+  next.addEventListener("click",function(){
+    if(next.disabled) return;
+    if(current<steps.length-1) show(current+1); else finish();
+  });
+  back.addEventListener("click",function(){ show(current-1); });
+  restart.addEventListener("click",function(){
+    Object.keys(answers).forEach(k=>delete answers[k]);
+    root.querySelectorAll(".diagChoice").forEach(b=>b.classList.remove("selected"));
+    document.querySelector(".diagNav").style.display="flex";
+    show(0);
+    document.getElementById("diagnostic").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+  show(0);
 })();
 </script>
 
