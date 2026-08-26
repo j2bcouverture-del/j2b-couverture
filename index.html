@@ -468,6 +468,11 @@
       }
     }
 
+    @media(max-width:760px){
+      .toolsButtons{grid-template-columns:1fr!important}
+      .toolsButtons .btn{width:100%;white-space:normal;text-align:center}
+    }
+
   </style>
 
   <script type="application/ld+json">
@@ -523,10 +528,10 @@
           </div>
         </details>
         <a class="menuItem" href="#zone">📍 Zone d’intervention</a>
-        <a class="menuItem" href="#simulation">🎨 Simulateur couleur</a>
+        <a class="menuItem" href="./simulateur-couleur-toiture.html">🎨 Simulateur couleur</a>
         <a class="menuItem" href="#avis">⭐ Avis clients</a>
         <a class="menuItem" href="#realisations">📸 Photos</a>
-        <a class="menuItem" href="#videos">🎥 Vidéos</a>
+        <a class="menuItem" href="./realisations.html">🎥 Vidéos</a>
         <a class="menuItem" href="#adresse">🗺️ Carte</a>
         <a class="menuItem" href="#devis">📩 Demande de devis</a>
         <a class="menuItem menuCall" href="tel:+33601462612">📱 06 01 46 26 12</a>
@@ -664,20 +669,22 @@
       </div>
     </div>
   </section>
+  
   <section class="section alt toolsLinks" aria-labelledby="outils-title">
     <div class="container">
       <div class="card" style="text-align:center;padding:26px">
         <span class="eyebrow">Outils &amp; conseils</span>
-        <h2 id="outils-title">Besoin d’aller plus loin ?</h2>
-        <p class="muted">Nos outils sont désormais accessibles sur des pages dédiées pour garder cet accueil simple et rapide.</p>
-        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px">
-          <a class="btn ghost" href="diagnostic-toiture.html">🔎 Diagnostic toiture</a>
-          <a class="btn ghost" href="simulateur-couleur-toiture.html">🎨 Simulateur couleur</a>
-          <a class="btn ghost" href="realisations.html">📸 Photos &amp; vidéos</a>
+        <h2 id="outils-title">Outils et réalisations</h2>
+        <p class="muted">Accédez directement aux pages dédiées sans alourdir l’accueil.</p>
+        <div class="toolsButtons" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px">
+          <a class="btn ghost" href="./diagnostic-toiture.html">🔎 Diagnostic toiture</a>
+          <a class="btn ghost" href="./simulateur-couleur-toiture.html">🎨 Simulateur couleur</a>
+          <a class="btn ghost" href="./realisations.html">📸 Photos &amp; vidéos</a>
         </div>
       </div>
     </div>
   </section>
+
 
 
   <section id="zone" class="section"><div class="container"><h2>Zone d’intervention autour de Toul et Nancy</h2><p class="muted"><strong>J2B Couverture</strong> est basé à Toul et intervient notamment à Nancy, Écrouves, Dommartin-lès-Toul, Gondreville, Liverdun, Laxou, Vandœuvre-lès-Nancy et plus largement dans les départements 54, 55, 57 et 88.</p><div class="split"><div class="card"><h3>Pourquoi choisir J2B Couverture ?</h3><ul class="list"><li>Devis clair et gratuit</li><li>Intervention rapide selon disponibilité</li><li>Conseils adaptés à l’état réel de la toiture</li><li>Travail soigné et garantie décennale</li></ul></div><div class="card"><h3>Besoin urgent ?</h3><p class="muted">Fuite, tuile déplacée, infiltration ou élément de zinguerie endommagé : contactez-nous directement.</p><a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a></div></div></div></section>
@@ -780,7 +787,7 @@ document.addEventListener("DOMContentLoaded", function(){
   function elapsedSeconds(){return Math.round((Date.now()-startTime)/1000)}function isModalOpen(){return modal.classList.contains("open")}function markConverted(reason){converted=true;sessionStorage.setItem(CONVERTED_KEY,"1");clearTimeout(inactivityTimer);clearTimeout(quoteWizardTimer);if(typeof window.gtag==="function")window.gtag("event","callback_smart_stop",{event_category:"Contact",event_label:reason||"Conversion détectée"})}
   function notifyAutoTrigger(reason){fetch("https://ntfy.sh/j2b-visites-X83LmP91Qa",{method:"POST",headers:{"Title":"Rappel propose automatiquement - J2B Toul","Priority":"default","Tags":"telephone,bulb"},body:"Déclencheur : "+reason+"\nTemps passé : "+elapsedSeconds()+" s\nPage : "+document.title+"\nURL : "+location.href+"\nHeure : "+new Date().toLocaleString("fr-FR"),keepalive:true}).catch(function(){})}
   function openSmartCallback(reason){if(autoShown||converted||isModalOpen()||document.visibilityState!=="visible"||elapsedSeconds()<10)return;const openBtn=document.querySelector("[data-open-callback]");if(!openBtn)return;autoShown=true;sessionStorage.setItem(AUTO_SHOWN_KEY,"1");openBtn.click();const status=document.getElementById("callbackStatus");if(status){status.textContent="";status.className="callbackStatus"}const title=document.getElementById("callbackTitle");if(title)title.textContent="Besoin qu’on vous rappelle ?";notifyAutoTrigger(reason);if(typeof window.gtag==="function")window.gtag("event","callback_auto_open",{event_category:"Contact",event_label:reason})}
-  setTimeout(()=>openSmartCallback("30 secondes sur le site"),30000);let scrollTriggered=false,maxScrollPercent=0,lastY=window.scrollY;window.addEventListener("scroll",function(){if(autoShown||converted)return;const doc=document.documentElement,scrollable=Math.max(1,doc.scrollHeight-window.innerHeight),percent=Math.round((window.scrollY/scrollable)*100);if(!scrollTriggered&&percent>=65&&elapsedSeconds()>=12){scrollTriggered=true;openSmartCallback("65 % de la page consultée")}if(percent>maxScrollPercent)maxScrollPercent=percent;const scrollingUp=window.scrollY<lastY;lastY=window.scrollY;if(maxScrollPercent>=45&&scrollingUp&&window.scrollY<180&&elapsedSeconds()>=20)openSmartCallback("Retour en haut après consultation du site")},{passive:true});
+  setTimeout(()=>openSmartCallback("45 secondes sur le site"),45000);let scrollTriggered=false,maxScrollPercent=0,lastY=window.scrollY;window.addEventListener("scroll",function(){if(autoShown||converted)return;const doc=document.documentElement,scrollable=Math.max(1,doc.scrollHeight-window.innerHeight),percent=Math.round((window.scrollY/scrollable)*100);if(!scrollTriggered&&percent>=65&&elapsedSeconds()>=12){scrollTriggered=true;openSmartCallback("65 % de la page consultée")}if(percent>maxScrollPercent)maxScrollPercent=percent;const scrollingUp=window.scrollY<lastY;lastY=window.scrollY;if(maxScrollPercent>=45&&scrollingUp&&window.scrollY<180&&elapsedSeconds()>=20)openSmartCallback("Retour en haut après consultation du site")},{passive:true});
   document.addEventListener("click",function(e){const target=e.target.closest("a,button");if(!target)return;const href=(target.getAttribute("href")||"").toLowerCase(),txt=(target.innerText||target.textContent||"").toLowerCase();if(href.startsWith("tel:")){markConverted("Clic téléphone");return}if(target.classList.contains("whatsapp-link")||href.includes("wa.me")){markConverted("Clic WhatsApp");return}if(href.startsWith("mailto:")){markConverted("Clic email");return}if(target.matches("[data-open-callback]"))return;const contactInterest=href==="#devis"||href.includes("#contact")||txt.includes("devis")||txt.includes("contact");if(contactInterest){contactInterestClicks++;if(contactInterestClicks>=2&&elapsedSeconds()>=10)setTimeout(()=>openSmartCallback("Plusieurs clics sur les boutons de contact/devis"),1200)}},true);
   function resetInactivity(){clearTimeout(inactivityTimer);if(autoShown||converted)return;inactivityTimer=setTimeout(()=>{if(elapsedSeconds()>=20)openSmartCallback("Visiteur inactif depuis 18 secondes")},18000)}["mousemove","mousedown","keydown","touchstart","scroll"].forEach(evt=>window.addEventListener(evt,resetInactivity,{passive:true}));resetInactivity();
   if(window.matchMedia("(pointer:fine)").matches)document.addEventListener("mouseout",function(e){if(autoShown||converted||elapsedSeconds()<12)return;if(e.clientY<=0&&!e.relatedTarget)openSmartCallback("Intention de quitter la page")});
@@ -956,3 +963,6 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 })();
 </script>
+
+</body>
+</html>
