@@ -371,6 +371,40 @@
       .whyGrid{grid-template-columns:1fr}
     }
 
+    /* Correction mobile : centrage des boutons urgence */
+    .urgencyActions .btn{
+      text-align:center;
+      white-space:normal;
+      line-height:1.25;
+      min-height:58px;
+      width:auto;
+      max-width:100%;
+      padding-left:18px;
+      padding-right:18px;
+    }
+
+    @media(max-width:640px){
+      .urgencyActions{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:10px;
+        width:100%;
+      }
+      .urgencyActions .btn{
+        width:100%;
+        max-width:100%;
+        justify-content:center;
+        text-align:center;
+        white-space:normal;
+        margin:0;
+        padding:15px 14px;
+        min-height:62px;
+      }
+      .urgencyResultText{
+        width:100%;
+      }
+    }
+
   </style>
 
   <script type="application/ld+json">
