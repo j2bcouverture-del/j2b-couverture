@@ -1,0 +1,31 @@
+AUDIT SEO J2B COUVERTURE
+=========================
+Pages HTML : 27
+Sitemap : OK (27 URLs)
+Robots.txt : OK
+Liens HTML internes manquants détectés : 0
+Titres dupliqués : 0
+Meta descriptions dupliquées : 0
+GA4 utilisé : G-ZGCBS6FYZR
+
+Nouvelles pages SEO :
+- contact.html
+- faq-toiture.html
+- degats-tempete-toiture.html
+- couvreur-meurthe-et-moselle.html
+
+Optimisations :
+- FAQ courte sur les pages prestations
+- maillage Toul / Nancy / Meurthe-et-Moselle
+- contenu local différencié
+- données structurées RoofingContractor
+- FAQPage schema sur la FAQ
+- sitemap.xml
+- robots.txt
+- liens vers urgence, tempête, contact, FAQ
+- accueil enrichi sans remettre les simulateurs
+- aucune compression/optimisation des médias effectuée
+
+Note :
+Le SEO a été renforcé avec des expressions locales et métiers intégrées naturellement.
+Le bourrage artificiel de mots-clés a été évité car il peut dégrader la qualité et le référencement.

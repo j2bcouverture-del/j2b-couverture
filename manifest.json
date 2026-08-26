@@ -1,0 +1,38 @@
+{
+  "total_html_files": 23,
+  "files": [
+    "avis-clients.html",
+    "couvreur-dommartin-les-toul.html",
+    "couvreur-ecrouves.html",
+    "couvreur-gondreville.html",
+    "couvreur-liverdun.html",
+    "couvreur-nancy.html",
+    "couvreur-toul.html",
+    "demoussage-toiture.html",
+    "diagnostic-toiture.html",
+    "entretien-toiture.html",
+    "faitage-arretiers.html",
+    "gouttieres.html",
+    "habillage-rives-sous-face.html",
+    "index.html",
+    "isolation-toiture.html",
+    "realisations.html",
+    "renovation-toiture.html",
+    "reparation-fuite-toiture.html",
+    "reparer-ou-refaire-toiture.html",
+    "simulateur-couleur-toiture.html",
+    "traitement-charpente.html",
+    "urgence-toiture.html",
+    "zinguerie.html"
+  ],
+  "notes": [
+    "Accueil allégé avec rappel automatique à 45 secondes.",
+    "6 pages locales.",
+    "Page Réparer ou refaire.",
+    "Page Urgence toiture.",
+    "Page Avis clients.",
+    "10 pages prestations recréées avec liens internes et footer global.",
+    "Diagnostic, simulateur couleur et réalisations inclus avec footer global.",
+    "Aucune optimisation/compression des médias effectuée."
+  ]
+}

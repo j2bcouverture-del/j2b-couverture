@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://j2bcouverture-del.github.io/j2b-couverture/sitemap.xml
