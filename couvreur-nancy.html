@@ -15,8 +15,39 @@
 @media(max-width:850px){.grid,.serviceLinks,.localCards,.reviewGrid{grid-template-columns:1fr 1fr}.footerGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.grid,.grid2,.serviceLinks,.localCards,.choiceGrid,.reviewGrid,.footerGrid{grid-template-columns:1fr}.heroActions{display:grid}.heroActions .btn{width:100%;text-align:center;white-space:normal}}
 </style>
+<style id="j2b-global-header-style">
+.j2b-global-header{background:#fff;border-bottom:4px solid #C1A66B;position:relative;z-index:1000;box-shadow:0 6px 20px rgba(24,37,54,.08)}
+.j2b-global-header *{box-sizing:border-box}
+.j2b-global-header-inner{width:min(1160px,92%);min-height:82px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:8px 0}
+.j2b-global-brand{display:flex;align-items:center;flex:0 0 auto}
+.j2b-global-brand img{display:block;width:auto;height:62px;max-width:210px;object-fit:contain}
+.j2b-global-nav{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.j2b-global-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;text-decoration:none;font-weight:900;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.j2b-home-link{color:#182536;background:#F7F5F1;border:1px solid #E1E3E5}
+.j2b-phone-link{color:#fff!important;background:#B32025;border:1px solid #B32025}
+@media(max-width:620px){
+  .j2b-global-header-inner{min-height:76px;width:94%;padding:7px 0;gap:8px}
+  .j2b-global-brand img{height:54px;max-width:160px}
+  .j2b-global-nav{gap:6px;flex-wrap:nowrap}
+  .j2b-global-nav a{min-height:40px;padding:8px 10px;font-size:.78rem}
+  .j2b-home-link{display:none!important}
+  .j2b-phone-link{white-space:nowrap}
+}
+</style>
 </head>
 <body>
+<header class="j2b-global-header" aria-label="En-tête J2B Couverture">
+  <div class="j2b-global-header-inner">
+    <a class="j2b-global-brand" href="./" aria-label="J2B Couverture - Accueil">
+      <img src="./logo-temp.png?v=1" alt="J2B Couverture - Couvreur à Toul">
+    </a>
+    <nav class="j2b-global-nav" aria-label="Navigation principale">
+      <a class="j2b-home-link" href="./">Accueil</a>
+      <a class="j2b-phone-link" href="tel:+33601462612">📞 06 01 46 26 12</a>
+    </nav>
+  </div>
+</header>
+
 <section class="heroPage"><div class="container">
 <div class="crumb"><a href="./">Accueil</a> › Couvreur à Nancy</div>
 <span class="eyebrow">Couvreur local</span><h1>Couvreur à Nancy</h1><p>J2B Couverture intervient à Nancy et dans l'agglomération pour la rénovation de toiture, les fuites, la zinguerie, l'entretien et le démoussage.</p>
