@@ -746,7 +746,6 @@ document.addEventListener("DOMContentLoaded", function(){
 (function(){
   "use strict";
 
-  /* Bloc urgence */
   const urgencyChoices = document.getElementById("urgencyChoices");
   const urgencyTitle = document.getElementById("urgencyTitle");
   const urgencyText = document.getElementById("urgencyText");
@@ -757,64 +756,110 @@ document.addEventListener("DOMContentLoaded", function(){
     leak: {
       icon: "🚨",
       title: "Fuite active : contactez-nous rapidement",
-      text: "Si l’eau entre actuellement, protégez l’intérieur si vous pouvez le faire sans danger. Pour gagner du temps, appelez directement ou envoyez des photos de la zone concernée.",
+      text: "Si l’eau entre actuellement, protégez l’intérieur si vous pouvez le faire sans danger. Vous pouvez appeler, envoyer des photos ou continuer vers le formulaire de devis.",
       actions: [
         '<a class="btn red" href="tel:+33601462612">📞 Appeler maintenant</a>',
         '<a class="btn whatsapp whatsapp-link" target="_blank" rel="noopener" href="https://wa.me/33601462612?text=Bonjour%2C%20j%27ai%20une%20fuite%20de%20toiture%20en%20cours.%20Je%20peux%20vous%20envoyer%20des%20photos.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A">📸 Envoyer les photos</a>',
-        '<a class="btn ghost urgencyDevisBtn" href="#devis">📩 Remplir le formulaire de devis</a>'
+        '<a class="btn ghost urgencyDevisBtn" href="#devis" data-prefill="leak">📩 Continuer vers le formulaire de devis</a>'
       ]
     },
     damage: {
       icon: "🔎",
-      title: "Élément endommagé : envoyez-nous des photos",
-      text: "Une ou plusieurs photos prises depuis le sol ou une fenêtre peuvent déjà nous aider à identifier s’il s’agit d’une tuile, du faîtage, d’une rive ou de la zinguerie.",
+      title: "Élément endommagé : photos ou demande de devis",
+      text: "Si une tuile, le faîtage, une rive, une gouttière ou de la zinguerie semble endommagé, vous pouvez nous envoyer des photos ou poursuivre directement vers le formulaire.",
       actions: [
         '<a class="btn whatsapp whatsapp-link" target="_blank" rel="noopener" href="https://wa.me/33601462612?text=Bonjour%2C%20un%20%C3%A9l%C3%A9ment%20de%20ma%20toiture%20semble%20endommag%C3%A9.%20Je%20peux%20vous%20envoyer%20des%20photos.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A">📸 Envoyer des photos</a>',
         '<a class="btn red" href="tel:+33601462612">📞 Appeler si risque de chute</a>',
-        '<a class="btn ghost urgencyDevisBtn" href="#devis">📩 Remplir le formulaire de devis</a>'
+        '<a class="btn ghost urgencyDevisBtn" href="#devis" data-prefill="leak">📩 Continuer vers le formulaire de devis</a>'
       ]
     },
     planned: {
       icon: "📋",
-      title: "Projet toiture : préparez votre demande tranquillement",
-      text: "Décrivez le type de travaux et la ville du chantier. Le parcours devis vous permet de transmettre les informations utiles sans afficher de prix approximatif.",
+      title: "Projet toiture : préparez votre demande",
+      text: "Pour une rénovation, un démoussage, une isolation, des gouttières ou de la zinguerie, continuez directement vers le formulaire de devis.",
       actions: [
-        '<a class="btn yellow urgencyDevisBtn" href="#devis">📩 Continuer vers le formulaire de devis</a>',
+        '<a class="btn yellow urgencyDevisBtn" href="#devis" data-prefill="planned">📩 Ouvrir le formulaire de devis</a>',
         '<button class="btn callbackBtn" type="button" data-open-callback>☎️ Être rappelé</button>'
       ]
     }
   };
 
-  if (urgencyChoices && urgencyTitle && urgencyText && urgencyActions) {
-    urgencyChoices.addEventListener("click", function(e){
-      const btn = e.target.closest(".urgencyChoice");
-      if (!btn) return;
-      urgencyChoices.querySelectorAll(".urgencyChoice").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      const cfg = urgencyConfig[btn.dataset.urgency];
-      if (!cfg) return;
-      if (urgencyResultIcon) urgencyResultIcon.textContent = cfg.icon || "✓";
-      urgencyTitle.textContent = cfg.title;
-      urgencyText.textContent = cfg.text;
-      urgencyActions.innerHTML = cfg.actions.join("");
+  if (!urgencyChoices || !urgencyTitle || !urgencyText || !urgencyActions) return;
 
-      urgencyActions.querySelectorAll("[data-open-callback]").forEach(openBtn => {
-        openBtn.addEventListener("click", function(){
-          const existing = document.querySelector("[data-open-callback]");
-          if (existing && existing !== openBtn) existing.click();
-        });
+  urgencyChoices.addEventListener("click", function(e){
+    const btn = e.target.closest(".urgencyChoice");
+    if (!btn) return;
+
+    urgencyChoices.querySelectorAll(".urgencyChoice").forEach(function(b){
+      b.classList.remove("active");
+    });
+    btn.classList.add("active");
+
+    const cfg = urgencyConfig[btn.dataset.urgency];
+    if (!cfg) return;
+
+    if (urgencyResultIcon) urgencyResultIcon.textContent = cfg.icon || "✓";
+    urgencyTitle.textContent = cfg.title;
+    urgencyText.textContent = cfg.text;
+    urgencyActions.innerHTML = cfg.actions.join("");
+
+    urgencyActions.querySelectorAll("[data-open-callback]").forEach(function(openBtn){
+      openBtn.addEventListener("click", function(){
+        const existing = document.querySelector(".hero [data-open-callback], .heroContact [data-open-callback]");
+        if (existing) existing.click();
+      });
+    });
+
+    if (typeof window.gtag === "function") {
+      window.gtag("event","urgence_toiture_choix",{
+        event_category:"Engagement",
+        event_label:btn.dataset.urgency
+      });
+    }
+  });
+
+  urgencyActions.addEventListener("click", function(e){
+    const devisBtn = e.target.closest(".urgencyDevisBtn");
+    if (!devisBtn) return;
+
+    e.preventDefault();
+
+    const devisSection = document.getElementById("devis");
+    const wizard = document.getElementById("quoteWizard");
+    if (!devisSection || !wizard) return;
+
+    const mode = devisBtn.dataset.prefill || "";
+
+    // Pour fuite / dégât, préselectionner "Fuite / urgence"
+    // afin d'envoyer directement le visiteur à l'étape suivante du formulaire.
+    if (mode === "leak") {
+      const leakChoice = wizard.querySelector('.quoteChoice[data-flow="leak"]');
+      if (leakChoice) leakChoice.click();
+    } else {
+      // Pour un projet non urgent, afficher la première étape du formulaire.
+      wizard.querySelectorAll(".quoteStep").forEach(function(step){
+        step.classList.toggle("active", step.dataset.step === "1");
       });
 
-      if (typeof window.gtag === "function") {
-        window.gtag("event","urgence_toiture_choix",{
-          event_category:"Contact",
-          event_label:btn.dataset.urgency
-        });
-      }
-    });
-  }
-    });
-  }
+      const progressText = document.getElementById("quoteProgressText");
+      const progressPercent = document.getElementById("quoteProgressPercent");
+      const progressBar = document.getElementById("quoteProgressBar");
+      if (progressText) progressText.textContent = "Étape 1";
+      if (progressPercent) progressPercent.textContent = "";
+      if (progressBar) progressBar.style.width = "25%";
+    }
+
+    setTimeout(function(){
+      devisSection.scrollIntoView({behavior:"smooth", block:"start"});
+    }, 180);
+
+    if (typeof window.gtag === "function") {
+      window.gtag("event","urgence_vers_formulaire_devis",{
+        event_category:"Contact",
+        event_label:mode || "devis"
+      });
+    }
+  });
 })();
 </script>
 
