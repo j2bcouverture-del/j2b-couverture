@@ -405,6 +405,69 @@
       }
     }
 
+    /* Centrage renforcé du bloc urgence */
+    .urgencyChoices{
+      align-items:stretch;
+    }
+    .urgencyChoice{
+      text-align:center;
+      align-items:center;
+      justify-content:flex-start;
+    }
+    .urgencyTopLine{
+      width:100%;
+      justify-content:center;
+      position:relative;
+      min-height:34px;
+    }
+    .urgencyTopLine .urgencyBadge{
+      position:absolute;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+    }
+    .urgencyChoice strong,
+    .urgencyChoice span:nth-of-type(2),
+    .urgencyChoice small{
+      width:100%;
+      text-align:center;
+    }
+
+    .urgencyActions{
+      width:100%;
+      justify-content:center;
+      align-items:stretch;
+    }
+    .urgencyActions .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      white-space:normal;
+      line-height:1.25;
+      min-height:60px;
+      margin:0;
+    }
+
+    @media(max-width:640px){
+      .urgencyActions{
+        grid-template-columns:1fr;
+      }
+      .urgencyActions .btn{
+        width:100%;
+        max-width:100%;
+        padding:15px 16px;
+      }
+      .urgencyTopLine{
+        padding-right:0;
+      }
+      .urgencyTopLine .urgencyBadge{
+        position:static;
+        transform:none;
+        margin-left:8px;
+      }
+    }
+
   </style>
 
   <script type="application/ld+json">
@@ -794,7 +857,7 @@ document.addEventListener("DOMContentLoaded", function(){
       actions: [
         '<a class="btn red" href="tel:+33601462612">📞 Appeler maintenant</a>',
         '<a class="btn whatsapp whatsapp-link" target="_blank" rel="noopener" href="https://wa.me/33601462612?text=Bonjour%2C%20j%27ai%20une%20fuite%20de%20toiture%20en%20cours.%20Je%20peux%20vous%20envoyer%20des%20photos.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A">📸 Envoyer les photos</a>',
-        '<a class="btn ghost urgencyDevisBtn" href="#devis" data-prefill="leak">📩 Continuer vers le formulaire de devis</a>'
+        '<a class="btn ghost urgencyDevisBtn" href="#devis" data-prefill="damage">📩 Continuer vers le formulaire de devis</a>'
       ]
     },
     damage: {
@@ -869,6 +932,16 @@ document.addEventListener("DOMContentLoaded", function(){
     if (mode === "leak") {
       const leakChoice = wizard.querySelector('.quoteChoice[data-flow="leak"]');
       if (leakChoice) leakChoice.click();
+    } else if (mode === "damage") {
+      const leakChoice = wizard.querySelector('.quoteChoice[data-flow="leak"]');
+      if (leakChoice) leakChoice.click();
+
+      // Le parcours "Fuite / urgence" affiche ensuite l'étape "Quel problème constatez-vous ?".
+      // On préselectionne précisément "Tuiles cassées ou déplacées".
+      setTimeout(function(){
+        const damageChoice = wizard.querySelector('.quoteChoice[data-value="Tuiles cassées ou déplacées"]');
+        if (damageChoice) damageChoice.click();
+      }, 220);
     } else {
       // Pour un projet non urgent, afficher la première étape du formulaire.
       wizard.querySelectorAll(".quoteStep").forEach(function(step){
