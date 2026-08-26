@@ -207,7 +207,7 @@
     .local-department{background:#fff;border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
     .local-department h3{font-size:1.35rem;margin-bottom:6px}
     .local-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
-    .local-links span{display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fffaf1;font-weight:800;text-align:center}
+    .local-links span,.local-links a{display:flex;align-items:center;justify-content:center;min-height:46px;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fffaf1;font-weight:800;text-align:center}
     .breadcrumb{font-size:.92rem;color:var(--muted);margin-bottom:18px}
 
     footer{background:var(--navy);color:#fff;padding:36px 0}
@@ -680,6 +680,9 @@
           <a class="btn ghost" href="./diagnostic-toiture.html">🔎 Diagnostic toiture</a>
           <a class="btn ghost" href="./simulateur-couleur-toiture.html">🎨 Simulateur couleur</a>
           <a class="btn ghost" href="./realisations.html">📸 Photos &amp; vidéos</a>
+          <a class="btn ghost" href="./reparer-ou-refaire-toiture.html">🏠 Réparer ou refaire ?</a>
+          <a class="btn ghost" href="./urgence-toiture.html">🚨 Urgence toiture</a>
+          <a class="btn ghost" href="./avis-clients.html">⭐ Avis clients</a>
         </div>
       </div>
     </div>
@@ -718,9 +721,48 @@
   <section id="adresse" class="section"><div class="container"><h2>J2B Couverture à Toul</h2><p class="muted"><strong>J2B Couverture</strong> intervient depuis Toul dans toute la Meurthe-et-Moselle et se déplace également en Meuse, Moselle et dans les Vosges.</p><div class="addressBox"><div class="card"><h3>Secteur principal</h3><p class="muted"><strong>Toul et agglomération</strong><br>Meurthe-et-Moselle (54)<br>Grand Est</p><p class="muted">Déplacements réguliers vers Nancy, Écrouves, Dommartin-lès-Toul, Gondreville et les communes environnantes.</p><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a><a class="btn yellow" href="https://www.google.com/maps/search/?api=1&query=Toul%2054200" target="_blank" rel="noopener">📍 Ouvrir Toul dans Google Maps</a></div></div><div class="mapWrap"><div class="mapButtons"><button class="mapBtn active" type="button" data-map="Toul 54200">📍 Toul</button><button class="mapBtn" type="button" data-map="Nancy 54000">Nancy</button><button class="mapBtn" type="button" data-map="Meurthe-et-Moselle 54">54</button><button class="mapBtn" type="button" data-map="Meuse 55">55</button><button class="mapBtn" type="button" data-map="Moselle 57">57</button><button class="mapBtn" type="button" data-map="Vosges 88">88</button></div><iframe id="googleMap" class="googleMap" title="Google Maps - zone d'intervention J2B Couverture Toul" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Toul%2054200&output=embed"></iframe><p class="muted small mapLegend"><span class="legendDot"></span> Cliquez sur une zone pour déplacer la carte.</p></div></div></div></section>
 </main>
 
-<section class="local-network" id="secteurs-locaux" aria-labelledby="local-network-title"><div class="container"><nav class="breadcrumb" aria-label="Fil d’Ariane">Accueil <span aria-hidden="true">›</span> Secteurs d’intervention</nav><div class="local-network-head"><h2 id="local-network-title">Couvreur dans le 54, 55, 57 et 88</h2><p class="muted">J2B Couverture intervient sur un large secteur du Grand Est pour les travaux de couverture, zinguerie et entretien de toiture.</p></div><div class="local-departments"><section class="local-department"><h3>Meurthe-et-Moselle (54)</h3><p class="muted small">Secteur principal autour de Toul et Nancy.</p><div class="local-links"><span>Couvreur à Toul</span><span>Couvreur à Nancy</span><span>Couvreur à Écrouves</span><span>Couvreur à Dommartin-lès-Toul</span><span>Couvreur à Gondreville</span><span>Couvreur à Liverdun</span></div></section><section class="local-department"><h3>Grand Est</h3><p class="muted small">Déplacements selon chantier et type d’intervention.</p><div class="local-links"><span>Meuse (55)</span><span>Moselle (57)</span><span>Vosges (88)</span><span>Meurthe-et-Moselle (54)</span></div></section></div></div></section>
+<section class="local-network" id="secteurs-locaux" aria-labelledby="local-network-title"><div class="container"><nav class="breadcrumb" aria-label="Fil d’Ariane">Accueil <span aria-hidden="true">›</span> Secteurs d’intervention</nav><div class="local-network-head"><h2 id="local-network-title">Couvreur dans le 54, 55, 57 et 88</h2><p class="muted">J2B Couverture intervient sur un large secteur du Grand Est pour les travaux de couverture, zinguerie et entretien de toiture.</p></div><div class="local-departments"><section class="local-department"><h3>Meurthe-et-Moselle (54)</h3><p class="muted small">Secteur principal autour de Toul et Nancy.</p><div class="local-links"><a href="./couvreur-toul.html">Couvreur à Toul</a><a href="./couvreur-nancy.html">Couvreur à Nancy</a><a href="./couvreur-ecrouves.html">Couvreur à Écrouves</a><a href="./couvreur-dommartin-les-toul.html">Couvreur à Dommartin-lès-Toul</a><a href="./couvreur-gondreville.html">Couvreur à Gondreville</a><a href="./couvreur-liverdun.html">Couvreur à Liverdun</a></div></section><section class="local-department"><h3>Grand Est</h3><p class="muted small">Déplacements selon chantier et type d’intervention.</p><div class="local-links"><span>Meuse (55)</span><span>Moselle (57)</span><span>Vosges (88)</span><span>Meurthe-et-Moselle (54)</span></div></section></div></div></section>
 
-<footer><div class="container"><div><strong>J2B Couverture</strong> — Couvreur à Toul & Grand Est</div><div style="margin-top:8px">📱 <a href="tel:+33601462612">06 01 46 26 12</a></div><div style="margin-top:8px">Email : <a href="mailto:j2b.couverture@gmail.com">j2b.couverture@gmail.com</a></div><div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.16);line-height:1.8;font-size:.95rem"><div>🛡️ Assurance décennale : <strong>QBE Europe SA/NV</strong></div><div>SIRET : <strong>851 484 717 00018</strong></div></div><div style="margin-top:8px;opacity:.9;font-size:.95rem">© <span id="year"></span> — Tous droits réservés.</div></div></footer>
+
+<footer class="footerGlobal">
+  <div class="container">
+    <div class="footerGrid">
+      <div>
+        <h3>J2B Couverture</h3>
+        <p style="margin:0;opacity:.9">Couvreur à Toul, Nancy et alentours. Rénovation, réparation, zinguerie, démoussage, entretien et isolation.</p>
+        <a href="tel:+33601462612">📞 06 01 46 26 12</a>
+        <a href="mailto:j2b.couverture@gmail.com">✉️ j2b.couverture@gmail.com</a>
+      </div>
+      <div>
+        <h3>Prestations</h3>
+        <a href="./renovation-toiture.html">Rénovation toiture</a>
+        <a href="./reparation-fuite-toiture.html">Fuite / urgence</a>
+        <a href="./zinguerie.html">Zinguerie</a>
+        <a href="./demoussage-toiture.html">Démoussage</a>
+        <a href="./entretien-toiture.html">Entretien</a>
+      </div>
+      <div>
+        <h3>Outils &amp; preuves</h3>
+        <a href="./diagnostic-toiture.html">Diagnostic toiture</a>
+        <a href="./reparer-ou-refaire-toiture.html">Réparer ou refaire ?</a>
+        <a href="./simulateur-couleur-toiture.html">Simulateur couleur</a>
+        <a href="./realisations.html">Photos &amp; vidéos</a>
+        <a href="./avis-clients.html">Avis clients</a>
+      </div>
+      <div>
+        <h3>Secteurs</h3>
+        <a href="./couvreur-toul.html">Toul</a>
+        <a href="./couvreur-nancy.html">Nancy</a>
+        <a href="./couvreur-ecrouves.html">Écrouves</a>
+        <a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a>
+        <a href="./couvreur-gondreville.html">Gondreville</a>
+        <a href="./couvreur-liverdun.html">Liverdun</a>
+      </div>
+    </div>
+    <div class="footerBottom">🛡️ Garantie décennale QBE Europe SA/NV • SIRET 851 484 717 00018 • © J2B Couverture</div>
+  </div>
+</footer>
+
 
 <a class="whatsapp-float whatsapp-link" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul%20pour%20obtenir%20un%20devis%20gratuit.%0A%0A%F0%9F%93%8D%20Ville%20du%20chantier%20%3A%0A%F0%9F%8F%A0%20Travaux%20souhait%C3%A9s%20%3A%0A%F0%9F%93%B8%20Je%20peux%20vous%20transmettre%20des%20photos%20de%20la%20toiture.%0A%0AMerci." target="_blank" rel="noopener" aria-label="Demander un devis sur WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.08 0C5.55 0 .24 5.31.24 11.84c0 2.09.55 4.13 1.59 5.92L.14 24l6.39-1.68a11.82 11.82 0 0 0 5.55 1.42h.01c6.52 0 11.83-5.31 11.83-11.84 0-3.16-1.23-6.13-3.4-8.42Zm-8.43 18.26h-.01a9.8 9.8 0 0 1-4.99-1.37l-.36-.21-3.79.99 1.01-3.69-.24-.38a9.79 9.79 0 1 1 8.38 4.66Zm5.37-7.34c-.29-.15-1.74-.86-2.01-.96-.27-.1-.47-.15-.66.15-.2.29-.76.96-.93 1.16-.17.2-.34.22-.64.07-1.73-.86-2.87-1.54-4.02-3.5-.3-.51.3-.47.86-1.56.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.19-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.52.07-.79.37-.27.29-1.03 1.01-1.03 2.46s1.06 2.85 1.2 3.05c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.71.22 1.35.19 1.86.12.57-.09 1.74-.71 1.99-1.4.24-.69.24-1.28.17-1.4-.07-.12-.27-.2-.56-.34Z"/></svg><span>WhatsApp</span></a>
 <a class="call" href="tel:+33601462612">📞 Appeler</a>
