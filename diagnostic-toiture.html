@@ -470,7 +470,12 @@
     .videoPageGrid video{width:100%;border-radius:16px;background:#111}
     @media(max-width:760px){.realGrid,.videoPageGrid{grid-template-columns:1fr}.realGrid img{height:auto}}
 
-  </style>
+  
+:root{--navy:#182536;--navy2:#24364C;--gold:#C1A66B;--cream:#F7F5F1;--text:#1D2732;--muted:#66717C;--border:#E1E3E5;--red:#B32025;--shadow:0 14px 38px rgba(24,37,54,.10);--radius:18px;--max:1120px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:#fff}a{text-decoration:none;color:inherit}img,video{max-width:100%}h1,h2,h3{line-height:1.15}h1{font-size:clamp(2.2rem,5vw,4rem);margin:0 0 16px}h2{font-size:clamp(1.7rem,3vw,2.5rem);margin:0 0 10px}p{line-height:1.65}.container{width:min(var(--max),92%);margin:auto}.muted{color:var(--muted)}.section{padding:64px 0}.alt{background:#FBF8F1}.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;font-weight:900;border:1px solid transparent;cursor:pointer}.btn.red{background:var(--red);color:#fff}.btn.gold{background:var(--gold);color:var(--navy)}.btn.ghost{background:#fff;border-color:var(--border)}.btn.whatsapp{background:var(--navy2);color:#fff}.heroPage{padding:58px 0;background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}.heroPage p{color:#EDE4D3;max-width:780px}.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.heroPage .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}.eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(193,166,107,.18);color:#E8D8B4;font-weight:900;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}.crumb{font-size:.9rem;color:#D8C9A8;margin-bottom:14px}.serviceLinks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}.serviceLinks a{border:1px solid var(--border);border-radius:12px;padding:13px;background:#fff;font-weight:850;text-align:center}.ctaBox{text-align:center}.ctaBox .heroActions{justify-content:center}.footerGlobal{background:var(--navy);color:#fff;padding:44px 0 28px;margin-top:0}.footerGrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:22px}.footerGlobal h3{font-size:1rem;color:#E8D8B4;margin-bottom:10px}.footerGlobal a{display:block;color:#fff;opacity:.92;padding:4px 0}.footerBottom{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem;opacity:.8}.localCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}.localCards a{padding:16px;border:1px solid var(--border);border-radius:14px;background:#fff;font-weight:900;text-align:center}.choiceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;text-align:left;cursor:pointer;font-weight:800}.choice.active{background:#F3EEE3;border-color:var(--gold)}.resultBox{margin-top:18px;padding:20px;border-radius:14px;background:#fff;border:1px solid var(--border)}.reviewGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.reviewCard{padding:20px;border:1px solid var(--border);border-radius:16px;background:#fff}.stars{color:#F59E0B;letter-spacing:2px}
+@media(max-width:850px){.grid,.serviceLinks,.localCards,.reviewGrid{grid-template-columns:1fr 1fr}.footerGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.grid,.grid2,.serviceLinks,.localCards,.choiceGrid,.reviewGrid,.footerGrid{grid-template-columns:1fr}.heroActions{display:grid}.heroActions .btn{width:100%;text-align:center;white-space:normal}}
+</style>
 </head>
 <body>
   <div class="trustBar"><div class="container trustBarInner">J2B Couverture • Toul &amp; Nancy • Devis gratuit • Garantie décennale</div></div>
@@ -505,7 +510,44 @@
   <p class="muted">Le diagnostic en ligne donne une première orientation. Pour confirmer l’état réel de la toiture, une visite reste nécessaire.</p>
   <div class="cta"><a class="btn red" href="./#devis">Demander un devis</a><a class="btn whatsapp" href="https://wa.me/33601462612" target="_blank" rel="noopener">Envoyer des photos</a></div>
 </div></div></section>
-  <footer><div class="container">© J2B Couverture — Toul &amp; Nancy</div></footer>
+  <footer class="footerGlobal">
+  <div class="container">
+    <div class="footerGrid">
+      <div>
+        <h3>J2B Couverture</h3>
+        <p style="margin:0;opacity:.9">Couvreur à Toul, Nancy et alentours. Rénovation, réparation, zinguerie, démoussage, entretien et isolation.</p>
+        <a href="tel:+33601462612">📞 06 01 46 26 12</a>
+        <a href="mailto:j2b.couverture@gmail.com">✉️ j2b.couverture@gmail.com</a>
+      </div>
+      <div>
+        <h3>Prestations</h3>
+        <a href="./renovation-toiture.html">Rénovation toiture</a>
+        <a href="./reparation-fuite-toiture.html">Fuite / urgence</a>
+        <a href="./zinguerie.html">Zinguerie</a>
+        <a href="./demoussage-toiture.html">Démoussage</a>
+        <a href="./entretien-toiture.html">Entretien</a>
+      </div>
+      <div>
+        <h3>Outils &amp; preuves</h3>
+        <a href="./diagnostic-toiture.html">Diagnostic toiture</a>
+        <a href="./reparer-ou-refaire-toiture.html">Réparer ou refaire ?</a>
+        <a href="./simulateur-couleur-toiture.html">Simulateur couleur</a>
+        <a href="./realisations.html">Photos &amp; vidéos</a>
+        <a href="./avis-clients.html">Avis clients</a>
+      </div>
+      <div>
+        <h3>Secteurs</h3>
+        <a href="./couvreur-toul.html">Toul</a>
+        <a href="./couvreur-nancy.html">Nancy</a>
+        <a href="./couvreur-ecrouves.html">Écrouves</a>
+        <a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a>
+        <a href="./couvreur-gondreville.html">Gondreville</a>
+        <a href="./couvreur-liverdun.html">Liverdun</a>
+      </div>
+    </div>
+    <div class="footerBottom">🛡️ Garantie décennale QBE Europe SA/NV • SIRET 851 484 717 00018 • © J2B Couverture</div>
+  </div>
+</footer>
 <script>
 
     window.dataLayer = window.dataLayer || [];
