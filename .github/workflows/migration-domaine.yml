@@ -1,0 +1,129 @@
+name: Migration SEO vers j2b-couverture.fr
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/migration-domaine.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le site
+        uses: actions/checkout@v4
+
+      - name: Corriger toutes les URL SEO
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          OLD = "https://j2bcouverture-del.github.io/j2b-couverture"
+          NEW = "https://j2b-couverture.fr"
+
+          changed = []
+
+          for path in sorted(Path(".").glob("*.html")):
+              if path.name.lower().startswith("google"):
+                  continue
+
+              text = path.read_text(encoding="utf-8")
+              original = text
+
+              # Canonical, Open Graph, images, JSON-LD, liens absolus...
+              text = text.replace(OLD, NEW)
+
+              # Canonical correcte pour chaque page
+              if path.name == "index.html":
+                  canonical = NEW + "/"
+              else:
+                  canonical = NEW + "/" + path.name
+
+              pattern = r'<link\s+rel=["\']canonical["\'][^>]*>'
+
+              if re.search(pattern, text, flags=re.I):
+                  text = re.sub(
+                      pattern,
+                      f'<link rel="canonical" href="{canonical}">',
+                      text,
+                      count=1,
+                      flags=re.I
+                  )
+              elif re.search(r"</head>", text, flags=re.I):
+                  text = re.sub(
+                      r"</head>",
+                      f'  <link rel="canonical" href="{canonical}">\n</head>',
+                      text,
+                      count=1,
+                      flags=re.I
+                  )
+
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(path.name)
+
+          # robots.txt
+          robots = Path("robots.txt")
+          if robots.exists():
+              text = robots.read_text(encoding="utf-8")
+              new_text = text.replace(OLD, NEW)
+              if new_text != text:
+                  robots.write_text(new_text, encoding="utf-8")
+                  changed.append("robots.txt")
+
+          # sitemap.xml
+          sitemap = Path("sitemap.xml")
+          if sitemap.exists():
+              text = sitemap.read_text(encoding="utf-8")
+              new_text = text.replace(OLD, NEW)
+              new_text = re.sub(
+                  r"<lastmod>[^<]+</lastmod>",
+                  "<lastmod>2026-08-27</lastmod>",
+                  new_text
+              )
+
+              if new_text != text:
+                  sitemap.write_text(new_text, encoding="utf-8")
+                  changed.append("sitemap.xml")
+
+          print("Fichiers corrigés :", len(changed))
+          for f in changed:
+              print("-", f)
+
+      - name: Vérifier les balises Google
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          text = "\n".join(
+              p.read_text(encoding="utf-8", errors="ignore")
+              for p in Path(".").glob("*.html")
+          )
+
+          ga = sorted(set(re.findall(r"G-[A-Z0-9]+", text)))
+          ads = sorted(set(re.findall(r"AW-[0-9]+", text)))
+
+          print("GA4 trouvés :", ga or "aucun")
+          print("Google Ads trouvés :", ads or "aucun")
+
+      - name: Enregistrer les modifications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add '*.html' robots.txt sitemap.xml
+
+          if git diff --cached --quiet; then
+            echo "Aucune modification nécessaire."
+            exit 0
+          fi
+
+          git commit -m "SEO: passage au domaine j2b-couverture.fr"
+          git push
