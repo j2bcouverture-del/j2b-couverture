@@ -1,0 +1,173 @@
+name: Installer ntfy sur toutes les pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-ntfy-all-pages.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  install-ntfy:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le site
+        uses: actions/checkout@v4
+
+      - name: Créer le suivi ntfy et l'ajouter à toutes les pages HTML
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          SCRIPT_URL = "https://j2b-couverture.fr/ntfy-visites.js?v=1"
+          SCRIPT_TAG = f'<script src="{SCRIPT_URL}" defer></script>'
+
+          JS = r'''(function(){
+            "use strict";
+
+            const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
+            const SESSION_KEY = "j2b_toul_ntfy_visit_sent_v2";
+
+            function alreadySent(){
+              try{
+                if(sessionStorage.getItem(SESSION_KEY)) return true;
+                sessionStorage.setItem(SESSION_KEY, "1");
+                return false;
+              }catch(e){
+                return false;
+              }
+            }
+
+            function allowRetry(){
+              try{ sessionStorage.removeItem(SESSION_KEY); }catch(e){}
+            }
+
+            function sourceFromVisit(){
+              const p = new URLSearchParams(location.search);
+
+              if(
+                p.has("gclid") ||
+                p.has("gbraid") ||
+                p.has("wbraid") ||
+                p.get("gad_source") === "1"
+              ){
+                return "Google Ads";
+              }
+
+              if(p.get("utm_source")){
+                let source = p.get("utm_source");
+                const medium = p.get("utm_medium");
+                const campaign = p.get("utm_campaign");
+
+                if(medium) source += " / " + medium;
+                if(campaign) source += " / campagne " + campaign;
+
+                return source;
+              }
+
+              if(document.referrer){
+                try{
+                  const host = new URL(document.referrer).hostname
+                    .replace(/^www\./, "")
+                    .toLowerCase();
+
+                  if(host.includes("google.")) return "Google naturel / Google";
+                  if(host.includes("bing.")) return "Bing";
+                  if(host.includes("facebook.") || host === "fb.com") return "Facebook";
+                  if(host.includes("instagram.")) return "Instagram";
+
+                  return host;
+                }catch(e){
+                  return "Lien externe";
+                }
+              }
+
+              return "Direct / provenance inconnue";
+            }
+
+            if(alreadySent()) return;
+
+            const source = sourceFromVisit();
+            const pageTitle = document.title || "Page sans titre";
+            const path = location.pathname || "/";
+            const hour = new Date().toLocaleString("fr-FR");
+
+            const message = [
+              "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
+              "",
+              "Page : " + pageTitle,
+              "Chemin : " + path,
+              "Provenance : " + source,
+              "Heure : " + hour
+            ].join("\n");
+
+            const publishUrl =
+              NTFY_TOPIC +
+              "?title=" + encodeURIComponent("Nouveau visiteur J2B Toul") +
+              "&priority=high" +
+              "&tags=eyes,house";
+
+            fetch(publishUrl, {
+              method: "POST",
+              body: message,
+              keepalive: true,
+              cache: "no-store"
+            }).catch(function(){
+              allowRetry();
+            });
+          })();
+          '''
+
+          Path("ntfy-visites.js").write_text(JS, encoding="utf-8")
+
+          changed = []
+
+          for path in sorted(Path(".").rglob("*.html")):
+              if ".git" in path.parts:
+                  continue
+
+              text = path.read_text(encoding="utf-8")
+
+              if "ntfy-visites.js" in text:
+                  continue
+
+              if re.search(r"</body\s*>", text, flags=re.I):
+                  text = re.sub(
+                      r"</body\s*>",
+                      SCRIPT_TAG + "\n</body>",
+                      text,
+                      count=1,
+                      flags=re.I
+                  )
+              else:
+                  text += "\n" + SCRIPT_TAG + "\n"
+
+              path.write_text(text, encoding="utf-8")
+              changed.append(str(path))
+
+          print("Script global créé : ntfy-visites.js")
+          print("Pages HTML modifiées :", len(changed))
+          for name in changed:
+              print("-", name)
+
+      - name: Commit automatique
+        run: |
+          if git diff --quiet; then
+            echo "Aucune modification nécessaire."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add ntfy-visites.js
+          git add '*.html'
+          git add '**/*.html' 2>/dev/null || true
+          git commit -m "Add ntfy visitor tracking to all pages"
+          git push
