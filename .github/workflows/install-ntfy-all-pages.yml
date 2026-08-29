@@ -19,7 +19,7 @@ jobs:
       - name: Récupérer le site
         uses: actions/checkout@v4
 
-      - name: Créer le suivi ntfy et l'ajouter à toutes les pages HTML
+      - name: Installer ntfy sans toucher à la vérification Google
         shell: python
         run: |
           from pathlib import Path
@@ -128,11 +128,25 @@ jobs:
 
           changed = []
 
+          # Nettoie et protège les fichiers spéciaux de vérification Google.
+          for path in sorted(Path(".").glob("google*.html")):
+              text = path.read_text(encoding="utf-8")
+              if text.lstrip().startswith("google-site-verification:"):
+                  clean = text.splitlines()[0].strip() + "\n"
+                  if text != clean:
+                      path.write_text(clean, encoding="utf-8")
+                      changed.append(str(path) + " [vérification Google restaurée]")
+
+          # Ajoute ntfy uniquement aux vraies pages HTML.
           for path in sorted(Path(".").rglob("*.html")):
               if ".git" in path.parts:
                   continue
 
               text = path.read_text(encoding="utf-8")
+
+              # Ne jamais modifier les fichiers de vérification Google.
+              if text.lstrip().startswith("google-site-verification:"):
+                  continue
 
               if "ntfy-visites.js" in text:
                   continue
@@ -151,8 +165,8 @@ jobs:
               path.write_text(text, encoding="utf-8")
               changed.append(str(path))
 
-          print("Script global créé : ntfy-visites.js")
-          print("Pages HTML modifiées :", len(changed))
+          print("Script global présent : ntfy-visites.js")
+          print("Fichiers modifiés :", len(changed))
           for name in changed:
               print("-", name)
 
@@ -169,5 +183,5 @@ jobs:
           git add ntfy-visites.js
           git add '*.html'
           git add '**/*.html' 2>/dev/null || true
-          git commit -m "Add ntfy visitor tracking to all pages"
+          git commit -m "Protect Google verification and keep ntfy tracking"
           git push
