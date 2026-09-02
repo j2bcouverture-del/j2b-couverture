@@ -1,0 +1,264 @@
+name: Uniformiser les pages J2B Toul
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "*.html"
+      - ".github/workflows/uniform-pages.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  uniform-pages:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le site
+        uses: actions/checkout@v4
+
+      - name: Logo accueil et doubles boutons téléphone
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          FIXE = "+33372760060"
+          PORTABLE = "+33601462612"
+
+          LOGO_START = "<!-- J2B LOGO HOME START -->"
+          LOGO_END = "<!-- J2B LOGO HOME END -->"
+
+          LOGO_BLOCK = f'''
+          {LOGO_START}
+          <style id="j2b-logo-home-style">
+
+          .j2b-logo-home{{
+            background:#fff;
+            border-bottom:4px solid #C1A66B;
+            box-shadow:0 5px 18px rgba(24,37,54,.08);
+          }}
+
+          .j2b-logo-home-inner{{
+            width:min(1160px,92%);
+            margin:auto;
+            min-height:92px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+          }}
+
+          .j2b-logo-home a{{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+          }}
+
+          .j2b-logo-home img{{
+            display:block;
+            height:72px;
+            width:auto;
+            max-width:220px;
+            object-fit:contain;
+          }}
+
+          .j2b-page-phone-pair{{
+            width:min(100%,680px);
+            display:grid!important;
+            grid-template-columns:1fr 1fr!important;
+            gap:10px;
+          }}
+
+          .j2b-page-phone-pair .btn{{
+            width:100%!important;
+            min-height:58px;
+            margin:0!important;
+            display:flex!important;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:1px;
+            line-height:1.2;
+          }}
+
+          .j2b-page-phone-pair .phone-number{{
+            font-size:.92em;
+            font-weight:900;
+          }}
+
+          .j2b-page-portable{{
+            background:#fff!important;
+            color:#182536!important;
+            border-color:#fff!important;
+          }}
+
+          @media(max-width:650px){{
+            .j2b-logo-home-inner{{
+              min-height:82px;
+            }}
+
+            .j2b-logo-home img{{
+              height:62px;
+              max-width:190px;
+            }}
+
+            .j2b-page-phone-pair{{
+              grid-template-columns:1fr 1fr!important;
+              gap:8px;
+            }}
+
+            .j2b-page-phone-pair .btn{{
+              min-height:60px;
+              padding:8px 4px!important;
+              font-size:.78rem!important;
+            }}
+          }}
+
+          </style>
+
+          <div class="j2b-logo-home">
+            <div class="j2b-logo-home-inner">
+              <a href="./" aria-label="Retour à l'accueil J2B Couverture">
+                <img src="./logo-temp.png?v=1"
+                     alt="J2B Couverture - Retour à l'accueil">
+              </a>
+            </div>
+          </div>
+          {LOGO_END}
+          '''
+
+          PHONE_PAIR = f'''
+          <div class="j2b-page-phone-pair">
+            <a class="btn red" href="tel:{FIXE}">
+              <span>☎️ Fixe</span>
+              <span class="phone-number">03 72 76 00 60</span>
+            </a>
+
+            <a class="btn j2b-page-portable" href="tel:{PORTABLE}">
+              <span>📱 Portable</span>
+              <span class="phone-number">06 01 46 26 12</span>
+            </a>
+          </div>
+          '''
+
+          changed = []
+
+          for path in sorted(Path(".").glob("*.html")):
+
+              # L'accueil possède déjà sa propre présentation.
+              if path.name == "index.html":
+                  continue
+
+              original = path.read_text(encoding="utf-8")
+              text = original
+
+              if "<body" not in text.lower():
+                  continue
+
+              # Supprime une ancienne version du logo automatique.
+              text = re.sub(
+                  r'\s*' + re.escape(LOGO_START) +
+                  r'.*?' +
+                  re.escape(LOGO_END) + r'\s*',
+                  '\n',
+                  text,
+                  flags=re.S
+              )
+
+              # Supprime "Accueil › Nom de la page".
+              text = re.sub(
+                  r'<div[^>]*class=["\'][^"\']*\bcrumb\b[^"\']*["\'][^>]*>.*?</div>\s*',
+                  '',
+                  text,
+                  flags=re.S | re.I
+              )
+
+              text = re.sub(
+                  r'<div[^>]*class=["\'][^"\']*\bbreadcrumb\b[^"\']*["\'][^>]*>.*?</div>\s*',
+                  '',
+                  text,
+                  flags=re.S | re.I
+              )
+
+              text = re.sub(
+                  r'<nav[^>]*class=["\'][^"\']*\bbreadcrumb\b[^"\']*["\'][^>]*>.*?</nav>\s*',
+                  '',
+                  text,
+                  flags=re.S | re.I
+              )
+
+              # Place le logo juste après le bandeau des deux téléphones.
+              contact_end = "<!-- J2B CONTACT GLOBAL END -->"
+
+              if contact_end in text:
+                  text = text.replace(
+                      contact_end,
+                      contact_end + "\n" + LOGO_BLOCK,
+                      1
+                  )
+              else:
+                  text = re.sub(
+                      r'(<body[^>]*>)',
+                      r'\1\n' + LOGO_BLOCK,
+                      text,
+                      count=1,
+                      flags=re.I
+                  )
+
+              # Remplace le premier gros bouton portable du bloc principal
+              # par Fixe + Portable côte à côte.
+              def change_buttons(match):
+
+                  inner = match.group(1)
+
+                  if "j2b-page-phone-pair" in inner:
+                      return match.group(0)
+
+                  new_inner, n = re.subn(
+                      r'<a\s+class=["\']btn\s+red["\']'
+                      r'\s+href=["\']tel:\+33601462612["\'][^>]*>'
+                      r'.*?</a>',
+                      PHONE_PAIR,
+                      inner,
+                      count=1,
+                      flags=re.S | re.I
+                  )
+
+                  if n:
+                      return '<div class="heroActions">' + new_inner + '</div>'
+
+                  return match.group(0)
+
+              text = re.sub(
+                  r'<div\s+class=["\']heroActions["\']>(.*?)</div>',
+                  change_buttons,
+                  text,
+                  count=1,
+                  flags=re.S | re.I
+              )
+
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(path.name)
+
+          print("Pages modifiées :", len(changed))
+
+          for page in changed:
+              print("-", page)
+
+      - name: Enregistrer automatiquement
+        run: |
+          if git diff --quiet; then
+            echo "Aucune modification nécessaire."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add '*.html'
+          git commit -m "Uniformise logo et téléphones sur toutes les pages"
+          git push
