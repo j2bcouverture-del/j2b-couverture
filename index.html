@@ -94,6 +94,21 @@
     .heroGrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.72fr);gap:38px;align-items:center}
     .heroLead{font-size:1.1rem;color:#EEE7DA;max-width:800px}
     .heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+    .heroPhones{
+      width:min(100%,680px);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .heroPhones .btn{
+      width:100%;
+      min-height:54px;
+    }
+    .heroPortable{
+      background:#fff;
+      color:#182536;
+      border-color:#fff;
+    }
     .hero .btn.ghost{background:transparent;border-color:rgba(255,255,255,.5);color:#fff}
     .heroCard{background:linear-gradient(180deg,rgba(38,57,78,.98),rgba(21,33,47,.98));padding:26px;border-radius:22px;border:1px solid rgba(255,255,255,.13);box-shadow:0 25px 60px rgba(0,0,0,.30)}
     .heroCard .muted{color:#DCE2E8}
@@ -156,8 +171,18 @@
     footer a{display:block;padding:4px 0}
     .footerBottom{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-size:.86rem;opacity:.85}
 
-    .callFloat,.waFloat{position:fixed;right:16px;z-index:1000;color:#fff;font-weight:900;border-radius:999px;padding:13px 17px;box-shadow:0 15px 36px rgba(0,0,0,.20)}    .callFloat{bottom:16px;background:var(--red)}
-    .waFloat{bottom:70px;background:var(--navy2)}
+    .waFloat{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      z-index:1000;
+      color:#fff;
+      background:var(--navy2);
+      font-weight:900;
+      border-radius:999px;
+      padding:13px 17px;
+      box-shadow:0 15px 36px rgba(0,0,0,.20)
+    }
 
     @media(max-width:980px){
       .heroGrid,.grid3,.grid2,.zoneCards{grid-template-columns:1fr}
@@ -195,7 +220,19 @@
         "url":"https://j2b-couverture.fr/",
         "logo":"https://j2b-couverture.fr/logo-temp.png",
         "image":"https://j2b-couverture.fr/renovation-toiture-pose-tuiles-04.jpg",
-        "telephone":"+33601462612",
+        "telephone":"+33372760060",
+        "contactPoint":[
+          {
+            "@type":"ContactPoint",
+            "telephone":"+33372760060",
+            "contactType":"customer service"
+          },
+          {
+            "@type":"ContactPoint",
+            "telephone":"+33601462612",
+            "contactType":"mobile"
+          }
+        ],
         "email":"j2b.couverture@gmail.com",
         "description":"Couvreur à Toul et Nancy pour rénovation de toiture, réparation de fuite, zinguerie, gouttières, démoussage, isolation et entretien.",
         "address":{
@@ -242,71 +279,58 @@
 
 <!-- J2B CONTACT GLOBAL START -->
 <style id="j2b-contact-global-style">
-  .j2b-contact-global{
-    background:#182536;
-    color:#fff;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    position:relative;
-    z-index:9999;
-    border-bottom:3px solid #C1A66B;
-  }
-
+.j2b-contact-global{
+  background:#182536;
+  color:#fff;
+  border-bottom:3px solid #C1A66B;
+  position:relative;
+  z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+.j2b-contact-global-inner{
+  width:min(1180px,94%);
+  margin:auto;
+  padding:7px 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.j2b-contact-global a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  text-decoration:none;
+  font-weight:900;
+}
+.j2b-contact-fixe{
+  background:#B32025;
+  color:#fff!important;
+}
+.j2b-contact-portable{
+  background:#fff;
+  color:#182536!important;
+}
+@media(max-width:650px){
   .j2b-contact-global-inner{
-    width:min(1180px,94%);
-    margin:auto;
-    min-height:52px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    padding:7px 0;
+    width:100%;
+    gap:6px;
+    padding:6px;
   }
-
   .j2b-contact-global a{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:38px;
-    padding:8px 14px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:900;
+    font-size:.78rem;
+    padding:6px 3px;
+    white-space:nowrap;
   }
-
-  .j2b-contact-fixe{
-    background:#B32025;
-    color:#fff !important;
-  }
-
-  .j2b-contact-portable{
-    background:#fff;
-    color:#182536 !important;
-  }
-
-  @media(max-width:650px){
-    .j2b-contact-global-inner{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:6px;
-      padding:6px;
-      width:100%;
-    }
-
-    .j2b-contact-global a{
-      font-size:.78rem;
-      padding:8px 5px;
-      white-space:nowrap;
-    }
-  }
+}
 </style>
 
-<div class="j2b-contact-global" aria-label="Téléphones J2B Couverture Toul">
+<div class="j2b-contact-global">
   <div class="j2b-contact-global-inner">
     <a class="j2b-contact-fixe" href="tel:+33372760060">
       ☎️ Fixe : 03 72 76 00 60
     </a>
-
     <a class="j2b-contact-portable" href="tel:+33601462612">
       📱 Portable : 06 01 46 26 12
     </a>
@@ -320,8 +344,6 @@
       🛡️ <strong>Décennale QBE Europe SA/NV</strong>
       <span class="sep">•</span>
       <strong>SIRET 851 484 717 00018</strong>
-      <span class="sep">•</span>
-      📞 <a href="tel:+33601462612">06 01 46 26 12</a>
     </div>
   </div>
 
@@ -361,20 +383,24 @@
         </p>
 
         <div class="heroActions">
-          <a class="btn red" href="tel:+33601462612">📞 Appeler : 06 01 46 26 12</a>
+          <div class="heroPhones">
+          <a class="btn red" href="tel:+33372760060">
+            ☎️ Fixe : 03 72 76 00 60
+          </a>
+          <a class="btn heroPortable" href="tel:+33601462612">
+            📱 Portable : 06 01 46 26 12
+          </a>
+        </div>
           <a class="btn gold" href="#devis">📩 Demander un devis</a>
           <a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul.%20Je%20souhaite%20un%20devis." target="_blank" rel="noopener">💬 Envoyer des photos</a>
-          <a class="btn ghost" href="./couvreur-toul.html">📍 Voir la page Couvreur Toul</a>
         </div>
       </div>
 
       <aside class="heroCard">
         <h3>Un projet ou une urgence toiture ?</h3>
         <p class="muted">Décrivez votre besoin ou envoyez des photos. Toul est notre secteur local principal.</p>
-        <div class="contactLine"><span>📞</span><div><strong>06 01 46 26 12</strong><br><span class="muted small">Devis et urgences toiture</span></div></div>
         <div class="contactLine"><span>✉️</span><div><strong>j2b.couverture@gmail.com</strong><br><span class="muted small">Demande de devis</span></div></div>
         <div class="contactLine"><span>📍</span><div><strong>Toul • Toulois • Nancy</strong><br><span class="muted small">Meurthe-et-Moselle et Grand Est</span></div></div>
-        <a class="btn red" href="tel:+33601462612">📞 Appeler J2B Couverture</a>
         <a class="btn whatsapp" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a class="btn ghost" href="#devis">📩 Devis gratuit</a>
       </aside>
@@ -673,7 +699,6 @@
 </footer>
 
 <a class="waFloat" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 WhatsApp</a>
-<a class="callFloat" href="tel:+33601462612">📞 Appeler</a>
 
 <!-- ============================================================
      NTFY : NOTIFICATION DE CHAQUE NOUVELLE VISITE / SESSION

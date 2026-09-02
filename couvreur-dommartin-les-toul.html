@@ -21,79 +21,64 @@
 
 <!-- J2B CONTACT GLOBAL START -->
 <style id="j2b-contact-global-style">
-  .j2b-contact-global{
-    background:#182536;
-    color:#fff;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    position:relative;
-    z-index:9999;
-    border-bottom:3px solid #C1A66B;
-  }
-
+.j2b-contact-global{
+  background:#182536;
+  color:#fff;
+  border-bottom:3px solid #C1A66B;
+  position:relative;
+  z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+.j2b-contact-global-inner{
+  width:min(1180px,94%);
+  margin:auto;
+  padding:7px 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.j2b-contact-global a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  text-decoration:none;
+  font-weight:900;
+}
+.j2b-contact-fixe{
+  background:#B32025;
+  color:#fff!important;
+}
+.j2b-contact-portable{
+  background:#fff;
+  color:#182536!important;
+}
+@media(max-width:650px){
   .j2b-contact-global-inner{
-    width:min(1180px,94%);
-    margin:auto;
-    min-height:52px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    padding:7px 0;
+    width:100%;
+    gap:6px;
+    padding:6px;
   }
-
   .j2b-contact-global a{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    min-height:38px;
-    padding:8px 14px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:900;
+    font-size:.78rem;
+    padding:6px 3px;
+    white-space:nowrap;
   }
-
-  .j2b-contact-fixe{
-    background:#B32025;
-    color:#fff !important;
-  }
-
-  .j2b-contact-portable{
-    background:#fff;
-    color:#182536 !important;
-  }
-
-  @media(max-width:650px){
-    .j2b-contact-global-inner{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:6px;
-      padding:6px;
-      width:100%;
-    }
-
-    .j2b-contact-global a{
-      font-size:.78rem;
-      padding:8px 5px;
-      white-space:nowrap;
-    }
-  }
+}
 </style>
 
-<div class="j2b-contact-global" aria-label="Téléphones J2B Couverture Toul">
+<div class="j2b-contact-global">
   <div class="j2b-contact-global-inner">
     <a class="j2b-contact-fixe" href="tel:+33372760060">
       ☎️ Fixe : 03 72 76 00 60
     </a>
-
     <a class="j2b-contact-portable" href="tel:+33601462612">
       📱 Portable : 06 01 46 26 12
     </a>
   </div>
 </div>
 <!-- J2B CONTACT GLOBAL END -->
-
-
 
 <section class="heroPage"><div class="container">
 <div class="crumb"><a href="./">Accueil</a> › Couvreur à Dommartin-lès-Toul</div>
