@@ -8,37 +8,84 @@
 @media(max-width:620px){.grid,.grid2,.serviceLinks,.localCards,.choiceGrid,.reviewGrid,.footerGrid{grid-template-columns:1fr}.heroActions{display:grid}.heroActions .btn{width:100%;text-align:center;white-space:normal}}
 
 .relatedBox{margin-top:28px}.imageGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.imageGrid img{width:100%;height:280px;object-fit:cover;border-radius:14px;border:1px solid var(--border)}@media(max-width:620px){.imageGrid{grid-template-columns:1fr}.imageGrid img{height:auto}}
-</style><style id="j2b-global-header-style">
-.j2b-global-header{background:#fff;border-bottom:4px solid #C1A66B;position:relative;z-index:1000;box-shadow:0 6px 20px rgba(24,37,54,.08)}
-.j2b-global-header *{box-sizing:border-box}
-.j2b-global-header-inner{width:min(1160px,92%);min-height:82px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:8px 0}
-.j2b-global-brand{display:flex;align-items:center;flex:0 0 auto}
-.j2b-global-brand img{display:block;width:auto;height:62px;max-width:210px;object-fit:contain}
-.j2b-global-nav{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
-.j2b-global-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;text-decoration:none;font-weight:900;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-.j2b-home-link{color:#182536;background:#F7F5F1;border:1px solid #E1E3E5}
-.j2b-phone-link{color:#fff!important;background:#B32025;border:1px solid #B32025}
-@media(max-width:620px){
-  .j2b-global-header-inner{min-height:76px;width:94%;padding:7px 0;gap:8px}
-  .j2b-global-brand img{height:54px;max-width:160px}
-  .j2b-global-nav{gap:6px;flex-wrap:nowrap}
-  .j2b-global-nav a{min-height:40px;padding:8px 10px;font-size:.78rem}
-  .j2b-home-link{display:none!important}
-  .j2b-phone-link{white-space:nowrap}
-}
 </style>
 </head><body>
-<header class="j2b-global-header" aria-label="En-tête J2B Couverture">
-  <div class="j2b-global-header-inner">
-    <a class="j2b-global-brand" href="./" aria-label="J2B Couverture - Accueil">
-      <img src="./logo-temp.png?v=1" alt="J2B Couverture - Couvreur à Toul">
+
+<!-- J2B CONTACT GLOBAL START -->
+<style id="j2b-contact-global-style">
+  .j2b-contact-global{
+    background:#182536;
+    color:#fff;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    position:relative;
+    z-index:9999;
+    border-bottom:3px solid #C1A66B;
+  }
+
+  .j2b-contact-global-inner{
+    width:min(1180px,94%);
+    margin:auto;
+    min-height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:7px 0;
+  }
+
+  .j2b-contact-global a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:38px;
+    padding:8px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:900;
+  }
+
+  .j2b-contact-fixe{
+    background:#B32025;
+    color:#fff !important;
+  }
+
+  .j2b-contact-portable{
+    background:#fff;
+    color:#182536 !important;
+  }
+
+  @media(max-width:650px){
+    .j2b-contact-global-inner{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:6px;
+      padding:6px;
+      width:100%;
+    }
+
+    .j2b-contact-global a{
+      font-size:.78rem;
+      padding:8px 5px;
+      white-space:nowrap;
+    }
+  }
+</style>
+
+<div class="j2b-contact-global" aria-label="Téléphones J2B Couverture Toul">
+  <div class="j2b-contact-global-inner">
+    <a class="j2b-contact-fixe" href="tel:+33372760060">
+      ☎️ Fixe : 03 72 76 00 60
     </a>
-    <nav class="j2b-global-nav" aria-label="Navigation principale">
-      <a class="j2b-home-link" href="./">Accueil</a>
-      <a class="j2b-phone-link" href="tel:+33601462612">📞 06 01 46 26 12</a>
-    </nav>
+
+    <a class="j2b-contact-portable" href="tel:+33601462612">
+      📱 Portable : 06 01 46 26 12
+    </a>
   </div>
-</header>
+</div>
+<!-- J2B CONTACT GLOBAL END -->
+
+
 
 <section class="heroPage"><div class="container"><div class="crumb"><a href="./">Accueil</a> › Entretien de toiture</div><span class="eyebrow">J2B Couverture</span><h1>Entretien de toiture</h1><p>Un entretien régulier permet de repérer les défauts avant qu'ils ne deviennent des réparations plus importantes.</p>
 <div class="heroActions"><a class="btn red" href="tel:+33601462612">📞 Appeler</a><a class="btn gold" href="./#devis">📩 Demander un devis</a><a class="btn whatsapp" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 WhatsApp</a></div></div></section>
