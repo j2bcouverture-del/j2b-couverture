@@ -20,7 +20,7 @@ jobs:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Ajouter les téléphones sur toutes les pages
+      - name: Téléphones J2B + accueil propre
         shell: python
         run: |
           from pathlib import Path
@@ -28,7 +28,6 @@ jobs:
 
           FIXE_TEL = "+33372760060"
           FIXE_TEXT = "03 72 76 00 60"
-
           PORTABLE_TEL = "+33601462612"
           PORTABLE_TEXT = "06 01 46 26 12"
 
@@ -38,71 +37,58 @@ jobs:
           BLOCK = f'''
           {START}
           <style id="j2b-contact-global-style">
-            .j2b-contact-global{{
-              background:#182536;
-              color:#fff;
-              font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-              position:relative;
-              z-index:9999;
-              border-bottom:3px solid #C1A66B;
-            }}
-
+          .j2b-contact-global{{
+            background:#182536;
+            color:#fff;
+            border-bottom:3px solid #C1A66B;
+            position:relative;
+            z-index:9999;
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+          }}
+          .j2b-contact-global-inner{{
+            width:min(1180px,94%);
+            margin:auto;
+            padding:7px 0;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:10px;
+          }}
+          .j2b-contact-global a{{
+            min-height:44px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:11px;
+            text-decoration:none;
+            font-weight:900;
+          }}
+          .j2b-contact-fixe{{
+            background:#B32025;
+            color:#fff!important;
+          }}
+          .j2b-contact-portable{{
+            background:#fff;
+            color:#182536!important;
+          }}
+          @media(max-width:650px){{
             .j2b-contact-global-inner{{
-              width:min(1180px,94%);
-              margin:auto;
-              min-height:52px;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              gap:10px;
-              flex-wrap:wrap;
-              padding:7px 0;
+              width:100%;
+              gap:6px;
+              padding:6px;
             }}
-
             .j2b-contact-global a{{
-              display:inline-flex;
-              align-items:center;
-              justify-content:center;
-              min-height:38px;
-              padding:8px 14px;
-              border-radius:10px;
-              text-decoration:none;
-              font-weight:900;
+              font-size:.78rem;
+              padding:6px 3px;
+              white-space:nowrap;
             }}
-
-            .j2b-contact-fixe{{
-              background:#B32025;
-              color:#fff !important;
-            }}
-
-            .j2b-contact-portable{{
-              background:#fff;
-              color:#182536 !important;
-            }}
-
-            @media(max-width:650px){{
-              .j2b-contact-global-inner{{
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:6px;
-                padding:6px;
-                width:100%;
-              }}
-
-              .j2b-contact-global a{{
-                font-size:.78rem;
-                padding:8px 5px;
-                white-space:nowrap;
-              }}
-            }}
+          }}
           </style>
 
-          <div class="j2b-contact-global" aria-label="Téléphones J2B Couverture Toul">
+          <div class="j2b-contact-global">
             <div class="j2b-contact-global-inner">
               <a class="j2b-contact-fixe" href="tel:{FIXE_TEL}">
                 ☎️ Fixe : {FIXE_TEXT}
               </a>
-
               <a class="j2b-contact-portable" href="tel:{PORTABLE_TEL}">
                 📱 Portable : {PORTABLE_TEXT}
               </a>
@@ -111,38 +97,24 @@ jobs:
           {END}
           '''
 
-          changed = []
+          for path in Path(".").glob("*.html"):
 
-          for path in sorted(Path(".").glob("*.html")):
-              text = path.read_text(encoding="utf-8")
+              original = path.read_text(encoding="utf-8")
+              text = original
 
               if "<body" not in text.lower():
                   continue
 
-              # Supprime l'ancienne version du bloc s'il existe
+              # Bandeau téléphone global unique
               text = re.sub(
-                  re.escape(START) + r".*?" + re.escape(END),
-                  "",
+                  r'\s*' + re.escape(START) +
+                  r'.*?' +
+                  re.escape(END) + r'\s*',
+                  '\n',
                   text,
                   flags=re.S
               )
 
-              # Supprime l'ancien header automatique si présent
-              text = re.sub(
-                  r'<style id="j2b-global-header-style">.*?</style>',
-                  "",
-                  text,
-                  flags=re.S | re.I
-              )
-
-              text = re.sub(
-                  r'<header class="j2b-global-header".*?</header>',
-                  "",
-                  text,
-                  flags=re.S | re.I
-              )
-
-              # Ajoute le nouveau bandeau juste après <body>
               text = re.sub(
                   r'(<body[^>]*>)',
                   r'\1\n' + BLOCK,
@@ -151,15 +123,140 @@ jobs:
                   flags=re.I
               )
 
-              path.write_text(text, encoding="utf-8")
-              changed.append(path.name)
+              # ==================================================
+              # PAGE D'ACCUEIL
+              # ==================================================
+              if path.name == "index.html":
 
-          print("Pages synchronisées :", len(changed))
+                  # Retire le portable du bandeau Décennale / SIRET
+                  text = text.replace(
+          '''      <strong>SIRET 851 484 717 00018</strong>
+                <span class="sep">•</span>
+                📞 <a href="tel:+33601462612">06 01 46 26 12</a>''',
+          '''      <strong>SIRET 851 484 717 00018</strong>'''
+                  )
 
-      - name: Enregistrer les modifications
+                  # Remplace le gros bouton portable par 2 boutons
+                  old = '''<a class="btn red" href="tel:+33601462612">📞 Appeler : 06 01 46 26 12</a>'''
+
+                  new = f'''<div class="heroPhones">
+                    <a class="btn red" href="tel:{FIXE_TEL}">
+                      ☎️ Fixe : {FIXE_TEXT}
+                    </a>
+                    <a class="btn heroPortable" href="tel:{PORTABLE_TEL}">
+                      📱 Portable : {PORTABLE_TEXT}
+                    </a>
+                  </div>'''
+
+                  text = text.replace(old, new, 1)
+
+                  # Style des deux boutons de l'accueil
+                  if ".heroPhones{" not in text:
+                      text = text.replace(
+          '''.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}''',
+          '''.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+              .heroPhones{
+                width:min(100%,680px);
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:10px;
+              }
+              .heroPhones .btn{
+                width:100%;
+                min-height:54px;
+              }
+              .heroPortable{
+                background:#fff;
+                color:#182536;
+                border-color:#fff;
+              }'''
+                      )
+
+                  # Enlève "Voir la page Couvreur Toul" du hero
+                  text = text.replace(
+          '''          <a class="btn ghost" href="./couvreur-toul.html">📍 Voir la page Couvreur Toul</a>
+          ''',
+          ''
+                  )
+
+                  # Allège le cartouche contact à droite
+                  text = re.sub(
+                      r'\s*<div class="contactLine"><span>📞</span><div><strong>06 01 46 26 12</strong>.*?</div></div>',
+                      '',
+                      text,
+                      count=1,
+                      flags=re.S
+                  )
+
+                  text = text.replace(
+          '''        <a class="btn red" href="tel:+33601462612">📞 Appeler J2B Couverture</a>
+          ''',
+          ''
+                  )
+
+                  # Supprime le bouton flottant Appeler
+                  text = text.replace(
+          '''<a class="callFloat" href="tel:+33601462612">📞 Appeler</a>
+          ''',
+          ''
+                  )
+
+                  # WhatsApp seul en bas
+                  text = text.replace(
+          '''    .callFloat,.waFloat{position:fixed;right:16px;z-index:1000;color:#fff;font-weight:900;border-radius:999px;padding:13px 17px;box-shadow:0 15px 36px rgba(0,0,0,.20)}    .callFloat{bottom:16px;background:var(--red)}
+              .waFloat{bottom:70px;background:var(--navy2)}''',
+          '''    .waFloat{
+                position:fixed;
+                right:16px;
+                bottom:16px;
+                z-index:1000;
+                color:#fff;
+                background:var(--navy2);
+                font-weight:900;
+                border-radius:999px;
+                padding:13px 17px;
+                box-shadow:0 15px 36px rgba(0,0,0,.20)
+              }'''
+                  )
+
+                  text = text.replace(
+          '''      .callFloat{left:calc(50% + 4px);right:10px;bottom:10px;border-radius:13px;text-align:center}
+              .waFloat{left:10px;right:calc(50% + 4px);bottom:10px;border-radius:13px;text-align:center}''',
+          '''      .waFloat{
+                left:10px;
+                right:10px;
+                bottom:10px;
+                border-radius:13px;
+                text-align:center
+              }'''
+                  )
+
+                  # Fixe comme numéro principal pour Google / SEO
+                  text = text.replace(
+                      '"telephone":"+33601462612",',
+                      '''"telephone":"+33372760060",
+                  "contactPoint":[
+                    {
+                      "@type":"ContactPoint",
+                      "telephone":"+33372760060",
+                      "contactType":"customer service"
+                    },
+                    {
+                      "@type":"ContactPoint",
+                      "telephone":"+33601462612",
+                      "contactType":"mobile"
+                    }
+                  ],''',
+                      1
+                  )
+
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+
+      - name: Commit automatique
         run: |
           if git diff --quiet; then
-            echo "Aucune modification nécessaire."
+            echo "Aucune modification."
             exit 0
           fi
 
@@ -167,5 +264,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add '*.html'
-          git commit -m "Synchronise fixe et portable J2B Toul"
+          git commit -m "Accueil Toul propre avec fixe et portable"
           git push
