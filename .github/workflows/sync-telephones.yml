@@ -97,6 +97,28 @@ jobs:
           {END}
           '''
 
+          # Ancien bandeau téléphone utilisé sur certaines pages.
+          # On le retire avant d'ajouter le bandeau global afin d'éviter
+          # d'avoir deux lignes de téléphones en haut de page.
+          LEGACY_PHONES = re.compile(
+              r'''
+              \s*
+              <div\s+class=["']phones["']\s*>
+                  \s*
+                  <div\s+class=["']phonesInner["']\s*>
+                      .*?
+                      <a[^>]*class=["'][^"']*\bphoneFixe\b[^"']*["'][^>]*>.*?</a>
+                      .*?
+                      <a[^>]*class=["'][^"']*\bphonePortable\b[^"']*["'][^>]*>.*?</a>
+                      .*?
+                  </div>
+                  \s*
+              </div>
+              \s*
+              ''',
+              re.I | re.S | re.X
+          )
+
           for path in Path(".").glob("*.html"):
 
               original = path.read_text(encoding="utf-8")
@@ -105,7 +127,10 @@ jobs:
               if "<body" not in text.lower():
                   continue
 
-              # Bandeau téléphone global unique
+              # 1) Retire l'ancien bandeau téléphone
+              text = LEGACY_PHONES.sub("\n", text)
+
+              # 2) Retire l'ancien bloc global s'il existe
               text = re.sub(
                   r'\s*' + re.escape(START) +
                   r'.*?' +
@@ -115,6 +140,7 @@ jobs:
                   flags=re.S
               )
 
+              # 3) Réinsère un seul bloc global juste après <body>
               text = re.sub(
                   r'(<body[^>]*>)',
                   r'\1\n' + BLOCK,
@@ -264,5 +290,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add '*.html'
-          git commit -m "Accueil Toul propre avec fixe et portable"
+          git commit -m "Synchronise les téléphones sans doublons"
           git push
