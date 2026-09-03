@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="fr">
-
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -11,18 +9,11 @@
   <meta name="description"
         content="Découvrez les prestations J2B Couverture à Toul, Nancy, Écrouves, Dommartin-lès-Toul, Gondreville et Liverdun : rénovation toiture, fuite, zinguerie, gouttières, faîtage, démoussage et entretien.">
 
-  <meta name="robots"
-        content="index,follow,max-image-preview:large,max-snippet:-1">
-
-  <link rel="canonical"
-        href="https://j2b-couverture.fr/prestations-par-ville.html">
-
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="canonical" href="https://j2b-couverture.fr/prestations-par-ville.html">
   <meta name="theme-color" content="#182536">
 
-  <script async
-    src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR">
-  </script>
-
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
   <script>
     window.dataLayer=window.dataLayer||[];
     function gtag(){dataLayer.push(arguments);}
@@ -31,7 +22,6 @@
   </script>
 
   <style>
-
     :root{
       --navy:#182536;
       --navy2:#24364C;
@@ -46,9 +36,7 @@
       --max:1160px;
     }
 
-    *{
-      box-sizing:border-box
-    }
+    *{box-sizing:border-box}
 
     body{
       margin:0;
@@ -57,520 +45,114 @@
       color:var(--text);
     }
 
-    a{
-      color:inherit;
-      text-decoration:none
-    }
+    a{color:inherit;text-decoration:none}
 
-    .container{
-      width:min(var(--max),92%);
-      margin:auto;
-    }
+    .container{width:min(var(--max),92%);margin:auto}
 
-    /* TÉLÉPHONES */
+    .phones{background:var(--navy);border-bottom:3px solid var(--gold);padding:7px 0}
+    .phonesInner{width:min(var(--max),96%);margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .phone{min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-weight:900}
+    .phoneFixe{background:var(--red);color:#fff}
+    .phonePortable{background:#fff;color:var(--navy)}
 
-    .phones{
-      background:var(--navy);
-      border-bottom:3px solid var(--gold);
-      padding:7px 0;
-    }
+    .logoBar{background:#fff;border-bottom:4px solid var(--gold);box-shadow:0 5px 18px rgba(24,37,54,.08)}
+    .logoBar a{min-height:92px;display:flex;justify-content:center;align-items:center}
+    .logoBar img{width:auto;height:72px;max-width:220px;object-fit:contain}
 
-    .phonesInner{
-      width:min(var(--max),96%);
-      margin:auto;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
+    .hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:62px 0}
+    .eyebrow{display:inline-flex;padding:8px 12px;border-radius:99px;background:rgba(193,166,107,.18);color:#E8D8B4;font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:17px}
+    h1{font-size:clamp(2.35rem,5vw,4.25rem);letter-spacing:-.04em;line-height:1.05;margin:0 0 20px}
+    .hero p{color:#EDE4D3;font-size:1.08rem;line-height:1.7;max-width:900px}
+    .heroPhones{width:min(680px,100%);display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:25px}
+    .heroPhone{min-height:58px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900}
+    .heroFixe{background:var(--red)}
+    .heroPortable{background:#fff;color:var(--navy)}
 
-    .phone{
-      min-height:46px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:11px;
-      font-weight:900;
-    }
+    .section{padding:65px 0 80px;background:linear-gradient(180deg,#fff,#FBF8F1)}
+    .intro{max-width:850px;margin-bottom:30px;color:var(--muted);line-height:1.7;font-size:1.02rem}
+    .cities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .cityCard{border:1px solid var(--border);border-radius:20px;background:#fff;padding:22px;box-shadow:var(--shadow)}
+    .cityHead{display:flex;align-items:center;gap:13px;padding-bottom:17px;margin-bottom:15px;border-bottom:1px solid var(--border)}
+    .pin{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#F4EBDD;font-size:1.45rem}
+    .cityHead h2{margin:0 0 4px;font-size:1.55rem;color:var(--navy)}
+    .cityHead p{margin:0;color:var(--muted);font-size:.9rem}
+    .cityLinks{display:grid;gap:8px}
+    .serviceLink{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;border:1px solid var(--border);border-radius:11px;padding:10px 12px;font-weight:800;background:#fff;transition:.15s ease}
+    .serviceLink:hover{border-color:var(--gold);background:#FBF8F1}
+    .serviceLink strong{color:var(--red)}
+    .cityPage{margin-top:16px;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:var(--navy);color:#fff;font-weight:900;text-align:center;padding:10px}
 
-    .phoneFixe{
-      background:var(--red);
-      color:#fff;
-    }
+    /* Galerie uniquement dans la carte Gondreville */
+    .gondreville-city-title{margin:18px 0 8px;font-weight:900;color:var(--navy)}
+    .gondreville-city-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .gondreville-city-photos a{overflow:hidden;border-radius:10px;display:block}
+    .gondreville-city-photos img{display:block;width:100%;height:125px;object-fit:cover;transition:transform .2s ease}
+    .gondreville-city-photos a:hover img{transform:scale(1.03)}
 
-    .phonePortable{
-      background:#fff;
-      color:var(--navy);
-    }
+    .bottomCta{margin-top:38px;border-radius:20px;background:var(--navy);color:#fff;padding:28px;text-align:center}
+    .bottomCta h2{margin:0 0 8px}
+    .bottomCta p{margin:0 0 20px;color:#E7E9EC}
+    .ctaButtons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+    .cta{padding:13px 18px;border-radius:11px;font-weight:900}
+    .ctaRed{background:var(--red)}
+    .ctaGold{background:var(--gold);color:var(--navy)}
 
-    /* LOGO */
-
-    .logoBar{
-      background:#fff;
-      border-bottom:4px solid var(--gold);
-      box-shadow:0 5px 18px rgba(24,37,54,.08);
-    }
-
-    .logoBar a{
-      min-height:92px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-
-    .logoBar img{
-      width:auto;
-      height:72px;
-      max-width:220px;
-      object-fit:contain;
-    }
-
-    /* HERO */
-
-    .hero{
-      background:
-        linear-gradient(135deg,var(--navy),var(--navy2));
-      color:#fff;
-      padding:62px 0;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      padding:8px 12px;
-      border-radius:99px;
-      background:rgba(193,166,107,.18);
-      color:#E8D8B4;
-      font-size:.8rem;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.04em;
-      margin-bottom:17px;
-    }
-
-    h1{
-      font-size:clamp(2.35rem,5vw,4.25rem);
-      letter-spacing:-.04em;
-      line-height:1.05;
-      margin:0 0 20px;
-    }
-
-    .hero p{
-      color:#EDE4D3;
-      font-size:1.08rem;
-      line-height:1.7;
-      max-width:900px;
-    }
-
-    .heroPhones{
-      width:min(680px,100%);
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:25px;
-    }
-
-    .heroPhone{
-      min-height:58px;
-      border-radius:12px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-    }
-
-    .heroFixe{
-      background:var(--red);
-    }
-
-    .heroPortable{
-      background:#fff;
-      color:var(--navy);
-    }
-
-    /* CONTENU */
-
-    .section{
-      padding:65px 0 80px;
-      background:
-        linear-gradient(180deg,#fff,#FBF8F1);
-    }
-
-    .intro{
-      max-width:850px;
-      margin-bottom:30px;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:1.02rem;
-    }
-
-    .cities{
-      display:grid;
-      grid-template-columns:
-        repeat(2,minmax(0,1fr));
-      gap:20px;
-    }
-
-    .cityCard{
-      border:1px solid var(--border);
-      border-radius:20px;
-      background:#fff;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .cityHead{
-      display:flex;
-      align-items:center;
-      gap:13px;
-      padding-bottom:17px;
-      margin-bottom:15px;
-      border-bottom:1px solid var(--border);
-    }
-
-    .pin{
-      width:48px;
-      height:48px;
-      border-radius:50%;
-      display:grid;
-      place-items:center;
-      background:#F4EBDD;
-      font-size:1.45rem;
-    }
-
-    .cityHead h2{
-      margin:0 0 4px;
-      font-size:1.55rem;
-      color:var(--navy);
-    }
-
-    .cityHead p{
-      margin:0;
-      color:var(--muted);
-      font-size:.9rem;
-    }
-
-    .cityLinks{
-      display:grid;
-      gap:8px;
-    }
-
-    .serviceLink{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      min-height:48px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      padding:10px 12px;
-      font-weight:800;
-      background:#fff;
-      transition:.15s ease;
-    }
-
-    .serviceLink:hover{
-      border-color:var(--gold);
-      background:#FBF8F1;
-    }
-
-    .serviceLink strong{
-      color:var(--red);
-    }
-
-    .cityPage{
-      margin-top:16px;
-      min-height:48px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:11px;
-      background:var(--navy);
-      color:#fff;
-      font-weight:900;
-    }
-
-    /* CTA */
-
-    .bottomCta{
-      margin-top:38px;
-      border-radius:20px;
-      background:var(--navy);
-      color:#fff;
-      padding:28px;
-      text-align:center;
-    }
-
-    .bottomCta h2{
-      margin:0 0 8px;
-    }
-
-    .bottomCta p{
-      margin:0 0 20px;
-      color:#E7E9EC;
-    }
-
-    .ctaButtons{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .cta{
-      padding:13px 18px;
-      border-radius:11px;
-      font-weight:900;
-    }
-
-    .ctaRed{
-      background:var(--red);
-    }
-
-    .ctaGold{
-      background:var(--gold);
-      color:var(--navy);
-    }
-
-    footer{
-      background:var(--navy);
-      color:#fff;
-      padding:28px 0;
-      border-top:3px solid var(--gold);
-      text-align:center;
-      font-size:.88rem;
-    }
+    footer{background:var(--navy);color:#fff;padding:28px 0;border-top:3px solid var(--gold);text-align:center;font-size:.88rem}
 
     @media(max-width:760px){
-
-      .cities{
-        grid-template-columns:1fr;
-      }
-
-      .phonesInner,
-      .heroPhones{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .phone{
-        font-size:.78rem;
-        padding:5px 3px;
-      }
-
-      .heroPhone{
-        font-size:.78rem;
-        min-height:60px;
-        padding:7px 3px;
-      }
-
-      .logoBar a{
-        min-height:82px;
-      }
-
-      .logoBar img{
-        height:62px;
-      }
-
-      .hero{
-        padding:48px 0;
-      }
-
-      .section{
-        padding:50px 0 65px;
-      }
-
-      .cityCard{
-        padding:17px;
-      }
-
+      .cities{grid-template-columns:1fr}
+      .phonesInner,.heroPhones{grid-template-columns:1fr 1fr}
+      .phone{font-size:.78rem;padding:5px 3px}
+      .heroPhone{font-size:.78rem;min-height:60px;padding:7px 3px}
+      .logoBar a{min-height:82px}
+      .logoBar img{height:62px}
+      .hero{padding:48px 0}
+      .section{padding:50px 0 65px}
+      .cityCard{padding:17px}
     }
-
   </style>
-
 </head>
 
 <body>
-
-<!-- J2B LOGO HOME START -->
-<style id="j2b-logo-home-style">
-
-.j2b-logo-home{
-  background:#fff;
-  border-bottom:4px solid #C1A66B;
-  box-shadow:0 5px 18px rgba(24,37,54,.08);
-}
-
-.j2b-logo-home-inner{
-  width:min(1160px,92%);
-  margin:auto;
-  min-height:92px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.j2b-logo-home a{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.j2b-logo-home img{
-  display:block;
-  height:72px;
-  width:auto;
-  max-width:220px;
-  object-fit:contain;
-}
-
-.j2b-page-phone-pair{
-  width:min(100%,680px);
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  gap:10px;
-}
-
-.j2b-page-phone-pair .btn{
-  width:100%!important;
-  min-height:58px;
-  margin:0!important;
-  display:flex!important;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:1px;
-  line-height:1.2;
-}
-
-.j2b-page-phone-pair .phone-number{
-  font-size:.92em;
-  font-weight:900;
-}
-
-.j2b-page-portable{
-  background:#fff!important;
-  color:#182536!important;
-  border-color:#fff!important;
-}
-
-@media(max-width:650px){
-  .j2b-logo-home-inner{
-    min-height:82px;
-  }
-
-  .j2b-logo-home img{
-    height:62px;
-    max-width:190px;
-  }
-
-  .j2b-page-phone-pair{
-    grid-template-columns:1fr 1fr!important;
-    gap:8px;
-  }
-
-  .j2b-page-phone-pair .btn{
-    min-height:60px;
-    padding:8px 4px!important;
-    font-size:.78rem!important;
-  }
-}
-
-</style>
-
-<div class="j2b-logo-home">
-  <div class="j2b-logo-home-inner">
-    <a href="./" aria-label="Retour à l'accueil J2B Couverture">
-      <img src="./logo-temp.png?v=1"
-           alt="J2B Couverture - Retour à l'accueil">
-    </a>
-  </div>
-</div>
-<!-- J2B LOGO HOME END -->
-
-
   <div class="phones">
     <div class="phonesInner">
-
-      <a class="phone phoneFixe"
-         href="tel:+33372760060">
-        ☎️ Fixe : 03 72 76 00 60
-      </a>
-
-      <a class="phone phonePortable"
-         href="tel:+33601462612">
-        📱 Portable : 06 01 46 26 12
-      </a>
-
+      <a class="phone phoneFixe" href="tel:+33372760060">☎️ Fixe : 03 72 76 00 60</a>
+      <a class="phone phonePortable" href="tel:+33601462612">📱 Portable : 06 01 46 26 12</a>
     </div>
   </div>
 
   <div class="logoBar">
-    <a href="./"
-       aria-label="Retour à l'accueil J2B Couverture">
-
-      <img
-        src="./logo-temp.png?v=1"
-        alt="J2B Couverture">
-
+    <a href="./" aria-label="Retour à l'accueil J2B Couverture">
+      <img src="./logo-temp.png?v=1" alt="J2B Couverture">
     </a>
   </div>
 
   <main>
-
     <section class="hero">
       <div class="container">
-
-        <span class="eyebrow">
-          J2B Couverture • Toul & Nancy
-        </span>
-
-        <h1>
-          Travaux de toiture
-          <span style="color:#D2B981">
-            par ville
-          </span>
-        </h1>
-
+        <span class="eyebrow">J2B Couverture • Toul & Nancy</span>
+        <h1>Travaux de toiture <span style="color:#D2B981">par ville</span></h1>
         <p>
-          Retrouvez les principales prestations de
-          J2B Couverture à Toul, Nancy et dans le
-          Toulois : rénovation de toiture,
-          réparation de fuite, zinguerie,
-          gouttières, faîtage, démoussage,
+          Retrouvez les principales prestations de J2B Couverture à Toul, Nancy et dans le Toulois :
+          rénovation de toiture, réparation de fuite, zinguerie, gouttières, faîtage, démoussage,
           entretien, isolation et charpente.
         </p>
 
         <div class="heroPhones">
-
-          <a class="heroPhone heroFixe"
-             href="tel:+33372760060">
-            <span>☎️ Fixe</span>
-            <span>03 72 76 00 60</span>
-          </a>
-
-          <a class="heroPhone heroPortable"
-             href="tel:+33601462612">
-            <span>📱 Portable</span>
-            <span>06 01 46 26 12</span>
-          </a>
-
+          <a class="heroPhone heroFixe" href="tel:+33372760060"><span>☎️ Fixe</span><span>03 72 76 00 60</span></a>
+          <a class="heroPhone heroPortable" href="tel:+33601462612"><span>📱 Portable</span><span>06 01 46 26 12</span></a>
         </div>
-
       </div>
     </section>
 
     <section class="section">
-
       <div class="container">
-
         <p class="intro">
-          Sélectionnez votre ville puis la prestation
-          recherchée. Ces pages permettent de retrouver
-          rapidement les travaux de couverture proposés
-          dans votre secteur.
+          Sélectionnez votre ville puis la prestation recherchée. Ces pages permettent de retrouver
+          rapidement les travaux de couverture proposés dans votre secteur.
         </p>
 
         <div class="cities">
-
 
         <article class="cityCard">
           <div class="cityHead">
@@ -582,59 +164,48 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Toul</span>
               <strong>→</strong>
             </a>
-            
           </div>
 
           <a class="cityPage" href="./couvreur-toul.html">
             Voir notre page couvreur à Toul →
           </a>
         </article>
-        
 
         <article class="cityCard">
           <div class="cityHead">
@@ -646,59 +217,48 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Nancy</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Nancy</span>
               <strong>→</strong>
             </a>
-            
           </div>
 
           <a class="cityPage" href="./couvreur-nancy.html">
             Voir notre page couvreur à Nancy →
           </a>
         </article>
-        
 
         <article class="cityCard">
           <div class="cityHead">
@@ -710,59 +270,48 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Écrouves</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Écrouves</span>
               <strong>→</strong>
             </a>
-            
           </div>
 
           <a class="cityPage" href="./couvreur-ecrouves.html">
             Voir notre page couvreur à Écrouves →
           </a>
         </article>
-        
 
         <article class="cityCard">
           <div class="cityHead">
@@ -774,59 +323,48 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Dommartin-lès-Toul</span>
               <strong>→</strong>
             </a>
-            
           </div>
 
           <a class="cityPage" href="./couvreur-dommartin-les-toul.html">
             Voir notre page couvreur à Dommartin-lès-Toul →
           </a>
         </article>
-        
 
         <article class="cityCard">
           <div class="cityHead">
@@ -838,59 +376,58 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Gondreville</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Gondreville</span>
               <strong>→</strong>
             </a>
-            
           </div>
+
+          <!-- PHOTOS GONDREVILLE : uniquement dans la carte Gondreville -->
+          <div class="gondreville-city-title">📸 Chantier réalisé à Gondreville</div>
+          <div class="gondreville-city-photos">
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/01-gondreville-sous-face-pvc-finition-facade.webp" alt="Sous-face PVC à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/02-gondreville-habillage-rive-sous-face.webp" alt="Habillage de rive à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/03-gondreville-sous-face-imitation-bois-finition.webp" alt="Sous-face imitation bois à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/04-gondreville-vue-ensemble-travaux-sous-face.webp" alt="Travaux de sous-face à Gondreville" loading="lazy"></a>
+          </div>
+          <!-- FIN PHOTOS GONDREVILLE -->
 
           <a class="cityPage" href="./couvreur-gondreville.html">
             Voir notre page couvreur à Gondreville →
           </a>
         </article>
-        
 
         <article class="cityCard">
           <div class="cityHead">
@@ -902,91 +439,61 @@
           </div>
 
           <div class="cityLinks">
-            
             <a class="serviceLink" href="./renovation-toiture.html">
               <span>🏠 Rénovation de toiture à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./reparation-fuite-toiture.html">
               <span>💧 Réparation de fuite à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./zinguerie.html">
               <span>🔧 Zinguerie à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./gouttieres.html">
               <span>🌧️ Gouttières à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./faitage-arretiers.html">
               <span>🏠 Faîtage et arêtiers à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./demoussage-toiture.html">
               <span>🌿 Démoussage de toiture à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./entretien-toiture.html">
               <span>✅ Entretien de toiture à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./isolation-toiture.html">
               <span>🛡️ Isolation de toiture à Liverdun</span>
               <strong>→</strong>
             </a>
-            
             <a class="serviceLink" href="./traitement-charpente.html">
               <span>🪚 Traitement de charpente à Liverdun</span>
               <strong>→</strong>
             </a>
-            
           </div>
 
           <a class="cityPage" href="./couvreur-liverdun.html">
             Voir notre page couvreur à Liverdun →
           </a>
         </article>
-        
 
         </div>
 
         <div class="bottomCta">
-
           <h2>Un projet de toiture ?</h2>
-
-          <p>
-            Contactez directement J2B Couverture
-            ou demandez un devis.
-          </p>
-
+          <p>Contactez directement J2B Couverture ou demandez un devis.</p>
           <div class="ctaButtons">
-
-            <a class="cta ctaRed"
-               href="tel:+33372760060">
-              ☎️ 03 72 76 00 60
-            </a>
-
-            <a class="cta ctaGold"
-               href="./contact.html">
-              📩 Demander un devis
-            </a>
-
+            <a class="cta ctaRed" href="tel:+33372760060">☎️ 03 72 76 00 60</a>
+            <a class="cta ctaGold" href="./contact.html">📩 Demander un devis</a>
           </div>
-
         </div>
-
       </div>
-
     </section>
-
   </main>
 
   <footer>
@@ -995,11 +502,6 @@
     • J2B Couverture
   </footer>
 
-  <script
-    src="https://j2b-couverture.fr/ntfy-visites.js?v=1"
-    defer>
-  </script>
-
+  <script src="https://j2b-couverture.fr/ntfy-visites.js?v=1" defer></script>
 </body>
-
 </html>
