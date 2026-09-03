@@ -1,162 +1,586 @@
-MODIFICATIONS À FAIRE — prestations-par-ville.html
-J2B COUVERTURE
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-==================================================
-1) SUPPRIMER LE BANDEAU TÉLÉPHONE EN DOUBLE
-==================================================
+  <title>Travaux de toiture par ville | Toul, Nancy et Toulois | J2B Couverture</title>
 
-Dans prestations-par-ville.html, supprimer entièrement ce bloc :
+  <meta name="description"
+        content="Découvrez les prestations J2B Couverture à Toul, Nancy, Écrouves, Dommartin-lès-Toul, Gondreville et Liverdun : rénovation toiture, fuite, zinguerie, gouttières, faîtage, démoussage, entretien, habillage de rives et sous-faces PVC.">
 
-<div class="phones">
-  <div class="phonesInner">
-    <a class="phone phoneFixe" href="tel:+33372760060">☎️ Fixe : 03 72 76 00 60</a>
-    <a class="phone phonePortable" href="tel:+33601462612">📱 Portable : 06 01 46 26 12</a>
-  </div>
-</div>
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+  <link rel="canonical" href="https://j2b-couverture.fr/prestations-par-ville.html">
+  <meta name="theme-color" content="#182536">
 
-NE PAS supprimer le bloc qui commence par :
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());
+    gtag('config','G-ZGCBS6FYZR');
+  </script>
+
+  <style>
+    :root{
+      --navy:#182536;
+      --navy2:#24364C;
+      --gold:#C1A66B;
+      --red:#B32025;
+      --red2:#8D181C;
+      --soft:#F7F5F1;
+      --text:#1D2732;
+      --muted:#66717C;
+      --border:#E1E3E5;
+      --shadow:0 14px 38px rgba(24,37,54,.10);
+      --max:1160px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:#fff;
+      color:var(--text);
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    .container{width:min(var(--max),92%);margin:auto}
+
+    .phones{background:var(--navy);border-bottom:3px solid var(--gold);padding:7px 0}
+    .phonesInner{width:min(var(--max),96%);margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .phone{min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-weight:900}
+    .phoneFixe{background:var(--red);color:#fff}
+    .phonePortable{background:#fff;color:var(--navy)}
+
+    .logoBar{background:#fff;border-bottom:4px solid var(--gold);box-shadow:0 5px 18px rgba(24,37,54,.08)}
+    .logoBar a{min-height:92px;display:flex;justify-content:center;align-items:center}
+    .logoBar img{width:auto;height:72px;max-width:220px;object-fit:contain}
+
+    .hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:62px 0}
+    .eyebrow{display:inline-flex;padding:8px 12px;border-radius:99px;background:rgba(193,166,107,.18);color:#E8D8B4;font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:17px}
+    h1{font-size:clamp(2.35rem,5vw,4.25rem);letter-spacing:-.04em;line-height:1.05;margin:0 0 20px}
+    .hero p{color:#EDE4D3;font-size:1.08rem;line-height:1.7;max-width:900px}
+    .heroPhones{width:min(680px,100%);display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:25px}
+    .heroPhone{min-height:58px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900}
+    .heroFixe{background:var(--red)}
+    .heroPortable{background:#fff;color:var(--navy)}
+
+    .section{padding:65px 0 80px;background:linear-gradient(180deg,#fff,#FBF8F1)}
+    .intro{max-width:850px;margin-bottom:30px;color:var(--muted);line-height:1.7;font-size:1.02rem}
+    .cities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .cityCard{border:1px solid var(--border);border-radius:20px;background:#fff;padding:22px;box-shadow:var(--shadow)}
+    .cityHead{display:flex;align-items:center;gap:13px;padding-bottom:17px;margin-bottom:15px;border-bottom:1px solid var(--border)}
+    .pin{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#F4EBDD;font-size:1.45rem}
+    .cityHead h2{margin:0 0 4px;font-size:1.55rem;color:var(--navy)}
+    .cityHead p{margin:0;color:var(--muted);font-size:.9rem}
+    .cityLinks{display:grid;gap:8px}
+    .serviceLink{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;border:1px solid var(--border);border-radius:11px;padding:10px 12px;font-weight:800;background:#fff;transition:.15s ease}
+    .serviceLink:hover{border-color:var(--gold);background:#FBF8F1}
+    .serviceLink strong{color:var(--red)}
+    .cityPage{margin-top:16px;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:var(--navy);color:#fff;font-weight:900;text-align:center;padding:10px}
+
+    /* Galerie uniquement dans la carte Gondreville */
+    .gondreville-city-title{margin:18px 0 8px;font-weight:900;color:var(--navy)}
+    .gondreville-city-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .gondreville-city-photos a{overflow:hidden;border-radius:10px;display:block}
+    .gondreville-city-photos img{display:block;width:100%;height:125px;object-fit:cover;transition:transform .2s ease}
+    .gondreville-city-photos a:hover img{transform:scale(1.03)}
+
+    .bottomCta{margin-top:38px;border-radius:20px;background:var(--navy);color:#fff;padding:28px;text-align:center}
+    .bottomCta h2{margin:0 0 8px}
+    .bottomCta p{margin:0 0 20px;color:#E7E9EC}
+    .ctaButtons{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+    .cta{padding:13px 18px;border-radius:11px;font-weight:900}
+    .ctaRed{background:var(--red)}
+    .ctaGold{background:var(--gold);color:var(--navy)}
+
+    footer{background:var(--navy);color:#fff;padding:28px 0;border-top:3px solid var(--gold);text-align:center;font-size:.88rem}
+
+    @media(max-width:760px){
+      .cities{grid-template-columns:1fr}
+      .phonesInner,.heroPhones{grid-template-columns:1fr 1fr}
+      .phone{font-size:.78rem;padding:5px 3px}
+      .heroPhone{font-size:.78rem;min-height:60px;padding:7px 3px}
+      .logoBar a{min-height:82px}
+      .logoBar img{height:62px}
+      .hero{padding:48px 0}
+      .section{padding:50px 0 65px}
+      .cityCard{padding:17px}
+    }
+  </style>
+</head>
+
+<body>
 
 <!-- J2B CONTACT GLOBAL START -->
+<style id="j2b-contact-global-style">
+.j2b-contact-global{
+  background:#182536;
+  color:#fff;
+  border-bottom:3px solid #C1A66B;
+  position:relative;
+  z-index:9999;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+.j2b-contact-global-inner{
+  width:min(1180px,94%);
+  margin:auto;
+  padding:7px 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.j2b-contact-global a{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  text-decoration:none;
+  font-weight:900;
+}
+.j2b-contact-fixe{
+  background:#B32025;
+  color:#fff!important;
+}
+.j2b-contact-portable{
+  background:#fff;
+  color:#182536!important;
+}
+@media(max-width:650px){
+  .j2b-contact-global-inner{
+    width:100%;
+    gap:6px;
+    padding:6px;
+  }
+  .j2b-contact-global a{
+    font-size:.78rem;
+    padding:6px 3px;
+    white-space:nowrap;
+  }
+}
+</style>
 
-C'est ce bandeau global qu'il faut conserver.
+<div class="j2b-contact-global">
+  <div class="j2b-contact-global-inner">
+    <a class="j2b-contact-fixe" href="tel:+33372760060">
+      ☎️ Fixe : 03 72 76 00 60
+    </a>
+    <a class="j2b-contact-portable" href="tel:+33601462612">
+      📱 Portable : 06 01 46 26 12
+    </a>
+  </div>
+</div>
+<!-- J2B CONTACT GLOBAL END -->
 
+  <div class="logoBar">
+    <a href="./" aria-label="Retour à l'accueil J2B Couverture">
+      <img src="./logo-temp.png?v=1" alt="J2B Couverture">
+    </a>
+  </div>
 
-==================================================
-2) AJOUTER LA PRESTATION PVC DANS CHAQUE VILLE
-==================================================
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow">J2B Couverture • Toul & Nancy</span>
+        <h1>Travaux de toiture <span style="color:#D2B981">par ville</span></h1>
+        <p>
+          Retrouvez les principales prestations de J2B Couverture à Toul, Nancy et dans le Toulois :
+          rénovation de toiture, réparation de fuite, zinguerie, gouttières, faîtage, démoussage,
+          entretien, isolation, charpente, habillage de rives et sous-faces PVC.
+        </p>
 
-Dans chaque carte ville, repérer le dernier lien :
+        <div class="heroPhones">
+          <a class="heroPhone heroFixe" href="tel:+33372760060"><span>☎️ Fixe</span><span>03 72 76 00 60</span></a>
+          <a class="heroPhone heroPortable" href="tel:+33601462612"><span>📱 Portable</span><span>06 01 46 26 12</span></a>
+        </div>
+      </div>
+    </section>
 
-<a class="serviceLink" href="./traitement-charpente.html">
-  <span>🪚 Traitement de charpente à NOM_DE_LA_VILLE</span>
-  <strong>→</strong>
-</a>
+    <section class="section">
+      <div class="container">
+        <p class="intro">
+          Sélectionnez votre ville puis la prestation recherchée. Ces pages permettent de retrouver
+          rapidement les travaux de couverture proposés dans votre secteur.
+        </p>
 
-Juste APRÈS, ajouter le lien PVC correspondant.
+        <div class="cities">
 
---------------------------------------------------
-TOUL
---------------------------------------------------
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Toul</h2>
+              <p>Travaux de couverture et toiture à Toul</p>
+            </div>
+          </div>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Toul</span>
-  <strong>→</strong>
-</a>
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Toul</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
---------------------------------------------------
-NANCY
---------------------------------------------------
+          <a class="cityPage" href="./couvreur-toul.html">
+            Voir notre page couvreur à Toul →
+          </a>
+        </article>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Nancy</span>
-  <strong>→</strong>
-</a>
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Nancy</h2>
+              <p>Travaux de couverture et toiture à Nancy</p>
+            </div>
+          </div>
 
---------------------------------------------------
-ÉCROUVES
---------------------------------------------------
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Nancy</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Nancy</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Écrouves</span>
-  <strong>→</strong>
-</a>
+          <a class="cityPage" href="./couvreur-nancy.html">
+            Voir notre page couvreur à Nancy →
+          </a>
+        </article>
 
---------------------------------------------------
-DOMMARTIN-LÈS-TOUL
---------------------------------------------------
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Écrouves</h2>
+              <p>Travaux de couverture et toiture à Écrouves</p>
+            </div>
+          </div>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Dommartin-lès-Toul</span>
-  <strong>→</strong>
-</a>
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Écrouves</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Écrouves</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
---------------------------------------------------
-GONDREVILLE
---------------------------------------------------
+          <a class="cityPage" href="./couvreur-ecrouves.html">
+            Voir notre page couvreur à Écrouves →
+          </a>
+        </article>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Gondreville</span>
-  <strong>→</strong>
-</a>
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Dommartin-lès-Toul</h2>
+              <p>Travaux de couverture et toiture à Dommartin-lès-Toul</p>
+            </div>
+          </div>
 
---------------------------------------------------
-LIVERDUN
---------------------------------------------------
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Dommartin-lès-Toul</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
-<a class="serviceLink" href="./habillage-rives-sous-face.html">
-  <span>🪵 Habillage de rives & sous-faces PVC à Liverdun</span>
-  <strong>→</strong>
-</a>
+          <a class="cityPage" href="./couvreur-dommartin-les-toul.html">
+            Voir notre page couvreur à Dommartin-lès-Toul →
+          </a>
+        </article>
 
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Gondreville</h2>
+              <p>Travaux de couverture et toiture à Gondreville</p>
+            </div>
+          </div>
 
-==================================================
-3) MODIFIER LE TEXTE DE LA RÉALISATION GONDREVILLE
-==================================================
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Gondreville</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Gondreville</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
-Chercher :
+          <!-- PHOTOS GONDREVILLE : uniquement dans la carte Gondreville -->
+          <div class="gondreville-city-title">📸 Récemment réalisé à Gondreville</div>
+          <div class="gondreville-city-photos">
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/01-gondreville-sous-face-pvc-finition-facade.webp" alt="Sous-face PVC à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/02-gondreville-habillage-rive-sous-face.webp" alt="Habillage de rive à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/03-gondreville-sous-face-imitation-bois-finition.webp" alt="Sous-face imitation bois à Gondreville" loading="lazy"></a>
+            <a href="./couvreur-gondreville.html"><img src="./photos-gondreville/04-gondreville-vue-ensemble-travaux-sous-face.webp" alt="Travaux de sous-face à Gondreville" loading="lazy"></a>
+          </div>
+          <!-- FIN PHOTOS GONDREVILLE -->
 
-<h2>Notre chantier à Gondreville</h2>
+          <a class="cityPage" href="./couvreur-gondreville.html">
+            Voir notre page couvreur à Gondreville →
+          </a>
+        </article>
 
-Remplacer par :
+        <article class="cityCard">
+          <div class="cityHead">
+            <span class="pin">📍</span>
+            <div>
+              <h2>Liverdun</h2>
+              <p>Travaux de couverture et toiture à Liverdun</p>
+            </div>
+          </div>
 
-<h2>Récemment réalisé à Gondreville</h2>
+          <div class="cityLinks">
+            <a class="serviceLink" href="./renovation-toiture.html">
+              <span>🏠 Rénovation de toiture à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./reparation-fuite-toiture.html">
+              <span>💧 Réparation de fuite à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./zinguerie.html">
+              <span>🔧 Zinguerie à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./gouttieres.html">
+              <span>🌧️ Gouttières à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./faitage-arretiers.html">
+              <span>🏠 Faîtage et arêtiers à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./demoussage-toiture.html">
+              <span>🌿 Démoussage de toiture à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./entretien-toiture.html">
+              <span>✅ Entretien de toiture à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./isolation-toiture.html">
+              <span>🛡️ Isolation de toiture à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./traitement-charpente.html">
+              <span>🪚 Traitement de charpente à Liverdun</span>
+              <strong>→</strong>
+            </a>
+            <a class="serviceLink" href="./habillage-rives-sous-face.html">
+              <span>🪵 Habillage de rives & sous-faces PVC à Liverdun</span>
+              <strong>→</strong>
+            </a>
+          </div>
 
+          <a class="cityPage" href="./couvreur-liverdun.html">
+            Voir notre page couvreur à Liverdun →
+          </a>
+        </article>
 
-==================================================
-4) MODIFIER LE PETIT TITRE AU-DESSUS
-==================================================
+        </div>
 
-Chercher :
+        <div class="bottomCta">
+          <h2>Un projet de toiture ?</h2>
+          <p>Contactez directement J2B Couverture ou demandez un devis.</p>
+          <div class="ctaButtons">
+            <a class="cta ctaRed" href="tel:+33372760060">☎️ 03 72 76 00 60</a>
+            <a class="cta ctaGold" href="./contact.html">📩 Demander un devis</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<span class="eyebrow">Réalisation locale</span>
+  <footer>
+    🛡️ Garantie décennale QBE Europe SA/NV
+    • SIRET 851 484 717 00018
+    • J2B Couverture
+  </footer>
 
-Remplacer par :
-
-<span class="eyebrow">Récemment réalisé</span>
-
-
-==================================================
-5) GARDER LA GALERIE SUR prestations-par-ville.html
-==================================================
-
-Ne pas supprimer le bloc de galerie Gondreville.
-
-Il doit rester sur la page prestations-par-ville.html avec les photos du chantier actuel.
-
-Quand de nouvelles photos d'un chantier seront ajoutées plus tard :
-- on gardera cette même zone ;
-- on changera le nom de la ville ;
-- on changera le texte ;
-- on remplacera les photos par la réalisation la plus récente.
-
-Le titre devra suivre ce modèle :
-
-<h2>Récemment réalisé à NOM_DE_LA_VILLE</h2>
-
-
-==================================================
-6) OPTION RECOMMANDÉE — METTRE À JOUR LE TEXTE DU HERO
-==================================================
-
-Dans le texte d'introduction du haut, il y a actuellement :
-
-rénovation de toiture, réparation de fuite, zinguerie,
-gouttières, faîtage, démoussage, entretien, isolation et charpente.
-
-Vous pouvez remplacer par :
-
-rénovation de toiture, réparation de fuite, zinguerie,
-gouttières, faîtage, démoussage, entretien, isolation,
-charpente, habillage de rives et sous-faces PVC.
-
-
-==================================================
-RÉSULTAT ATTENDU
-==================================================
-
-- Un seul bandeau téléphone en haut.
-- La prestation « Habillage de rives & sous-faces PVC » visible pour toutes les villes.
-- La galerie chantier reste sur « Prestations par ville ».
-- Le chantier actuel est présenté sous le titre :
-  « Récemment réalisé à Gondreville ».
-- Les prochaines réalisations pourront remplacer cette galerie sans modifier la structure de la page.
+  <script src="https://j2b-couverture.fr/ntfy-visites.js?v=1" defer></script>
+</body>
+</html>
