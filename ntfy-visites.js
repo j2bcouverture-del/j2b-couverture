@@ -1,94 +1,635 @@
-(function(){
+(function () {
   "use strict";
 
+  /* ==========================================================
+     J2B COUVERTURE TOUL — SUIVI NTFY + GOOGLE ADS
+     ========================================================== */
+
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-  const SESSION_KEY = "j2b_toul_ntfy_visit_sent_v2";
 
-  function alreadySent(){
-    try{
-      if(sessionStorage.getItem(SESSION_KEY)) return true;
-      sessionStorage.setItem(SESSION_KEY, "1");
-      return false;
-    }catch(e){
-      return false;
+  const STORAGE_KEY = "j2b_toul_tracking_v4";
+  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v4";
+
+  /* ----------------------------------------------------------
+     PETITES FONCTIONS
+     ---------------------------------------------------------- */
+
+  function getParams() {
+    return new URLSearchParams(window.location.search);
+  }
+
+  function clean(value) {
+    if (!value) return "";
+    try {
+      return decodeURIComponent(value.replace(/\+/g, " "));
+    } catch (e) {
+      return value;
     }
   }
 
-  function allowRetry(){
-    try{ sessionStorage.removeItem(SESSION_KEY); }catch(e){}
+  function getDeviceFromValueTrack(value) {
+    if (!value) return "";
+    value = value.toLowerCase();
+
+    if (value === "m") return "Mobile";
+    if (value === "t") return "Tablette";
+    if (value === "c") return "Ordinateur";
+
+    return value;
   }
 
-  function sourceFromVisit(){
-    const p = new URLSearchParams(location.search);
+  function getMatchType(value) {
+    if (!value) return "";
+    value = value.toLowerCase();
 
-    if(
-      p.has("gclid") ||
-      p.has("gbraid") ||
-      p.has("wbraid") ||
-      p.get("gad_source") === "1"
-    ){
-      return "Google Ads";
+    if (value === "e") return "Exact";
+    if (value === "p") return "Expression";
+    if (value === "b") return "Requête large";
+
+    return value;
+  }
+
+  function pageName() {
+    return document.title || window.location.pathname || "Page inconnue";
+  }
+
+  function currentPage() {
+    return window.location.pathname || "/";
+  }
+
+  function currentFullUrl() {
+    return window.location.href;
+  }
+
+  function now() {
+    return new Date().toLocaleString("fr-FR");
+  }
+
+  /* ----------------------------------------------------------
+     LECTURE / ÉCRITURE SESSION
+     ---------------------------------------------------------- */
+
+  function loadSession() {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveSession(data) {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  /* ----------------------------------------------------------
+     INFORMATIONS GOOGLE ADS / UTM
+     ---------------------------------------------------------- */
+
+  function detectTraffic() {
+    const p = getParams();
+
+    const data = {
+      source: "",
+      medium: "",
+      campaign: "",
+      campaignId: "",
+      adGroupId: "",
+      keyword: "",
+      matchType: "",
+      device: "",
+      network: "",
+      creative: "",
+      targetId: "",
+      gclid: "",
+      gbraid: "",
+      wbraid: ""
+    };
+
+    data.gclid = clean(p.get("gclid"));
+    data.gbraid = clean(p.get("gbraid"));
+    data.wbraid = clean(p.get("wbraid"));
+
+    /*
+      Paramètres personnalisés que nous allons ajouter
+      dans Google Ads :
+      campaign
+      campaignid
+      adgroupid
+      keyword
+      matchtype
+      device
+      network
+      creative
+      targetid
+    */
+
+    data.campaign = clean(
+      p.get("campaign") ||
+      p.get("utm_campaign")
+    );
+
+    data.campaignId = clean(
+      p.get("campaignid") ||
+      p.get("campaign_id")
+    );
+
+    data.adGroupId = clean(
+      p.get("adgroupid") ||
+      p.get("adgroup_id")
+    );
+
+    data.keyword = clean(
+      p.get("keyword") ||
+      p.get("utm_term")
+    );
+
+    data.matchType = getMatchType(
+      clean(p.get("matchtype"))
+    );
+
+    data.device = getDeviceFromValueTrack(
+      clean(p.get("device"))
+    );
+
+    data.network = clean(p.get("network"));
+    data.creative = clean(p.get("creative"));
+    data.targetId = clean(p.get("targetid"));
+
+    if (
+      data.gclid ||
+      data.gbraid ||
+      data.wbraid ||
+      p.get("gad_source") === "1" ||
+      data.campaignId ||
+      data.keyword
+    ) {
+      data.source = "Google Ads";
+      data.medium = "CPC";
+      return data;
     }
 
-    if(p.get("utm_source")){
-      let source = p.get("utm_source");
-      const medium = p.get("utm_medium");
-      const campaign = p.get("utm_campaign");
-
-      if(medium) source += " / " + medium;
-      if(campaign) source += " / campagne " + campaign;
-
-      return source;
+    if (p.get("utm_source")) {
+      data.source = clean(p.get("utm_source"));
+      data.medium = clean(p.get("utm_medium"));
+      return data;
     }
 
-    if(document.referrer){
-      try{
-        const host = new URL(document.referrer).hostname
+    if (document.referrer) {
+      try {
+        const host = new URL(document.referrer)
+          .hostname
           .replace(/^www\./, "")
           .toLowerCase();
 
-        if(host.includes("google.")) return "Google naturel / Google";
-        if(host.includes("bing.")) return "Bing";
-        if(host.includes("facebook.") || host === "fb.com") return "Facebook";
-        if(host.includes("instagram.")) return "Instagram";
+        if (host.includes("google.")) {
+          data.source = "Google naturel";
+          data.medium = "Organic";
+        } else if (host.includes("bing.")) {
+          data.source = "Bing";
+        } else if (
+          host.includes("facebook.") ||
+          host === "fb.com"
+        ) {
+          data.source = "Facebook";
+        } else if (host.includes("instagram.")) {
+          data.source = "Instagram";
+        } else {
+          data.source = host;
+        }
 
-        return host;
-      }catch(e){
-        return "Lien externe";
-      }
+        return data;
+      } catch (e) {}
     }
 
-    return "Direct / provenance inconnue";
+    data.source = "Direct / inconnue";
+    return data;
   }
 
-  if(alreadySent()) return;
+  /* ----------------------------------------------------------
+     CRÉATION OU MISE À JOUR DE LA SESSION
+     ---------------------------------------------------------- */
 
-  const source = sourceFromVisit();
-  const pageTitle = document.title || "Page sans titre";
-  const path = location.pathname || "/";
-  const hour = new Date().toLocaleString("fr-FR");
+  let session = loadSession();
 
-  const message = [
-    "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
-    "",
-    "Page : " + pageTitle,
-    "Chemin : " + path,
-    "Provenance : " + source,
-    "Heure : " + hour
-  ].join("\n");
+  if (!session) {
+    const traffic = detectTraffic();
 
-  const publishUrl =
-    NTFY_TOPIC +
-    "?title=" + encodeURIComponent("Nouveau visiteur J2B Toul") +
-    "&priority=high" +
-    "&tags=eyes,house";
+    session = {
+      startedAt: now(),
+      entryPage: currentPage(),
+      entryTitle: pageName(),
+      entryUrl: currentFullUrl(),
 
-  fetch(publishUrl, {
-    method: "POST",
-    body: message,
-    keepalive: true,
-    cache: "no-store"
-  }).catch(function(){
-    allowRetry();
+      source: traffic.source,
+      medium: traffic.medium,
+      campaign: traffic.campaign,
+      campaignId: traffic.campaignId,
+      adGroupId: traffic.adGroupId,
+      keyword: traffic.keyword,
+      matchType: traffic.matchType,
+      device: traffic.device,
+      network: traffic.network,
+      creative: traffic.creative,
+      targetId: traffic.targetId,
+
+      gclid: traffic.gclid,
+      gbraid: traffic.gbraid,
+      wbraid: traffic.wbraid,
+
+      pages: [],
+      actions: []
+    };
+  }
+
+  /* Si les paramètres Ads apparaissent après la première page,
+     on complète la session sans effacer ce qui existe. */
+
+  const freshTraffic = detectTraffic();
+
+  [
+    "source",
+    "medium",
+    "campaign",
+    "campaignId",
+    "adGroupId",
+    "keyword",
+    "matchType",
+    "device",
+    "network",
+    "creative",
+    "targetId",
+    "gclid",
+    "gbraid",
+    "wbraid"
+  ].forEach(function (key) {
+    if (!session[key] && freshTraffic[key]) {
+      session[key] = freshTraffic[key];
+    }
   });
+
+  /* ----------------------------------------------------------
+     AJOUT DE LA PAGE VISITÉE
+     ---------------------------------------------------------- */
+
+  const pageRecord = {
+    path: currentPage(),
+    title: pageName(),
+    time: now()
+  };
+
+  const lastPage =
+    session.pages && session.pages.length
+      ? session.pages[session.pages.length - 1]
+      : null;
+
+  if (
+    !lastPage ||
+    lastPage.path !== pageRecord.path
+  ) {
+    session.pages.push(pageRecord);
+  }
+
+  saveSession(session);
+
+  /* ----------------------------------------------------------
+     FORMAT DU PARCOURS
+     ---------------------------------------------------------- */
+
+  function journeyText() {
+    if (!session.pages || !session.pages.length) {
+      return "Aucune page enregistrée";
+    }
+
+    return session.pages
+      .map(function (p, i) {
+        return (i + 1) + ". " + p.path;
+      })
+      .join("\n");
+  }
+
+  function adsInfoLines() {
+    const lines = [];
+
+    lines.push(
+      "Provenance : " +
+        (session.source || "Inconnue")
+    );
+
+    if (session.medium) {
+      lines.push("Support : " + session.medium);
+    }
+
+    if (session.campaign) {
+      lines.push("Campagne : " + session.campaign);
+    }
+
+    if (session.campaignId) {
+      lines.push(
+        "ID campagne : " + session.campaignId
+      );
+    }
+
+    if (session.adGroupId) {
+      lines.push(
+        "ID groupe : " + session.adGroupId
+      );
+    }
+
+    if (session.keyword) {
+      lines.push(
+        "Mot-clé déclencheur : " +
+          session.keyword
+      );
+    }
+
+    if (session.matchType) {
+      lines.push(
+        "Correspondance : " +
+          session.matchType
+      );
+    }
+
+    if (session.device) {
+      lines.push(
+        "Appareil : " + session.device
+      );
+    }
+
+    if (session.network) {
+      lines.push(
+        "Réseau : " + session.network
+      );
+    }
+
+    if (session.creative) {
+      lines.push(
+        "Annonce / creative : " +
+          session.creative
+      );
+    }
+
+    if (session.targetId) {
+      lines.push(
+        "Cible : " + session.targetId
+      );
+    }
+
+    return lines;
+  }
+
+  /* ----------------------------------------------------------
+     ENVOI NTFY
+     ---------------------------------------------------------- */
+
+  function sendNtfy(title, message, priority, tags) {
+    const url =
+      NTFY_TOPIC +
+      "?title=" +
+      encodeURIComponent(title) +
+      "&priority=" +
+      encodeURIComponent(priority || "high") +
+      "&tags=" +
+      encodeURIComponent(tags || "eyes,house");
+
+    return fetch(url, {
+      method: "POST",
+      body: message,
+      keepalive: true,
+      cache: "no-store"
+    }).catch(function () {});
+  }
+
+  /* ----------------------------------------------------------
+     NOUVEAU VISITEUR
+     ---------------------------------------------------------- */
+
+  let visitorAlreadySent = false;
+
+  try {
+    visitorAlreadySent =
+      sessionStorage.getItem(VISITOR_SENT_KEY) === "1";
+  } catch (e) {}
+
+  if (!visitorAlreadySent) {
+    try {
+      sessionStorage.setItem(
+        VISITOR_SENT_KEY,
+        "1"
+      );
+    } catch (e) {}
+
+    const visitorMessage = [
+      "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
+      "",
+      "Page d'entrée : " + session.entryPage,
+      "Titre : " + session.entryTitle,
+      "",
+      ...adsInfoLines(),
+      "",
+      "Début de session : " + session.startedAt
+    ].join("\n");
+
+    sendNtfy(
+      session.source === "Google Ads"
+        ? "🔥 Visiteur Google Ads - J2B Toul"
+        : "Nouveau visiteur - J2B Toul",
+      visitorMessage,
+      session.source === "Google Ads"
+        ? "high"
+        : "default",
+      session.source === "Google Ads"
+        ? "moneybag,eyes,house"
+        : "eyes,house"
+    );
+  }
+
+  /* ----------------------------------------------------------
+     ENREGISTRER UNE ACTION
+     ---------------------------------------------------------- */
+
+  function registerAction(type, label) {
+    const action = {
+      type: type,
+      label: label || "",
+      page: currentPage(),
+      time: now()
+    };
+
+    session.actions = session.actions || [];
+    session.actions.push(action);
+
+    saveSession(session);
+
+    return action;
+  }
+
+  /* ----------------------------------------------------------
+     CLIC SUR APPELER / WHATSAPP / EMAIL
+     ---------------------------------------------------------- */
+
+  document.addEventListener(
+    "click",
+    function (event) {
+      const target = event.target.closest("a,button");
+
+      if (!target) return;
+
+      const href =
+        target.getAttribute("href") || "";
+
+      const label = (
+        target.textContent ||
+        target.getAttribute("aria-label") ||
+        target.getAttribute("title") ||
+        "Bouton"
+      )
+        .replace(/\s+/g, " ")
+        .trim();
+
+      let actionType = "";
+
+      if (/^tel:/i.test(href)) {
+        actionType = "APPEL";
+      } else if (
+        /wa\.me|whatsapp/i.test(href)
+      ) {
+        actionType = "WHATSAPP";
+      } else if (/^mailto:/i.test(href)) {
+        actionType = "EMAIL";
+      }
+
+      if (!actionType) return;
+
+      registerAction(actionType, label);
+
+      const message = [
+        actionType +
+          " - J2B COUVERTURE TOUL",
+        "",
+        "Action : " + actionType,
+        "Bouton : " + label,
+        "Page du clic : " + currentPage(),
+        "",
+        "Page d'entrée : " +
+          session.entryPage,
+        "",
+        ...adsInfoLines(),
+        "",
+        "PARCOURS DU VISITEUR :",
+        journeyText(),
+        "",
+        "Heure du clic : " + now()
+      ].join("\n");
+
+      let title =
+        "Action visiteur - J2B Toul";
+      let tags = "bell,house";
+
+      if (actionType === "APPEL") {
+        title = "📞 CLIC SUR APPELER - J2B Toul";
+        tags = "telephone,fire,house";
+      }
+
+      if (actionType === "WHATSAPP") {
+        title = "💬 Clic WhatsApp - J2B Toul";
+        tags = "speech_balloon,house";
+      }
+
+      if (actionType === "EMAIL") {
+        title = "✉️ Clic E-mail - J2B Toul";
+        tags = "email,house";
+      }
+
+      sendNtfy(
+        title,
+        message,
+        "urgent",
+        tags
+      );
+
+      /* GA4 */
+
+      if (typeof window.gtag === "function") {
+        if (actionType === "APPEL") {
+          window.gtag("event", "click_appel", {
+            event_category: "Contact",
+            event_label: label,
+            page_path: currentPage()
+          });
+        }
+
+        if (actionType === "WHATSAPP") {
+          window.gtag(
+            "event",
+            "click_whatsapp",
+            {
+              event_category: "Contact",
+              event_label: label,
+              page_path: currentPage()
+            }
+          );
+        }
+
+        if (actionType === "EMAIL") {
+          window.gtag("event", "click_email", {
+            event_category: "Contact",
+            event_label: label,
+            page_path: currentPage()
+          });
+        }
+      }
+    },
+    true
+  );
+
+  /* ----------------------------------------------------------
+     FORMULAIRES
+     ---------------------------------------------------------- */
+
+  document.addEventListener(
+    "submit",
+    function (event) {
+      const form = event.target;
+
+      if (!form) return;
+
+      const label =
+        form.id ||
+        form.getAttribute("name") ||
+        "Formulaire";
+
+      registerAction(
+        "FORMULAIRE",
+        label
+      );
+
+      const message = [
+        "FORMULAIRE - J2B COUVERTURE TOUL",
+        "",
+        "Formulaire : " + label,
+        "Page : " + currentPage(),
+        "",
+        "Page d'entrée : " +
+          session.entryPage,
+        "",
+        ...adsInfoLines(),
+        "",
+        "PARCOURS :",
+        journeyText(),
+        "",
+        "Heure : " + now()
+      ].join("\n");
+
+      sendNtfy(
+        "📝 Formulaire - J2B Toul",
+        message,
+        "urgent",
+        "memo,house"
+      );
+    },
+    true
+  );
 })();
