@@ -1,18 +1,17 @@
-(function () {
+function () {
   "use strict";
 
   /* ==========================================================
      J2B COUVERTURE TOUL — SUIVI NTFY + GOOGLE ADS
+     - provenance / campagne / mot-clé / correspondance
+     - parcours du visiteur pendant la session
+     - clics appel / WhatsApp / e-mail / formulaires
+     - appareil détecté : téléphone / tablette / ordinateur
      ========================================================== */
 
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-
-  const STORAGE_KEY = "j2b_toul_tracking_v4";
-  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v4";
-
-  /* ----------------------------------------------------------
-     PETITES FONCTIONS
-     ---------------------------------------------------------- */
+  const STORAGE_KEY = "j2b_toul_tracking_v5";
+  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v5";
 
   function getParams() {
     return new URLSearchParams(window.location.search);
@@ -21,32 +20,58 @@
   function clean(value) {
     if (!value) return "";
     try {
-      return decodeURIComponent(value.replace(/\+/g, " "));
+      return decodeURIComponent(String(value).replace(/\+/g, " "));
     } catch (e) {
-      return value;
+      return String(value);
     }
   }
 
   function getDeviceFromValueTrack(value) {
     if (!value) return "";
-    value = value.toLowerCase();
+    value = String(value).toLowerCase();
 
-    if (value === "m") return "Mobile";
-    if (value === "t") return "Tablette";
-    if (value === "c") return "Ordinateur";
+    if (value === "m") return "📱 Téléphone";
+    if (value === "t") return "📱 Tablette";
+    if (value === "c") return "💻 Ordinateur";
 
-    return value;
+    return "";
+  }
+
+  function getBrowserDevice() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const touchPoints = navigator.maxTouchPoints || 0;
+
+    const isIPad =
+      /iPad/i.test(ua) ||
+      (platform === "MacIntel" && touchPoints > 1);
+
+    const isTablet =
+      isIPad ||
+      /Tablet|PlayBook|Silk/i.test(ua) ||
+      (/Android/i.test(ua) && !/Mobile/i.test(ua));
+
+    if (isTablet) return "📱 Tablette";
+
+    const isPhone =
+      /iPhone|iPod|Windows Phone|IEMobile|Opera Mini/i.test(ua) ||
+      (/Android/i.test(ua) && /Mobile/i.test(ua)) ||
+      /Mobi/i.test(ua);
+
+    if (isPhone) return "📱 Téléphone";
+
+    return "💻 Ordinateur";
   }
 
   function getMatchType(value) {
     if (!value) return "";
-    value = value.toLowerCase();
+    value = String(value).toLowerCase();
 
     if (value === "e") return "Exact";
     if (value === "p") return "Expression";
     if (value === "b") return "Requête large";
 
-    return value;
+    return clean(value);
   }
 
   function pageName() {
@@ -65,10 +90,6 @@
     return new Date().toLocaleString("fr-FR");
   }
 
-  /* ----------------------------------------------------------
-     LECTURE / ÉCRITURE SESSION
-     ---------------------------------------------------------- */
-
   function loadSession() {
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -83,10 +104,6 @@
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (e) {}
   }
-
-  /* ----------------------------------------------------------
-     INFORMATIONS GOOGLE ADS / UTM
-     ---------------------------------------------------------- */
 
   function detectTraffic() {
     const p = getParams();
@@ -112,20 +129,6 @@
     data.gbraid = clean(p.get("gbraid"));
     data.wbraid = clean(p.get("wbraid"));
 
-    /*
-      Paramètres personnalisés que nous allons ajouter
-      dans Google Ads :
-      campaign
-      campaignid
-      adgroupid
-      keyword
-      matchtype
-      device
-      network
-      creative
-      targetid
-    */
-
     data.campaign = clean(
       p.get("campaign") ||
       p.get("utm_campaign")
@@ -150,9 +153,9 @@
       clean(p.get("matchtype"))
     );
 
-    data.device = getDeviceFromValueTrack(
-      clean(p.get("device"))
-    );
+    data.device =
+      getDeviceFromValueTrack(clean(p.get("device"))) ||
+      getBrowserDevice();
 
     data.network = clean(p.get("network"));
     data.creative = clean(p.get("creative"));
@@ -189,10 +192,7 @@
           data.medium = "Organic";
         } else if (host.includes("bing.")) {
           data.source = "Bing";
-        } else if (
-          host.includes("facebook.") ||
-          host === "fb.com"
-        ) {
+        } else if (host.includes("facebook.") || host === "fb.com") {
           data.source = "Facebook";
         } else if (host.includes("instagram.")) {
           data.source = "Instagram";
@@ -207,10 +207,6 @@
     data.source = "Direct / inconnue";
     return data;
   }
-
-  /* ----------------------------------------------------------
-     CRÉATION OU MISE À JOUR DE LA SESSION
-     ---------------------------------------------------------- */
 
   let session = loadSession();
 
@@ -244,9 +240,6 @@
     };
   }
 
-  /* Si les paramètres Ads apparaissent après la première page,
-     on complète la session sans effacer ce qui existe. */
-
   const freshTraffic = detectTraffic();
 
   [
@@ -257,7 +250,6 @@
     "adGroupId",
     "keyword",
     "matchType",
-    "device",
     "network",
     "creative",
     "targetId",
@@ -270,9 +262,7 @@
     }
   });
 
-  /* ----------------------------------------------------------
-     AJOUT DE LA PAGE VISITÉE
-     ---------------------------------------------------------- */
+  session.device = freshTraffic.device || getBrowserDevice();
 
   const pageRecord = {
     path: currentPage(),
@@ -285,18 +275,12 @@
       ? session.pages[session.pages.length - 1]
       : null;
 
-  if (
-    !lastPage ||
-    lastPage.path !== pageRecord.path
-  ) {
+  if (!lastPage || lastPage.path !== pageRecord.path) {
+    session.pages = session.pages || [];
     session.pages.push(pageRecord);
   }
 
   saveSession(session);
-
-  /* ----------------------------------------------------------
-     FORMAT DU PARCOURS
-     ---------------------------------------------------------- */
 
   function journeyText() {
     if (!session.pages || !session.pages.length) {
@@ -315,84 +299,59 @@
 
     lines.push(
       "Provenance : " +
-        (session.source || "Inconnue")
+      (session.source || "Inconnue")
     );
 
     if (session.medium) {
       lines.push("Support : " + session.medium);
     }
 
+    lines.push(
+      "Appareil : " +
+      (session.device || getBrowserDevice())
+    );
+
     if (session.campaign) {
       lines.push("Campagne : " + session.campaign);
     }
 
     if (session.campaignId) {
-      lines.push(
-        "ID campagne : " + session.campaignId
-      );
+      lines.push("ID campagne : " + session.campaignId);
     }
 
     if (session.adGroupId) {
-      lines.push(
-        "ID groupe : " + session.adGroupId
-      );
+      lines.push("ID groupe : " + session.adGroupId);
     }
 
     if (session.keyword) {
-      lines.push(
-        "Mot-clé déclencheur : " +
-          session.keyword
-      );
+      lines.push("Mot-clé déclencheur : " + session.keyword);
     }
 
     if (session.matchType) {
-      lines.push(
-        "Correspondance : " +
-          session.matchType
-      );
-    }
-
-    if (session.device) {
-      lines.push(
-        "Appareil : " + session.device
-      );
+      lines.push("Correspondance : " + session.matchType);
     }
 
     if (session.network) {
-      lines.push(
-        "Réseau : " + session.network
-      );
+      lines.push("Réseau : " + session.network);
     }
 
     if (session.creative) {
-      lines.push(
-        "Annonce / creative : " +
-          session.creative
-      );
+      lines.push("Annonce / creative : " + session.creative);
     }
 
     if (session.targetId) {
-      lines.push(
-        "Cible : " + session.targetId
-      );
+      lines.push("Cible : " + session.targetId);
     }
 
     return lines;
   }
 
-  /* ----------------------------------------------------------
-     ENVOI NTFY
-     ---------------------------------------------------------- */
-
   function sendNtfy(title, message, priority, tags) {
     const url =
       NTFY_TOPIC +
-      "?title=" +
-      encodeURIComponent(title) +
-      "&priority=" +
-      encodeURIComponent(priority || "high") +
-      "&tags=" +
-      encodeURIComponent(tags || "eyes,house");
+      "?title=" + encodeURIComponent(title) +
+      "&priority=" + encodeURIComponent(priority || "high") +
+      "&tags=" + encodeURIComponent(tags || "eyes,house");
 
     return fetch(url, {
       method: "POST",
@@ -401,10 +360,6 @@
       cache: "no-store"
     }).catch(function () {});
   }
-
-  /* ----------------------------------------------------------
-     NOUVEAU VISITEUR
-     ---------------------------------------------------------- */
 
   let visitorAlreadySent = false;
 
@@ -415,10 +370,7 @@
 
   if (!visitorAlreadySent) {
     try {
-      sessionStorage.setItem(
-        VISITOR_SENT_KEY,
-        "1"
-      );
+      sessionStorage.setItem(VISITOR_SENT_KEY, "1");
     } catch (e) {}
 
     const visitorMessage = [
@@ -437,18 +389,12 @@
         ? "🔥 Visiteur Google Ads - J2B Toul"
         : "Nouveau visiteur - J2B Toul",
       visitorMessage,
-      session.source === "Google Ads"
-        ? "high"
-        : "default",
+      session.source === "Google Ads" ? "high" : "default",
       session.source === "Google Ads"
         ? "moneybag,eyes,house"
         : "eyes,house"
     );
   }
-
-  /* ----------------------------------------------------------
-     ENREGISTRER UNE ACTION
-     ---------------------------------------------------------- */
 
   function registerAction(type, label) {
     const action = {
@@ -460,26 +406,18 @@
 
     session.actions = session.actions || [];
     session.actions.push(action);
-
     saveSession(session);
 
     return action;
   }
 
-  /* ----------------------------------------------------------
-     CLIC SUR APPELER / WHATSAPP / EMAIL
-     ---------------------------------------------------------- */
-
   document.addEventListener(
     "click",
     function (event) {
       const target = event.target.closest("a,button");
-
       if (!target) return;
 
-      const href =
-        target.getAttribute("href") || "";
-
+      const href = target.getAttribute("href") || "";
       const label = (
         target.textContent ||
         target.getAttribute("aria-label") ||
@@ -493,9 +431,7 @@
 
       if (/^tel:/i.test(href)) {
         actionType = "APPEL";
-      } else if (
-        /wa\.me|whatsapp/i.test(href)
-      ) {
+      } else if (/wa\.me|whatsapp/i.test(href)) {
         actionType = "WHATSAPP";
       } else if (/^mailto:/i.test(href)) {
         actionType = "EMAIL";
@@ -506,15 +442,13 @@
       registerAction(actionType, label);
 
       const message = [
-        actionType +
-          " - J2B COUVERTURE TOUL",
+        actionType + " - J2B COUVERTURE TOUL",
         "",
         "Action : " + actionType,
         "Bouton : " + label,
         "Page du clic : " + currentPage(),
         "",
-        "Page d'entrée : " +
-          session.entryPage,
+        "Page d'entrée : " + session.entryPage,
         "",
         ...adsInfoLines(),
         "",
@@ -524,8 +458,7 @@
         "Heure du clic : " + now()
       ].join("\n");
 
-      let title =
-        "Action visiteur - J2B Toul";
+      let title = "Action visiteur - J2B Toul";
       let tags = "bell,house";
 
       if (actionType === "APPEL") {
@@ -543,14 +476,7 @@
         tags = "email,house";
       }
 
-      sendNtfy(
-        title,
-        message,
-        "urgent",
-        tags
-      );
-
-      /* GA4 */
+      sendNtfy(title, message, "urgent", tags);
 
       if (typeof window.gtag === "function") {
         if (actionType === "APPEL") {
@@ -562,15 +488,11 @@
         }
 
         if (actionType === "WHATSAPP") {
-          window.gtag(
-            "event",
-            "click_whatsapp",
-            {
-              event_category: "Contact",
-              event_label: label,
-              page_path: currentPage()
-            }
-          );
+          window.gtag("event", "click_whatsapp", {
+            event_category: "Contact",
+            event_label: label,
+            page_path: currentPage()
+          });
         }
 
         if (actionType === "EMAIL") {
@@ -585,15 +507,10 @@
     true
   );
 
-  /* ----------------------------------------------------------
-     FORMULAIRES
-     ---------------------------------------------------------- */
-
   document.addEventListener(
     "submit",
     function (event) {
       const form = event.target;
-
       if (!form) return;
 
       const label =
@@ -601,10 +518,7 @@
         form.getAttribute("name") ||
         "Formulaire";
 
-      registerAction(
-        "FORMULAIRE",
-        label
-      );
+      registerAction("FORMULAIRE", label);
 
       const message = [
         "FORMULAIRE - J2B COUVERTURE TOUL",
@@ -612,8 +526,7 @@
         "Formulaire : " + label,
         "Page : " + currentPage(),
         "",
-        "Page d'entrée : " +
-          session.entryPage,
+        "Page d'entrée : " + session.entryPage,
         "",
         ...adsInfoLines(),
         "",
