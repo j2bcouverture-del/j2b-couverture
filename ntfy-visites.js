@@ -6,12 +6,14 @@
      - provenance / campagne / mot-clé / correspondance
      - parcours du visiteur pendant la session
      - clics appel / WhatsApp / e-mail / formulaires
-     - appareil détecté : téléphone / tablette / ordinateur
+     - appareil : téléphone / tablette / ordinateur
+     - système : iOS / iPadOS / Android / Windows / macOS
      ========================================================== */
 
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-  const STORAGE_KEY = "j2b_toul_tracking_v5";
-  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v5";
+
+  const STORAGE_KEY = "j2b_toul_tracking_v6";
+  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v6";
 
   function getParams() {
     return new URLSearchParams(window.location.search);
@@ -19,15 +21,23 @@
 
   function clean(value) {
     if (!value) return "";
+
     try {
-      return decodeURIComponent(String(value).replace(/\+/g, " "));
+      return decodeURIComponent(
+        String(value).replace(/\+/g, " ")
+      );
     } catch (e) {
       return String(value);
     }
   }
 
+  /* =========================
+     APPAREIL GOOGLE ADS
+     ========================= */
+
   function getDeviceFromValueTrack(value) {
     if (!value) return "";
+
     value = String(value).toLowerCase();
 
     if (value === "m") return "📱 Téléphone";
@@ -36,6 +46,10 @@
 
     return "";
   }
+
+  /* =========================
+     APPAREIL RÉEL
+     ========================= */
 
   function getBrowserDevice() {
     const ua = navigator.userAgent || "";
@@ -51,20 +65,72 @@
       /Tablet|PlayBook|Silk/i.test(ua) ||
       (/Android/i.test(ua) && !/Mobile/i.test(ua));
 
-    if (isTablet) return "📱 Tablette";
+    if (isTablet) {
+      return "📱 Tablette";
+    }
 
     const isPhone =
       /iPhone|iPod|Windows Phone|IEMobile|Opera Mini/i.test(ua) ||
       (/Android/i.test(ua) && /Mobile/i.test(ua)) ||
       /Mobi/i.test(ua);
 
-    if (isPhone) return "📱 Téléphone";
+    if (isPhone) {
+      return "📱 Téléphone";
+    }
 
     return "💻 Ordinateur";
   }
 
+  /* =========================
+     SYSTÈME D'EXPLOITATION
+     ========================= */
+
+  function getOperatingSystem() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const touchPoints = navigator.maxTouchPoints || 0;
+
+    if (/iPhone|iPod/i.test(ua)) {
+      return "🍎 iOS (iPhone)";
+    }
+
+    if (
+      /iPad/i.test(ua) ||
+      (platform === "MacIntel" && touchPoints > 1)
+    ) {
+      return "🍎 iPadOS (iPad)";
+    }
+
+    if (/Android/i.test(ua)) {
+      return "🤖 Android";
+    }
+
+    if (/Windows NT/i.test(ua)) {
+      return "🪟 Windows";
+    }
+
+    if (/CrOS/i.test(ua)) {
+      return "💻 ChromeOS";
+    }
+
+    if (/Macintosh|Mac OS X/i.test(ua)) {
+      return "🍎 macOS";
+    }
+
+    if (/Linux/i.test(ua)) {
+      return "🐧 Linux";
+    }
+
+    return "Système inconnu";
+  }
+
+  /* =========================
+     TYPE DE CORRESPONDANCE ADS
+     ========================= */
+
   function getMatchType(value) {
     if (!value) return "";
+
     value = String(value).toLowerCase();
 
     if (value === "e") return "Exact";
@@ -75,7 +141,11 @@
   }
 
   function pageName() {
-    return document.title || window.location.pathname || "Page inconnue";
+    return (
+      document.title ||
+      window.location.pathname ||
+      "Page inconnue"
+    );
   }
 
   function currentPage() {
@@ -90,10 +160,19 @@
     return new Date().toLocaleString("fr-FR");
   }
 
+  /* =========================
+     SESSION
+     ========================= */
+
   function loadSession() {
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
+      const raw =
+        sessionStorage.getItem(STORAGE_KEY);
+
+      return raw
+        ? JSON.parse(raw)
+        : null;
+
     } catch (e) {
       return null;
     }
@@ -101,9 +180,16 @@
 
   function saveSession(data) {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      sessionStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+      );
     } catch (e) {}
   }
+
+  /* =========================
+     PROVENANCE + GOOGLE ADS
+     ========================= */
 
   function detectTraffic() {
     const p = getParams();
@@ -117,6 +203,7 @@
       keyword: "",
       matchType: "",
       device: "",
+      os: "",
       network: "",
       creative: "",
       targetId: "",
@@ -125,41 +212,63 @@
       wbraid: ""
     };
 
-    data.gclid = clean(p.get("gclid"));
-    data.gbraid = clean(p.get("gbraid"));
-    data.wbraid = clean(p.get("wbraid"));
+    data.gclid =
+      clean(p.get("gclid"));
 
-    data.campaign = clean(
-      p.get("campaign") ||
-      p.get("utm_campaign")
-    );
+    data.gbraid =
+      clean(p.get("gbraid"));
 
-    data.campaignId = clean(
-      p.get("campaignid") ||
-      p.get("campaign_id")
-    );
+    data.wbraid =
+      clean(p.get("wbraid"));
 
-    data.adGroupId = clean(
-      p.get("adgroupid") ||
-      p.get("adgroup_id")
-    );
+    data.campaign =
+      clean(
+        p.get("campaign") ||
+        p.get("utm_campaign")
+      );
 
-    data.keyword = clean(
-      p.get("keyword") ||
-      p.get("utm_term")
-    );
+    data.campaignId =
+      clean(
+        p.get("campaignid") ||
+        p.get("campaign_id")
+      );
 
-    data.matchType = getMatchType(
-      clean(p.get("matchtype"))
-    );
+    data.adGroupId =
+      clean(
+        p.get("adgroupid") ||
+        p.get("adgroup_id")
+      );
+
+    data.keyword =
+      clean(
+        p.get("keyword") ||
+        p.get("utm_term")
+      );
+
+    data.matchType =
+      getMatchType(
+        clean(p.get("matchtype"))
+      );
 
     data.device =
-      getDeviceFromValueTrack(clean(p.get("device"))) ||
+      getDeviceFromValueTrack(
+        clean(p.get("device"))
+      ) ||
       getBrowserDevice();
 
-    data.network = clean(p.get("network"));
-    data.creative = clean(p.get("creative"));
-    data.targetId = clean(p.get("targetid"));
+    data.os =
+      getOperatingSystem();
+
+    data.network =
+      clean(p.get("network"));
+
+    data.creative =
+      clean(p.get("creative"));
+
+    data.targetId =
+      clean(p.get("targetid"));
+
+    /* GOOGLE ADS */
 
     if (
       data.gclid ||
@@ -171,76 +280,158 @@
     ) {
       data.source = "Google Ads";
       data.medium = "CPC";
+
       return data;
     }
 
+    /* UTM */
+
     if (p.get("utm_source")) {
-      data.source = clean(p.get("utm_source"));
-      data.medium = clean(p.get("utm_medium"));
+      data.source =
+        clean(p.get("utm_source"));
+
+      data.medium =
+        clean(p.get("utm_medium"));
+
       return data;
     }
+
+    /* REFERRER */
 
     if (document.referrer) {
       try {
-        const host = new URL(document.referrer)
-          .hostname
-          .replace(/^www\./, "")
-          .toLowerCase();
+
+        const host =
+          new URL(document.referrer)
+            .hostname
+            .replace(/^www\./, "")
+            .toLowerCase();
 
         if (host.includes("google.")) {
-          data.source = "Google naturel";
-          data.medium = "Organic";
-        } else if (host.includes("bing.")) {
+
+          data.source =
+            "Google naturel";
+
+          data.medium =
+            "Organic";
+
+        } else if (
+          host.includes("bing.")
+        ) {
+
           data.source = "Bing";
-        } else if (host.includes("facebook.") || host === "fb.com") {
+
+        } else if (
+          host.includes("facebook.") ||
+          host === "fb.com"
+        ) {
+
           data.source = "Facebook";
-        } else if (host.includes("instagram.")) {
+
+        } else if (
+          host.includes("instagram.")
+        ) {
+
           data.source = "Instagram";
+
         } else {
+
           data.source = host;
+
         }
 
         return data;
+
       } catch (e) {}
     }
 
-    data.source = "Direct / inconnue";
+    data.source =
+      "Direct / inconnue";
+
     return data;
   }
+
+  /* =========================
+     CRÉATION SESSION
+     ========================= */
 
   let session = loadSession();
 
   if (!session) {
-    const traffic = detectTraffic();
+
+    const traffic =
+      detectTraffic();
 
     session = {
-      startedAt: now(),
-      entryPage: currentPage(),
-      entryTitle: pageName(),
-      entryUrl: currentFullUrl(),
 
-      source: traffic.source,
-      medium: traffic.medium,
-      campaign: traffic.campaign,
-      campaignId: traffic.campaignId,
-      adGroupId: traffic.adGroupId,
-      keyword: traffic.keyword,
-      matchType: traffic.matchType,
-      device: traffic.device,
-      network: traffic.network,
-      creative: traffic.creative,
-      targetId: traffic.targetId,
+      startedAt:
+        now(),
 
-      gclid: traffic.gclid,
-      gbraid: traffic.gbraid,
-      wbraid: traffic.wbraid,
+      entryPage:
+        currentPage(),
+
+      entryTitle:
+        pageName(),
+
+      entryUrl:
+        currentFullUrl(),
+
+      source:
+        traffic.source,
+
+      medium:
+        traffic.medium,
+
+      campaign:
+        traffic.campaign,
+
+      campaignId:
+        traffic.campaignId,
+
+      adGroupId:
+        traffic.adGroupId,
+
+      keyword:
+        traffic.keyword,
+
+      matchType:
+        traffic.matchType,
+
+      device:
+        traffic.device,
+
+      os:
+        traffic.os,
+
+      network:
+        traffic.network,
+
+      creative:
+        traffic.creative,
+
+      targetId:
+        traffic.targetId,
+
+      gclid:
+        traffic.gclid,
+
+      gbraid:
+        traffic.gbraid,
+
+      wbraid:
+        traffic.wbraid,
 
       pages: [],
       actions: []
     };
   }
 
-  const freshTraffic = detectTraffic();
+  /* =========================
+     ACTUALISATION INFOS ADS
+     ========================= */
+
+  const freshTraffic =
+    detectTraffic();
 
   [
     "source",
@@ -256,173 +447,387 @@
     "gclid",
     "gbraid",
     "wbraid"
+
   ].forEach(function (key) {
-    if (!session[key] && freshTraffic[key]) {
-      session[key] = freshTraffic[key];
+
+    if (
+      !session[key] &&
+      freshTraffic[key]
+    ) {
+      session[key] =
+        freshTraffic[key];
     }
+
   });
 
-  session.device = freshTraffic.device || getBrowserDevice();
+  session.device =
+    freshTraffic.device ||
+    getBrowserDevice();
+
+  session.os =
+    freshTraffic.os ||
+    getOperatingSystem();
+
+  /* =========================
+     PAGE VISITÉE
+     ========================= */
 
   const pageRecord = {
-    path: currentPage(),
-    title: pageName(),
-    time: now()
+
+    path:
+      currentPage(),
+
+    title:
+      pageName(),
+
+    time:
+      now()
   };
 
   const lastPage =
-    session.pages && session.pages.length
-      ? session.pages[session.pages.length - 1]
+    session.pages &&
+    session.pages.length
+      ? session.pages[
+          session.pages.length - 1
+        ]
       : null;
 
-  if (!lastPage || lastPage.path !== pageRecord.path) {
-    session.pages = session.pages || [];
-    session.pages.push(pageRecord);
+  if (
+    !lastPage ||
+    lastPage.path !== pageRecord.path
+  ) {
+
+    session.pages =
+      session.pages || [];
+
+    session.pages.push(
+      pageRecord
+    );
   }
 
   saveSession(session);
 
+  /* =========================
+     PARCOURS VISITEUR
+     ========================= */
+
   function journeyText() {
-    if (!session.pages || !session.pages.length) {
+
+    if (
+      !session.pages ||
+      !session.pages.length
+    ) {
       return "Aucune page enregistrée";
     }
 
     return session.pages
       .map(function (p, i) {
-        return (i + 1) + ". " + p.path;
+
+        return (
+          (i + 1) +
+          ". " +
+          p.path
+        );
+
       })
       .join("\n");
   }
 
+  /* =========================
+     INFOS À AFFICHER DANS NTFY
+     ========================= */
+
   function adsInfoLines() {
+
     const lines = [];
 
     lines.push(
       "Provenance : " +
-      (session.source || "Inconnue")
+      (
+        session.source ||
+        "Inconnue"
+      )
     );
 
     if (session.medium) {
-      lines.push("Support : " + session.medium);
+
+      lines.push(
+        "Support : " +
+        session.medium
+      );
+
     }
 
     lines.push(
       "Appareil : " +
-      (session.device || getBrowserDevice())
+      (
+        session.device ||
+        getBrowserDevice()
+      )
+    );
+
+    lines.push(
+      "Système : " +
+      (
+        session.os ||
+        getOperatingSystem()
+      )
     );
 
     if (session.campaign) {
-      lines.push("Campagne : " + session.campaign);
+
+      lines.push(
+        "Campagne : " +
+        session.campaign
+      );
+
     }
 
     if (session.campaignId) {
-      lines.push("ID campagne : " + session.campaignId);
+
+      lines.push(
+        "ID campagne : " +
+        session.campaignId
+      );
+
     }
 
     if (session.adGroupId) {
-      lines.push("ID groupe : " + session.adGroupId);
+
+      lines.push(
+        "ID groupe : " +
+        session.adGroupId
+      );
+
     }
 
     if (session.keyword) {
-      lines.push("Mot-clé déclencheur : " + session.keyword);
+
+      lines.push(
+        "Mot-clé déclencheur : " +
+        session.keyword
+      );
+
     }
 
     if (session.matchType) {
-      lines.push("Correspondance : " + session.matchType);
+
+      lines.push(
+        "Correspondance : " +
+        session.matchType
+      );
+
     }
 
     if (session.network) {
-      lines.push("Réseau : " + session.network);
+
+      lines.push(
+        "Réseau : " +
+        session.network
+      );
+
     }
 
     if (session.creative) {
-      lines.push("Annonce / creative : " + session.creative);
+
+      lines.push(
+        "Annonce / creative : " +
+        session.creative
+      );
+
     }
 
     if (session.targetId) {
-      lines.push("Cible : " + session.targetId);
+
+      lines.push(
+        "Cible : " +
+        session.targetId
+      );
+
     }
 
     return lines;
   }
 
-  function sendNtfy(title, message, priority, tags) {
+  /* =========================
+     ENVOI NTFY
+     ========================= */
+
+  function sendNtfy(
+    title,
+    message,
+    priority,
+    tags
+  ) {
+
     const url =
       NTFY_TOPIC +
-      "?title=" + encodeURIComponent(title) +
-      "&priority=" + encodeURIComponent(priority || "high") +
-      "&tags=" + encodeURIComponent(tags || "eyes,house");
+
+      "?title=" +
+      encodeURIComponent(title) +
+
+      "&priority=" +
+      encodeURIComponent(
+        priority || "high"
+      ) +
+
+      "&tags=" +
+      encodeURIComponent(
+        tags || "eyes,house"
+      );
 
     return fetch(url, {
+
       method: "POST",
+
       body: message,
+
       keepalive: true,
+
       cache: "no-store"
+
     }).catch(function () {});
   }
 
-  let visitorAlreadySent = false;
+  /* =========================
+     NOUVEAU VISITEUR
+     1 NOTIFICATION / SESSION
+     ========================= */
+
+  let visitorAlreadySent =
+    false;
 
   try {
+
     visitorAlreadySent =
-      sessionStorage.getItem(VISITOR_SENT_KEY) === "1";
+      sessionStorage.getItem(
+        VISITOR_SENT_KEY
+      ) === "1";
+
   } catch (e) {}
 
   if (!visitorAlreadySent) {
+
     try {
-      sessionStorage.setItem(VISITOR_SENT_KEY, "1");
+
+      sessionStorage.setItem(
+        VISITOR_SENT_KEY,
+        "1"
+      );
+
     } catch (e) {}
 
     const visitorMessage = [
+
       "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
+
       "",
-      "Page d'entrée : " + session.entryPage,
-      "Titre : " + session.entryTitle,
+
+      "Page d'entrée : " +
+      session.entryPage,
+
+      "Titre : " +
+      session.entryTitle,
+
       "",
+
       ...adsInfoLines(),
+
       "",
-      "Début de session : " + session.startedAt
+
+      "Début de session : " +
+      session.startedAt
+
     ].join("\n");
 
     sendNtfy(
+
       session.source === "Google Ads"
         ? "🔥 Visiteur Google Ads - J2B Toul"
         : "Nouveau visiteur - J2B Toul",
+
       visitorMessage,
-      session.source === "Google Ads" ? "high" : "default",
+
+      session.source === "Google Ads"
+        ? "high"
+        : "default",
+
       session.source === "Google Ads"
         ? "moneybag,eyes,house"
         : "eyes,house"
     );
   }
 
-  function registerAction(type, label) {
+  /* =========================
+     ENREGISTRER ACTION
+     ========================= */
+
+  function registerAction(
+    type,
+    label
+  ) {
+
     const action = {
+
       type: type,
-      label: label || "",
-      page: currentPage(),
-      time: now()
+
+      label:
+        label || "",
+
+      page:
+        currentPage(),
+
+      time:
+        now()
     };
 
-    session.actions = session.actions || [];
-    session.actions.push(action);
+    session.actions =
+      session.actions || [];
+
+    session.actions.push(
+      action
+    );
+
     saveSession(session);
 
     return action;
   }
 
+  /* =========================
+     CLICS
+     ========================= */
+
   document.addEventListener(
     "click",
+
     function (event) {
-      const target = event.target.closest("a,button");
+
+      const target =
+        event.target.closest(
+          "a,button"
+        );
+
       if (!target) return;
 
-      const href = target.getAttribute("href") || "";
+      const href =
+        target.getAttribute(
+          "href"
+        ) || "";
+
       const label = (
+
         target.textContent ||
-        target.getAttribute("aria-label") ||
-        target.getAttribute("title") ||
+
+        target.getAttribute(
+          "aria-label"
+        ) ||
+
+        target.getAttribute(
+          "title"
+        ) ||
+
         "Bouton"
+
       )
         .replace(/\s+/g, " ")
         .trim();
@@ -430,87 +835,198 @@
       let actionType = "";
 
       if (/^tel:/i.test(href)) {
+
         actionType = "APPEL";
-      } else if (/wa\.me|whatsapp/i.test(href)) {
+
+      } else if (
+        /wa\.me|whatsapp/i.test(href)
+      ) {
+
         actionType = "WHATSAPP";
-      } else if (/^mailto:/i.test(href)) {
+
+      } else if (
+        /^mailto:/i.test(href)
+      ) {
+
         actionType = "EMAIL";
+
       }
 
       if (!actionType) return;
 
-      registerAction(actionType, label);
+      registerAction(
+        actionType,
+        label
+      );
 
       const message = [
-        actionType + " - J2B COUVERTURE TOUL",
+
+        actionType +
+        " - J2B COUVERTURE TOUL",
+
         "",
-        "Action : " + actionType,
-        "Bouton : " + label,
-        "Page du clic : " + currentPage(),
+
+        "Action : " +
+        actionType,
+
+        "Bouton : " +
+        label,
+
+        "Page du clic : " +
+        currentPage(),
+
         "",
-        "Page d'entrée : " + session.entryPage,
+
+        "Page d'entrée : " +
+        session.entryPage,
+
         "",
+
         ...adsInfoLines(),
+
         "",
+
         "PARCOURS DU VISITEUR :",
+
         journeyText(),
+
         "",
-        "Heure du clic : " + now()
+
+        "Heure du clic : " +
+        now()
+
       ].join("\n");
 
-      let title = "Action visiteur - J2B Toul";
-      let tags = "bell,house";
+      let title =
+        "Action visiteur - J2B Toul";
 
-      if (actionType === "APPEL") {
-        title = "📞 CLIC SUR APPELER - J2B Toul";
-        tags = "telephone,fire,house";
+      let tags =
+        "bell,house";
+
+      if (
+        actionType === "APPEL"
+      ) {
+
+        title =
+          "📞 CLIC SUR APPELER - J2B Toul";
+
+        tags =
+          "telephone,fire,house";
       }
 
-      if (actionType === "WHATSAPP") {
-        title = "💬 Clic WhatsApp - J2B Toul";
-        tags = "speech_balloon,house";
+      if (
+        actionType === "WHATSAPP"
+      ) {
+
+        title =
+          "💬 Clic WhatsApp - J2B Toul";
+
+        tags =
+          "speech_balloon,house";
       }
 
-      if (actionType === "EMAIL") {
-        title = "✉️ Clic E-mail - J2B Toul";
-        tags = "email,house";
+      if (
+        actionType === "EMAIL"
+      ) {
+
+        title =
+          "✉️ Clic E-mail - J2B Toul";
+
+        tags =
+          "email,house";
       }
 
-      sendNtfy(title, message, "urgent", tags);
+      sendNtfy(
+        title,
+        message,
+        "urgent",
+        tags
+      );
 
-      if (typeof window.gtag === "function") {
-        if (actionType === "APPEL") {
-          window.gtag("event", "click_appel", {
-            event_category: "Contact",
-            event_label: label,
-            page_path: currentPage()
-          });
+      /* GOOGLE ANALYTICS */
+
+      if (
+        typeof window.gtag ===
+        "function"
+      ) {
+
+        if (
+          actionType === "APPEL"
+        ) {
+
+          window.gtag(
+            "event",
+            "click_appel",
+            {
+              event_category:
+                "Contact",
+
+              event_label:
+                label,
+
+              page_path:
+                currentPage()
+            }
+          );
         }
 
-        if (actionType === "WHATSAPP") {
-          window.gtag("event", "click_whatsapp", {
-            event_category: "Contact",
-            event_label: label,
-            page_path: currentPage()
-          });
+        if (
+          actionType === "WHATSAPP"
+        ) {
+
+          window.gtag(
+            "event",
+            "click_whatsapp",
+            {
+              event_category:
+                "Contact",
+
+              event_label:
+                label,
+
+              page_path:
+                currentPage()
+            }
+          );
         }
 
-        if (actionType === "EMAIL") {
-          window.gtag("event", "click_email", {
-            event_category: "Contact",
-            event_label: label,
-            page_path: currentPage()
-          });
+        if (
+          actionType === "EMAIL"
+        ) {
+
+          window.gtag(
+            "event",
+            "click_email",
+            {
+              event_category:
+                "Contact",
+
+              event_label:
+                label,
+
+              page_path:
+                currentPage()
+            }
+          );
         }
       }
     },
+
     true
   );
 
+  /* =========================
+     FORMULAIRE
+     ========================= */
+
   document.addEventListener(
     "submit",
+
     function (event) {
-      const form = event.target;
+
+      const form =
+        event.target;
+
       if (!form) return;
 
       const label =
@@ -518,22 +1034,43 @@
         form.getAttribute("name") ||
         "Formulaire";
 
-      registerAction("FORMULAIRE", label);
+      registerAction(
+        "FORMULAIRE",
+        label
+      );
 
       const message = [
+
         "FORMULAIRE - J2B COUVERTURE TOUL",
+
         "",
-        "Formulaire : " + label,
-        "Page : " + currentPage(),
+
+        "Formulaire : " +
+        label,
+
+        "Page : " +
+        currentPage(),
+
         "",
-        "Page d'entrée : " + session.entryPage,
+
+        "Page d'entrée : " +
+        session.entryPage,
+
         "",
+
         ...adsInfoLines(),
+
         "",
+
         "PARCOURS :",
+
         journeyText(),
+
         "",
-        "Heure : " + now()
+
+        "Heure : " +
+        now()
+
       ].join("\n");
 
       sendNtfy(
@@ -543,6 +1080,8 @@
         "memo,house"
       );
     },
+
     true
   );
+
 })();
