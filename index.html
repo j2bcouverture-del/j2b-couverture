@@ -1966,103 +1966,1065 @@
 </a>
 
 <!-- ============================================================
-     NTFY : NOTIFICATION DE CHAQUE NOUVELLE VISITE / SESSION
+     J2B NTFY V7 : NOUVEAU / RETOUR / BOT + GOOGLE ADS
+     INTÉGRÉ DIRECTEMENT DANS INDEX.HTML
      ============================================================ -->
-
 <script>
-(function(){
+(function () {
   "use strict";
 
+  /* ==========================================================
+     J2B COUVERTURE TOUL — SUIVI NTFY + GOOGLE ADS
+     VERSION : visiteur nouveau / déjà venu / bot
+
+     - provenance / campagne / mot-clé / correspondance
+     - parcours du visiteur pendant la session
+     - clics appel / WhatsApp / e-mail / formulaires
+     - appareil : téléphone / tablette / ordinateur
+     - système : iOS / iPadOS / Android / Windows / macOS
+     - identification persistante du navigateur via localStorage
+     - détection des bots connus + navigateurs automatisés
+     ========================================================== */
+
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-  const SESSION_KEY = "j2b_toul_ntfy_visit_sent_v2";
 
-  try{
-    if(sessionStorage.getItem(SESSION_KEY)) return;
-    sessionStorage.setItem(SESSION_KEY,"1");
-  }catch(e){}
+  const STORAGE_KEY = "j2b_toul_tracking_v7";
+  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v7";
+  const VISITOR_PROFILE_KEY = "j2b_toul_visitor_profile_v1";
+  const VISIT_COUNTED_KEY = "j2b_toul_visit_counted_v1";
 
-  function getSource(){
-    const p = new URLSearchParams(location.search);
+  function getParams() {
+    return new URLSearchParams(window.location.search);
+  }
 
-    if(
-      p.has("gclid") ||
-      p.has("gbraid") ||
-      p.has("wbraid") ||
-      p.get("gad_source")==="1"
-    ){
-      return "Google Ads";
+  function clean(value) {
+    if (!value) return "";
+
+    try {
+      return decodeURIComponent(
+        String(value).replace(/\+/g, " ")
+      );
+    } catch (e) {
+      return String(value);
+    }
+  }
+
+  function now() {
+    return new Date().toLocaleString("fr-FR");
+  }
+
+  function nowIso() {
+    return new Date().toISOString();
+  }
+
+  function formatIsoDate(value) {
+    if (!value) return "";
+
+    try {
+      return new Date(value).toLocaleString("fr-FR");
+    } catch (e) {
+      return String(value);
+    }
+  }
+
+  function pageName() {
+    return (
+      document.title ||
+      window.location.pathname ||
+      "Page inconnue"
+    );
+  }
+
+  function currentPage() {
+    return window.location.pathname || "/";
+  }
+
+  function currentFullUrl() {
+    return window.location.href;
+  }
+
+  /* =========================
+     APPAREIL GOOGLE ADS
+     ========================= */
+
+  function getDeviceFromValueTrack(value) {
+    if (!value) return "";
+
+    value = String(value).toLowerCase();
+
+    if (value === "m") return "📱 Téléphone";
+    if (value === "t") return "📱 Tablette";
+    if (value === "c") return "💻 Ordinateur";
+
+    return "";
+  }
+
+  /* =========================
+     APPAREIL RÉEL
+     ========================= */
+
+  function getBrowserDevice() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const touchPoints = navigator.maxTouchPoints || 0;
+
+    const isIPad =
+      /iPad/i.test(ua) ||
+      (platform === "MacIntel" && touchPoints > 1);
+
+    const isTablet =
+      isIPad ||
+      /Tablet|PlayBook|Silk/i.test(ua) ||
+      (/Android/i.test(ua) && !/Mobile/i.test(ua));
+
+    if (isTablet) {
+      return "📱 Tablette";
     }
 
-    if(p.get("utm_source")){
-      let s = p.get("utm_source");
+    const isPhone =
+      /iPhone|iPod|Windows Phone|IEMobile|Opera Mini/i.test(ua) ||
+      (/Android/i.test(ua) && /Mobile/i.test(ua)) ||
+      /Mobi/i.test(ua);
 
-      if(p.get("utm_medium")){
-        s += " / " + p.get("utm_medium");
-      }
-
-      if(p.get("utm_campaign")){
-        s += " / " + p.get("utm_campaign");
-      }
-
-      return s;
+    if (isPhone) {
+      return "📱 Téléphone";
     }
 
-    if(document.referrer){
-      try{
+    return "💻 Ordinateur";
+  }
+
+  /* =========================
+     SYSTÈME D'EXPLOITATION
+     ========================= */
+
+  function getOperatingSystem() {
+    const ua = navigator.userAgent || "";
+    const platform = navigator.platform || "";
+    const touchPoints = navigator.maxTouchPoints || 0;
+
+    if (/iPhone|iPod/i.test(ua)) {
+      return "🍎 iOS (iPhone)";
+    }
+
+    if (
+      /iPad/i.test(ua) ||
+      (platform === "MacIntel" && touchPoints > 1)
+    ) {
+      return "🍎 iPadOS (iPad)";
+    }
+
+    if (/Android/i.test(ua)) {
+      return "🤖 Android";
+    }
+
+    if (/Windows NT/i.test(ua)) {
+      return "🪟 Windows";
+    }
+
+    if (/CrOS/i.test(ua)) {
+      return "💻 ChromeOS";
+    }
+
+    if (/Macintosh|Mac OS X/i.test(ua)) {
+      return "🍎 macOS";
+    }
+
+    if (/Linux/i.test(ua)) {
+      return "🐧 Linux";
+    }
+
+    return "Système inconnu";
+  }
+
+  /* =========================
+     TYPE DE CORRESPONDANCE ADS
+     ========================= */
+
+  function getMatchType(value) {
+    if (!value) return "";
+
+    value = String(value).toLowerCase();
+
+    if (value === "e") return "Exact";
+    if (value === "p") return "Expression";
+    if (value === "b") return "Requête large";
+
+    return clean(value);
+  }
+
+  /* =========================
+     DÉTECTION BOT
+     ========================= */
+
+  function detectBot() {
+    const ua = String(navigator.userAgent || "").toLowerCase();
+
+    if (navigator.webdriver === true) {
+      return {
+        isBot: true,
+        reason: "Navigateur automatisé (navigator.webdriver)"
+      };
+    }
+
+    const botPatterns = [
+      ["Googlebot", /googlebot|google-inspectiontool|googleother/],
+      ["Bingbot", /bingbot|bingpreview|adidxbot/],
+      ["DuckDuckBot", /duckduckbot/],
+      ["YandexBot", /yandex(bot|images|mobilebot)/],
+      ["Baidu", /baiduspider/],
+      ["Applebot", /applebot/],
+      ["Facebook", /facebookexternalhit|facebot/],
+      ["Instagram", /instagram.*bot/],
+      ["Twitter/X", /twitterbot/],
+      ["LinkedIn", /linkedinbot/],
+      ["Pinterest", /pinterestbot/],
+      ["WhatsApp", /whatsapp/],
+      ["Telegram", /telegrambot/],
+      ["Discord", /discordbot/],
+      ["Slack", /slackbot/],
+      ["Ahrefs", /ahrefsbot/],
+      ["Semrush", /semrushbot/],
+      ["MJ12", /mj12bot/],
+      ["DotBot", /dotbot/],
+      ["PetalBot", /petalbot/],
+      ["Bytespider", /bytespider/],
+      ["GPTBot / OpenAI", /gptbot|oai-searchbot|chatgpt-user/],
+      ["ClaudeBot / Anthropic", /claudebot|anthropic-ai/],
+      ["PerplexityBot", /perplexitybot/],
+      ["Crawler générique", /(^|[^a-z])(bot|crawler|spider|slurp|scrapy|wget|curl)([^a-z]|$)/],
+      ["Navigateur headless", /headlesschrome|phantomjs|puppeteer|playwright|selenium/]
+    ];
+
+    for (let i = 0; i < botPatterns.length; i++) {
+      if (botPatterns[i][1].test(ua)) {
+        return {
+          isBot: true,
+          reason: botPatterns[i][0]
+        };
+      }
+    }
+
+    return {
+      isBot: false,
+      reason: ""
+    };
+  }
+
+  /* =========================
+     IDENTITÉ VISITEUR
+     ========================= */
+
+  function generateVisitorId() {
+    try {
+      if (
+        window.crypto &&
+        typeof window.crypto.randomUUID === "function"
+      ) {
+        return window.crypto.randomUUID();
+      }
+    } catch (e) {}
+
+    return (
+      "j2b-" +
+      Date.now().toString(36) +
+      "-" +
+      Math.random().toString(36).slice(2, 10)
+    );
+  }
+
+  function loadVisitorProfile() {
+    try {
+      const raw = localStorage.getItem(VISITOR_PROFILE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveVisitorProfile(profile) {
+    try {
+      localStorage.setItem(
+        VISITOR_PROFILE_KEY,
+        JSON.stringify(profile)
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function resolveVisitor(botInfo) {
+    if (botInfo.isBot) {
+      return {
+        type: "bot",
+        label: "🤖 BOT",
+        id: "",
+        visits: 0,
+        firstSeen: "",
+        previousLastSeen: "",
+        botReason: botInfo.reason
+      };
+    }
+
+    const previous = loadVisitorProfile();
+    const returning = !!(
+      previous &&
+      previous.id &&
+      previous.firstSeen
+    );
+
+    const previousLastSeen =
+      returning && previous.lastSeen
+        ? previous.lastSeen
+        : "";
+
+    let visits =
+      returning && Number(previous.visits)
+        ? Number(previous.visits)
+        : 0;
+
+    let countedThisSession = false;
+
+    try {
+      countedThisSession =
+        sessionStorage.getItem(VISIT_COUNTED_KEY) === "1";
+    } catch (e) {}
+
+    if (!countedThisSession) {
+      visits += 1;
+
+      try {
+        sessionStorage.setItem(
+          VISIT_COUNTED_KEY,
+          "1"
+        );
+      } catch (e) {}
+    }
+
+    const profile = {
+      id:
+        returning
+          ? previous.id
+          : generateVisitorId(),
+
+      firstSeen:
+        returning
+          ? previous.firstSeen
+          : nowIso(),
+
+      lastSeen:
+        nowIso(),
+
+      visits:
+        visits
+    };
+
+    saveVisitorProfile(profile);
+
+    return {
+      type: returning ? "returning" : "new",
+      label:
+        returning
+          ? "🔵 DÉJÀ VENU"
+          : "🟢 NOUVEAU VISITEUR",
+      id: profile.id,
+      visits: profile.visits,
+      firstSeen: profile.firstSeen,
+      previousLastSeen: previousLastSeen,
+      botReason: ""
+    };
+  }
+
+  /* =========================
+     SESSION
+     ========================= */
+
+  function loadSession() {
+    try {
+      const raw =
+        sessionStorage.getItem(STORAGE_KEY);
+
+      return raw
+        ? JSON.parse(raw)
+        : null;
+
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveSession(data) {
+    try {
+      sessionStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+      );
+    } catch (e) {}
+  }
+
+  /* =========================
+     PROVENANCE + GOOGLE ADS
+     ========================= */
+
+  function detectTraffic() {
+    const p = getParams();
+
+    const data = {
+      source: "",
+      medium: "",
+      campaign: "",
+      campaignId: "",
+      adGroupId: "",
+      keyword: "",
+      matchType: "",
+      device: "",
+      os: "",
+      network: "",
+      creative: "",
+      targetId: "",
+      gclid: "",
+      gbraid: "",
+      wbraid: ""
+    };
+
+    data.gclid =
+      clean(p.get("gclid"));
+
+    data.gbraid =
+      clean(p.get("gbraid"));
+
+    data.wbraid =
+      clean(p.get("wbraid"));
+
+    data.campaign =
+      clean(
+        p.get("campaign") ||
+        p.get("utm_campaign")
+      );
+
+    data.campaignId =
+      clean(
+        p.get("campaignid") ||
+        p.get("campaign_id")
+      );
+
+    data.adGroupId =
+      clean(
+        p.get("adgroupid") ||
+        p.get("adgroup_id")
+      );
+
+    data.keyword =
+      clean(
+        p.get("keyword") ||
+        p.get("utm_term")
+      );
+
+    data.matchType =
+      getMatchType(
+        clean(p.get("matchtype"))
+      );
+
+    data.device =
+      getDeviceFromValueTrack(
+        clean(p.get("device"))
+      ) ||
+      getBrowserDevice();
+
+    data.os =
+      getOperatingSystem();
+
+    data.network =
+      clean(p.get("network"));
+
+    data.creative =
+      clean(p.get("creative"));
+
+    data.targetId =
+      clean(p.get("targetid"));
+
+    if (
+      data.gclid ||
+      data.gbraid ||
+      data.wbraid ||
+      p.get("gad_source") === "1" ||
+      data.campaignId ||
+      data.keyword
+    ) {
+      data.source = "Google Ads";
+      data.medium = "CPC";
+
+      return data;
+    }
+
+    if (p.get("utm_source")) {
+      data.source =
+        clean(p.get("utm_source"));
+
+      data.medium =
+        clean(p.get("utm_medium"));
+
+      return data;
+    }
+
+    if (document.referrer) {
+      try {
         const host =
           new URL(document.referrer)
             .hostname
-            .replace(/^www\./,"");
+            .replace(/^www\./, "")
+            .toLowerCase();
 
-        if(/(^|\.)google\./i.test(host)){
-          return "Google naturel / Google";
+        if (host.includes("google.")) {
+          data.source =
+            "Google naturel";
+
+          data.medium =
+            "Organic";
+
+        } else if (
+          host.includes("bing.")
+        ) {
+          data.source = "Bing";
+
+        } else if (
+          host.includes("facebook.") ||
+          host === "fb.com"
+        ) {
+          data.source = "Facebook";
+
+        } else if (
+          host.includes("instagram.")
+        ) {
+          data.source = "Instagram";
+
+        } else {
+          data.source = host;
         }
 
-        if(/(^|\.)bing\./i.test(host)){
-          return "Bing";
-        }
+        return data;
 
-        if(/facebook|fb\.com/i.test(host)){
-          return "Facebook";
-        }
-
-        if(/instagram/i.test(host)){
-          return "Instagram";
-        }
-
-        return host;
-
-      }catch(e){
-        return "Lien externe";
-      }
+      } catch (e) {}
     }
 
-    return "Direct / provenance inconnue";
+    data.source =
+      "Direct / inconnue";
+
+    return data;
   }
 
-  const source = getSource();
-  const page = document.title || location.pathname || "Accueil";
+  /* =========================
+     CRÉATION SESSION
+     ========================= */
 
-  const message = [
-    "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
-    "",
-    "Page : " + page,
-    "Chemin : " + (location.pathname || "/"),
-    "Provenance : " + source,
-    "Heure : " + new Date().toLocaleString("fr-FR")
-  ].join("\n");
+  let session = loadSession();
 
-  const publishUrl =
-    NTFY_TOPIC +
-    "?title=" + encodeURIComponent("Nouveau visiteur J2B Toul") +
-    "&priority=high" +
-    "&tags=eyes,house";
+  if (!session) {
+    const traffic =
+      detectTraffic();
 
-  fetch(publishUrl,{
-    method:"POST",
-    body:message,
-    keepalive:true
-  }).catch(function(){});
+    const botInfo =
+      detectBot();
+
+    const visitor =
+      resolveVisitor(botInfo);
+
+    session = {
+      startedAt:
+        now(),
+
+      entryPage:
+        currentPage(),
+
+      entryTitle:
+        pageName(),
+
+      entryUrl:
+        currentFullUrl(),
+
+      source:
+        traffic.source,
+
+      medium:
+        traffic.medium,
+
+      campaign:
+        traffic.campaign,
+
+      campaignId:
+        traffic.campaignId,
+
+      adGroupId:
+        traffic.adGroupId,
+
+      keyword:
+        traffic.keyword,
+
+      matchType:
+        traffic.matchType,
+
+      device:
+        traffic.device,
+
+      os:
+        traffic.os,
+
+      network:
+        traffic.network,
+
+      creative:
+        traffic.creative,
+
+      targetId:
+        traffic.targetId,
+
+      gclid:
+        traffic.gclid,
+
+      gbraid:
+        traffic.gbraid,
+
+      wbraid:
+        traffic.wbraid,
+
+      visitorType:
+        visitor.type,
+
+      visitorLabel:
+        visitor.label,
+
+      visitorId:
+        visitor.id,
+
+      visitorVisits:
+        visitor.visits,
+
+      visitorFirstSeen:
+        visitor.firstSeen,
+
+      visitorPreviousLastSeen:
+        visitor.previousLastSeen,
+
+      botReason:
+        visitor.botReason,
+
+      pages: [],
+      actions: []
+    };
+  }
+
+  /* =========================
+     ACTUALISATION INFOS ADS
+     ========================= */
+
+  const freshTraffic =
+    detectTraffic();
+
+  [
+    "source",
+    "medium",
+    "campaign",
+    "campaignId",
+    "adGroupId",
+    "keyword",
+    "matchType",
+    "network",
+    "creative",
+    "targetId",
+    "gclid",
+    "gbraid",
+    "wbraid"
+
+  ].forEach(function (key) {
+    if (
+      !session[key] &&
+      freshTraffic[key]
+    ) {
+      session[key] =
+        freshTraffic[key];
+    }
+  });
+
+  session.device =
+    freshTraffic.device ||
+    getBrowserDevice();
+
+  session.os =
+    freshTraffic.os ||
+    getOperatingSystem();
+
+  /* =========================
+     PAGE VISITÉE
+     ========================= */
+
+  const pageRecord = {
+    path:
+      currentPage(),
+
+    title:
+      pageName(),
+
+    time:
+      now()
+  };
+
+  const lastPage =
+    session.pages &&
+    session.pages.length
+      ? session.pages[
+          session.pages.length - 1
+        ]
+      : null;
+
+  if (
+    !lastPage ||
+    lastPage.path !== pageRecord.path
+  ) {
+    session.pages =
+      session.pages || [];
+
+    session.pages.push(
+      pageRecord
+    );
+  }
+
+  saveSession(session);
+
+  /* =========================
+     PARCOURS VISITEUR
+     ========================= */
+
+  function journeyText() {
+    if (
+      !session.pages ||
+      !session.pages.length
+    ) {
+      return "Aucune page enregistrée";
+    }
+
+    return session.pages
+      .map(function (p, i) {
+        return (
+          (i + 1) +
+          ". " +
+          p.path
+        );
+      })
+      .join("\n");
+  }
+
+  /* =========================
+     INFOS VISITEUR
+     ========================= */
+
+  function visitorInfoLines() {
+    const lines = [];
+
+    lines.push(
+      "Type : " +
+      (
+        session.visitorLabel ||
+        "Visiteur inconnu"
+      )
+    );
+
+    if (session.visitorType === "bot") {
+      lines.push(
+        "Détection bot : " +
+        (
+          session.botReason ||
+          "Signature automatisée"
+        )
+      );
+
+      return lines;
+    }
+
+    if (session.visitorId) {
+      lines.push(
+        "ID navigateur : " +
+        session.visitorId
+      );
+    }
+
+    if (session.visitorVisits) {
+      lines.push(
+        "Nombre de visites : " +
+        session.visitorVisits
+      );
+    }
+
+    if (session.visitorFirstSeen) {
+      lines.push(
+        "Première visite : " +
+        formatIsoDate(
+          session.visitorFirstSeen
+        )
+      );
+    }
+
+    if (
+      session.visitorPreviousLastSeen
+    ) {
+      lines.push(
+        "Dernière visite précédente : " +
+        formatIsoDate(
+          session.visitorPreviousLastSeen
+        )
+      );
+    }
+
+    return lines;
+  }
+
+  /* =========================
+     INFOS À AFFICHER DANS NTFY
+     ========================= */
+
+  function adsInfoLines() {
+    const lines = [];
+
+    lines.push(
+      "Provenance : " +
+      (
+        session.source ||
+        "Inconnue"
+      )
+    );
+
+    if (session.medium) {
+      lines.push(
+        "Support : " +
+        session.medium
+      );
+    }
+
+    lines.push(
+      "Appareil : " +
+      (
+        session.device ||
+        getBrowserDevice()
+      )
+    );
+
+    lines.push(
+      "Système : " +
+      (
+        session.os ||
+        getOperatingSystem()
+      )
+    );
+
+    if (session.campaign) {
+      lines.push(
+        "Campagne : " +
+        session.campaign
+      );
+    }
+
+    if (session.campaignId) {
+      lines.push(
+        "ID campagne : " +
+        session.campaignId
+      );
+    }
+
+    if (session.adGroupId) {
+      lines.push(
+        "ID groupe : " +
+        session.adGroupId
+      );
+    }
+
+    if (session.keyword) {
+      lines.push(
+        "Mot-clé déclencheur : " +
+        session.keyword
+      );
+    }
+
+    if (session.matchType) {
+      lines.push(
+        "Correspondance : " +
+        session.matchType
+      );
+    }
+
+    if (session.network) {
+      lines.push(
+        "Réseau : " +
+        session.network
+      );
+    }
+
+    if (session.creative) {
+      lines.push(
+        "Annonce / creative : " +
+        session.creative
+      );
+    }
+
+    if (session.targetId) {
+      lines.push(
+        "Cible : " +
+        session.targetId
+      );
+    }
+
+    return lines;
+  }
+
+  /* =========================
+     ENVOI NTFY
+     ========================= */
+
+  function sendNtfy(
+    title,
+    message,
+    priority,
+    tags
+  ) {
+    const url =
+      NTFY_TOPIC +
+
+      "?title=" +
+      encodeURIComponent(title) +
+
+      "&priority=" +
+      encodeURIComponent(
+        priority || "high"
+      ) +
+
+      "&tags=" +
+      encodeURIComponent(
+        tags || "eyes,house"
+      );
+
+    return fetch(url, {
+      method: "POST",
+      body: message,
+      keepalive: true,
+      cache: "no-store"
+    }).catch(function () {});
+  }
+
+  /* =========================
+     NOTIFICATION VISITE
+     1 NOTIFICATION / SESSION
+     ========================= */
+
+  let visitorAlreadySent =
+    false;
+
+  try {
+    visitorAlreadySent =
+      sessionStorage.getItem(
+        VISITOR_SENT_KEY
+      ) === "1";
+  } catch (e) {}
+
+  if (!visitorAlreadySent) {
+    try {
+      sessionStorage.setItem(
+        VISITOR_SENT_KEY,
+        "1"
+      );
+    } catch (e) {}
+
+    const visitorMessage = [
+      session.visitorLabel +
+      " - J2B COUVERTURE TOUL",
+
+      "",
+
+      ...visitorInfoLines(),
+
+      "",
+
+      "Page d'entrée : " +
+      session.entryPage,
+
+      "Titre : " +
+      session.entryTitle,
+
+      "",
+
+      ...adsInfoLines(),
+
+      "",
+
+      "Début de session : " +
+      session.startedAt
+
+    ].join("\n");
+
+    let visitorTitle =
+      "🟢 Nouveau visiteur - J2B Toul";
+
+    let visitorPriority =
+      "default";
+
+    let visitorTags =
+      "eyes,house";
+
+    if (
+      session.visitorType === "returning"
+    ) {
+      visitorTitle =
+        "🔵 Visiteur déjà venu - J2B Toul";
+
+      visitorTags =
+        "repeat,eyes,house";
+    }
+
+    if (
+      session.source === "Google Ads" &&
+      session.visitorType === "new"
+    ) {
+      visitorTitle =
+        "🔥 🟢 Nouveau visiteur Google Ads - J2B Toul";
+
+      visitorPriority =
+        "high";
+
+      visitorTags =
+        "moneybag,eyes,house";
+    }
+
+    if (
+      session.source === "Google Ads" &&
+      session.visitorType === "returning"
+    ) {
+      visitorTitle =
+        "🔥 🔵 Visiteur déjà venu Google Ads - J2B Toul";
+
+      visitorPriority =
+        "high";
+
+      visitorTags =
+        "moneybag,repeat,eyes,house";
+    }
+
+    if (
+      session.visitorType === "bot"
+    ) {
+      visitorTitle =
+        "🤖 Bot détecté - J2B Toul";
+
+      visitorPriority =
+        "low";
+
+      visitorTags =
+        "robot,mag";
+    }
+
+    sendNtfy(
+      visitorTitle,
+      visitorMessage,
+      visitorPriority,
+      visitorTags
+    );
+  }
 
 })();
 </script>
@@ -2573,10 +3535,6 @@
 })();
 </script>
 
-<script
-  src="https://j2b-couverture.fr/ntfy-visites.js?v=1"
-  defer>
-</script>
 
 </body>
 </html>
