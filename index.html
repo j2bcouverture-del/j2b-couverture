@@ -988,6 +988,74 @@
 
 <body>
 
+<!-- PROMO J2B TOUL - SEPTEMBRE 2026 -->
+<style id="j2b-promo-sept-2026-style">
+  .j2b-promo-sept-2026{
+    width:100%;
+    background:linear-gradient(90deg,#9f171c,#c22127);
+    color:#fff;
+    border-bottom:3px solid #c7a45b;
+    box-shadow:0 4px 14px rgba(0,0,0,.14);
+    position:relative;
+    z-index:10050;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  }
+  .j2b-promo-sept-2026-inner{
+    max-width:1160px;
+    margin:0 auto;
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    text-align:center;
+    font-weight:800;
+    line-height:1.25;
+  }
+  .j2b-promo-sept-2026-badge{
+    display:inline-block;
+    background:#fff;
+    color:#a7191f;
+    border-radius:999px;
+    padding:5px 10px;
+    font-weight:950;
+    white-space:nowrap;
+  }
+  .j2b-promo-sept-2026 strong{font-weight:950}
+  @media(max-width:620px){
+    .j2b-promo-sept-2026-inner{
+      padding:8px 10px;
+      font-size:.9rem;
+      gap:7px;
+    }
+    .j2b-promo-sept-2026-badge{
+      padding:4px 8px;
+    }
+  }
+</style>
+
+<div class="j2b-promo-sept-2026" id="j2b-promo-sept-2026" role="region" aria-label="Promotion septembre 2026">
+  <div class="j2b-promo-sept-2026-inner">
+    <span class="j2b-promo-sept-2026-badge">-10 %</span>
+    <span><strong>OFFRE SEPTEMBRE</strong> — 10 % de remise sur votre devis signé avant le 30 septembre 2026</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var fin = new Date('2026-10-01T00:00:00+02:00').getTime();
+  if (Date.now() >= fin) {
+    var b = document.getElementById('j2b-promo-sept-2026');
+    var s = document.getElementById('j2b-promo-sept-2026-style');
+    if (b) b.remove();
+    if (s) s.remove();
+  }
+})();
+</script>
+<!-- FIN PROMO J2B TOUL - SEPTEMBRE 2026 -->
+
+
 <!-- UNE SEULE BARRE CONTACT -->
 <div class="j2b-contact-global">
   <div class="j2b-contact-global-inner">
@@ -1973,19 +2041,6 @@
 (function () {
   "use strict";
 
-  /* ==========================================================
-     J2B COUVERTURE TOUL — SUIVI NTFY + GOOGLE ADS
-     VERSION : visiteur nouveau / déjà venu / bot
-
-     - provenance / campagne / mot-clé / correspondance
-     - parcours du visiteur pendant la session
-     - clics appel / WhatsApp / e-mail / formulaires
-     - appareil : téléphone / tablette / ordinateur
-     - système : iOS / iPadOS / Android / Windows / macOS
-     - identification persistante du navigateur via localStorage
-     - détection des bots connus + navigateurs automatisés
-     ========================================================== */
-
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
 
   const STORAGE_KEY = "j2b_toul_tracking_v7";
@@ -2043,10 +2098,6 @@
     return window.location.href;
   }
 
-  /* =========================
-     APPAREIL GOOGLE ADS
-     ========================= */
-
   function getDeviceFromValueTrack(value) {
     if (!value) return "";
 
@@ -2058,10 +2109,6 @@
 
     return "";
   }
-
-  /* =========================
-     APPAREIL RÉEL
-     ========================= */
 
   function getBrowserDevice() {
     const ua = navigator.userAgent || "";
@@ -2092,10 +2139,6 @@
 
     return "💻 Ordinateur";
   }
-
-  /* =========================
-     SYSTÈME D'EXPLOITATION
-     ========================= */
 
   function getOperatingSystem() {
     const ua = navigator.userAgent || "";
@@ -2136,10 +2179,6 @@
     return "Système inconnu";
   }
 
-  /* =========================
-     TYPE DE CORRESPONDANCE ADS
-     ========================= */
-
   function getMatchType(value) {
     if (!value) return "";
 
@@ -2151,10 +2190,6 @@
 
     return clean(value);
   }
-
-  /* =========================
-     DÉTECTION BOT
-     ========================= */
 
   function detectBot() {
     const ua = String(navigator.userAgent || "").toLowerCase();
@@ -2209,10 +2244,6 @@
       reason: ""
     };
   }
-
-  /* =========================
-     IDENTITÉ VISITEUR
-     ========================= */
 
   function generateVisitorId() {
     try {
@@ -2335,10 +2366,6 @@
     };
   }
 
-  /* =========================
-     SESSION
-     ========================= */
-
   function loadSession() {
     try {
       const raw =
@@ -2362,10 +2389,6 @@
     } catch (e) {}
   }
 
-  /* =========================
-     PROVENANCE + GOOGLE ADS
-     ========================= */
-
   function detectTraffic() {
     const p = getParams();
 
@@ -2387,14 +2410,9 @@
       wbraid: ""
     };
 
-    data.gclid =
-      clean(p.get("gclid"));
-
-    data.gbraid =
-      clean(p.get("gbraid"));
-
-    data.wbraid =
-      clean(p.get("wbraid"));
+    data.gclid = clean(p.get("gclid"));
+    data.gbraid = clean(p.get("gbraid"));
+    data.wbraid = clean(p.get("wbraid"));
 
     data.campaign =
       clean(
@@ -2431,17 +2449,10 @@
       ) ||
       getBrowserDevice();
 
-    data.os =
-      getOperatingSystem();
-
-    data.network =
-      clean(p.get("network"));
-
-    data.creative =
-      clean(p.get("creative"));
-
-    data.targetId =
-      clean(p.get("targetid"));
+    data.os = getOperatingSystem();
+    data.network = clean(p.get("network"));
+    data.creative = clean(p.get("creative"));
+    data.targetId = clean(p.get("targetid"));
 
     if (
       data.gclid ||
@@ -2453,17 +2464,12 @@
     ) {
       data.source = "Google Ads";
       data.medium = "CPC";
-
       return data;
     }
 
     if (p.get("utm_source")) {
-      data.source =
-        clean(p.get("utm_source"));
-
-      data.medium =
-        clean(p.get("utm_medium"));
-
+      data.source = clean(p.get("utm_source"));
+      data.medium = clean(p.get("utm_medium"));
       return data;
     }
 
@@ -2476,28 +2482,17 @@
             .toLowerCase();
 
         if (host.includes("google.")) {
-          data.source =
-            "Google naturel";
-
-          data.medium =
-            "Organic";
-
-        } else if (
-          host.includes("bing.")
-        ) {
+          data.source = "Google naturel";
+          data.medium = "Organic";
+        } else if (host.includes("bing.")) {
           data.source = "Bing";
-
         } else if (
           host.includes("facebook.") ||
           host === "fb.com"
         ) {
           data.source = "Facebook";
-
-        } else if (
-          host.includes("instagram.")
-        ) {
+        } else if (host.includes("instagram.")) {
           data.source = "Instagram";
-
         } else {
           data.source = host;
         }
@@ -2507,118 +2502,50 @@
       } catch (e) {}
     }
 
-    data.source =
-      "Direct / inconnue";
-
+    data.source = "Direct / inconnue";
     return data;
   }
-
-  /* =========================
-     CRÉATION SESSION
-     ========================= */
 
   let session = loadSession();
 
   if (!session) {
-    const traffic =
-      detectTraffic();
-
-    const botInfo =
-      detectBot();
-
-    const visitor =
-      resolveVisitor(botInfo);
+    const traffic = detectTraffic();
+    const botInfo = detectBot();
+    const visitor = resolveVisitor(botInfo);
 
     session = {
-      startedAt:
-        now(),
-
-      entryPage:
-        currentPage(),
-
-      entryTitle:
-        pageName(),
-
-      entryUrl:
-        currentFullUrl(),
-
-      source:
-        traffic.source,
-
-      medium:
-        traffic.medium,
-
-      campaign:
-        traffic.campaign,
-
-      campaignId:
-        traffic.campaignId,
-
-      adGroupId:
-        traffic.adGroupId,
-
-      keyword:
-        traffic.keyword,
-
-      matchType:
-        traffic.matchType,
-
-      device:
-        traffic.device,
-
-      os:
-        traffic.os,
-
-      network:
-        traffic.network,
-
-      creative:
-        traffic.creative,
-
-      targetId:
-        traffic.targetId,
-
-      gclid:
-        traffic.gclid,
-
-      gbraid:
-        traffic.gbraid,
-
-      wbraid:
-        traffic.wbraid,
-
-      visitorType:
-        visitor.type,
-
-      visitorLabel:
-        visitor.label,
-
-      visitorId:
-        visitor.id,
-
-      visitorVisits:
-        visitor.visits,
-
-      visitorFirstSeen:
-        visitor.firstSeen,
-
-      visitorPreviousLastSeen:
-        visitor.previousLastSeen,
-
-      botReason:
-        visitor.botReason,
-
+      startedAt: now(),
+      entryPage: currentPage(),
+      entryTitle: pageName(),
+      entryUrl: currentFullUrl(),
+      source: traffic.source,
+      medium: traffic.medium,
+      campaign: traffic.campaign,
+      campaignId: traffic.campaignId,
+      adGroupId: traffic.adGroupId,
+      keyword: traffic.keyword,
+      matchType: traffic.matchType,
+      device: traffic.device,
+      os: traffic.os,
+      network: traffic.network,
+      creative: traffic.creative,
+      targetId: traffic.targetId,
+      gclid: traffic.gclid,
+      gbraid: traffic.gbraid,
+      wbraid: traffic.wbraid,
+      visitorType: visitor.type,
+      visitorLabel: visitor.label,
+      visitorId: visitor.id,
+      visitorVisits: visitor.visits,
+      visitorFirstSeen: visitor.firstSeen,
+      visitorPreviousLastSeen: visitor.previousLastSeen,
+      botReason: visitor.botReason,
       pages: [],
       actions: []
     };
   }
 
-  /* =========================
-     ACTUALISATION INFOS ADS
-     ========================= */
-
-  const freshTraffic =
-    detectTraffic();
+  const freshTraffic = detectTraffic();
 
   [
     "source",
@@ -2640,8 +2567,7 @@
       !session[key] &&
       freshTraffic[key]
     ) {
-      session[key] =
-        freshTraffic[key];
+      session[key] = freshTraffic[key];
     }
   });
 
@@ -2653,19 +2579,10 @@
     freshTraffic.os ||
     getOperatingSystem();
 
-  /* =========================
-     PAGE VISITÉE
-     ========================= */
-
   const pageRecord = {
-    path:
-      currentPage(),
-
-    title:
-      pageName(),
-
-    time:
-      now()
+    path: currentPage(),
+    title: pageName(),
+    time: now()
   };
 
   const lastPage =
@@ -2690,10 +2607,6 @@
 
   saveSession(session);
 
-  /* =========================
-     PARCOURS VISITEUR
-     ========================= */
-
   function journeyText() {
     if (
       !session.pages ||
@@ -2712,10 +2625,6 @@
       })
       .join("\n");
   }
-
-  /* =========================
-     INFOS VISITEUR
-     ========================= */
 
   function visitorInfoLines() {
     const lines = [];
@@ -2777,10 +2686,6 @@
     return lines;
   }
 
-  /* =========================
-     INFOS À AFFICHER DANS NTFY
-     ========================= */
-
   function adsInfoLines() {
     const lines = [];
 
@@ -2816,67 +2721,39 @@
     );
 
     if (session.campaign) {
-      lines.push(
-        "Campagne : " +
-        session.campaign
-      );
+      lines.push("Campagne : " + session.campaign);
     }
 
     if (session.campaignId) {
-      lines.push(
-        "ID campagne : " +
-        session.campaignId
-      );
+      lines.push("ID campagne : " + session.campaignId);
     }
 
     if (session.adGroupId) {
-      lines.push(
-        "ID groupe : " +
-        session.adGroupId
-      );
+      lines.push("ID groupe : " + session.adGroupId);
     }
 
     if (session.keyword) {
-      lines.push(
-        "Mot-clé déclencheur : " +
-        session.keyword
-      );
+      lines.push("Mot-clé déclencheur : " + session.keyword);
     }
 
     if (session.matchType) {
-      lines.push(
-        "Correspondance : " +
-        session.matchType
-      );
+      lines.push("Correspondance : " + session.matchType);
     }
 
     if (session.network) {
-      lines.push(
-        "Réseau : " +
-        session.network
-      );
+      lines.push("Réseau : " + session.network);
     }
 
     if (session.creative) {
-      lines.push(
-        "Annonce / creative : " +
-        session.creative
-      );
+      lines.push("Annonce / creative : " + session.creative);
     }
 
     if (session.targetId) {
-      lines.push(
-        "Cible : " +
-        session.targetId
-      );
+      lines.push("Cible : " + session.targetId);
     }
 
     return lines;
   }
-
-  /* =========================
-     ENVOI NTFY
-     ========================= */
 
   function sendNtfy(
     title,
@@ -2886,15 +2763,12 @@
   ) {
     const url =
       NTFY_TOPIC +
-
       "?title=" +
       encodeURIComponent(title) +
-
       "&priority=" +
       encodeURIComponent(
         priority || "high"
       ) +
-
       "&tags=" +
       encodeURIComponent(
         tags || "eyes,house"
@@ -2907,11 +2781,6 @@
       cache: "no-store"
     }).catch(function () {});
   }
-
-  /* =========================
-     NOTIFICATION VISITE
-     1 NOTIFICATION / SESSION
-     ========================= */
 
   let visitorAlreadySent =
     false;
@@ -2934,28 +2803,18 @@
     const visitorMessage = [
       session.visitorLabel +
       " - J2B COUVERTURE TOUL",
-
       "",
-
       ...visitorInfoLines(),
-
       "",
-
       "Page d'entrée : " +
       session.entryPage,
-
       "Titre : " +
       session.entryTitle,
-
       "",
-
       ...adsInfoLines(),
-
       "",
-
       "Début de session : " +
       session.startedAt
-
     ].join("\n");
 
     let visitorTitle =
