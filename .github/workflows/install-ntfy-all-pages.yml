@@ -1,4 +1,4 @@
-name: Installer ntfy sur toutes les pages
+name: Uniformiser ntfy V8 sur toutes les pages
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  install-ntfy:
+  uniformiser-ntfy:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
@@ -19,138 +19,81 @@ jobs:
       - name: Récupérer le site
         uses: actions/checkout@v4
 
-      - name: Installer ntfy sans toucher à la vérification Google
+      - name: Mettre le même suivi V8 sur toutes les pages
         shell: python
         run: |
           from pathlib import Path
           import re
 
-          SCRIPT_URL = "https://j2b-couverture.fr/ntfy-visites.js?v=1"
+          SCRIPT_URL = "https://j2b-couverture.fr/ntfy-visites.js?v=8"
           SCRIPT_TAG = f'<script src="{SCRIPT_URL}" defer></script>'
 
-          JS = r'''(function(){
-            "use strict";
+          # Retire n'importe quelle ancienne balise externe ntfy-visites.js
+          EXTERNAL_NTFY_RE = re.compile(
+              r'<script\b[^>]*src=["\'][^"\']*ntfy-visites\.js(?:\?[^"\']*)?["\'][^>]*>\s*</script>',
+              flags=re.I
+          )
 
-            const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-            const SESSION_KEY = "j2b_toul_ntfy_visit_sent_v2";
+          def remove_legacy_index_tracker(text):
+              """
+              Supprime uniquement l'ancien bloc visiteur V7 intégré à index.html.
+              Ne touche pas aux autres scripts utiles de la page.
+              """
+              marker = "J2B NTFY V7 : NOUVEAU / RETOUR / BOT + GOOGLE ADS"
 
-            function alreadySent(){
-              try{
-                if(sessionStorage.getItem(SESSION_KEY)) return true;
-                sessionStorage.setItem(SESSION_KEY, "1");
-                return false;
-              }catch(e){
-                return false;
-              }
-            }
+              pos = text.find(marker)
+              if pos == -1:
+                  return text, False
 
-            function allowRetry(){
-              try{ sessionStorage.removeItem(SESSION_KEY); }catch(e){}
-            }
+              comment_start = text.rfind("<!--", 0, pos)
+              script_start = text.find("<script", pos)
 
-            function sourceFromVisit(){
-              const p = new URLSearchParams(location.search);
+              if script_start == -1:
+                  return text, False
 
-              if(
-                p.has("gclid") ||
-                p.has("gbraid") ||
-                p.has("wbraid") ||
-                p.get("gad_source") === "1"
-              ){
-                return "Google Ads";
-              }
+              script_end = text.find("</script>", script_start)
 
-              if(p.get("utm_source")){
-                let source = p.get("utm_source");
-                const medium = p.get("utm_medium");
-                const campaign = p.get("utm_campaign");
+              if script_end == -1:
+                  return text, False
 
-                if(medium) source += " / " + medium;
-                if(campaign) source += " / campagne " + campaign;
+              script_end += len("</script>")
 
-                return source;
-              }
+              if comment_start == -1:
+                  comment_start = script_start
 
-              if(document.referrer){
-                try{
-                  const host = new URL(document.referrer).hostname
-                    .replace(/^www\./, "")
-                    .toLowerCase();
+              new_text = (
+                  text[:comment_start].rstrip()
+                  + "\n\n"
+                  + text[script_end:].lstrip()
+              )
 
-                  if(host.includes("google.")) return "Google naturel / Google";
-                  if(host.includes("bing.")) return "Bing";
-                  if(host.includes("facebook.") || host === "fb.com") return "Facebook";
-                  if(host.includes("instagram.")) return "Instagram";
-
-                  return host;
-                }catch(e){
-                  return "Lien externe";
-                }
-              }
-
-              return "Direct / provenance inconnue";
-            }
-
-            if(alreadySent()) return;
-
-            const source = sourceFromVisit();
-            const pageTitle = document.title || "Page sans titre";
-            const path = location.pathname || "/";
-            const hour = new Date().toLocaleString("fr-FR");
-
-            const message = [
-              "NOUVEAU VISITEUR - J2B COUVERTURE TOUL",
-              "",
-              "Page : " + pageTitle,
-              "Chemin : " + path,
-              "Provenance : " + source,
-              "Heure : " + hour
-            ].join("\n");
-
-            const publishUrl =
-              NTFY_TOPIC +
-              "?title=" + encodeURIComponent("Nouveau visiteur J2B Toul") +
-              "&priority=high" +
-              "&tags=eyes,house";
-
-            fetch(publishUrl, {
-              method: "POST",
-              body: message,
-              keepalive: true,
-              cache: "no-store"
-            }).catch(function(){
-              allowRetry();
-            });
-          })();
-          '''
-
-          Path("ntfy-visites.js").write_text(JS, encoding="utf-8")
+              return new_text, True
 
           changed = []
 
-          # Nettoie et protège les fichiers spéciaux de vérification Google.
-          for path in sorted(Path(".").glob("google*.html")):
-              text = path.read_text(encoding="utf-8")
-              if text.lstrip().startswith("google-site-verification:"):
-                  clean = text.splitlines()[0].strip() + "\n"
-                  if text != clean:
-                      path.write_text(clean, encoding="utf-8")
-                      changed.append(str(path) + " [vérification Google restaurée]")
-
-          # Ajoute ntfy uniquement aux vraies pages HTML.
           for path in sorted(Path(".").rglob("*.html")):
               if ".git" in path.parts:
                   continue
 
               text = path.read_text(encoding="utf-8")
 
-              # Ne jamais modifier les fichiers de vérification Google.
+              # Ne jamais modifier le fichier spécial de vérification Google.
               if text.lstrip().startswith("google-site-verification:"):
                   continue
 
-              if "ntfy-visites.js" in text:
-                  continue
+              original = text
 
+              # L'accueil possédait un ancien tracker V7 intégré.
+              if path.name == "index.html":
+                  text, removed = remove_legacy_index_tracker(text)
+                  if removed:
+                      print("- Ancien tracker V7 retiré de index.html")
+
+              # Supprime toutes les anciennes inclusions du fichier ntfy,
+              # quel que soit leur ancien numéro de version.
+              text = EXTERNAL_NTFY_RE.sub("", text)
+
+              # Ajoute exactement UNE inclusion V8 sur chaque vraie page HTML.
               if re.search(r"</body\s*>", text, flags=re.I):
                   text = re.sub(
                       r"</body\s*>",
@@ -160,15 +103,73 @@ jobs:
                       flags=re.I
                   )
               else:
-                  text += "\n" + SCRIPT_TAG + "\n"
+                  text = text.rstrip() + "\n" + SCRIPT_TAG + "\n"
 
-              path.write_text(text, encoding="utf-8")
-              changed.append(str(path))
+              # Nettoyage léger des lignes vides créées par le remplacement.
+              text = re.sub(r"\n{4,}", "\n\n\n", text)
 
-          print("Script global présent : ntfy-visites.js")
-          print("Fichiers modifiés :", len(changed))
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(str(path))
+
+          print("")
+          print("==========================================")
+          print("SUIVI NTFY V8 UNIFORMISÉ")
+          print("==========================================")
+          print("Script commun :", SCRIPT_URL)
+          print("Pages modifiées :", len(changed))
+
           for name in changed:
               print("-", name)
+
+          print("")
+          print("IMPORTANT : ntfy-visites.js n'est PAS réécrit par ce workflow.")
+          print("La version V8 déjà commitée reste donc intacte.")
+
+      - name: Vérifier qu'aucune page n'utilise une ancienne version ntfy
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import sys
+
+          expected = 'https://j2b-couverture.fr/ntfy-visites.js?v=8'
+          errors = []
+
+          for path in sorted(Path(".").rglob("*.html")):
+              if ".git" in path.parts:
+                  continue
+
+              text = path.read_text(encoding="utf-8")
+
+              if text.lstrip().startswith("google-site-verification:"):
+                  continue
+
+              count = len(
+                  re.findall(
+                      r'<script\b[^>]*src=["\'][^"\']*ntfy-visites\.js[^"\']*["\'][^>]*>\s*</script>',
+                      text,
+                      flags=re.I
+                  )
+              )
+
+              if count != 1:
+                  errors.append(
+                      f"{path}: {count} inclusion(s) ntfy-visites.js"
+                  )
+
+              if expected not in text:
+                  errors.append(
+                      f"{path}: la version V8 attendue est absente"
+                  )
+
+          if errors:
+              print("ERREURS :")
+              for error in errors:
+                  print("-", error)
+              sys.exit(1)
+
+          print("OK : toutes les pages utilisent exactement une fois ntfy V8.")
 
       - name: Commit automatique
         run: |
@@ -180,8 +181,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add ntfy-visites.js
           git add '*.html'
           git add '**/*.html' 2>/dev/null || true
-          git commit -m "Protect Google verification and keep ntfy tracking"
+
+          git commit -m "Uniformiser le suivi ntfy V8 sur toutes les pages"
           git push
