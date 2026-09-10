@@ -469,11 +469,21 @@
       /* Sur mobile, priorité au 06 : le 03 reste disponible ailleurs sur le site */
       .j2b-contact-global-inner{
         width:100%;
-        display:block;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:6px;
         padding:5px 8px;
       }
-      .j2b-contact-fixe{display:none!important}
-      .j2b-contact-global a{min-height:40px;font-size:.9rem}
+      .j2b-contact-fixe{
+        display:flex!important;
+        background:#fff;
+        color:#182536!important;
+      }
+      .j2b-contact-global a{
+        min-height:40px;
+        font-size:.78rem;
+        padding:7px 5px;
+      }
       .j2b-contact-portable{
         background:var(--red);
         color:#fff!important;
@@ -654,7 +664,7 @@
 <!-- CONTACT HAUT : 2 NUMÉROS DESKTOP / 06 PRIORITAIRE MOBILE -->
 <div class="j2b-contact-global">
   <div class="j2b-contact-global-inner">
-    <a class="j2b-contact-fixe" href="tel:+33372760060" aria-label="Appeler J2B Couverture au 03 72 76 00 60">☎️ Fixe : 03 72 76 00 60</a>
+    <a class="j2b-contact-fixe" href="tel:+33372760060" aria-label="Appeler J2B Couverture au 03 72 76 00 60">☎️ 03 72 76 00 60</a>
     <a class="j2b-contact-portable" href="tel:+33601462612" aria-label="Appeler J2B Couverture au 06 01 46 26 12">📞 Appeler : 06 01 46 26 12</a>
   </div>
 </div>
@@ -1311,6 +1321,15 @@
     return false;
   }
 
+  // Pour les formulaires : envoi prioritaire par sendBeacon sur mobile/iPhone.
+  // Cela évite de perdre la notification si Safari coupe/reprend une requête fetch.
+  async function sendFormNtfy(title,message,priority,tags){
+    if(window.J2BNtfy && typeof window.J2BNtfy.sendFast==="function"){
+      return window.J2BNtfy.sendFast(title,message,priority,tags);
+    }
+    return await sendSiteNtfy(title,message,priority,tags);
+  }
+
   /* MENU */
   const menuBtn=document.getElementById("menuBtn");
   const menuPanel=document.getElementById("menuPanel");
@@ -1443,7 +1462,7 @@
       if(qCity)qCity.value=d.city;
       if(qPhone)qPhone.value=d.phone;
 
-      const ok=await sendSiteNtfy(
+      const ok=await sendFormNtfy(
         "Nouveau devis rapide J2B Toul",
         heroPlain(d),
         "urgent",
@@ -1537,7 +1556,7 @@
         "\n\nPage : "+location.href+
         "\nHeure : "+new Date().toLocaleString("fr-FR");
 
-      const ok=await sendSiteNtfy(
+      const ok=await sendFormNtfy(
         "Nouveau devis J2B Toul",
         body,
         "urgent",
