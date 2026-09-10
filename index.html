@@ -2,10 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-  <title>Couvreur Toul (54200) | Toiture, Fuite, Zinguerie | J2B Couverture</title>
-  <meta name="description" content="J2B Couverture, couvreur à Toul (54200) et dans le Toulois : rénovation et réparation de toiture, fuite, zinguerie, gouttières, faîtage et démoussage. Devis gratuit.">
+  <title>Couvreur Toul (54200) | Réparation, Rénovation & Urgence | J2B Couverture</title>
+  <meta name="description" content="J2B Couverture, couvreur à Toul (54200) et dans le Toulois : réparation de fuite, urgence toiture, rénovation, zinguerie, gouttières, faîtage et démoussage. Devis gratuit.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
   <meta name="geo.region" content="FR-54">
   <meta name="geo.placename" content="Toul">
@@ -15,16 +15,16 @@
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="Couvreur Toul (54200) | J2B Couverture">
-  <meta property="og:description" content="Couvreur à Toul (54200) et dans le Toulois : rénovation, réparation de fuite, zinguerie, gouttières, faîtage, démoussage et entretien. Devis gratuit.">
+  <meta property="og:title" content="Couvreur à Toul | Réparation, Rénovation & Urgence | J2B Couverture">
+  <meta property="og:description" content="Couvreur à Toul (54200) : réparation de fuite, urgence toiture, rénovation, zinguerie, gouttières, faîtage et entretien. Devis gratuit.">
   <meta property="og:url" content="https://j2b-couverture.fr/">
   <meta property="og:site_name" content="J2B Couverture">
   <meta property="og:image" content="https://j2b-couverture.fr/renovation-toiture-pose-tuiles-04.jpg">
   <meta property="og:image:alt" content="Rénovation de toiture par J2B Couverture, couvreur à Toul">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Couvreur Toul (54200) | J2B Couverture">
-  <meta name="twitter:description" content="Couvreur à Toul (54200) : rénovation, fuite, zinguerie, gouttières, faîtage et entretien de toiture. Devis gratuit.">
+  <meta name="twitter:title" content="Couvreur à Toul | J2B Couverture">
+  <meta name="twitter:description" content="Réparation, rénovation, urgence fuite, zinguerie et gouttières à Toul et dans le Toulois. Devis gratuit.">
   <meta name="twitter:image" content="https://j2b-couverture.fr/renovation-toiture-pose-tuiles-04.jpg">
 
   <!-- Google Analytics J2B Couverture Toul -->
@@ -38,84 +38,531 @@
 
   <style>
     :root{
-      --navy:#182536;--navy2:#24364C;--gold:#C1A66B;--gold2:#EEE5D2;
-      --red:#B32025;--red2:#8D181C;--bg:#fff;--soft:#F7F5F1;
-      --text:#1D2732;--muted:#66717C;--border:#E1E3E5;
-      --shadow:0 16px 42px rgba(24,37,54,.11);--radius:18px;--max:1180px;
+      --navy:#182536;
+      --navy2:#24364C;
+      --gold:#C1A66B;
+      --gold2:#EEE5D2;
+      --red:#B32025;
+      --red2:#8D181C;
+      --green:#16794B;
+      --bg:#fff;
+      --soft:#F7F5F1;
+      --text:#1D2732;
+      --muted:#66717C;
+      --border:#E1E3E5;
+      --shadow:0 16px 42px rgba(24,37,54,.11);
+      --radius:18px;
+      --max:1180px;
+      --mobile-bar-height:66px;
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+    }
     body.menu-open{overflow:hidden}
     a{color:inherit;text-decoration:none}
     img,video{max-width:100%;height:auto}
     button,input,select,textarea{font:inherit}
-    h1,h2,h3{line-height:1.15}
-    h1{font-size:clamp(2.45rem,5.2vw,4.55rem);letter-spacing:-.045em;margin:0 0 18px}
-    h2{font-size:clamp(1.85rem,3.4vw,2.65rem);letter-spacing:-.025em;margin:0 0 12px}
+    button,a{-webkit-tap-highlight-color:transparent}
+    h1,h2,h3{line-height:1.12}
+    h1{font-size:clamp(2.35rem,5vw,4.35rem);letter-spacing:-.045em;margin:0 0 16px}
+    h2{font-size:clamp(1.8rem,3.3vw,2.6rem);letter-spacing:-.025em;margin:0 0 12px}
     h2:after{content:"";display:block;width:58px;height:4px;background:var(--gold);border-radius:99px;margin-top:12px}
     h3{margin:0 0 8px}
-    p{line-height:1.68;margin:0 0 13px}
+    p{line-height:1.65;margin:0 0 13px}
     .container{width:min(var(--max),92%);margin:auto}
-    .section{padding:72px 0}
+    .section{padding:68px 0}
     main > .section{content-visibility:auto;contain-intrinsic-size:1px 900px}
     .alt{background:linear-gradient(180deg,#fff,#FBF8F1)}
     .muted{color:var(--muted)}
     .small{font-size:.9rem}
     .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:12px;border:1px solid transparent;font-weight:900;cursor:pointer;transition:.18s ease;text-align:center}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:50px;
+      padding:13px 18px;
+      border-radius:12px;
+      border:1px solid transparent;
+      font-weight:900;
+      cursor:pointer;
+      transition:.18s ease;
+      text-align:center;
+    }
     .btn:hover{transform:translateY(-1px)}
-    .btn.red{background:var(--red);color:#fff}.btn.red:hover{background:var(--red2)}
+    .btn.red{background:var(--red);color:#fff}
+    .btn.red:hover{background:var(--red2)}
     .btn.gold{background:var(--gold);color:var(--navy)}
     .btn.ghost{background:#fff;border-color:var(--border);color:var(--text)}
     .btn.whatsapp{background:var(--navy2);color:#fff}
-    .eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(193,166,107,.18);color:#E8D8B4;font-size:.8rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:16px}
+    .eyebrow{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(193,166,107,.18);
+      color:#E8D8B4;
+      font-size:.8rem;
+      font-weight:900;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+
     .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
     .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .serviceLinksGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
-    .servicePageLink{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;font-weight:850;transition:.18s}
+    .servicePageLink{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      min-height:54px;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+      font-weight:850;
+      transition:.18s;
+    }
     .servicePageLink:hover{border-color:var(--gold);background:#F8F3E8}
-    .j2b-contact-global{background:#182536;color:#fff;border-bottom:3px solid #C1A66B;position:relative;z-index:9999}
-    .j2b-contact-global-inner{width:min(1180px,94%);margin:auto;padding:7px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .j2b-contact-global a{min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-weight:900}
-    .j2b-contact-fixe{background:#B32025;color:#fff!important}.j2b-contact-portable{background:#fff;color:#182536!important}
-    .trustBar{background:var(--navy);color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
-    .trustInner{min-height:38px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:7px 0;font-size:.82rem;font-weight:800;text-align:center}
-    .sep{opacity:.4}
+
+    /* =========================================================
+       OPTIMISATION ADS : ZONE HAUTE PLUS LÉGÈRE
+       ========================================================= */
+
+    .j2b-promo-sept-2026{
+      width:100%;
+      background:linear-gradient(90deg,#9f171c,#c22127);
+      color:#fff;
+      border-bottom:2px solid #c7a45b;
+      position:relative;
+      z-index:10050;
+    }
+    .j2b-promo-sept-2026-inner{
+      max-width:1160px;
+      margin:0 auto;
+      padding:8px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-align:center;
+      font-size:.92rem;
+      font-weight:850;
+      line-height:1.25;
+    }
+    .j2b-promo-sept-2026-badge{
+      display:inline-block;
+      background:#fff;
+      color:#a7191f;
+      border-radius:999px;
+      padding:4px 9px;
+      font-weight:950;
+      white-space:nowrap;
+    }
+
+    .j2b-contact-global{
+      background:#182536;
+      color:#fff;
+      border-bottom:2px solid #C1A66B;
+      position:relative;
+      z-index:9999;
+    }
+    .j2b-contact-global-inner{
+      width:min(1180px,94%);
+      margin:auto;
+      padding:6px 0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .j2b-contact-global a{
+      min-height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:11px;
+      font-weight:900;
+    }
+    .j2b-contact-fixe{background:#B32025;color:#fff!important}
+    .j2b-contact-portable{background:#fff;color:#182536!important}
+
+    .trustBar{
+      background:var(--navy);
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .trustInner{
+      min-height:34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      padding:5px 0;
+      font-size:.8rem;
+      font-weight:800;
+      text-align:center;
+    }
+
     header{position:sticky;top:0;z-index:100;background:#fff}
     header:after{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--navy) 0 88%,var(--gold) 88%)}
-    .nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 0}
-    .brand img{height:64px;width:auto;display:block}
-    .menuBtn{width:46px;height:46px;border:0;border-radius:14px;background:var(--navy);display:grid;place-items:center;color:#fff;font-size:23px;cursor:pointer}
+    .nav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:9px 0}
+    .brand img{height:60px;width:auto;display:block}
+    .menuBtn{
+      width:46px;
+      height:46px;
+      border:0;
+      border-radius:14px;
+      background:var(--navy);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-size:23px;
+      cursor:pointer;
+    }
     .menuWrap{position:relative}
-    .menuPanel{position:absolute;right:0;top:56px;width:min(360px,90vw);max-height:78vh;overflow:auto;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:9px;display:none}
-    .menuPanel.open{display:block}.menuPanel a{display:block;padding:11px 12px;border-radius:10px;font-weight:800}.menuPanel a:hover{background:var(--soft)}
-    .hero{position:relative;overflow:hidden;padding:54px 0 0;background:linear-gradient(90deg,rgba(24,37,54,.97),rgba(24,37,54,.84) 53%,rgba(24,37,54,.50)),url('./renovation-toiture-pose-tuiles-04.jpg') center/cover no-repeat;color:#fff}
-    .heroGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);gap:34px;align-items:center}
-    .heroLead{font-size:1.08rem;color:#EEE7DA;max-width:800px}
-    .heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .menuPanel{
+      position:absolute;
+      right:0;
+      top:56px;
+      width:min(360px,90vw);
+      max-height:78vh;
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:9px;
+      display:none;
+    }
+    .menuPanel.open{display:block}
+    .menuPanel a{display:block;padding:11px 12px;border-radius:10px;font-weight:800}
+    .menuPanel a:hover{background:var(--soft)}
+
+    /* HERO ADS */
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding:44px 0 0;
+      background:
+        linear-gradient(90deg,rgba(24,37,54,.98),rgba(24,37,54,.89) 54%,rgba(24,37,54,.55)),
+        url('./renovation-toiture-pose-tuiles-04.jpg') center/cover no-repeat;
+      color:#fff;
+    }
+    .heroGrid{
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);
+      gap:32px;
+      align-items:center;
+    }
+    .heroLead{
+      font-size:1.06rem;
+      color:#EEE7DA;
+      max-width:760px;
+      line-height:1.55;
+    }
+    .heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
     .heroPhones{width:min(100%,680px);display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .heroPhones .btn{width:100%;min-height:52px}.heroPortable{background:#fff;color:#182536;border-color:#fff}.hero .btn.ghost{background:transparent;border-color:rgba(255,255,255,.5);color:#fff}
-    .heroQuickForm{background:rgba(255,255,255,.97);color:var(--text);padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.32);box-shadow:0 25px 60px rgba(0,0,0,.28)}
-    .heroQuickForm h3{color:var(--navy);font-size:1.28rem;margin-bottom:5px}.heroQuickForm .quickIntro{color:var(--muted);font-size:.88rem;line-height:1.45;margin-bottom:14px}
-    .quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quickField{display:flex;flex-direction:column;gap:5px}.quickField.full{grid-column:1/-1}.quickField label{font-size:.78rem;font-weight:900;color:var(--navy)}
-    .quickField input,.quickField select{width:100%;min-height:44px;border:1px solid #D8DDE2;border-radius:10px;background:#fff;color:var(--text);padding:9px 10px;outline:none}
-    .quickField input:focus,.quickField select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(193,166,107,.18)}
-    .quickSubmit{width:100%;min-height:48px;margin-top:10px;border:0}.quickLinks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.quickLinks a{min-height:40px;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:10px;border:1px solid var(--border);font-size:.82rem;font-weight:900}.quickStatus{min-height:20px;font-size:.82rem;font-weight:850;margin:8px 0 0}.quickPrivacy{color:#7A838D;font-size:.72rem;line-height:1.35;margin:7px 0 0}
-    .trustStrip{margin-top:38px;background:rgba(10,20,31,.68);border-top:1px solid rgba(255,255,255,.10)}.trustGrid{display:grid;grid-template-columns:repeat(4,1fr)}.trustItem{padding:18px 15px;border-right:1px solid rgba(255,255,255,.10)}.trustItem:last-child{border-right:0}.trustItem strong{display:block}.trustItem span{display:block;color:#D9DDE2;font-size:.82rem;margin-top:3px}
-    .urgencyBox{max-width:1040px;margin:auto}.urgencyChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}.urgencyChoice{border:1px solid var(--border);background:#fff;border-radius:17px;padding:20px;text-align:left;cursor:pointer;min-height:196px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 22px rgba(24,37,54,.06)}.urgencyChoice:hover,.urgencyChoice.active{border-color:var(--gold);background:#FBF8F1}.urgencyChoice strong{font-size:1.06rem}.urgencyChoice small{margin-top:auto;color:var(--navy);font-weight:900}.badge{display:inline-flex;width:max-content;padding:6px 9px;border-radius:99px;font-size:.75rem;font-weight:900;background:#EEE5D2}.urgencyResult{display:none;margin-top:18px;padding:20px;border:1px solid var(--border);border-radius:16px;background:#fff}.urgencyResult.show{display:block}
-    .serviceCard{display:flex;flex-direction:column}.serviceCard p{color:var(--muted)}.serviceCard a{margin-top:auto;font-weight:900;color:var(--navy)}
-    .whyGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:22px}.whyItem{text-align:center;padding:20px;border:1px solid var(--border);border-radius:15px;background:#fff}.whyItem span{font-size:1.75rem}.whyItem p{font-size:.9rem;color:var(--muted);margin:0}
-    .localHero{border:2px solid var(--gold);background:linear-gradient(135deg,#fff,#F8F3E8)}.localHero h2{max-width:880px}.localStats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.localStat{padding:16px;border:1px solid var(--border);border-radius:13px;background:#fff}.localStat strong{display:block;color:var(--navy)}
-    .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}.review{padding:20px;border-radius:16px;border:1px solid var(--border);background:#fff;box-shadow:var(--shadow)}.stars{color:#F59E0B;font-weight:900;letter-spacing:2px}
-    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:15px;border:1px solid var(--border);box-shadow:var(--shadow)}
-    .quote{max-width:900px;margin:22px auto 0}.quoteGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.quote label{display:flex;flex-direction:column;gap:6px;font-weight:850}.quote input,.quote select,.quote textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:12px;background:#fff}.quote textarea{min-height:105px;resize:vertical}.full{grid-column:1/-1}.quoteActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.status{margin-top:12px;font-weight:850}
-    .zoneCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.localLinks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}.localLinks a{padding:12px;border:1px solid var(--border);border-radius:12px;text-align:center;font-weight:850;background:#fff}.map{width:100%;height:380px;border:0;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow)}
-    footer{background:var(--navy);color:#fff;padding:44px 0 28px;border-top:3px solid var(--gold)}.footerGrid{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:22px}footer h3{color:#E8D8B4;font-size:1rem}footer a{display:block;padding:4px 0}.footerBottom{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-size:.86rem;opacity:.85}
-    .waFloat{position:fixed;right:16px;bottom:16px;z-index:1000;color:#fff;background:var(--navy2);font-weight:900;border-radius:999px;padding:13px 17px;box-shadow:0 15px 36px rgba(0,0,0,.20)}
-    .j2b-promo-sept-2026{width:100%;background:linear-gradient(90deg,#9f171c,#c22127);color:#fff;border-bottom:3px solid #c7a45b;box-shadow:0 4px 14px rgba(0,0,0,.14);position:relative;z-index:10050;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.j2b-promo-sept-2026-inner{max-width:1160px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;text-align:center;font-weight:800;line-height:1.25}.j2b-promo-sept-2026-badge{display:inline-block;background:#fff;color:#a7191f;border-radius:999px;padding:5px 10px;font-weight:950;white-space:nowrap}.j2b-promo-sept-2026 strong{font-weight:950}
-    @media(max-width:980px){.heroGrid,.grid3,.grid2,.zoneCards{grid-template-columns:1fr}.heroGrid{gap:24px}.heroQuickForm{max-width:620px}.whyGrid{grid-template-columns:repeat(2,1fr)}.urgencyChoices{grid-template-columns:1fr}.trustGrid{grid-template-columns:repeat(2,1fr)}.gallery,.reviews{grid-template-columns:repeat(2,1fr)}.footerGrid{grid-template-columns:1fr 1fr}}
-    @media(max-width:650px){.section{padding:54px 0}.brand img{height:54px}.hero{padding-top:34px}h1{font-size:clamp(2.05rem,11vw,3.05rem)}.heroLead{font-size:1rem}.heroPhones{grid-template-columns:1fr}.heroActions{display:grid}.heroActions .btn{width:100%}.heroQuickForm{padding:16px;border-radius:16px}.quickGrid{grid-template-columns:1fr}.quickField.full{grid-column:auto}.quickLinks{grid-template-columns:1fr 1fr}.trustGrid,.whyGrid,.gallery,.reviews,.footerGrid,.quoteGrid,.localStats,.serviceLinksGrid,.localLinks{grid-template-columns:1fr}.trustItem{border-right:0;border-bottom:1px solid rgba(255,255,255,.10)}.full{grid-column:auto}.quoteActions{display:grid}.quoteActions .btn{width:100%}.menuPanel{position:fixed;top:83px;left:10px;right:10px;width:auto}.waFloat{left:10px;right:10px;bottom:10px;border-radius:13px;text-align:center}.j2b-contact-global-inner{width:100%;gap:6px;padding:6px}.j2b-contact-global a{font-size:.78rem;padding:6px 3px;white-space:nowrap}.j2b-promo-sept-2026-inner{padding:8px 10px;font-size:.9rem;gap:7px}.j2b-promo-sept-2026-badge{padding:4px 8px}}
+    .heroPhones .btn{width:100%;min-height:52px}
+    .heroPortable{background:#fff;color:#182536;border-color:#fff}
+    .hero .btn.ghost{background:transparent;border-color:rgba(255,255,255,.5);color:#fff}
+
+    .heroProof{
+      margin-top:14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      color:#fff;
+      font-size:.86rem;
+      font-weight:850;
+    }
+    .heroProof span{
+      background:rgba(6,16,26,.48);
+      border:1px solid rgba(255,255,255,.18);
+      padding:7px 10px;
+      border-radius:999px;
+      backdrop-filter:blur(4px);
+    }
+
+    .heroQuickForm{
+      background:rgba(255,255,255,.98);
+      color:var(--text);
+      padding:20px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.32);
+      box-shadow:0 25px 60px rgba(0,0,0,.28);
+    }
+    .heroQuickForm h3{color:var(--navy);font-size:1.28rem;margin-bottom:5px}
+    .heroQuickForm .quickIntro{color:var(--muted);font-size:.88rem;line-height:1.45;margin-bottom:14px}
+    .quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .quickField{display:flex;flex-direction:column;gap:5px}
+    .quickField.full{grid-column:1/-1}
+    .quickField label{font-size:.78rem;font-weight:900;color:var(--navy)}
+    .quickField input,.quickField select{
+      width:100%;
+      min-height:46px;
+      border:1px solid #D8DDE2;
+      border-radius:10px;
+      background:#fff;
+      color:var(--text);
+      padding:9px 10px;
+      outline:none;
+    }
+    .quickField input:focus,.quickField select:focus{
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(193,166,107,.18);
+    }
+    .quickSubmit{width:100%;min-height:50px;margin-top:10px;border:0}
+    .quickLinks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+    .quickLinks a{
+      min-height:40px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      border-radius:10px;
+      border:1px solid var(--border);
+      font-size:.82rem;
+      font-weight:900;
+    }
+    .quickStatus{min-height:20px;font-size:.82rem;font-weight:850;margin:8px 0 0}
+    .quickPrivacy{color:#7A838D;font-size:.72rem;line-height:1.35;margin:7px 0 0}
+
+    .trustStrip{
+      margin-top:34px;
+      background:rgba(10,20,31,.70);
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .trustGrid{display:grid;grid-template-columns:repeat(4,1fr)}
+    .trustItem{padding:16px 15px;border-right:1px solid rgba(255,255,255,.10)}
+    .trustItem:last-child{border-right:0}
+    .trustItem strong{display:block}
+    .trustItem span{display:block;color:#D9DDE2;font-size:.82rem;margin-top:3px}
+
+    .urgencyBox{max-width:1040px;margin:auto}
+    .urgencyChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
+    .urgencyChoice{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:17px;
+      padding:20px;
+      text-align:left;
+      cursor:pointer;
+      min-height:190px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      box-shadow:0 8px 22px rgba(24,37,54,.06);
+    }
+    .urgencyChoice:hover,.urgencyChoice.active{border-color:var(--gold);background:#FBF8F1}
+    .urgencyChoice strong{font-size:1.06rem}
+    .urgencyChoice small{margin-top:auto;color:var(--navy);font-weight:900}
+    .badge{
+      display:inline-flex;
+      width:max-content;
+      padding:6px 9px;
+      border-radius:99px;
+      font-size:.75rem;
+      font-weight:900;
+      background:#EEE5D2;
+    }
+    .urgencyResult{
+      display:none;
+      margin-top:18px;
+      padding:20px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:#fff;
+    }
+    .urgencyResult.show{display:block}
+
+    .serviceCard{display:flex;flex-direction:column}
+    .serviceCard p{color:var(--muted)}
+    .serviceCard a{margin-top:auto;font-weight:900;color:var(--navy)}
+    .whyGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:22px}
+    .whyItem{text-align:center;padding:20px;border:1px solid var(--border);border-radius:15px;background:#fff}
+    .whyItem span{font-size:1.75rem}
+    .whyItem p{font-size:.9rem;color:var(--muted);margin:0}
+    .localHero{border:2px solid var(--gold);background:linear-gradient(135deg,#fff,#F8F3E8)}
+    .localHero h2{max-width:880px}
+    .localStats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+    .localStat{padding:16px;border:1px solid var(--border);border-radius:13px;background:#fff}
+    .localStat strong{display:block;color:var(--navy)}
+    .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+    .review{padding:20px;border-radius:16px;border:1px solid var(--border);background:#fff;box-shadow:var(--shadow)}
+    .stars{color:#F59E0B;font-weight:900;letter-spacing:2px}
+    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .gallery img{
+      width:100%;
+      aspect-ratio:4/3;
+      object-fit:cover;
+      border-radius:15px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+
+    .quote{max-width:900px;margin:22px auto 0}
+    .quoteGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .quote label{display:flex;flex-direction:column;gap:6px;font-weight:850}
+    .quote input,.quote select,.quote textarea{
+      width:100%;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+    }
+    .quote textarea{min-height:105px;resize:vertical}
+    .full{grid-column:1/-1}
+    .quoteActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .status{margin-top:12px;font-weight:850}
+
+    .zoneCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+    .localLinks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+    .localLinks a{padding:12px;border:1px solid var(--border);border-radius:12px;text-align:center;font-weight:850;background:#fff}
+    .map{width:100%;height:380px;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+
+    footer{background:var(--navy);color:#fff;padding:44px 0 28px;border-top:3px solid var(--gold)}
+    .footerGrid{display:grid;grid-template-columns:1.25fr 1fr 1fr 1fr;gap:22px}
+    footer h3{color:#E8D8B4;font-size:1rem}
+    footer a{display:block;padding:4px 0}
+    .footerBottom{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);font-size:.86rem;opacity:.85}
+
+    /* Barre fixe mobile : priorité appel / WhatsApp pour Google Ads */
+    .mobileCtaBar{display:none}
+
+    @media(max-width:980px){
+      .heroGrid,.grid3,.grid2,.zoneCards{grid-template-columns:1fr}
+      .heroGrid{gap:24px}
+      .heroQuickForm{max-width:620px}
+      .whyGrid{grid-template-columns:repeat(2,1fr)}
+      .urgencyChoices{grid-template-columns:1fr}
+      .trustGrid{grid-template-columns:repeat(2,1fr)}
+      .gallery,.reviews{grid-template-columns:repeat(2,1fr)}
+      .footerGrid{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:650px){
+      body{padding-bottom:calc(var(--mobile-bar-height) + env(safe-area-inset-bottom))}
+      .section{padding:50px 0}
+
+      /* Promo : une seule ligne, plus compacte */
+      .j2b-promo-sept-2026-inner{
+        padding:6px 8px;
+        gap:6px;
+        font-size:.78rem;
+        white-space:normal;
+      }
+      .j2b-promo-sept-2026-badge{padding:3px 7px;font-size:.78rem}
+      .promo-long{display:none}
+
+      /* Sur mobile, priorité au 06 : le 03 reste disponible ailleurs sur le site */
+      .j2b-contact-global-inner{
+        width:100%;
+        display:block;
+        padding:5px 8px;
+      }
+      .j2b-contact-fixe{display:none!important}
+      .j2b-contact-global a{min-height:40px;font-size:.9rem}
+      .j2b-contact-portable{
+        background:var(--red);
+        color:#fff!important;
+      }
+
+      /* SIRET retiré de la zone haute pour alléger le premier écran */
+      .trustBar{display:none}
+
+      header{top:0}
+      .nav{padding:7px 0}
+      .brand img{height:50px}
+      .menuPanel{position:fixed;top:59px;left:10px;right:10px;width:auto}
+
+      .hero{padding-top:26px}
+      .heroGrid{gap:20px}
+      .eyebrow{font-size:.72rem;margin-bottom:10px}
+      h1{font-size:clamp(2rem,10.5vw,2.85rem);margin-bottom:12px}
+      .heroLead{font-size:.96rem;line-height:1.5;margin-bottom:0}
+
+      .heroActions{display:grid;margin-top:16px}
+      .heroActions .btn{width:100%}
+      .heroPhones{grid-template-columns:1fr}
+      .heroPhones .j2b-hero-fixed{display:none}
+      .heroPortable{
+        background:var(--red);
+        color:#fff;
+        border-color:var(--red);
+        min-height:56px!important;
+        font-size:1.02rem;
+      }
+
+      .heroProof{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:6px;
+        margin-top:12px;
+      }
+      .heroProof span{
+        padding:7px 9px;
+        text-align:center;
+        font-size:.8rem;
+      }
+
+      .heroQuickForm{padding:15px;border-radius:16px}
+      .quickGrid{grid-template-columns:1fr}
+      .quickField.full{grid-column:auto}
+      .quickLinks{grid-template-columns:1fr 1fr}
+
+      .trustStrip{margin-top:24px}
+      .trustGrid,.whyGrid,.gallery,.reviews,.footerGrid,.quoteGrid,.localStats,.serviceLinksGrid,.localLinks{grid-template-columns:1fr}
+      .trustItem{border-right:0;border-bottom:1px solid rgba(255,255,255,.10)}
+      .full{grid-column:auto}
+      .quoteActions{display:grid}
+      .quoteActions .btn{width:100%}
+
+      .mobileCtaBar{
+        position:fixed;
+        left:0;
+        right:0;
+        bottom:0;
+        z-index:20000;
+        min-height:var(--mobile-bar-height);
+        padding:8px 9px calc(8px + env(safe-area-inset-bottom));
+        display:grid;
+        grid-template-columns:1.12fr .88fr;
+        gap:8px;
+        background:rgba(24,37,54,.98);
+        border-top:2px solid var(--gold);
+        box-shadow:0 -8px 25px rgba(0,0,0,.22);
+      }
+      .mobileCtaBar a{
+        min-height:50px;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:950;
+        text-align:center;
+      }
+      .mobileCtaCall{background:var(--red);color:#fff}
+      .mobileCtaWhatsApp{background:#fff;color:var(--navy)}
+
+      footer{padding-bottom:36px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *{transition:none!important}
+    }
   </style>
 
   <script type="application/ld+json">
@@ -129,182 +576,702 @@
         "url":"https://j2b-couverture.fr/",
         "logo":"https://j2b-couverture.fr/logo-temp.png",
         "image":"https://j2b-couverture.fr/renovation-toiture-pose-tuiles-04.jpg",
-        "telephone":"+33372760060",
+        "telephone":"+33601462612",
         "contactPoint":[
-          {"@type":"ContactPoint","telephone":"+33372760060","contactType":"customer service"},
-          {"@type":"ContactPoint","telephone":"+33601462612","contactType":"mobile"}
+          {"@type":"ContactPoint","telephone":"+33601462612","contactType":"customer service","areaServed":"FR","availableLanguage":"French"},
+          {"@type":"ContactPoint","telephone":"+33372760060","contactType":"customer service","areaServed":"FR","availableLanguage":"French"}
         ],
         "email":"j2b.couverture@gmail.com",
-        "description":"Couvreur à Toul (54200) et dans le Toulois pour rénovation de toiture, réparation de fuite, zinguerie, gouttières, démoussage, isolation et entretien.",
-        "address":{"@type":"PostalAddress","postalCode":"54200","addressLocality":"Toul","addressRegion":"Meurthe-et-Moselle","addressCountry":"FR"},
+        "description":"Couvreur à Toul (54200) et dans le Toulois pour réparation de fuite et urgence toiture, rénovation, zinguerie, gouttières, faîtage, démoussage, isolation et entretien.",
+        "address":{
+          "@type":"PostalAddress",
+          "postalCode":"54200",
+          "addressLocality":"Toul",
+          "addressRegion":"Meurthe-et-Moselle",
+          "addressCountry":"FR"
+        },
         "areaServed":[
-          {"@type":"City","name":"Toul"},{"@type":"City","name":"Écrouves"},{"@type":"City","name":"Dommartin-lès-Toul"},{"@type":"City","name":"Gondreville"},{"@type":"City","name":"Liverdun"},{"@type":"City","name":"Nancy"},{"@type":"AdministrativeArea","name":"Meurthe-et-Moselle"}
+          {"@type":"City","name":"Toul"},
+          {"@type":"City","name":"Écrouves"},
+          {"@type":"City","name":"Dommartin-lès-Toul"},
+          {"@type":"City","name":"Gondreville"},
+          {"@type":"City","name":"Liverdun"},
+          {"@type":"City","name":"Nancy"},
+          {"@type":"AdministrativeArea","name":"Meurthe-et-Moselle"}
         ],
-        "hasOfferCatalog":{"@type":"OfferCatalog","name":"Travaux de toiture","itemListElement":[
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Rénovation de toiture"}},
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation de fuite toiture"}},
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Zinguerie"}},
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Gouttières"}},
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Démoussage de toiture"}},
-          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Entretien de toiture"}}
-        ]}
+        "hasOfferCatalog":{
+          "@type":"OfferCatalog",
+          "name":"Travaux de toiture",
+          "itemListElement":[
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Réparation de fuite toiture"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Urgence toiture"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Rénovation de toiture"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Zinguerie"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Gouttières"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Démoussage de toiture"}},
+            {"@type":"Offer","itemOffered":{"@type":"Service","name":"Entretien de toiture"}}
+          ]
+        }
       },
-      {"@type":"WebSite","@id":"https://j2b-couverture.fr/#website","url":"https://j2b-couverture.fr/","name":"J2B Couverture","inLanguage":"fr-FR"}
+      {
+        "@type":"WebSite",
+        "@id":"https://j2b-couverture.fr/#website",
+        "url":"https://j2b-couverture.fr/",
+        "name":"J2B Couverture",
+        "inLanguage":"fr-FR"
+      }
     ]
   }
   </script>
 </head>
+
 <body>
 
-<!-- PROMO J2B TOUL - SEPTEMBRE 2026 -->
+<!-- =========================================================
+     PROMO SEPTEMBRE 2026 - VERSION COMPACTE ADS
+     ========================================================= -->
 <div class="j2b-promo-sept-2026" id="j2b-promo-sept-2026" role="region" aria-label="Promotion septembre 2026">
   <div class="j2b-promo-sept-2026-inner">
     <span class="j2b-promo-sept-2026-badge">-10 %</span>
-    <span><strong>OFFRE SEPTEMBRE</strong> — 10 % de remise sur votre devis signé avant le 30 septembre 2026</span>
+    <span>
+      <strong>Offre septembre</strong>
+      <span class="promo-long"> — </span>
+      <span class="promo-long">10 % de remise sur votre devis signé </span>
+      avant le 30 septembre 2026
+    </span>
   </div>
 </div>
 <script>
 (function(){
   var fin=new Date('2026-10-01T00:00:00+02:00').getTime();
-  if(Date.now()>=fin){var b=document.getElementById('j2b-promo-sept-2026');if(b)b.remove();}
+  if(Date.now()>=fin){
+    var b=document.getElementById('j2b-promo-sept-2026');
+    if(b)b.remove();
+  }
 })();
 </script>
-<!-- FIN PROMO -->
 
+<!-- CONTACT HAUT : 2 NUMÉROS DESKTOP / 06 PRIORITAIRE MOBILE -->
 <div class="j2b-contact-global">
   <div class="j2b-contact-global-inner">
-    <a class="j2b-contact-fixe" href="tel:+33372760060">☎️ Fixe : 03 72 76 00 60</a>
-    <a class="j2b-contact-portable" href="tel:+33601462612">📱 Portable : 06 01 46 26 12</a>
+    <a class="j2b-contact-fixe" href="tel:+33372760060" aria-label="Appeler J2B Couverture au 03 72 76 00 60">☎️ Fixe : 03 72 76 00 60</a>
+    <a class="j2b-contact-portable" href="tel:+33601462612" aria-label="Appeler J2B Couverture au 06 01 46 26 12">📞 Appeler : 06 01 46 26 12</a>
   </div>
 </div>
 
 <header>
-  <div class="trustBar"><div class="container trustInner">🛡️ <strong>Décennale QBE Europe SA/NV</strong><span class="sep">•</span><strong>SIRET 851 484 717 00018</strong></div></div>
+  <div class="trustBar">
+    <div class="container trustInner">
+      🛡️ <strong>Garantie décennale QBE Europe SA/NV</strong>
+    </div>
+  </div>
+
   <nav class="nav container">
-    <a class="brand" href="#top" aria-label="Accueil J2B Couverture"><img src="./logo-temp.png?v=1" alt="J2B Couverture - couvreur à Toul" decoding="async"></a>
+    <a class="brand" href="#top" aria-label="Accueil J2B Couverture">
+      <img src="./logo-temp.png?v=1" alt="J2B Couverture - couvreur à Toul" decoding="async">
+    </a>
+
     <div class="menuWrap">
-      <button class="menuBtn" id="menuBtn" type="button" aria-label="Ouvrir le menu">☰</button>
+      <button class="menuBtn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
       <div class="menuPanel" id="menuPanel">
-        <a href="#top">🏠 Accueil</a><a href="./couvreur-toul.html">📍 Couvreur à Toul</a><a href="#services">🛠️ Prestations</a><a href="./renovation-toiture.html">🏠 Rénovation toiture</a><a href="./reparation-fuite-toiture.html">💧 Fuite / urgence</a><a href="./zinguerie.html">🔧 Zinguerie</a><a href="./demoussage-toiture.html">🌿 Démoussage</a><a href="#realisations">📸 Réalisations</a><a href="#avis">⭐ Avis</a><a href="#devis">📩 Demande de devis</a><a href="./prestations-par-ville.html">📍 Prestations par ville</a><a href="#zone">🗺️ Zone d'intervention</a>
+        <a href="#top">🏠 Accueil</a>
+        <a href="./couvreur-toul.html">📍 Couvreur à Toul</a>
+        <a href="#services">🛠️ Prestations</a>
+        <a href="./renovation-toiture.html">🏠 Rénovation toiture</a>
+        <a href="./reparation-fuite-toiture.html">💧 Fuite / urgence</a>
+        <a href="./zinguerie.html">🔧 Zinguerie</a>
+        <a href="./demoussage-toiture.html">🌿 Démoussage</a>
+        <a href="#realisations">📸 Réalisations</a>
+        <a href="#avis">⭐ Avis</a>
+        <a href="#devis">📩 Demande de devis</a>
+        <a href="./prestations-par-ville.html">📍 Prestations par ville</a>
+        <a href="#zone">🗺️ Zone d'intervention</a>
       </div>
     </div>
   </nav>
 </header>
 
 <main>
+
+  <!-- HERO : MESSAGE GOOGLE ADS IMMÉDIAT -->
   <section class="hero" id="top">
     <div class="container heroGrid">
+
       <div>
-        <span class="eyebrow">Couvreur à Toul • Toulois • Grand Est</span>
-        <h1>Couvreur à Toul : <span style="color:#D2B981">rénovation, réparation &amp; zinguerie.</span></h1>
-        <p class="heroLead"><strong>J2B Couverture, artisan couvreur à Toul</strong>, intervient en priorité à Toul et dans le Toulois pour la rénovation et la réparation de toiture, les fuites, la zinguerie, les gouttières, le faîtage, le démoussage, l'entretien et l'isolation. Intervention également autour de Nancy selon le chantier.</p>
+        <span class="eyebrow">Couvreur à Toul • Toulois • 54200</span>
+
+        <h1>
+          Couvreur à Toul :
+          <span style="color:#D2B981">réparation, rénovation &amp; urgence toiture.</span>
+        </h1>
+
+        <p class="heroLead">
+          <strong>J2B Couverture intervient à Toul et dans le Toulois</strong>
+          pour les fuites, réparations, rénovations, faîtages, gouttières et travaux de zinguerie.
+          <strong>Devis gratuit</strong> et priorité aux infiltrations et dégâts actifs.
+        </p>
+
         <div class="heroActions">
-          <div class="heroPhones"><a class="btn red" href="tel:+33372760060" aria-label="Appeler J2B Couverture au 03 72 76 00 60">☎️ Appeler : 03 72 76 00 60</a><a class="btn heroPortable" href="tel:+33601462612" aria-label="Appeler J2B Couverture au 06 01 46 26 12">📱 Appeler : 06 01 46 26 12</a></div>
-          <a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul.%20Je%20souhaite%20un%20devis." target="_blank" rel="noopener">💬 Envoyer des photos</a>
-          <a class="btn gold" href="#devis">📩 Demander un devis gratuit</a>
+          <div class="heroPhones">
+            <a class="btn red j2b-hero-fixed" href="tel:+33372760060" aria-label="Appeler J2B Couverture au 03 72 76 00 60">
+              ☎️ 03 72 76 00 60
+            </a>
+            <a class="btn heroPortable" href="tel:+33601462612" aria-label="Appeler J2B Couverture maintenant au 06 01 46 26 12">
+              📞 Appeler maintenant : 06 01 46 26 12
+            </a>
+          </div>
+
+          <a class="btn whatsapp"
+             href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul.%20Je%20souhaite%20un%20devis."
+             target="_blank"
+             rel="noopener">
+            💬 Envoyer des photos
+          </a>
+
+          <a class="btn gold" href="#devis">
+            📩 Demander un devis gratuit
+          </a>
+        </div>
+
+        <div class="heroProof" aria-label="Éléments de confiance">
+          <span>⭐ 4,8/5 sur Google • 11 avis</span>
+          <span>🛡️ Décennale QBE Europe SA/NV</span>
+          <span>📍 Toul &amp; Toulois</span>
         </div>
       </div>
+
+      <!-- FORMULAIRE EXPRESS 3 CHAMPS -->
       <aside class="heroQuickForm">
-        <h3>Devis couvreur à Toul – gratuit</h3><p class="quickIntro">3 informations suffisent pour être rappelé rapidement par J2B Couverture.</p>
+        <h3>Devis couvreur à Toul – gratuit</h3>
+        <p class="quickIntro">
+          3 informations suffisent pour être rappelé rapidement par J2B Couverture.
+        </p>
+
         <form id="heroQuoteForm">
           <div class="quickGrid">
-            <div class="quickField full"><label for="hNeed">Votre besoin</label><select id="hNeed" required><option value="">Choisir les travaux</option><option>Fuite / urgence toiture</option><option>Rénovation de toiture</option><option>Zinguerie / gouttières</option><option>Démoussage / entretien</option><option>Faîtage / arêtiers</option><option>Isolation toiture</option><option>Traitement charpente</option><option>Autre besoin toiture</option></select></div>
-            <div class="quickField"><label for="hPhone">Téléphone</label><input id="hPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" required></div>
-            <div class="quickField"><label for="hCity">Ville</label><input id="hCity" type="text" autocomplete="address-level2" value="Toul" required></div>
+
+            <div class="quickField full">
+              <label for="hNeed">Votre besoin</label>
+              <select id="hNeed" required>
+                <option value="">Choisir les travaux</option>
+                <option>Fuite / urgence toiture</option>
+                <option>Rénovation de toiture</option>
+                <option>Zinguerie / gouttières</option>
+                <option>Démoussage / entretien</option>
+                <option>Faîtage / arêtiers</option>
+                <option>Isolation toiture</option>
+                <option>Traitement charpente</option>
+                <option>Autre besoin toiture</option>
+              </select>
+            </div>
+
+            <div class="quickField">
+              <label for="hPhone">Téléphone</label>
+              <input id="hPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78" required>
+            </div>
+
+            <div class="quickField">
+              <label for="hCity">Ville</label>
+              <input id="hCity" type="text" autocomplete="address-level2" value="Toul" required>
+            </div>
+
           </div>
-          <button class="btn red quickSubmit" type="submit">☎️ Être rappelé</button>
-          <div class="quickLinks"><a href="#devis">📩 Formulaire détaillé</a><a href="https://wa.me/33601462612" target="_blank" rel="noopener">📸 WhatsApp</a></div>
+
+          <button class="btn red quickSubmit" type="submit">
+            ☎️ Être rappelé
+          </button>
+
+          <div class="quickLinks">
+            <a href="#devis">📩 Formulaire détaillé</a>
+            <a href="https://wa.me/33601462612" target="_blank" rel="noopener">📸 WhatsApp</a>
+          </div>
+
           <p class="quickStatus" id="heroQuoteStatus" aria-live="polite"></p>
-          <p class="quickPrivacy">Téléphone utilisé uniquement pour répondre à votre demande de devis.</p>
+          <p class="quickPrivacy">
+            Téléphone utilisé uniquement pour répondre à votre demande de devis.
+          </p>
         </form>
       </aside>
+
     </div>
-    <div class="trustStrip"><div class="container trustGrid"><div class="trustItem"><strong>Intervention rapide à Toul</strong><span>Priorité aux fuites et urgences</span></div><div class="trustItem"><strong>Devis gratuit</strong><span>Avant validation des travaux</span></div><div class="trustItem"><strong>Garantie décennale</strong><span>QBE Europe SA/NV</span></div><div class="trustItem"><strong>Toul &amp; Toulois</strong><span>Secteur local prioritaire</span></div></div></div>
+
+    <div class="trustStrip">
+      <div class="container trustGrid">
+        <div class="trustItem">
+          <strong>Intervention rapide à Toul</strong>
+          <span>Priorité aux fuites et urgences</span>
+        </div>
+        <div class="trustItem">
+          <strong>Devis gratuit</strong>
+          <span>Avant validation des travaux</span>
+        </div>
+        <div class="trustItem">
+          <strong>Garantie décennale</strong>
+          <span>QBE Europe SA/NV</span>
+        </div>
+        <div class="trustItem">
+          <strong>Toul &amp; Toulois</strong>
+          <span>Secteur local prioritaire</span>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="section alt" id="urgence"><div class="container urgencyBox">
-    <span class="eyebrow" style="color:#182536;background:#EEE5D2">Besoin d'aide maintenant ?</span><h2>Que se passe-t-il sur votre toiture ?</h2><p class="muted">Choisissez votre situation pour accéder directement à l'action la plus utile.</p>
-    <div class="urgencyChoices" id="urgencyChoices">
-      <button class="urgencyChoice" type="button" data-mode="leak"><span class="badge">🚨 Urgent</span><strong>De l'eau entre actuellement</strong><span>Fuite active, plafond humide, gouttes ou infiltration pendant la pluie.</span><small>→ Appeler ou envoyer des photos</small></button>
-      <button class="urgencyChoice" type="button" data-mode="damage"><span class="badge">🌬️ À contrôler</span><strong>Un élément semble cassé ou déplacé</strong><span>Tuile, faîtage, rive, gouttière ou zinguerie après vent ou intempéries.</span><small>→ Photos + contrôle</small></button>
-      <button class="urgencyChoice" type="button" data-mode="project"><span class="badge">🔨 Projet</span><strong>Je prépare des travaux</strong><span>Rénovation, démoussage, isolation, gouttières, zinguerie ou entretien.</span><small>→ Préparer un devis</small></button>
+  <!-- CHOIX URGENCE -->
+  <section class="section alt" id="urgence">
+    <div class="container urgencyBox">
+      <span class="eyebrow" style="color:#182536;background:#EEE5D2">Besoin d'aide maintenant ?</span>
+      <h2>Que se passe-t-il sur votre toiture ?</h2>
+      <p class="muted">Choisissez votre situation pour accéder directement à l'action la plus utile.</p>
+
+      <div class="urgencyChoices" id="urgencyChoices">
+        <button class="urgencyChoice" type="button" data-mode="leak">
+          <span class="badge">🚨 Urgent</span>
+          <strong>De l'eau entre actuellement</strong>
+          <span>Fuite active, plafond humide, gouttes ou infiltration pendant la pluie.</span>
+          <small>→ Appeler ou envoyer des photos</small>
+        </button>
+
+        <button class="urgencyChoice" type="button" data-mode="damage">
+          <span class="badge">🌬️ À contrôler</span>
+          <strong>Un élément semble cassé ou déplacé</strong>
+          <span>Tuile, faîtage, rive, gouttière ou zinguerie après vent ou intempéries.</span>
+          <small>→ Photos + contrôle</small>
+        </button>
+
+        <button class="urgencyChoice" type="button" data-mode="project">
+          <span class="badge">🔨 Projet</span>
+          <strong>Je prépare des travaux</strong>
+          <span>Rénovation, démoussage, isolation, gouttières, zinguerie ou entretien.</span>
+          <small>→ Préparer un devis</small>
+        </button>
+      </div>
+
+      <div class="urgencyResult" id="urgencyResult">
+        <h3 id="urgencyTitle"></h3>
+        <p id="urgencyText" class="muted"></p>
+        <div class="heroActions" id="urgencyActions"></div>
+      </div>
+
+      <p class="small muted" style="margin-top:16px">
+        ⚠️ Ne montez pas sur une toiture humide, endommagée ou instable.
+        En cas de risque de chute d'un élément, évitez la zone située dessous.
+      </p>
     </div>
-    <div class="urgencyResult" id="urgencyResult"><h3 id="urgencyTitle"></h3><p id="urgencyText" class="muted"></p><div class="heroActions" id="urgencyActions"></div></div>
-    <p class="small muted" style="margin-top:16px">⚠️ Ne montez pas sur une toiture humide, endommagée ou instable. En cas de risque de chute d'un élément, évitez la zone située dessous.</p>
-  </div></section>
+  </section>
 
-  <section class="section" id="services"><div class="container">
-    <h2>Couvreur à Toul : tous vos travaux de toiture</h2><p class="muted">De la réparation ponctuelle à la rénovation complète, J2B Couverture intervient sur les principaux éléments de la toiture.</p>
-    <div class="grid3" style="margin-top:24px">
-      <article class="card serviceCard"><h3>🏠 Rénovation de toiture</h3><p>Réfection partielle ou complète, couverture, écran sous-toiture, lattage, faîtage et finitions.</p><a href="./renovation-toiture.html">Découvrir la rénovation →</a></article>
-      <article class="card serviceCard"><h3>💧 Fuites & urgences</h3><p>Recherche de l'origine d'une infiltration et réparation ciblée lorsque l'état du toit le permet.</p><a href="./reparation-fuite-toiture.html">Réparation de fuite →</a></article>
-      <article class="card serviceCard"><h3>🔧 Zinguerie</h3><p>Solins, noues, rives, raccords et ouvrages zinc participant à l'étanchéité.</p><a href="./zinguerie.html">Découvrir la zinguerie →</a></article>
-      <article class="card serviceCard"><h3>🌧️ Gouttières</h3><p>Pose, remplacement et remise en état des évacuations d'eaux pluviales.</p><a href="./gouttieres.html">Voir les gouttières →</a></article>
-      <article class="card serviceCard"><h3>🏠 Faîtage & arêtiers</h3><p>Contrôle et remise en état des lignes hautes de la toiture exposées aux intempéries.</p><a href="./faitage-arretiers.html">Faîtage et arêtiers →</a></article>
-      <article class="card serviceCard"><h3>🌿 Démoussage</h3><p>Nettoyage et traitement adaptés au matériau et à l'état de la couverture.</p><a href="./demoussage-toiture.html">Démoussage toiture →</a></article>
-      <article class="card serviceCard"><h3>✅ Entretien toiture</h3><p>Contrôle des points sensibles et entretien préventif avant aggravation des défauts.</p><a href="./entretien-toiture.html">Entretien toiture →</a></article>
-      <article class="card serviceCard"><h3>🛡️ Isolation toiture</h3><p>Travaux d'isolation associés à la toiture et aux combles selon le projet.</p><a href="./isolation-toiture.html">Isolation toiture →</a></article>
-      <article class="card serviceCard"><h3>🪚 Charpente</h3><p>Inspection et traitement du bois lorsque l'état de la charpente le nécessite.</p><a href="./traitement-charpente.html">Traitement charpente →</a></article>
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <div class="container">
+      <h2>Couvreur à Toul : tous vos travaux de toiture</h2>
+      <p class="muted">
+        De la réparation ponctuelle à la rénovation complète, J2B Couverture intervient
+        sur les principaux éléments de la toiture.
+      </p>
+
+      <div class="grid3" style="margin-top:24px">
+        <article class="card serviceCard">
+          <h3>💧 Fuites &amp; urgences</h3>
+          <p>Recherche de l'origine d'une infiltration et réparation ciblée lorsque l'état du toit le permet.</p>
+          <a href="./reparation-fuite-toiture.html">Réparation de fuite →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🏠 Rénovation de toiture</h3>
+          <p>Réfection partielle ou complète, couverture, écran sous-toiture, lattage, faîtage et finitions.</p>
+          <a href="./renovation-toiture.html">Découvrir la rénovation →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🔧 Zinguerie</h3>
+          <p>Solins, noues, rives, raccords et ouvrages zinc participant à l'étanchéité.</p>
+          <a href="./zinguerie.html">Découvrir la zinguerie →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🌧️ Gouttières</h3>
+          <p>Pose, remplacement et remise en état des évacuations d'eaux pluviales.</p>
+          <a href="./gouttieres.html">Voir les gouttières →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🏠 Faîtage &amp; arêtiers</h3>
+          <p>Contrôle et remise en état des lignes hautes de la toiture exposées aux intempéries.</p>
+          <a href="./faitage-arretiers.html">Faîtage et arêtiers →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🌿 Démoussage</h3>
+          <p>Nettoyage et traitement adaptés au matériau et à l'état de la couverture.</p>
+          <a href="./demoussage-toiture.html">Démoussage toiture →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>✅ Entretien toiture</h3>
+          <p>Contrôle des points sensibles et entretien préventif avant aggravation des défauts.</p>
+          <a href="./entretien-toiture.html">Entretien toiture →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🛡️ Isolation toiture</h3>
+          <p>Travaux d'isolation associés à la toiture et aux combles selon le projet.</p>
+          <a href="./isolation-toiture.html">Isolation toiture →</a>
+        </article>
+
+        <article class="card serviceCard">
+          <h3>🪚 Charpente</h3>
+          <p>Inspection et traitement du bois lorsque l'état de la charpente le nécessite.</p>
+          <a href="./traitement-charpente.html">Traitement charpente →</a>
+        </article>
+      </div>
     </div>
-  </div></section>
+  </section>
 
-  <section class="section alt" id="couvreur-toul-local"><div class="container"><div class="card localHero">
-    <span class="eyebrow" style="color:#182536;background:#EEE5D2">Secteur principal • Toul 54200</span><h2>Couvreur à Toul : J2B Couverture au service du Toulois</h2>
-    <p><strong>Toul est le secteur local principal de J2B Couverture.</strong> Nous intervenons pour la rénovation de toiture, la réparation de fuite, la zinguerie, les gouttières, le faîtage et les arêtiers, le démoussage, l'entretien, l'isolation et le traitement de charpente.</p>
-    <p class="muted">Une infiltration ne signifie pas systématiquement qu'il faut refaire toute la couverture. Lorsque le défaut est localisé et que le reste du toit est sain, une réparation ciblée peut suffire. Si les problèmes deviennent multiples ou récurrents, une rénovation plus large peut être étudiée.</p>
-    <div class="localStats"><div class="localStat"><strong>📍 Toul 54200</strong><span class="muted small">Secteur local prioritaire</span></div><div class="localStat"><strong>🔎 Réparer ou rénover</strong><span class="muted small">Selon l'état réel du toit</span></div><div class="localStat"><strong>📷 Photos possibles</strong><span class="muted small">Par WhatsApp avant rendez-vous</span></div></div>
-    <div class="serviceLinksGrid"><a class="servicePageLink" href="./couvreur-toul.html"><span>📍 Couvreur à Toul (54200)</span><strong>→</strong></a><a class="servicePageLink" href="./reparation-fuite-toiture.html"><span>💧 Réparation de fuite</span><strong>→</strong></a><a class="servicePageLink" href="./renovation-toiture.html"><span>🏠 Rénovation de toiture</span><strong>→</strong></a><a class="servicePageLink" href="./zinguerie.html"><span>🔧 Zinguerie</span><strong>→</strong></a></div>
-    <div class="heroActions"><a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a><a class="btn gold" href="./couvreur-toul.html">Découvrir la page Toul</a><a class="btn ghost" href="#devis">Demander un devis</a></div>
-  </div></div></section>
+  <!-- LOCAL -->
+  <section class="section alt" id="couvreur-toul-local">
+    <div class="container">
+      <div class="card localHero">
+        <span class="eyebrow" style="color:#182536;background:#EEE5D2">Secteur principal • Toul 54200</span>
+        <h2>Couvreur à Toul : J2B Couverture au service du Toulois</h2>
 
-  <section class="section" id="pourquoi"><div class="container"><h2>Pourquoi choisir J2B Couverture ?</h2><p class="muted">Des éléments concrets pour préparer votre projet de toiture.</p><div class="whyGrid">
-    <article class="whyItem"><span>🛡️</span><h3>Décennale</h3><p>Garantie décennale QBE Europe SA/NV.</p></article>
-    <article class="whyItem"><span>📩</span><h3>Devis gratuit</h3><p>Une proposition avant validation.</p></article>
-    <article class="whyItem"><span>📍</span><h3>Implantation locale</h3><p>Toul et communes du Toulois.</p></article>
-    <article class="whyItem"><span>📸</span><h3>Photos</h3><p>Possibilité d'envoyer des images par WhatsApp.</p></article>
-    <article class="whyItem"><span>⚡</span><h3>Urgences</h3><p>Priorité aux infiltrations et dégâts actifs.</p></article>
-  </div></div></section>
+        <p>
+          <strong>Toul est le secteur local principal de J2B Couverture.</strong>
+          Nous intervenons pour la réparation de fuite, la rénovation de toiture,
+          la zinguerie, les gouttières, le faîtage et les arêtiers, le démoussage,
+          l'entretien, l'isolation et le traitement de charpente.
+        </p>
 
-  <section class="section alt"><div class="container"><h2>Outils, conseils et preuves</h2><p class="muted">Des pages dédiées pour comprendre votre toiture et préparer votre demande.</p><div class="serviceLinksGrid">
-    <a class="servicePageLink" href="./diagnostic-toiture.html"><span>🔎 Diagnostic toiture</span><strong>→</strong></a><a class="servicePageLink" href="./reparer-ou-refaire-toiture.html"><span>🏠 Réparer ou refaire ?</span><strong>→</strong></a><a class="servicePageLink" href="./simulateur-couleur-toiture.html"><span>🎨 Simulateur couleur</span><strong>→</strong></a><a class="servicePageLink" href="./realisations.html"><span>📸 Photos & vidéos</span><strong>→</strong></a><a class="servicePageLink" href="./avis-clients.html"><span>⭐ Avis clients</span><strong>→</strong></a><a class="servicePageLink" href="./faq-toiture.html"><span>❓ FAQ toiture</span><strong>→</strong></a><a class="servicePageLink" href="./urgence-toiture.html"><span>🚨 Urgence toiture</span><strong>→</strong></a><a class="servicePageLink" href="./degats-tempete-toiture.html"><span>🌬️ Dégâts tempête / grêle</span><strong>→</strong></a>
-  </div></div></section>
+        <p class="muted">
+          Une infiltration ne signifie pas systématiquement qu'il faut refaire toute la couverture.
+          Lorsque le défaut est localisé et que le reste du toit est sain, une réparation ciblée peut suffire.
+          Si les problèmes deviennent multiples ou récurrents, une rénovation plus large peut être étudiée.
+        </p>
 
-  <section class="section" id="avis"><div class="container"><h2>Avis clients</h2><p class="muted">Quelques retours présentés sur le site J2B Couverture.</p><div class="reviews">
-    <article class="review"><div class="stars">★★★★★</div><p>Travail très soigné, intervention rapide. Je recommande.</p><strong>Client J2B Couverture</strong></article>
-    <article class="review"><div class="stars">★★★★★</div><p>Devis clair, équipe sérieuse et toiture impeccable.</p><strong>Client J2B Couverture</strong></article>
-    <article class="review"><div class="stars">★★★★★</div><p>Réparation de fuite efficace, bons conseils. Très professionnel.</p><strong>Client J2B Couverture</strong></article>
-  </div><div style="margin-top:18px"><a class="btn ghost" href="./avis-clients.html">⭐ Voir la page avis clients</a></div></div></section>
+        <div class="localStats">
+          <div class="localStat">
+            <strong>📍 Toul 54200</strong>
+            <span class="muted small">Secteur local prioritaire</span>
+          </div>
+          <div class="localStat">
+            <strong>🔎 Réparer ou rénover</strong>
+            <span class="muted small">Selon l'état réel du toit</span>
+          </div>
+          <div class="localStat">
+            <strong>📷 Photos possibles</strong>
+            <span class="muted small">Par WhatsApp avant rendez-vous</span>
+          </div>
+        </div>
 
-  <section class="section alt" id="realisations"><div class="container"><h2>Réalisations de toiture</h2><p class="muted">Photos de travaux de couverture, zinguerie, faîtage, gouttières et finitions.</p><div class="gallery">
-    <img src="./renovation-toiture-pose-tuiles-04.jpg" alt="Rénovation de toiture réalisée par J2B Couverture à Toul" loading="lazy" decoding="async"><img src="./renovation-toiture-ecran-lattage-02.jpg" alt="Écran sous-toiture et lattage J2B Couverture" loading="lazy" decoding="async"><img src="./faitage-closoir-ventile-finition-04.jpg" alt="Faîtage sur closoir ventilé J2B Couverture" loading="lazy" decoding="async"><img src="./gouttiere-zinc-pose-finition-01.jpg" alt="Gouttière zinc posée par J2B Couverture" loading="lazy" decoding="async"><img src="./rive-zinc-habillage-finition-01.jpg" alt="Habillage de rive en zinc J2B Couverture" loading="lazy" decoding="async"><img src="./zinguerie-noue-zinc-toiture-tuiles-07.jpg" alt="Noues et zinguerie de toiture J2B Couverture" loading="lazy" decoding="async">
-  </div><div style="margin-top:20px;text-align:center"><a class="btn gold" href="./realisations.html">📸 Voir toutes les réalisations</a></div></div></section>
+        <div class="serviceLinksGrid">
+          <a class="servicePageLink" href="./couvreur-toul.html"><span>📍 Couvreur à Toul (54200)</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./reparation-fuite-toiture.html"><span>💧 Réparation de fuite</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./renovation-toiture.html"><span>🏠 Rénovation de toiture</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./zinguerie.html"><span>🔧 Zinguerie</span><strong>→</strong></a>
+        </div>
 
-  <section class="section" id="devis"><div class="container"><h2>Demande de devis toiture</h2><p class="muted">Indiquez votre besoin. Le téléphone est obligatoire ; les autres informations servent à préparer le contact.</p>
-    <form class="card quote" id="quoteForm"><div class="quoteGrid">
-      <label>Type de travaux<select id="qNeed" required><option value="">Choisir</option><option>Fuite / urgence toiture</option><option>Rénovation de toiture</option><option>Zinguerie / gouttières</option><option>Démoussage / entretien</option><option>Faîtage / arêtiers</option><option>Isolation toiture</option><option>Traitement charpente</option><option>Autre besoin toiture</option></select></label>
-      <label>Ville du chantier<input id="qCity" type="text" value="Toul" autocomplete="address-level2" required></label>
-      <label>Nom <span class="muted small">(facultatif)</span><input id="qName" type="text" autocomplete="name"></label>
-      <label>Téléphone<input id="qPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78" required></label>
-      <label class="full">E-mail <span class="muted small">(facultatif)</span><input id="qEmail" type="email" autocomplete="email"></label>
-      <label class="full">Précisions <span class="muted small">(facultatif)</span><textarea id="qMessage" placeholder="Ex : infiltration près de la cheminée, rénovation d'un versant, gouttière à remplacer..."></textarea></label>
-    </div><div class="quoteActions"><button class="btn red" type="submit">☎️ Demander à être rappelé</button><a class="btn gold" id="quoteMail" href="mailto:j2b.couverture@gmail.com">✉️ Préparer un e-mail</a><a class="btn whatsapp" id="quoteWa" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 Envoyer sur WhatsApp</a></div><p class="status" id="quoteStatus" aria-live="polite"></p></form>
-  </div></section>
+        <div class="heroActions">
+          <a class="btn red" href="tel:+33601462612">📞 06 01 46 26 12</a>
+          <a class="btn gold" href="./couvreur-toul.html">Découvrir la page Toul</a>
+          <a class="btn ghost" href="#devis">Demander un devis</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section class="section alt" id="zone"><div class="container"><h2>Zone d'intervention autour de Toul et Nancy</h2><p class="muted">J2B Couverture intervient à Toul, Écrouves, Dommartin-lès-Toul, Gondreville, Liverdun, Nancy et dans d'autres communes de Meurthe-et-Moselle selon le chantier.</p><div class="zoneCards"><div class="card"><h3>Secteur local</h3><p><strong>Toul 54200 et Toulois</strong></p><div class="localLinks"><a href="./couvreur-toul.html">Toul</a><a href="./couvreur-ecrouves.html">Écrouves</a><a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a><a href="./couvreur-gondreville.html">Gondreville</a><a href="./couvreur-liverdun.html">Liverdun</a><a href="./couvreur-nancy.html">Nancy</a><a href="./couvreur-meurthe-et-moselle.html">Meurthe-et-Moselle</a></div></div><iframe class="map" title="Zone d'intervention J2B Couverture autour de Toul" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Toul%2054200&output=embed"></iframe></div></div></section>
+  <!-- POURQUOI -->
+  <section class="section" id="pourquoi">
+    <div class="container">
+      <h2>Pourquoi choisir J2B Couverture ?</h2>
+      <p class="muted">Des éléments concrets pour préparer votre projet de toiture.</p>
 
-  <section class="section"><div class="container"><div class="card"><h2>Conseils & informations toiture</h2><p class="muted">Préparez votre projet ou votre intervention avec nos pages dédiées.</p><div class="serviceLinksGrid"><a class="servicePageLink" href="./faq-toiture.html"><span>FAQ toiture</span><strong>→</strong></a><a class="servicePageLink" href="./degats-tempete-toiture.html"><span>Dégâts tempête / grêle</span><strong>→</strong></a><a class="servicePageLink" href="./contact.html"><span>Contact J2B Couverture</span><strong>→</strong></a><a class="servicePageLink" href="./couvreur-meurthe-et-moselle.html"><span>Couvreur Meurthe-et-Moselle</span><strong>→</strong></a></div></div></div></section>
+      <div class="whyGrid">
+        <article class="whyItem">
+          <span>🛡️</span>
+          <h3>Décennale</h3>
+          <p>Garantie décennale QBE Europe SA/NV.</p>
+        </article>
+
+        <article class="whyItem">
+          <span>📩</span>
+          <h3>Devis gratuit</h3>
+          <p>Une proposition avant validation.</p>
+        </article>
+
+        <article class="whyItem">
+          <span>📍</span>
+          <h3>Implantation locale</h3>
+          <p>Toul et communes du Toulois.</p>
+        </article>
+
+        <article class="whyItem">
+          <span>📸</span>
+          <h3>Photos</h3>
+          <p>Possibilité d'envoyer des images par WhatsApp.</p>
+        </article>
+
+        <article class="whyItem">
+          <span>⚡</span>
+          <h3>Urgences</h3>
+          <p>Priorité aux infiltrations et dégâts actifs.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTILS -->
+  <section class="section alt">
+    <div class="container">
+      <h2>Outils, conseils et preuves</h2>
+      <p class="muted">Des pages dédiées pour comprendre votre toiture et préparer votre demande.</p>
+
+      <div class="serviceLinksGrid">
+        <a class="servicePageLink" href="./diagnostic-toiture.html"><span>🔎 Diagnostic toiture</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./reparer-ou-refaire-toiture.html"><span>🏠 Réparer ou refaire ?</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./simulateur-couleur-toiture.html"><span>🎨 Simulateur couleur</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./realisations.html"><span>📸 Photos &amp; vidéos</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./avis-clients.html"><span>⭐ Avis clients</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./faq-toiture.html"><span>❓ FAQ toiture</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./urgence-toiture.html"><span>🚨 Urgence toiture</span><strong>→</strong></a>
+        <a class="servicePageLink" href="./degats-tempete-toiture.html"><span>🌬️ Dégâts tempête / grêle</span><strong>→</strong></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section class="section" id="avis">
+    <div class="container">
+      <h2>Avis clients</h2>
+      <p class="muted">Quelques retours présentés sur le site J2B Couverture.</p>
+
+      <div class="reviews">
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>Travail très soigné, intervention rapide. Je recommande.</p>
+          <strong>Client J2B Couverture</strong>
+        </article>
+
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>Devis clair, équipe sérieuse et toiture impeccable.</p>
+          <strong>Client J2B Couverture</strong>
+        </article>
+
+        <article class="review">
+          <div class="stars">★★★★★</div>
+          <p>Réparation de fuite efficace, bons conseils. Très professionnel.</p>
+          <strong>Client J2B Couverture</strong>
+        </article>
+      </div>
+
+      <div style="margin-top:18px">
+        <a class="btn ghost" href="./avis-clients.html">⭐ Voir la page avis clients</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RÉALISATIONS -->
+  <section class="section alt" id="realisations">
+    <div class="container">
+      <h2>Réalisations de toiture</h2>
+      <p class="muted">Photos de travaux de couverture, zinguerie, faîtage, gouttières et finitions.</p>
+
+      <div class="gallery">
+        <img src="./renovation-toiture-pose-tuiles-04.jpg" alt="Rénovation de toiture réalisée par J2B Couverture à Toul" loading="lazy" decoding="async">
+        <img src="./renovation-toiture-ecran-lattage-02.jpg" alt="Écran sous-toiture et lattage J2B Couverture" loading="lazy" decoding="async">
+        <img src="./faitage-closoir-ventile-finition-04.jpg" alt="Faîtage sur closoir ventilé J2B Couverture" loading="lazy" decoding="async">
+        <img src="./gouttiere-zinc-pose-finition-01.jpg" alt="Gouttière zinc posée par J2B Couverture" loading="lazy" decoding="async">
+        <img src="./rive-zinc-habillage-finition-01.jpg" alt="Habillage de rive en zinc J2B Couverture" loading="lazy" decoding="async">
+        <img src="./zinguerie-noue-zinc-toiture-tuiles-07.jpg" alt="Noues et zinguerie de toiture J2B Couverture" loading="lazy" decoding="async">
+      </div>
+
+      <div style="margin-top:20px;text-align:center">
+        <a class="btn gold" href="./realisations.html">📸 Voir toutes les réalisations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVIS DÉTAILLÉ -->
+  <section class="section" id="devis">
+    <div class="container">
+      <h2>Demande de devis toiture</h2>
+      <p class="muted">
+        Indiquez votre besoin. Le téléphone est obligatoire ; les autres informations servent à préparer le contact.
+      </p>
+
+      <form class="card quote" id="quoteForm">
+        <div class="quoteGrid">
+
+          <label>
+            Type de travaux
+            <select id="qNeed" required>
+              <option value="">Choisir</option>
+              <option>Fuite / urgence toiture</option>
+              <option>Rénovation de toiture</option>
+              <option>Zinguerie / gouttières</option>
+              <option>Démoussage / entretien</option>
+              <option>Faîtage / arêtiers</option>
+              <option>Isolation toiture</option>
+              <option>Traitement charpente</option>
+              <option>Autre besoin toiture</option>
+            </select>
+          </label>
+
+          <label>
+            Ville du chantier
+            <input id="qCity" type="text" value="Toul" autocomplete="address-level2" required>
+          </label>
+
+          <label>
+            Nom <span class="muted small">(facultatif)</span>
+            <input id="qName" type="text" autocomplete="name">
+          </label>
+
+          <label>
+            Téléphone
+            <input id="qPhone" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78" required>
+          </label>
+
+          <label class="full">
+            E-mail <span class="muted small">(facultatif)</span>
+            <input id="qEmail" type="email" autocomplete="email">
+          </label>
+
+          <label class="full">
+            Précisions <span class="muted small">(facultatif)</span>
+            <textarea id="qMessage" placeholder="Ex : infiltration près de la cheminée, rénovation d'un versant, gouttière à remplacer..."></textarea>
+          </label>
+
+        </div>
+
+        <div class="quoteActions">
+          <button class="btn red" type="submit">☎️ Demander à être rappelé</button>
+          <a class="btn gold" id="quoteMail" href="mailto:j2b.couverture@gmail.com">✉️ Préparer un e-mail</a>
+          <a class="btn whatsapp" id="quoteWa" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 Envoyer sur WhatsApp</a>
+        </div>
+
+        <p class="status" id="quoteStatus" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ZONE -->
+  <section class="section alt" id="zone">
+    <div class="container">
+      <h2>Zone d'intervention autour de Toul et Nancy</h2>
+      <p class="muted">
+        J2B Couverture intervient à Toul, Écrouves, Dommartin-lès-Toul, Gondreville,
+        Liverdun, Nancy et dans d'autres communes de Meurthe-et-Moselle selon le chantier.
+      </p>
+
+      <div class="zoneCards">
+        <div class="card">
+          <h3>Secteur local</h3>
+          <p><strong>Toul 54200 et Toulois</strong></p>
+
+          <div class="localLinks">
+            <a href="./couvreur-toul.html">Toul</a>
+            <a href="./couvreur-ecrouves.html">Écrouves</a>
+            <a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a>
+            <a href="./couvreur-gondreville.html">Gondreville</a>
+            <a href="./couvreur-liverdun.html">Liverdun</a>
+            <a href="./couvreur-nancy.html">Nancy</a>
+            <a href="./couvreur-meurthe-et-moselle.html">Meurthe-et-Moselle</a>
+          </div>
+        </div>
+
+        <iframe
+          class="map"
+          title="Zone d'intervention J2B Couverture autour de Toul"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Toul%2054200&output=embed">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card">
+        <h2>Conseils &amp; informations toiture</h2>
+        <p class="muted">Préparez votre projet ou votre intervention avec nos pages dédiées.</p>
+
+        <div class="serviceLinksGrid">
+          <a class="servicePageLink" href="./faq-toiture.html"><span>FAQ toiture</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./degats-tempete-toiture.html"><span>Dégâts tempête / grêle</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./contact.html"><span>Contact J2B Couverture</span><strong>→</strong></a>
+          <a class="servicePageLink" href="./couvreur-meurthe-et-moselle.html"><span>Couvreur Meurthe-et-Moselle</span><strong>→</strong></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<footer><div class="container"><div class="footerGrid">
-  <div><h3>J2B Couverture</h3><p>Couvreur à Toul, Nancy et alentours. Rénovation, réparation, zinguerie, démoussage, entretien et isolation.</p><a href="tel:+33601462612">📞 06 01 46 26 12</a><a href="mailto:j2b.couverture@gmail.com">✉️ j2b.couverture@gmail.com</a></div>
-  <div><h3>Prestations</h3><a href="./renovation-toiture.html">Rénovation toiture</a><a href="./reparation-fuite-toiture.html">Fuite / urgence</a><a href="./zinguerie.html">Zinguerie</a><a href="./gouttieres.html">Gouttières</a><a href="./demoussage-toiture.html">Démoussage</a></div>
-  <div><h3>Outils & preuves</h3><a href="./diagnostic-toiture.html">Diagnostic toiture</a><a href="./reparer-ou-refaire-toiture.html">Réparer ou refaire ?</a><a href="./realisations.html">Photos & vidéos</a><a href="./avis-clients.html">Avis clients</a><a href="./faq-toiture.html">FAQ</a></div>
-  <div><h3>Secteurs</h3><a href="./couvreur-toul.html">Couvreur Toul</a><a href="./couvreur-nancy.html">Couvreur Nancy</a><a href="./couvreur-ecrouves.html">Écrouves</a><a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a><a href="./couvreur-gondreville.html">Gondreville</a></div>
-</div><div class="footerBottom">🛡️ Garantie décennale QBE Europe SA/NV • SIRET 851 484 717 00018 • © J2B Couverture</div></div></footer>
+<footer>
+  <div class="container">
+    <div class="footerGrid">
 
-<a class="waFloat" href="https://wa.me/33601462612" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <div>
+        <h3>J2B Couverture</h3>
+        <p>Couvreur à Toul, Nancy et alentours. Réparation, rénovation, zinguerie, démoussage, entretien et isolation.</p>
+        <a href="tel:+33601462612">📞 06 01 46 26 12</a>
+        <a href="tel:+33372760060">☎️ 03 72 76 00 60</a>
+        <a href="mailto:j2b.couverture@gmail.com">✉️ j2b.couverture@gmail.com</a>
+      </div>
 
-<!-- COMPORTEMENTS DE LA PAGE + ENVOI DEVIS ROBUSTE -->
+      <div>
+        <h3>Prestations</h3>
+        <a href="./renovation-toiture.html">Rénovation toiture</a>
+        <a href="./reparation-fuite-toiture.html">Fuite / urgence</a>
+        <a href="./zinguerie.html">Zinguerie</a>
+        <a href="./gouttieres.html">Gouttières</a>
+        <a href="./demoussage-toiture.html">Démoussage</a>
+      </div>
+
+      <div>
+        <h3>Outils &amp; preuves</h3>
+        <a href="./diagnostic-toiture.html">Diagnostic toiture</a>
+        <a href="./reparer-ou-refaire-toiture.html">Réparer ou refaire ?</a>
+        <a href="./realisations.html">Photos &amp; vidéos</a>
+        <a href="./avis-clients.html">Avis clients</a>
+        <a href="./faq-toiture.html">FAQ</a>
+      </div>
+
+      <div>
+        <h3>Secteurs</h3>
+        <a href="./couvreur-toul.html">Couvreur Toul</a>
+        <a href="./couvreur-nancy.html">Couvreur Nancy</a>
+        <a href="./couvreur-ecrouves.html">Écrouves</a>
+        <a href="./couvreur-dommartin-les-toul.html">Dommartin-lès-Toul</a>
+        <a href="./couvreur-gondreville.html">Gondreville</a>
+      </div>
+
+    </div>
+
+    <div class="footerBottom">
+      🛡️ Garantie décennale QBE Europe SA/NV • SIRET 851 484 717 00018 • © J2B Couverture
+    </div>
+  </div>
+</footer>
+
+<!-- BARRE FIXE MOBILE GOOGLE ADS -->
+<div class="mobileCtaBar" aria-label="Contact rapide J2B Couverture">
+  <a class="mobileCtaCall" href="tel:+33601462612" aria-label="Appeler J2B Couverture maintenant au 06 01 46 26 12">
+    📞 Appeler
+  </a>
+  <a class="mobileCtaWhatsApp"
+     href="https://wa.me/33601462612?text=Bonjour%2C%20je%20vous%20contacte%20depuis%20le%20site%20J2B%20Couverture%20Toul."
+     target="_blank"
+     rel="noopener"
+     aria-label="Contacter J2B Couverture sur WhatsApp">
+    💬 WhatsApp
+  </a>
+</div>
+
+<!-- =========================================================
+     COMPORTEMENTS PAGE + FORMULAIRES
+     ========================================================= -->
 <script>
 (function(){
   "use strict";
@@ -315,240 +1282,1146 @@
     if(window.J2BNtfy && typeof window.J2BNtfy.send==="function"){
       return window.J2BNtfy.send(title,message,priority,tags);
     }
-    const url=NTFY_TOPIC+"?title="+encodeURIComponent(title)+"&priority="+encodeURIComponent(priority||"high")+"&tags="+encodeURIComponent(tags||"house");
+
+    const url=NTFY_TOPIC+
+      "?title="+encodeURIComponent(title)+
+      "&priority="+encodeURIComponent(priority||"high")+
+      "&tags="+encodeURIComponent(tags||"house");
+
     for(let i=0;i<2;i++){
       try{
-        const response=await fetch(url,{method:"POST",body:message,keepalive:true,cache:"no-store"});
+        const response=await fetch(url,{
+          method:"POST",
+          body:message,
+          keepalive:true,
+          cache:"no-store"
+        });
         if(response.ok)return true;
       }catch(e){}
       if(i===0)await new Promise(r=>setTimeout(r,250));
     }
+
     try{
       if(navigator.sendBeacon){
         const blob=new Blob([message],{type:"text/plain;charset=UTF-8"});
         return navigator.sendBeacon(url,blob);
       }
     }catch(e){}
+
     return false;
   }
 
+  /* MENU */
   const menuBtn=document.getElementById("menuBtn");
   const menuPanel=document.getElementById("menuPanel");
+
   if(menuBtn&&menuPanel){
-    menuBtn.addEventListener("click",function(e){e.stopPropagation();menuPanel.classList.toggle("open");document.body.classList.toggle("menu-open",menuPanel.classList.contains("open"));});
-    menuPanel.querySelectorAll("a").forEach(a=>a.addEventListener("click",function(){menuPanel.classList.remove("open");document.body.classList.remove("menu-open");}));
-    document.addEventListener("click",function(){menuPanel.classList.remove("open");document.body.classList.remove("menu-open");});
+    function closeMenu(){
+      menuPanel.classList.remove("open");
+      document.body.classList.remove("menu-open");
+      menuBtn.setAttribute("aria-expanded","false");
+    }
+
+    menuBtn.addEventListener("click",function(e){
+      e.stopPropagation();
+      const open=!menuPanel.classList.contains("open");
+      menuPanel.classList.toggle("open",open);
+      document.body.classList.toggle("menu-open",open);
+      menuBtn.setAttribute("aria-expanded",open?"true":"false");
+    });
+
+    menuPanel.querySelectorAll("a").forEach(a=>a.addEventListener("click",closeMenu));
+
+    document.addEventListener("click",function(e){
+      if(!menuPanel.contains(e.target) && e.target!==menuBtn)closeMenu();
+    });
   }
 
-  const choices=document.getElementById("urgencyChoices"),result=document.getElementById("urgencyResult"),title=document.getElementById("urgencyTitle"),text=document.getElementById("urgencyText"),actions=document.getElementById("urgencyActions");
+  /* CHOIX URGENCE */
+  const choices=document.getElementById("urgencyChoices");
+  const result=document.getElementById("urgencyResult");
+  const urgencyTitle=document.getElementById("urgencyTitle");
+  const urgencyText=document.getElementById("urgencyText");
+  const actions=document.getElementById("urgencyActions");
+
   const configs={
-    leak:{title:"Fuite active : contactez-nous rapidement",text:"Si de l'eau entre actuellement, protégez l'intérieur si vous pouvez le faire sans danger. Ne montez pas sur le toit.",actions:'<a class="btn red" href="tel:+33601462612">📞 Appeler maintenant</a><a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20j%27ai%20une%20fuite%20de%20toiture%20en%20cours." target="_blank" rel="noopener">📸 Envoyer des photos</a><a class="btn ghost" href="#devis">📩 Préparer le devis</a>'},
-    damage:{title:"Élément endommagé : envoyez des photos",text:"Une tuile, un faîtage, une rive, une gouttière ou une zinguerie déplacée mérite un contrôle, surtout après du vent ou un orage.",actions:'<a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20un%20%C3%A9l%C3%A9ment%20de%20ma%20toiture%20semble%20endommag%C3%A9." target="_blank" rel="noopener">📸 Envoyer des photos</a><a class="btn red" href="tel:+33601462612">📞 Appeler</a><a class="btn ghost" href="#devis">📩 Demander un devis</a>'},
-    project:{title:"Projet toiture : préparez votre demande",text:"Rénovation, entretien, démoussage, isolation, zinguerie ou gouttières : complétez la demande de devis.",actions:'<a class="btn gold" href="#devis">📩 Ouvrir le formulaire</a><a class="btn ghost" href="./couvreur-toul.html">📍 Voir la page Toul</a>'}
+    leak:{
+      title:"Fuite active : contactez-nous rapidement",
+      text:"Si de l'eau entre actuellement, protégez l'intérieur si vous pouvez le faire sans danger. Ne montez pas sur le toit.",
+      actions:
+        '<a class="btn red" href="tel:+33601462612">📞 Appeler maintenant</a>'+
+        '<a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20j%27ai%20une%20fuite%20de%20toiture%20en%20cours." target="_blank" rel="noopener">📸 Envoyer des photos</a>'+
+        '<a class="btn ghost" href="#devis">📩 Préparer le devis</a>'
+    },
+    damage:{
+      title:"Élément endommagé : envoyez des photos",
+      text:"Une tuile, un faîtage, une rive, une gouttière ou une zinguerie déplacée mérite un contrôle, surtout après du vent ou un orage.",
+      actions:
+        '<a class="btn whatsapp" href="https://wa.me/33601462612?text=Bonjour%2C%20un%20%C3%A9l%C3%A9ment%20de%20ma%20toiture%20semble%20endommag%C3%A9." target="_blank" rel="noopener">📸 Envoyer des photos</a>'+
+        '<a class="btn red" href="tel:+33601462612">📞 Appeler</a>'+
+        '<a class="btn ghost" href="#devis">📩 Demander un devis</a>'
+    },
+    project:{
+      title:"Projet toiture : préparez votre demande",
+      text:"Rénovation, entretien, démoussage, isolation, zinguerie ou gouttières : complétez la demande de devis.",
+      actions:
+        '<a class="btn gold" href="#devis">📩 Ouvrir le formulaire</a>'+
+        '<a class="btn ghost" href="./couvreur-toul.html">📍 Voir la page Toul</a>'
+    }
   };
-  if(choices){choices.addEventListener("click",function(e){const btn=e.target.closest(".urgencyChoice");if(!btn)return;choices.querySelectorAll(".urgencyChoice").forEach(b=>b.classList.remove("active"));btn.classList.add("active");const cfg=configs[btn.dataset.mode];if(!cfg)return;title.textContent=cfg.title;text.textContent=cfg.text;actions.innerHTML=cfg.actions;result.classList.add("show");if(typeof window.gtag==="function")gtag("event","urgence_toiture_choix",{event_category:"Engagement",event_label:btn.dataset.mode});});}
 
-  const heroForm=document.getElementById("heroQuoteForm"),heroStatus=document.getElementById("heroQuoteStatus");
-  function heroData(){return{need:(document.getElementById("hNeed")||{}).value||"",city:(document.getElementById("hCity")||{}).value||"",phone:(document.getElementById("hPhone")||{}).value||""};}
-  function heroPlain(d){return["DEMANDE RAPIDE - J2B COUVERTURE TOUL","","Travaux : "+d.need,"Ville : "+d.city,"Téléphone : "+d.phone,"","Formulaire : haut de page","Page : "+location.href,"Heure : "+new Date().toLocaleString("fr-FR")].join("\n");}
-  if(heroForm){heroForm.addEventListener("submit",async function(e){e.preventDefault();const d=heroData();if(!d.need||!d.city||!d.phone){heroStatus.textContent="Merci d'indiquer les travaux, votre téléphone et la ville.";heroStatus.style.color="#B32025";return;}heroStatus.textContent="Envoi de votre demande…";heroStatus.style.color="#182536";const qNeed=document.getElementById("qNeed"),qCity=document.getElementById("qCity"),qPhone=document.getElementById("qPhone");if(qNeed)qNeed.value=d.need;if(qCity)qCity.value=d.city;if(qPhone)qPhone.value=d.phone;const ok=await sendSiteNtfy("Nouveau devis rapide J2B Toul",heroPlain(d),"urgent","telephone,memo,house");if(ok){heroStatus.textContent="✓ Demande envoyée. Nous pouvons maintenant vous rappeler.";heroStatus.style.color="#16794B";if(typeof window.gtag==="function")gtag("event","generate_lead",{method:"formulaire_rapide_hero",event_category:"Contact",event_label:"Accueil Toul"});}else{heroStatus.textContent="Envoi impossible. Appelez le 06 01 46 26 12 ou utilisez WhatsApp.";heroStatus.style.color="#B32025";}});}
+  if(choices){
+    choices.addEventListener("click",function(e){
+      const btn=e.target.closest(".urgencyChoice");
+      if(!btn)return;
 
-  const form=document.getElementById("quoteForm"),mail=document.getElementById("quoteMail"),wa=document.getElementById("quoteWa"),status=document.getElementById("quoteStatus");
-  function quoteData(){return{need:(document.getElementById("qNeed")||{}).value||"",city:(document.getElementById("qCity")||{}).value||"",name:(document.getElementById("qName")||{}).value||"",phone:(document.getElementById("qPhone")||{}).value||"",email:(document.getElementById("qEmail")||{}).value||"",message:(document.getElementById("qMessage")||{}).value||""};}
-  function plain(d){return["DEMANDE DE DEVIS - J2B COUVERTURE","","Travaux : "+d.need,"Ville : "+d.city,"Nom : "+(d.name||"Non renseigné"),"Téléphone : "+d.phone,"E-mail : "+(d.email||"Non renseigné"),"Précisions : "+(d.message||"Aucune")].join("\n");}
-  function refreshLinks(){const d=quoteData();if(mail)mail.href="mailto:j2b.couverture@gmail.com?subject="+encodeURIComponent("Demande de devis - "+(d.city||"Toul"))+"&body="+encodeURIComponent(plain(d));if(wa)wa.href="https://wa.me/33601462612?text="+encodeURIComponent("Bonjour,\n\n"+plain(d)+"\n\nJe peux vous transmettre des photos.");}
-  if(form){form.addEventListener("input",refreshLinks);refreshLinks();form.addEventListener("submit",async function(e){e.preventDefault();const d=quoteData();if(!d.need||!d.city||!d.phone){status.textContent="Merci d'indiquer le type de travaux, la ville et votre téléphone.";status.style.color="#B32025";return;}status.textContent="Envoi de votre demande…";status.style.color="#182536";const body=plain(d)+"\n\nPage : "+location.href+"\nHeure : "+new Date().toLocaleString("fr-FR");const ok=await sendSiteNtfy("Nouveau devis J2B Toul",body,"urgent","telephone,memo,house");if(ok){status.textContent="✓ Demande envoyée. J2B Couverture peut maintenant vous recontacter.";status.style.color="#16794B";if(typeof window.gtag==="function")gtag("event","generate_lead",{method:"formulaire_devis",event_category:"Contact",event_label:"Accueil Toul"});}else{status.textContent="L'envoi automatique a échoué. Utilisez le bouton e-mail, WhatsApp ou appelez le 06 01 46 26 12.";status.style.color="#B32025";}});}
+      choices.querySelectorAll(".urgencyChoice").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const cfg=configs[btn.dataset.mode];
+      if(!cfg)return;
+
+      urgencyTitle.textContent=cfg.title;
+      urgencyText.textContent=cfg.text;
+      actions.innerHTML=cfg.actions;
+      result.classList.add("show");
+
+      if(typeof window.gtag==="function"){
+        gtag("event","urgence_toiture_choix",{
+          event_category:"Engagement",
+          event_label:btn.dataset.mode
+        });
+      }
+    });
+  }
+
+  /* FORMULAIRE RAPIDE */
+  const heroForm=document.getElementById("heroQuoteForm");
+  const heroStatus=document.getElementById("heroQuoteStatus");
+
+  function heroData(){
+    return{
+      need:(document.getElementById("hNeed")||{}).value||"",
+      city:(document.getElementById("hCity")||{}).value||"",
+      phone:(document.getElementById("hPhone")||{}).value||""
+    };
+  }
+
+  function heroPlain(d){
+    return[
+      "DEMANDE RAPIDE - J2B COUVERTURE TOUL",
+      "",
+      "Travaux : "+d.need,
+      "Ville : "+d.city,
+      "Téléphone : "+d.phone,
+      "",
+      "Formulaire : haut de page",
+      "Page : "+location.href,
+      "Heure : "+new Date().toLocaleString("fr-FR")
+    ].join("\n");
+  }
+
+  if(heroForm){
+    heroForm.addEventListener("submit",async function(e){
+      e.preventDefault();
+      const d=heroData();
+
+      if(!d.need||!d.city||!d.phone){
+        heroStatus.textContent="Merci d'indiquer les travaux, votre téléphone et la ville.";
+        heroStatus.style.color="#B32025";
+        return;
+      }
+
+      heroStatus.textContent="Envoi de votre demande…";
+      heroStatus.style.color="#182536";
+
+      const qNeed=document.getElementById("qNeed");
+      const qCity=document.getElementById("qCity");
+      const qPhone=document.getElementById("qPhone");
+
+      if(qNeed)qNeed.value=d.need;
+      if(qCity)qCity.value=d.city;
+      if(qPhone)qPhone.value=d.phone;
+
+      const ok=await sendSiteNtfy(
+        "Nouveau devis rapide J2B Toul",
+        heroPlain(d),
+        "urgent",
+        "telephone,memo,house"
+      );
+
+      if(ok){
+        heroStatus.textContent="✓ Demande envoyée. Nous pouvons maintenant vous rappeler.";
+        heroStatus.style.color="#16794B";
+
+        if(typeof window.gtag==="function"){
+          gtag("event","generate_lead",{
+            method:"formulaire_rapide_hero",
+            event_category:"Contact",
+            event_label:"Accueil Toul"
+          });
+        }
+      }else{
+        heroStatus.textContent="Envoi impossible. Appelez le 06 01 46 26 12 ou utilisez WhatsApp.";
+        heroStatus.style.color="#B32025";
+      }
+    });
+  }
+
+  /* FORMULAIRE DÉTAILLÉ */
+  const form=document.getElementById("quoteForm");
+  const mail=document.getElementById("quoteMail");
+  const wa=document.getElementById("quoteWa");
+  const status=document.getElementById("quoteStatus");
+
+  function quoteData(){
+    return{
+      need:(document.getElementById("qNeed")||{}).value||"",
+      city:(document.getElementById("qCity")||{}).value||"",
+      name:(document.getElementById("qName")||{}).value||"",
+      phone:(document.getElementById("qPhone")||{}).value||"",
+      email:(document.getElementById("qEmail")||{}).value||"",
+      message:(document.getElementById("qMessage")||{}).value||""
+    };
+  }
+
+  function plain(d){
+    return[
+      "DEMANDE DE DEVIS - J2B COUVERTURE",
+      "",
+      "Travaux : "+d.need,
+      "Ville : "+d.city,
+      "Nom : "+(d.name||"Non renseigné"),
+      "Téléphone : "+d.phone,
+      "E-mail : "+(d.email||"Non renseigné"),
+      "Précisions : "+(d.message||"Aucune")
+    ].join("\n");
+  }
+
+  function refreshLinks(){
+    const d=quoteData();
+
+    if(mail){
+      mail.href=
+        "mailto:j2b.couverture@gmail.com?subject="+
+        encodeURIComponent("Demande de devis - "+(d.city||"Toul"))+
+        "&body="+encodeURIComponent(plain(d));
+    }
+
+    if(wa){
+      wa.href=
+        "https://wa.me/33601462612?text="+
+        encodeURIComponent("Bonjour,\n\n"+plain(d)+"\n\nJe peux vous transmettre des photos.");
+    }
+  }
+
+  if(form){
+    form.addEventListener("input",refreshLinks);
+    refreshLinks();
+
+    form.addEventListener("submit",async function(e){
+      e.preventDefault();
+      const d=quoteData();
+
+      if(!d.need||!d.city||!d.phone){
+        status.textContent="Merci d'indiquer le type de travaux, la ville et votre téléphone.";
+        status.style.color="#B32025";
+        return;
+      }
+
+      status.textContent="Envoi de votre demande…";
+      status.style.color="#182536";
+
+      const body=
+        plain(d)+
+        "\n\nPage : "+location.href+
+        "\nHeure : "+new Date().toLocaleString("fr-FR");
+
+      const ok=await sendSiteNtfy(
+        "Nouveau devis J2B Toul",
+        body,
+        "urgent",
+        "telephone,memo,house"
+      );
+
+      if(ok){
+        status.textContent="✓ Demande envoyée. J2B Couverture peut maintenant vous recontacter.";
+        status.style.color="#16794B";
+
+        if(typeof window.gtag==="function"){
+          gtag("event","generate_lead",{
+            method:"formulaire_devis",
+            event_category:"Contact",
+            event_label:"Accueil Toul"
+          });
+        }
+      }else{
+        status.textContent="L'envoi automatique a échoué. Utilisez le bouton e-mail, WhatsApp ou appelez le 06 01 46 26 12.";
+        status.style.color="#B32025";
+      }
+    });
+  }
 })();
 </script>
 
 <!-- =========================================================
-     SUIVI NTFY + GOOGLE ADS V9 CORRIGÉ
-     - notification visiteur marquée "envoyée" seulement APRÈS succès
-     - 2 tentatives fetch + fallback sendBeacon
-     - envoi navigation-safe pour téléphone / WhatsApp / e-mail
-     - suivi de la copie de l'adresse e-mail
-     - pas de doublon de notification formulaire pour les 2 formulaires principaux
-     - conservation nouveau / déjà venu + clics Ads distincts
+     SUIVI NTFY + GOOGLE ADS
+     - nouveau / déjà venu
+     - détection GCLID / GBRAID / WBRAID
+     - clics téléphone / WhatsApp / e-mail
+     - événements GA4
      ========================================================= -->
 <script>
 (function(){
   "use strict";
 
   const NTFY_TOPIC="https://ntfy.sh/j2b-visites-X83LmP91Qa";
-  const STORAGE_KEY="j2b_toul_tracking_v9";
-  const VISITOR_SENT_KEY="j2b_toul_visitor_sent_v9";
-  const VISITOR_PROFILE_KEY="j2b_toul_visitor_profile_v2";
-  const VISIT_COUNTED_KEY="j2b_toul_visit_counted_v2";
-  const ADS_CLICKS_KEY="j2b_toul_ads_clicks_v2";
-  const ADS_ALERT_SENT_KEY="j2b_toul_ads_alert_sent_v9";
-  const CONTACT_DEDUPE_KEY="j2b_toul_contact_dedupe_v9";
+  const STORAGE_KEY="j2b_toul_tracking_v10_ads";
+  const VISITOR_SENT_KEY="j2b_toul_visitor_sent_v10_ads";
+  const VISITOR_PROFILE_KEY="j2b_toul_visitor_profile_v3";
+  const VISIT_COUNTED_KEY="j2b_toul_visit_counted_v3";
+  const ADS_CLICKS_KEY="j2b_toul_ads_clicks_v3";
+  const ADS_ALERT_SENT_KEY="j2b_toul_ads_alert_sent_v10_ads";
+  const CONTACT_DEDUPE_KEY="j2b_toul_contact_dedupe_v10_ads";
 
-  function buildUrl(title,priority,tags){return NTFY_TOPIC+"?title="+encodeURIComponent(title)+"&priority="+encodeURIComponent(priority||"high")+"&tags="+encodeURIComponent(tags||"eyes,house");}
+  function buildUrl(title,priority,tags){
+    return NTFY_TOPIC+
+      "?title="+encodeURIComponent(title)+
+      "&priority="+encodeURIComponent(priority||"high")+
+      "&tags="+encodeURIComponent(tags||"eyes,house");
+  }
+
   function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
   async function sendNtfy(title,message,priority,tags){
     const url=buildUrl(title,priority,tags);
+
     for(let attempt=0;attempt<2;attempt++){
       try{
-        const response=await fetch(url,{method:"POST",body:message,keepalive:true,cache:"no-store"});
+        const response=await fetch(url,{
+          method:"POST",
+          body:message,
+          keepalive:true,
+          cache:"no-store"
+        });
         if(response.ok)return true;
       }catch(e){}
+
       if(attempt===0)await sleep(300);
     }
+
     try{
       if(typeof navigator.sendBeacon==="function"){
         const blob=new Blob([message],{type:"text/plain;charset=UTF-8"});
         if(navigator.sendBeacon(url,blob))return true;
       }
     }catch(e){}
+
     return false;
   }
 
   function sendNtfyFast(title,message,priority,tags){
     const url=buildUrl(title,priority,tags);
+
     try{
       if(typeof navigator.sendBeacon==="function"){
         const blob=new Blob([message],{type:"text/plain;charset=UTF-8"});
         if(navigator.sendBeacon(url,blob))return true;
       }
     }catch(e){}
+
     try{
-      fetch(url,{method:"POST",body:message,keepalive:true,cache:"no-store"}).catch(function(){});
+      fetch(url,{
+        method:"POST",
+        body:message,
+        keepalive:true,
+        cache:"no-store"
+      }).catch(function(){});
       return true;
-    }catch(e){return false;}
+    }catch(e){
+      return false;
+    }
   }
 
-  window.J2BNtfy={send:sendNtfy,sendFast:sendNtfyFast,topic:NTFY_TOPIC,version:"9"};
+  window.J2BNtfy={
+    send:sendNtfy,
+    sendFast:sendNtfyFast,
+    topic:NTFY_TOPIC,
+    version:"10-ads"
+  };
 
   function getParams(){return new URLSearchParams(window.location.search);}
-  function clean(value){if(!value)return"";try{return decodeURIComponent(String(value).replace(/\+/g," "));}catch(e){return String(value);}}
+  function clean(value){
+    if(!value)return"";
+    try{
+      return decodeURIComponent(String(value).replace(/\+/g," "));
+    }catch(e){
+      return String(value);
+    }
+  }
+
   function now(){return new Date().toLocaleString("fr-FR");}
   function nowIso(){return new Date().toISOString();}
-  function formatIsoDate(value){if(!value)return"";try{return new Date(value).toLocaleString("fr-FR");}catch(e){return String(value);}}
+  function formatIsoDate(value){
+    if(!value)return"";
+    try{return new Date(value).toLocaleString("fr-FR");}
+    catch(e){return String(value);}
+  }
+
   function pageName(){return document.title||window.location.pathname||"Page inconnue";}
   function currentPage(){return window.location.pathname||"/";}
   function currentFullUrl(){return window.location.href;}
-  function getDeviceFromValueTrack(value){if(!value)return"";value=String(value).toLowerCase();if(value==="m")return"📱 Téléphone";if(value==="t")return"📱 Tablette";if(value==="c")return"💻 Ordinateur";return"";}
-  function getBrowserDevice(){const ua=navigator.userAgent||"",platform=navigator.platform||"",touchPoints=navigator.maxTouchPoints||0;const isIPad=/iPad/i.test(ua)||(platform==="MacIntel"&&touchPoints>1);const isTablet=isIPad||/Tablet|PlayBook|Silk/i.test(ua)||(/Android/i.test(ua)&&!/Mobile/i.test(ua));if(isTablet)return"📱 Tablette";const isPhone=/iPhone|iPod|Windows Phone|IEMobile|Opera Mini/i.test(ua)||(/Android/i.test(ua)&&/Mobile/i.test(ua))||/Mobi/i.test(ua);return isPhone?"📱 Téléphone":"💻 Ordinateur";}
-  function getOperatingSystem(){const ua=navigator.userAgent||"",platform=navigator.platform||"",touchPoints=navigator.maxTouchPoints||0;if(/iPhone|iPod/i.test(ua))return"🍎 iOS (iPhone)";if(/iPad/i.test(ua)||(platform==="MacIntel"&&touchPoints>1))return"🍎 iPadOS (iPad)";if(/Android/i.test(ua))return"🤖 Android";if(/Windows NT/i.test(ua))return"🪟 Windows";if(/CrOS/i.test(ua))return"💻 ChromeOS";if(/Macintosh|Mac OS X/i.test(ua))return"🍎 macOS";if(/Linux/i.test(ua))return"🐧 Linux";return"Système inconnu";}
-  function getMatchType(value){if(!value)return"";value=String(value).toLowerCase();if(value==="e")return"Exact";if(value==="p")return"Expression";if(value==="b")return"Requête large";return clean(value);}
-  function loadLocalJson(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}catch(e){return fallback;}}
-  function saveLocalJson(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch(e){return false;}}
-  function generateVisitorId(){try{if(window.crypto&&typeof window.crypto.randomUUID==="function")return window.crypto.randomUUID();}catch(e){}return"j2b-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10);}
+
+  function getDeviceFromValueTrack(value){
+    if(!value)return"";
+    value=String(value).toLowerCase();
+    if(value==="m")return"📱 Téléphone";
+    if(value==="t")return"📱 Tablette";
+    if(value==="c")return"💻 Ordinateur";
+    return"";
+  }
+
+  function getBrowserDevice(){
+    const ua=navigator.userAgent||"";
+    const platform=navigator.platform||"";
+    const touchPoints=navigator.maxTouchPoints||0;
+
+    const isIPad=
+      /iPad/i.test(ua)||
+      (platform==="MacIntel"&&touchPoints>1);
+
+    const isTablet=
+      isIPad||
+      /Tablet|PlayBook|Silk/i.test(ua)||
+      (/Android/i.test(ua)&&!/Mobile/i.test(ua));
+
+    if(isTablet)return"📱 Tablette";
+
+    const isPhone=
+      /iPhone|iPod|Windows Phone|IEMobile|Opera Mini/i.test(ua)||
+      (/Android/i.test(ua)&&/Mobile/i.test(ua))||
+      /Mobi/i.test(ua);
+
+    return isPhone?"📱 Téléphone":"💻 Ordinateur";
+  }
+
+  function getOperatingSystem(){
+    const ua=navigator.userAgent||"";
+    const platform=navigator.platform||"";
+    const touchPoints=navigator.maxTouchPoints||0;
+
+    if(/iPhone|iPod/i.test(ua))return"🍎 iOS (iPhone)";
+    if(/iPad/i.test(ua)||(platform==="MacIntel"&&touchPoints>1))return"🍎 iPadOS (iPad)";
+    if(/Android/i.test(ua))return"🤖 Android";
+    if(/Windows NT/i.test(ua))return"🪟 Windows";
+    if(/CrOS/i.test(ua))return"💻 ChromeOS";
+    if(/Macintosh|Mac OS X/i.test(ua))return"🍎 macOS";
+    if(/Linux/i.test(ua))return"🐧 Linux";
+    return"Système inconnu";
+  }
+
+  function getMatchType(value){
+    if(!value)return"";
+    value=String(value).toLowerCase();
+    if(value==="e")return"Exact";
+    if(value==="p")return"Expression";
+    if(value==="b")return"Requête large";
+    return clean(value);
+  }
+
+  function loadLocalJson(key,fallback){
+    try{
+      const raw=localStorage.getItem(key);
+      return raw?JSON.parse(raw):fallback;
+    }catch(e){
+      return fallback;
+    }
+  }
+
+  function saveLocalJson(key,value){
+    try{
+      localStorage.setItem(key,JSON.stringify(value));
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  function generateVisitorId(){
+    try{
+      if(window.crypto&&typeof window.crypto.randomUUID==="function"){
+        return window.crypto.randomUUID();
+      }
+    }catch(e){}
+
+    return"j2b-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10);
+  }
 
   function resolveVisitor(){
     const previous=loadLocalJson(VISITOR_PROFILE_KEY,null);
     const returning=!!(previous&&previous.id&&previous.firstSeen);
-    let countedThisSession=false;try{countedThisSession=sessionStorage.getItem(VISIT_COUNTED_KEY)==="1";}catch(e){}
+
+    let countedThisSession=false;
+    try{
+      countedThisSession=sessionStorage.getItem(VISIT_COUNTED_KEY)==="1";
+    }catch(e){}
+
     let visits=returning&&Number(previous.visits)?Number(previous.visits):0;
-    if(!countedThisSession){visits+=1;try{sessionStorage.setItem(VISIT_COUNTED_KEY,"1");}catch(e){}}
-    const profile={id:returning?previous.id:generateVisitorId(),firstSeen:returning?previous.firstSeen:nowIso(),lastSeen:nowIso(),visits:visits};
+
+    if(!countedThisSession){
+      visits+=1;
+      try{sessionStorage.setItem(VISIT_COUNTED_KEY,"1");}catch(e){}
+    }
+
+    const profile={
+      id:returning?previous.id:generateVisitorId(),
+      firstSeen:returning?previous.firstSeen:nowIso(),
+      lastSeen:nowIso(),
+      visits:visits
+    };
+
     saveLocalJson(VISITOR_PROFILE_KEY,profile);
-    return{type:returning?"returning":"new",label:returning?"🔵 DÉJÀ VENU":"🟢 NOUVEAU VISITEUR",id:profile.id,visits:profile.visits,firstSeen:profile.firstSeen,previousLastSeen:returning&&previous.lastSeen?previous.lastSeen:""};
+
+    return{
+      type:returning?"returning":"new",
+      label:returning?"🔵 DÉJÀ VENU":"🟢 NOUVEAU VISITEUR",
+      id:profile.id,
+      visits:profile.visits,
+      firstSeen:profile.firstSeen,
+      previousLastSeen:returning&&previous.lastSeen?previous.lastSeen:""
+    };
   }
 
-  function loadSession(){try{const raw=sessionStorage.getItem(STORAGE_KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
-  function saveSession(data){try{sessionStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
+  function loadSession(){
+    try{
+      const raw=sessionStorage.getItem(STORAGE_KEY);
+      return raw?JSON.parse(raw):null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  function saveSession(data){
+    try{
+      sessionStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    }catch(e){}
+  }
 
   function detectTraffic(){
     const p=getParams();
-    const data={source:"",medium:"",campaign:"",campaignId:"",adGroupId:"",keyword:"",matchType:"",device:"",os:"",network:"",creative:"",targetId:"",gclid:"",gbraid:"",wbraid:""};
-    data.gclid=clean(p.get("gclid"));data.gbraid=clean(p.get("gbraid"));data.wbraid=clean(p.get("wbraid"));
-    data.campaign=clean(p.get("campaign")||p.get("utm_campaign"));data.campaignId=clean(p.get("campaignid")||p.get("campaign_id"));data.adGroupId=clean(p.get("adgroupid")||p.get("adgroup_id"));data.keyword=clean(p.get("keyword")||p.get("utm_term"));data.matchType=getMatchType(clean(p.get("matchtype")));data.device=getDeviceFromValueTrack(clean(p.get("device")))||getBrowserDevice();data.os=getOperatingSystem();data.network=clean(p.get("network"));data.creative=clean(p.get("creative"));data.targetId=clean(p.get("targetid"));
-    if(data.gclid||data.gbraid||data.wbraid||p.get("gad_source")==="1"||data.campaignId||data.keyword){data.source="Google Ads";data.medium="CPC";return data;}
-    if(p.get("utm_source")){data.source=clean(p.get("utm_source"));data.medium=clean(p.get("utm_medium"));return data;}
-    if(document.referrer){try{const host=new URL(document.referrer).hostname.replace(/^www\./,"").toLowerCase();if(host.includes("google.")){data.source="Google naturel";data.medium="Organic";}else if(host.includes("bing.")){data.source="Bing";}else if(host.includes("facebook.")||host==="fb.com"){data.source="Facebook";}else if(host.includes("instagram.")){data.source="Instagram";}else{data.source=host;}return data;}catch(e){}}
-    data.source="Direct / inconnue";return data;
+
+    const data={
+      source:"",
+      medium:"",
+      campaign:"",
+      campaignId:"",
+      adGroupId:"",
+      keyword:"",
+      matchType:"",
+      device:"",
+      os:"",
+      network:"",
+      creative:"",
+      targetId:"",
+      gclid:"",
+      gbraid:"",
+      wbraid:""
+    };
+
+    data.gclid=clean(p.get("gclid"));
+    data.gbraid=clean(p.get("gbraid"));
+    data.wbraid=clean(p.get("wbraid"));
+    data.campaign=clean(p.get("campaign")||p.get("utm_campaign"));
+    data.campaignId=clean(p.get("campaignid")||p.get("campaign_id"));
+    data.adGroupId=clean(p.get("adgroupid")||p.get("adgroup_id"));
+    data.keyword=clean(p.get("keyword")||p.get("utm_term"));
+    data.matchType=getMatchType(clean(p.get("matchtype")));
+    data.device=getDeviceFromValueTrack(clean(p.get("device")))||getBrowserDevice();
+    data.os=getOperatingSystem();
+    data.network=clean(p.get("network"));
+    data.creative=clean(p.get("creative"));
+    data.targetId=clean(p.get("targetid"));
+
+    if(
+      data.gclid||
+      data.gbraid||
+      data.wbraid||
+      p.get("gad_source")==="1"||
+      data.campaignId||
+      data.keyword
+    ){
+      data.source="Google Ads";
+      data.medium="CPC";
+      return data;
+    }
+
+    if(p.get("utm_source")){
+      data.source=clean(p.get("utm_source"));
+      data.medium=clean(p.get("utm_medium"));
+      return data;
+    }
+
+    if(document.referrer){
+      try{
+        const host=new URL(document.referrer).hostname.replace(/^www\./,"").toLowerCase();
+
+        if(host.includes("google.")){
+          data.source="Google naturel";
+          data.medium="Organic";
+        }else if(host.includes("bing.")){
+          data.source="Bing";
+        }else if(host.includes("facebook.")||host==="fb.com"){
+          data.source="Facebook";
+        }else if(host.includes("instagram.")){
+          data.source="Instagram";
+        }else{
+          data.source=host;
+        }
+        return data;
+      }catch(e){}
+    }
+
+    data.source="Direct / inconnue";
+    return data;
   }
 
-  function getAdsClickFingerprint(traffic){if(!traffic)return"";if(traffic.gclid)return"gclid:"+traffic.gclid;if(traffic.gbraid)return"gbraid:"+traffic.gbraid;if(traffic.wbraid)return"wbraid:"+traffic.wbraid;return"";}
+  function getAdsClickFingerprint(traffic){
+    if(!traffic)return"";
+    if(traffic.gclid)return"gclid:"+traffic.gclid;
+    if(traffic.gbraid)return"gbraid:"+traffic.gbraid;
+    if(traffic.wbraid)return"wbraid:"+traffic.wbraid;
+    return"";
+  }
+
   function registerAdsClick(traffic){
-    const fingerprint=getAdsClickFingerprint(traffic);const previousClicks=loadLocalJson(ADS_CLICKS_KEY,[]);let clicks=Array.isArray(previousClicks)?previousClicks:[];const previousCount=clicks.length;
-    if(traffic.source!=="Google Ads")return{isAds:false,verifiable:false,isNewDistinctClick:false,count:previousCount,previousCount:previousCount};
-    if(!fingerprint)return{isAds:true,verifiable:false,isNewDistinctClick:false,count:previousCount,previousCount:previousCount};
-    const alreadyKnown=clicks.includes(fingerprint);if(!alreadyKnown){clicks.push(fingerprint);if(clicks.length>50)clicks=clicks.slice(-50);saveLocalJson(ADS_CLICKS_KEY,clicks);}
-    return{isAds:true,verifiable:true,isNewDistinctClick:!alreadyKnown,count:clicks.length,previousCount:previousCount};
+    const fingerprint=getAdsClickFingerprint(traffic);
+    const previousClicks=loadLocalJson(ADS_CLICKS_KEY,[]);
+    let clicks=Array.isArray(previousClicks)?previousClicks:[];
+    const previousCount=clicks.length;
+
+    if(traffic.source!=="Google Ads"){
+      return{
+        isAds:false,
+        verifiable:false,
+        isNewDistinctClick:false,
+        count:previousCount,
+        previousCount:previousCount
+      };
+    }
+
+    if(!fingerprint){
+      return{
+        isAds:true,
+        verifiable:false,
+        isNewDistinctClick:false,
+        count:previousCount,
+        previousCount:previousCount
+      };
+    }
+
+    const alreadyKnown=clicks.includes(fingerprint);
+
+    if(!alreadyKnown){
+      clicks.push(fingerprint);
+      if(clicks.length>50)clicks=clicks.slice(-50);
+      saveLocalJson(ADS_CLICKS_KEY,clicks);
+    }
+
+    return{
+      isAds:true,
+      verifiable:true,
+      isNewDistinctClick:!alreadyKnown,
+      count:clicks.length,
+      previousCount:previousCount
+    };
   }
 
   let session=loadSession();
-  if(!session){const traffic=detectTraffic(),visitor=resolveVisitor();session={startedAt:now(),entryPage:currentPage(),entryTitle:pageName(),entryUrl:currentFullUrl(),source:traffic.source,medium:traffic.medium,campaign:traffic.campaign,campaignId:traffic.campaignId,adGroupId:traffic.adGroupId,keyword:traffic.keyword,matchType:traffic.matchType,device:traffic.device,os:traffic.os,network:traffic.network,creative:traffic.creative,targetId:traffic.targetId,gclid:traffic.gclid,gbraid:traffic.gbraid,wbraid:traffic.wbraid,visitorType:visitor.type,visitorLabel:visitor.label,visitorId:visitor.id,visitorVisits:visitor.visits,visitorFirstSeen:visitor.firstSeen,visitorPreviousLastSeen:visitor.previousLastSeen,pages:[],actions:[]};}
+
+  if(!session){
+    const traffic=detectTraffic();
+    const visitor=resolveVisitor();
+
+    session={
+      startedAt:now(),
+      entryPage:currentPage(),
+      entryTitle:pageName(),
+      entryUrl:currentFullUrl(),
+      source:traffic.source,
+      medium:traffic.medium,
+      campaign:traffic.campaign,
+      campaignId:traffic.campaignId,
+      adGroupId:traffic.adGroupId,
+      keyword:traffic.keyword,
+      matchType:traffic.matchType,
+      device:traffic.device,
+      os:traffic.os,
+      network:traffic.network,
+      creative:traffic.creative,
+      targetId:traffic.targetId,
+      gclid:traffic.gclid,
+      gbraid:traffic.gbraid,
+      wbraid:traffic.wbraid,
+      visitorType:visitor.type,
+      visitorLabel:visitor.label,
+      visitorId:visitor.id,
+      visitorVisits:visitor.visits,
+      visitorFirstSeen:visitor.firstSeen,
+      visitorPreviousLastSeen:visitor.previousLastSeen,
+      pages:[],
+      actions:[]
+    };
+  }
 
   const freshTraffic=detectTraffic();
-  ["source","medium","campaign","campaignId","adGroupId","keyword","matchType","network","creative","targetId","gclid","gbraid","wbraid"].forEach(function(key){if(!session[key]&&freshTraffic[key])session[key]=freshTraffic[key];});
-  session.device=freshTraffic.device||getBrowserDevice();session.os=freshTraffic.os||getOperatingSystem();
-  const adsClickInfo=registerAdsClick(freshTraffic);session.adsClickCount=adsClickInfo.count;session.adsClickVerifiable=adsClickInfo.verifiable;session.newDistinctAdsClick=adsClickInfo.isNewDistinctClick;
-  const pageRecord={path:currentPage(),title:pageName(),time:now()};const lastPage=session.pages&&session.pages.length?session.pages[session.pages.length-1]:null;if(!lastPage||lastPage.path!==pageRecord.path){session.pages=session.pages||[];session.pages.push(pageRecord);}saveSession(session);
 
-  function journeyText(){if(!session.pages||!session.pages.length)return"Aucune page enregistrée";return session.pages.map((p,i)=>(i+1)+". "+p.path).join("\n");}
-  function visitorInfoLines(){const lines=[];lines.push("Type : "+(session.visitorLabel||"Visiteur inconnu"));if(session.visitorVisits)lines.push("Nombre de visites : "+session.visitorVisits);if(session.visitorFirstSeen)lines.push("Première visite : "+formatIsoDate(session.visitorFirstSeen));if(session.visitorPreviousLastSeen)lines.push("Dernière visite précédente : "+formatIsoDate(session.visitorPreviousLastSeen));return lines;}
-  function adsInfoLines(){const lines=[];lines.push("Provenance : "+(session.source||"Inconnue"));if(session.medium)lines.push("Support : "+session.medium);lines.push("Appareil : "+(session.device||getBrowserDevice()));lines.push("Système : "+(session.os||getOperatingSystem()));if(session.campaign)lines.push("Campagne : "+session.campaign);if(session.campaignId)lines.push("ID campagne : "+session.campaignId);if(session.adGroupId)lines.push("ID groupe : "+session.adGroupId);if(session.keyword)lines.push("Mot-clé déclencheur : "+session.keyword);if(session.matchType)lines.push("Correspondance : "+session.matchType);if(session.network)lines.push("Réseau : "+session.network);if(session.creative)lines.push("Annonce / creative : "+session.creative);if(session.targetId)lines.push("Cible : "+session.targetId);if(session.source==="Google Ads"){if(session.adsClickVerifiable)lines.push("Clics Ads distincts observés : "+session.adsClickCount);else lines.push("Clic Ads distinct : non vérifiable (aucun gclid/gbraid/wbraid)");}return lines;}
+  [
+    "source",
+    "medium",
+    "campaign",
+    "campaignId",
+    "adGroupId",
+    "keyword",
+    "matchType",
+    "network",
+    "creative",
+    "targetId",
+    "gclid",
+    "gbraid",
+    "wbraid"
+  ].forEach(function(key){
+    if(!session[key]&&freshTraffic[key])session[key]=freshTraffic[key];
+  });
+
+  session.device=freshTraffic.device||getBrowserDevice();
+  session.os=freshTraffic.os||getOperatingSystem();
+
+  const adsClickInfo=registerAdsClick(freshTraffic);
+
+  session.adsClickCount=adsClickInfo.count;
+  session.adsClickVerifiable=adsClickInfo.verifiable;
+  session.newDistinctAdsClick=adsClickInfo.isNewDistinctClick;
+
+  const pageRecord={
+    path:currentPage(),
+    title:pageName(),
+    time:now()
+  };
+
+  const lastPage=
+    session.pages&&session.pages.length
+      ? session.pages[session.pages.length-1]
+      : null;
+
+  if(!lastPage||lastPage.path!==pageRecord.path){
+    session.pages=session.pages||[];
+    session.pages.push(pageRecord);
+  }
+
+  saveSession(session);
+
+  function journeyText(){
+    if(!session.pages||!session.pages.length)return"Aucune page enregistrée";
+    return session.pages.map((p,i)=>(i+1)+". "+p.path).join("\n");
+  }
+
+  function visitorInfoLines(){
+    const lines=[];
+    lines.push("Type : "+(session.visitorLabel||"Visiteur inconnu"));
+    if(session.visitorVisits)lines.push("Nombre de visites : "+session.visitorVisits);
+    if(session.visitorFirstSeen)lines.push("Première visite : "+formatIsoDate(session.visitorFirstSeen));
+    if(session.visitorPreviousLastSeen)lines.push("Dernière visite précédente : "+formatIsoDate(session.visitorPreviousLastSeen));
+    return lines;
+  }
+
+  function adsInfoLines(){
+    const lines=[];
+
+    lines.push("Provenance : "+(session.source||"Inconnue"));
+
+    if(session.medium)lines.push("Support : "+session.medium);
+
+    lines.push("Appareil : "+(session.device||getBrowserDevice()));
+    lines.push("Système : "+(session.os||getOperatingSystem()));
+
+    if(session.campaign)lines.push("Campagne : "+session.campaign);
+    if(session.campaignId)lines.push("ID campagne : "+session.campaignId);
+    if(session.adGroupId)lines.push("ID groupe : "+session.adGroupId);
+    if(session.keyword)lines.push("Mot-clé déclencheur : "+session.keyword);
+    if(session.matchType)lines.push("Correspondance : "+session.matchType);
+    if(session.network)lines.push("Réseau : "+session.network);
+    if(session.creative)lines.push("Annonce / creative : "+session.creative);
+    if(session.targetId)lines.push("Cible : "+session.targetId);
+
+    if(session.source==="Google Ads"){
+      if(session.adsClickVerifiable){
+        lines.push("Clics Ads distincts observés : "+session.adsClickCount);
+      }else{
+        lines.push("Clic Ads distinct : non vérifiable (aucun gclid/gbraid/wbraid)");
+      }
+    }
+
+    return lines;
+  }
 
   async function sendRepeatAdsAlert(){
-    let sent=false;try{sent=sessionStorage.getItem(ADS_ALERT_SENT_KEY)==="1";}catch(e){}
-    if(sent||session.source!=="Google Ads"||session.visitorType!=="returning"||!adsClickInfo.verifiable||!adsClickInfo.isNewDistinctClick||adsClickInfo.count<2)return;
-    const message=["MÊME VISITEUR - NOUVEAU CLIC GOOGLE ADS","",...visitorInfoLines(),"","💸 Nouveau clic Ads distinct observé : #"+adsClickInfo.count,"Clics Ads distincts précédents : "+adsClickInfo.previousCount,"","Page d'arrivée : "+currentPage(),"Titre : "+pageName(),"",...adsInfoLines(),"","Heure : "+now(),"","⚠️ Cela indique un nouvel identifiant de clic Ads observé sur ce navigateur.","Cela ne garantit pas à lui seul que Google a facturé ce clic."].join("\n");
-    const ok=await sendNtfy("💸 Même visiteur - nouveau clic Ads #"+adsClickInfo.count,message,"high","moneybag,repeat,eyes,house");
-    if(ok){try{sessionStorage.setItem(ADS_ALERT_SENT_KEY,"1");}catch(e){}}
+    let sent=false;
+
+    try{
+      sent=sessionStorage.getItem(ADS_ALERT_SENT_KEY)==="1";
+    }catch(e){}
+
+    if(
+      sent||
+      session.source!=="Google Ads"||
+      session.visitorType!=="returning"||
+      !adsClickInfo.verifiable||
+      !adsClickInfo.isNewDistinctClick||
+      adsClickInfo.count<2
+    )return;
+
+    const message=[
+      "MÊME VISITEUR - NOUVEAU CLIC GOOGLE ADS",
+      "",
+      ...visitorInfoLines(),
+      "",
+      "💸 Nouveau clic Ads distinct observé : #"+adsClickInfo.count,
+      "Clics Ads distincts précédents : "+adsClickInfo.previousCount,
+      "",
+      "Page d'arrivée : "+currentPage(),
+      "Titre : "+pageName(),
+      "",
+      ...adsInfoLines(),
+      "",
+      "Heure : "+now(),
+      "",
+      "⚠️ Cela indique un nouvel identifiant de clic Ads observé sur ce navigateur.",
+      "Cela ne garantit pas à lui seul que Google a facturé ce clic."
+    ].join("\n");
+
+    const ok=await sendNtfy(
+      "💸 Même visiteur - nouveau clic Ads #"+adsClickInfo.count,
+      message,
+      "high",
+      "moneybag,repeat,eyes,house"
+    );
+
+    if(ok){
+      try{
+        sessionStorage.setItem(ADS_ALERT_SENT_KEY,"1");
+      }catch(e){}
+    }
   }
 
   let visitorSending=false;
+
   async function trySendVisitor(){
-    let sent=false;try{sent=sessionStorage.getItem(VISITOR_SENT_KEY)==="1";}catch(e){}
+    let sent=false;
+
+    try{
+      sent=sessionStorage.getItem(VISITOR_SENT_KEY)==="1";
+    }catch(e){}
+
     if(sent||visitorSending)return true;
+
     visitorSending=true;
-    const visitorMessage=[(session.visitorLabel||"VISITEUR")+" - J2B COUVERTURE TOUL","",...visitorInfoLines(),"","Page d'entrée : "+session.entryPage,"Titre : "+session.entryTitle,"",...adsInfoLines(),"","Début de session : "+session.startedAt].join("\n");
-    let visitorTitle="🟢 Nouveau visiteur - J2B Toul",visitorPriority="default",visitorTags="eyes,house";
-    if(session.visitorType==="returning"){visitorTitle="🔵 Visiteur déjà venu - J2B Toul";visitorTags="repeat,eyes,house";}
-    if(session.source==="Google Ads"&&session.visitorType==="new"){visitorTitle="🔥 🟢 Nouveau visiteur Google Ads - J2B Toul";visitorPriority="high";visitorTags="moneybag,eyes,house";}
-    if(session.source==="Google Ads"&&session.visitorType==="returning"){visitorTitle=(adsClickInfo.verifiable&&adsClickInfo.isNewDistinctClick&&adsClickInfo.count>=2)?"💸 🔵 Déjà venu + nouveau clic Ads #"+adsClickInfo.count+" - J2B Toul":"🔥 🔵 Visiteur déjà venu Google Ads - J2B Toul";visitorPriority="high";visitorTags="moneybag,repeat,eyes,house";}
-    const ok=await sendNtfy(visitorTitle,visitorMessage,visitorPriority,visitorTags);
-    if(ok){try{sessionStorage.setItem(VISITOR_SENT_KEY,"1");}catch(e){}}
+
+    const visitorMessage=[
+      (session.visitorLabel||"VISITEUR")+" - J2B COUVERTURE TOUL",
+      "",
+      ...visitorInfoLines(),
+      "",
+      "Page d'entrée : "+session.entryPage,
+      "Titre : "+session.entryTitle,
+      "",
+      ...adsInfoLines(),
+      "",
+      "Début de session : "+session.startedAt
+    ].join("\n");
+
+    let visitorTitle="🟢 Nouveau visiteur - J2B Toul";
+    let visitorPriority="default";
+    let visitorTags="eyes,house";
+
+    if(session.visitorType==="returning"){
+      visitorTitle="🔵 Visiteur déjà venu - J2B Toul";
+      visitorTags="repeat,eyes,house";
+    }
+
+    if(session.source==="Google Ads"&&session.visitorType==="new"){
+      visitorTitle="🔥 🟢 Nouveau visiteur Google Ads - J2B Toul";
+      visitorPriority="high";
+      visitorTags="moneybag,eyes,house";
+    }
+
+    if(session.source==="Google Ads"&&session.visitorType==="returning"){
+      visitorTitle=
+        (adsClickInfo.verifiable&&adsClickInfo.isNewDistinctClick&&adsClickInfo.count>=2)
+          ? "💸 🔵 Déjà venu + nouveau clic Ads #"+adsClickInfo.count+" - J2B Toul"
+          : "🔥 🔵 Visiteur déjà venu Google Ads - J2B Toul";
+
+      visitorPriority="high";
+      visitorTags="moneybag,repeat,eyes,house";
+    }
+
+    const ok=await sendNtfy(
+      visitorTitle,
+      visitorMessage,
+      visitorPriority,
+      visitorTags
+    );
+
+    if(ok){
+      try{
+        sessionStorage.setItem(VISITOR_SENT_KEY,"1");
+      }catch(e){}
+    }
+
     visitorSending=false;
     return ok;
   }
 
-  trySendVisitor().then(function(ok){if(!ok)setTimeout(trySendVisitor,2500);});
-  sendRepeatAdsAlert();
-  window.addEventListener("online",function(){trySendVisitor();sendRepeatAdsAlert();});
-  document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")trySendVisitor();});
-  window.addEventListener("pagehide",function(){
-    let sent=false;try{sent=sessionStorage.getItem(VISITOR_SENT_KEY)==="1";}catch(e){}
-    if(!sent){const msg=[(session.visitorLabel||"VISITEUR")+" - J2B COUVERTURE TOUL","",...visitorInfoLines(),"","Page d'entrée : "+session.entryPage,"Titre : "+session.entryTitle,"",...adsInfoLines(),"","Début de session : "+session.startedAt].join("\n");sendNtfyFast("⚠️ Visiteur - envoi de secours J2B Toul",msg,"high","eyes,house");}
+  trySendVisitor().then(function(ok){
+    if(!ok)setTimeout(trySendVisitor,2500);
   });
 
-  function registerAction(type,label){const action={type:type,label:label||"",page:currentPage(),time:now()};session.actions=session.actions||[];session.actions.push(action);saveSession(session);return action;}
-  function recentlySent(signature){const state=loadLocalJson(CONTACT_DEDUPE_KEY,{sig:"",time:0});const t=Date.now();if(state.sig===signature&&t-state.time<1500)return true;saveLocalJson(CONTACT_DEDUPE_KEY,{sig:signature,time:t});return false;}
+  sendRepeatAdsAlert();
 
+  window.addEventListener("online",function(){
+    trySendVisitor();
+    sendRepeatAdsAlert();
+  });
+
+  document.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="visible")trySendVisitor();
+  });
+
+  window.addEventListener("pagehide",function(){
+    let sent=false;
+
+    try{
+      sent=sessionStorage.getItem(VISITOR_SENT_KEY)==="1";
+    }catch(e){}
+
+    if(!sent){
+      const msg=[
+        (session.visitorLabel||"VISITEUR")+" - J2B COUVERTURE TOUL",
+        "",
+        ...visitorInfoLines(),
+        "",
+        "Page d'entrée : "+session.entryPage,
+        "Titre : "+session.entryTitle,
+        "",
+        ...adsInfoLines(),
+        "",
+        "Début de session : "+session.startedAt
+      ].join("\n");
+
+      sendNtfyFast(
+        "⚠️ Visiteur - envoi de secours J2B Toul",
+        msg,
+        "high",
+        "eyes,house"
+      );
+    }
+  });
+
+  function registerAction(type,label){
+    const action={
+      type:type,
+      label:label||"",
+      page:currentPage(),
+      time:now()
+    };
+
+    session.actions=session.actions||[];
+    session.actions.push(action);
+    saveSession(session);
+
+    return action;
+  }
+
+  function recentlySent(signature){
+    const state=loadLocalJson(CONTACT_DEDUPE_KEY,{sig:"",time:0});
+    const t=Date.now();
+
+    if(state.sig===signature&&t-state.time<1500)return true;
+
+    saveLocalJson(CONTACT_DEDUPE_KEY,{sig:signature,time:t});
+    return false;
+  }
+
+  /* CLICS CONTACT */
   document.addEventListener("click",function(event){
-    const target=event.target.closest("a,button");if(!target)return;
-    const href=target.getAttribute("href")||"";const label=(target.textContent||target.getAttribute("aria-label")||target.getAttribute("title")||"Bouton").replace(/\s+/g," ").trim();
-    let actionType="";if(/^tel:/i.test(href))actionType="APPEL";else if(/wa\.me|whatsapp/i.test(href))actionType="WHATSAPP";else if(/^mailto:/i.test(href))actionType="EMAIL";if(!actionType)return;
-    const signature=actionType+"|"+href+"|"+currentPage();if(recentlySent(signature))return;
+    const target=event.target.closest("a,button");
+    if(!target)return;
+
+    const href=target.getAttribute("href")||"";
+    const label=(
+      target.textContent||
+      target.getAttribute("aria-label")||
+      target.getAttribute("title")||
+      "Bouton"
+    ).replace(/\s+/g," ").trim();
+
+    let actionType="";
+
+    if(/^tel:/i.test(href)){
+      actionType="APPEL";
+    }else if(/wa\.me|whatsapp/i.test(href)){
+      actionType="WHATSAPP";
+    }else if(/^mailto:/i.test(href)){
+      actionType="EMAIL";
+    }
+
+    if(!actionType)return;
+
+    const signature=actionType+"|"+href+"|"+currentPage();
+    if(recentlySent(signature))return;
+
     registerAction(actionType,label);
-    const message=[actionType+" - J2B COUVERTURE TOUL","","Action : "+actionType,"Bouton : "+label,"Page du clic : "+currentPage(),"",...visitorInfoLines(),"","Page d'entrée : "+session.entryPage,"",...adsInfoLines(),"","PARCOURS DU VISITEUR :",journeyText(),"","Heure du clic : "+now()].join("\n");
-    let title="Action visiteur - J2B Toul",tags="bell,house";if(actionType==="APPEL"){title="📞 CLIC SUR APPELER - J2B Toul";tags="telephone,fire,house";}if(actionType==="WHATSAPP"){title="💬 Clic WhatsApp - J2B Toul";tags="speech_balloon,house";}if(actionType==="EMAIL"){title="✉️ Clic E-mail - J2B Toul";tags="email,house";}
+
+    const message=[
+      actionType+" - J2B COUVERTURE TOUL",
+      "",
+      "Action : "+actionType,
+      "Bouton : "+label,
+      "Page du clic : "+currentPage(),
+      "",
+      ...visitorInfoLines(),
+      "",
+      "Page d'entrée : "+session.entryPage,
+      "",
+      ...adsInfoLines(),
+      "",
+      "PARCOURS DU VISITEUR :",
+      journeyText(),
+      "",
+      "Heure du clic : "+now()
+    ].join("\n");
+
+    let title="Action visiteur - J2B Toul";
+    let tags="bell,house";
+
+    if(actionType==="APPEL"){
+      title="📞 CLIC SUR APPELER - J2B Toul";
+      tags="telephone,fire,house";
+    }
+
+    if(actionType==="WHATSAPP"){
+      title="💬 Clic WhatsApp - J2B Toul";
+      tags="speech_balloon,house";
+    }
+
+    if(actionType==="EMAIL"){
+      title="✉️ Clic E-mail - J2B Toul";
+      tags="email,house";
+    }
+
     sendNtfyFast(title,message,"urgent",tags);
-    if(typeof window.gtag==="function"){const eventName=actionType==="APPEL"?"click_appel":actionType==="WHATSAPP"?"click_whatsapp":"click_email";window.gtag("event",eventName,{event_category:"Contact",event_label:label,page_path:currentPage()});}
+
+    if(typeof window.gtag==="function"){
+      const eventName=
+        actionType==="APPEL"
+          ? "click_appel"
+          : actionType==="WHATSAPP"
+            ? "click_whatsapp"
+            : "click_email";
+
+      window.gtag("event",eventName,{
+        event_category:"Contact",
+        event_label:label,
+        page_path:currentPage()
+      });
+    }
   },true);
 
+  /* COPIE EMAIL */
   document.addEventListener("copy",function(){
-    let copied="";try{copied=String(window.getSelection?window.getSelection().toString():"");}catch(e){}
+    let copied="";
+
+    try{
+      copied=String(window.getSelection?window.getSelection().toString():"");
+    }catch(e){}
+
     if(!/j2b\.couverture@gmail\.com/i.test(copied))return;
-    const signature="COPY_EMAIL|"+currentPage();if(recentlySent(signature))return;
+
+    const signature="COPY_EMAIL|"+currentPage();
+    if(recentlySent(signature))return;
+
     registerAction("COPIE_EMAIL","j2b.couverture@gmail.com");
-    const message=["COPIE E-MAIL - J2B COUVERTURE TOUL","","Action : copie de l'adresse e-mail","Adresse : j2b.couverture@gmail.com","Page : "+currentPage(),"",...visitorInfoLines(),"",...adsInfoLines(),"","Heure : "+now()].join("\n");
-    sendNtfyFast("📋✉️ Adresse e-mail copiée - J2B Toul",message,"high","email,clipboard,house");
-    if(typeof window.gtag==="function")window.gtag("event","copy_email",{event_category:"Contact",event_label:"j2b.couverture@gmail.com",page_path:currentPage()});
+
+    const message=[
+      "COPIE E-MAIL - J2B COUVERTURE TOUL",
+      "",
+      "Action : copie de l'adresse e-mail",
+      "Adresse : j2b.couverture@gmail.com",
+      "Page : "+currentPage(),
+      "",
+      ...visitorInfoLines(),
+      "",
+      ...adsInfoLines(),
+      "",
+      "Heure : "+now()
+    ].join("\n");
+
+    sendNtfyFast(
+      "📋✉️ Adresse e-mail copiée - J2B Toul",
+      message,
+      "high",
+      "email,clipboard,house"
+    );
+
+    if(typeof window.gtag==="function"){
+      window.gtag("event","copy_email",{
+        event_category:"Contact",
+        event_label:"j2b.couverture@gmail.com",
+        page_path:currentPage()
+      });
+    }
   },true);
 
+  /* AUTRES FORMULAIRES */
   document.addEventListener("submit",function(event){
-    const form=event.target;if(!form)return;
-    if(form.id==="heroQuoteForm"||form.id==="quoteForm")return; /* les 2 formulaires principaux envoient déjà leur notification détaillée */
-    const label=form.id||form.getAttribute("name")||"Formulaire";registerAction("FORMULAIRE",label);
-    const message=["FORMULAIRE - J2B COUVERTURE TOUL","","Formulaire : "+label,"Page : "+currentPage(),"",...visitorInfoLines(),"","Page d'entrée : "+session.entryPage,"",...adsInfoLines(),"","PARCOURS :",journeyText(),"","Heure : "+now()].join("\n");
-    sendNtfyFast("📝 Formulaire - J2B Toul",message,"urgent","memo,house");
+    const form=event.target;
+    if(!form)return;
+
+    if(form.id==="heroQuoteForm"||form.id==="quoteForm"){
+      return;
+    }
+
+    const label=form.id||form.getAttribute("name")||"Formulaire";
+
+    registerAction("FORMULAIRE",label);
+
+    const message=[
+      "FORMULAIRE - J2B COUVERTURE TOUL",
+      "",
+      "Formulaire : "+label,
+      "Page : "+currentPage(),
+      "",
+      ...visitorInfoLines(),
+      "",
+      "Page d'entrée : "+session.entryPage,
+      "",
+      ...adsInfoLines(),
+      "",
+      "PARCOURS :",
+      journeyText(),
+      "",
+      "Heure : "+now()
+    ].join("\n");
+
+    sendNtfyFast(
+      "📝 Formulaire - J2B Toul",
+      message,
+      "urgent",
+      "memo,house"
+    );
   },true);
+
 })();
 </script>
+
 </body>
 </html>
