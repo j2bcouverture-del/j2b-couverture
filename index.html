@@ -34,6 +34,24 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js',new Date());
     gtag('config','G-ZGCBS6FYZR');
+
+    /* Google Ads - objectif "Demande de devis" */
+    gtag('config','AW-16552414221');
+
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+
+      gtag('event', 'conversion', {
+        'send_to': 'AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9',
+        'event_callback': callback
+      });
+
+      return false;
+    }
   </script>
 
   <style>
@@ -1473,6 +1491,11 @@
         heroStatus.textContent="✓ Demande envoyée. Nous pouvons maintenant vous rappeler.";
         heroStatus.style.color="#16794B";
 
+        /* Conversion Google Ads : uniquement après envoi réussi de la demande */
+        if(typeof window.gtag_report_conversion==="function"){
+          window.gtag_report_conversion();
+        }
+
         if(typeof window.gtag==="function"){
           gtag("event","generate_lead",{
             method:"formulaire_rapide_hero",
@@ -1566,6 +1589,11 @@
       if(ok){
         status.textContent="✓ Demande envoyée. J2B Couverture peut maintenant vous recontacter.";
         status.style.color="#16794B";
+
+        /* Conversion Google Ads : uniquement après envoi réussi de la demande */
+        if(typeof window.gtag_report_conversion==="function"){
+          window.gtag_report_conversion();
+        }
 
         if(typeof window.gtag==="function"){
           gtag("event","generate_lead",{
