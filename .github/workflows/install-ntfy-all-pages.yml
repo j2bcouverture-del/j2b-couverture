@@ -1,4 +1,4 @@
-name: Uniformiser ntfy V8 sur toutes les pages
+name: Uniformiser ntfy V9 sur toutes les pages
 
 on:
   workflow_dispatch:
@@ -19,13 +19,13 @@ jobs:
       - name: Récupérer le site
         uses: actions/checkout@v4
 
-      - name: Mettre le même suivi V8 sur toutes les pages
+      - name: Mettre le même suivi V9 sur toutes les pages
         shell: python
         run: |
           from pathlib import Path
           import re
 
-          SCRIPT_URL = "https://j2b-couverture.fr/ntfy-visites.js?v=8"
+          SCRIPT_URL = "https://j2b-couverture.fr/ntfy-visites.js?v=9"
           SCRIPT_TAG = f'<script src="{SCRIPT_URL}" defer></script>'
 
           # Retire n'importe quelle ancienne balise externe ntfy-visites.js
@@ -83,7 +83,7 @@ jobs:
 
               original = text
 
-              # L'accueil possédait un ancien tracker V7 intégré.
+              # L'accueil pouvait posséder un ancien tracker V7 intégré.
               if path.name == "index.html":
                   text, removed = remove_legacy_index_tracker(text)
                   if removed:
@@ -93,7 +93,7 @@ jobs:
               # quel que soit leur ancien numéro de version.
               text = EXTERNAL_NTFY_RE.sub("", text)
 
-              # Ajoute exactement UNE inclusion V8 sur chaque vraie page HTML.
+              # Ajoute exactement UNE inclusion V9 sur chaque vraie page HTML.
               if re.search(r"</body\s*>", text, flags=re.I):
                   text = re.sub(
                       r"</body\s*>",
@@ -114,7 +114,7 @@ jobs:
 
           print("")
           print("==========================================")
-          print("SUIVI NTFY V8 UNIFORMISÉ")
+          print("SUIVI NTFY V9 UNIFORMISÉ")
           print("==========================================")
           print("Script commun :", SCRIPT_URL)
           print("Pages modifiées :", len(changed))
@@ -124,7 +124,7 @@ jobs:
 
           print("")
           print("IMPORTANT : ntfy-visites.js n'est PAS réécrit par ce workflow.")
-          print("La version V8 déjà commitée reste donc intacte.")
+          print("Le fichier V9 que vous avez mis à la racine reste donc intact.")
 
       - name: Vérifier qu'aucune page n'utilise une ancienne version ntfy
         shell: python
@@ -133,7 +133,7 @@ jobs:
           import re
           import sys
 
-          expected = 'https://j2b-couverture.fr/ntfy-visites.js?v=8'
+          expected = 'https://j2b-couverture.fr/ntfy-visites.js?v=9'
           errors = []
 
           for path in sorted(Path(".").rglob("*.html")):
@@ -160,7 +160,7 @@ jobs:
 
               if expected not in text:
                   errors.append(
-                      f"{path}: la version V8 attendue est absente"
+                      f"{path}: la version V9 attendue est absente"
                   )
 
           if errors:
@@ -169,7 +169,7 @@ jobs:
                   print("-", error)
               sys.exit(1)
 
-          print("OK : toutes les pages utilisent exactement une fois ntfy V8.")
+          print("OK : toutes les pages utilisent exactement une fois ntfy V9.")
 
       - name: Commit automatique
         run: |
@@ -184,5 +184,5 @@ jobs:
           git add '*.html'
           git add '**/*.html' 2>/dev/null || true
 
-          git commit -m "Uniformiser le suivi ntfy V8 sur toutes les pages"
+          git commit -m "Uniformiser le suivi ntfy V9 sur toutes les pages"
           git push
