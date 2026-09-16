@@ -1,5 +1,22 @@
 (function () {
   "use strict";
+  if (window.__J2B_NTFY_VISITOR_V11__) return;
+  window.__J2B_NTFY_VISITOR_V11__ = true;
+
+  // J2B_NTFY_FIX_20260916 : heure France et indices de robot.
+  // Le fuseau, Windows/Linux et la provenance directe ne prouvent pas un robot.
+  function j2bRobotReason() {
+    if (navigator.webdriver === true) return "Navigateur automatisé (webdriver)";
+    if (/bot|crawler|spider|headless|slurp|lighthouse|pagespeed|urlscan/i.test(navigator.userAgent || "")) {
+      return "Agent de navigation identifié comme automatique";
+    }
+    return "";
+  }
+  function j2bBrowserZone() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "inconnu"; }
+    catch (e) { return "inconnu"; }
+  }
+
 
   /* ==========================================================
      J2B COUVERTURE TOUL — SUIVI NTFY + GOOGLE ADS V9
@@ -24,8 +41,8 @@
   const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
 
   // On conserve les anciennes clés pour garder l'historique déjà enregistré.
-  const STORAGE_KEY = "j2b_toul_tracking_v8";
-  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v8";
+  const STORAGE_KEY = "j2b_toul_tracking_v11_fr";
+  const VISITOR_SENT_KEY = "j2b_toul_visitor_sent_v11_fr";
   const VISITOR_PROFILE_KEY = "j2b_toul_visitor_profile_v2";
   const VISIT_COUNTED_KEY = "j2b_toul_visit_counted_v2";
   const ADS_CLICKS_KEY = "j2b_toul_ads_clicks_v2";
@@ -45,7 +62,7 @@
   }
 
   function now() {
-    return new Date().toLocaleString("fr-FR");
+    return new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
   }
 
   function nowIso() {
@@ -55,7 +72,7 @@
   function formatIsoDate(value) {
     if (!value) return "";
     try {
-      return new Date(value).toLocaleString("fr-FR");
+      return new Date(value).toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
     } catch (e) {
       return String(value);
     }
@@ -634,6 +651,9 @@
 
   function visitorInfoLines() {
     const lines = [];
+    lines.push("Heures affichées : France (Europe/Paris)");
+    lines.push("Fuseau du navigateur : " + j2bBrowserZone());
+    lines.push("Automatisation : " + (j2bRobotReason() || "Non détectée — ne prouve pas un visiteur humain"));
 
     lines.push(
       "Type : " +
@@ -755,6 +775,7 @@
      ========================= */
 
   function sendNtfy(title, message, priority, tags) {
+    if (j2bRobotReason() && /visiteur|navigation|page/i.test(title) && !/^🤖/.test(title)) title = "🤖 Robot probable — " + title;
     const url =
       NTFY_TOPIC +
       "?title=" +
