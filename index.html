@@ -11,7 +11,6 @@
   <meta name="geo.placename" content="Toul">
   <meta name="theme-color" content="#182536">
   <link rel="canonical" href="https://j2b-couverture.fr/">
-  <link rel="preload" as="image" href="./renovation-toiture-pose-tuiles-04.jpg" fetchpriority="high">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
@@ -591,7 +590,14 @@
       html{scroll-behavior:auto}
       *{transition:none!important}
     }
-  </style>
+  
+    /* Performance Google Ads mobile : hero léger au premier écran */
+    @media(max-width:768px){
+      .hero{
+        background:linear-gradient(135deg,var(--navy),var(--navy2)) !important;
+      }
+    }
+</style>
 
   <script type="application/ld+json">
   {
