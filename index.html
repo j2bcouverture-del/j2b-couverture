@@ -1905,29 +1905,36 @@
 
 
 
-  // Suivi des demandes de devis :
-  // - GA4 reçoit generate_lead via la balise GA4 déjà configurée sur la page.
-  // - Google Ads reçoit séparément l'action de conversion "Demande de devis".
-  function trackLeadConversion(method,label){
-    if(typeof gtag!=="function")return;
+  // Suivi robuste des demandes de devis : déclenché en phase capture,
+  // avant les autres gestionnaires du formulaire.
+  let j2bLeadTrackingLocked=false;
 
+  function j2bTrackLead(formId){
+    if(j2bLeadTrackingLocked)return;
+    j2bLeadTrackingLocked=true;
+    setTimeout(function(){j2bLeadTrackingLocked=false;},3000);
 
-    // Événement recommandé GA4 : la balise configurée G-ZGCBS6FYZR le reçoit automatiquement.
-    gtag("event","generate_lead",{
-      lead_source:method,
-      event_category:"Contact",
-      event_label:label,
-      page_path:location.pathname
+    if(typeof window.gtag!=="function")return;
+
+    // GA4 : événement recommandé generate_lead, envoyé explicitement à la propriété J2B.
+    window.gtag("event","generate_lead",{
+      send_to:"G-ZGCBS6FYZR",
+      form_id:formId,
+      page_location:location.href
     });
 
-
-    // Conversion Google Ads.
-    gtag("event","conversion",{
+    // Google Ads : objectif Demande de devis.
+    window.gtag("event","conversion",{
       send_to:"AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9"
     });
   }
 
-
+  document.addEventListener("submit",function(event){
+    const submittedForm=event.target;
+    if(!submittedForm)return;
+    if(submittedForm.id!=="heroQuoteForm"&&submittedForm.id!=="quoteForm")return;
+    j2bTrackLead(submittedForm.id);
+  },true);
 
 
   function heroData(){
@@ -1972,10 +1979,6 @@
         return;
       }
 
-
-
-
-      trackLeadConversion("formulaire_rapide_hero","Accueil Toul");
 
 
 
@@ -2112,10 +2115,6 @@
         return;
       }
 
-
-
-
-      trackLeadConversion("formulaire_devis","Accueil Toul");
 
 
 
