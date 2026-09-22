@@ -497,7 +497,6 @@
 
 
 
-
     .quote{max-width:900px;margin:22px auto 0}
     .quoteGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .quote label{display:flex;flex-direction:column;gap:6px;font-weight:850}
@@ -710,7 +709,7 @@
       html{scroll-behavior:auto}
       *{transition:none!important}
     }
-  
+
     /* Performance Google Ads mobile : hero léger au premier écran */
     @media(max-width:768px){
       .hero{
@@ -1500,7 +1499,6 @@
 
 
 
-
           <label class="full">
             E-mail <span class="muted small">(facultatif)</span>
             <input id="qEmail" type="email" autocomplete="email">
@@ -1905,8 +1903,8 @@
 
 
 
-  // Suivi robuste des demandes de devis : déclenché en phase capture,
-  // avant les autres gestionnaires du formulaire.
+  // Suivi des demandes de devis : déclenché uniquement après confirmation
+  // que la demande a réellement été envoyée.
   let j2bLeadTrackingLocked=false;
 
   function j2bTrackLead(formId){
@@ -1928,13 +1926,6 @@
       send_to:"AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9"
     });
   }
-
-  document.addEventListener("submit",function(event){
-    const submittedForm=event.target;
-    if(!submittedForm)return;
-    if(submittedForm.id!=="heroQuoteForm"&&submittedForm.id!=="quoteForm")return;
-    j2bTrackLead(submittedForm.id);
-  },true);
 
 
   function heroData(){
@@ -1997,8 +1988,7 @@
 
 
       if(qNeed)qNeed.value=d.need;
-      if(qCity)qCity.value=d.city;
-      if(qPhone)qPhone.value=d.phone;
+      if(qCity)qCity.value=d.city;      if(qPhone)qPhone.value=d.phone;
 
 
 
@@ -2016,6 +2006,7 @@
       if(ok){
         heroStatus.textContent="✓ Demande envoyée. Nous pouvons maintenant vous rappeler.";
         heroStatus.style.color="#16794B";
+        j2bTrackLead("heroQuoteForm");
 
 
 
@@ -2146,6 +2137,7 @@
       if(ok){
         status.textContent="✓ Demande envoyée. J2B Couverture peut maintenant vous recontacter.";
         status.style.color="#16794B";
+        j2bTrackLead("quoteForm");
 
 
 
@@ -2597,8 +2589,7 @@
       data.wbraid||
       p.get("gad_source")==="1"||
       data.campaignId||
-      data.keyword
-    ){
+      data.keyword    ){
       data.source="Google Ads";
       data.medium="CPC";
       return data;
@@ -3197,8 +3188,7 @@
 
 
 
-    saveLocalJson(CONTACT_DEDUPE_KEY,{sig:signature,time:t});
-    return false;
+    saveLocalJson(CONTACT_DEDUPE_KEY,{sig:signature,time:t});    return false;
   }
 
 
