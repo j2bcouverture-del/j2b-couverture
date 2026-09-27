@@ -1,5 +1,5 @@
 {
-  "total_html_files": 23,
+  "total_html_files": 24,
   "files": [
     "avis-clients.html",
     "couvreur-dommartin-les-toul.html",
@@ -11,6 +11,7 @@
     "demoussage-toiture.html",
     "diagnostic-toiture.html",
     "entretien-toiture.html",
+    "etancheite-toiture.html",
     "faitage-arretiers.html",
     "gouttieres.html",
     "habillage-rives-sous-face.html",
@@ -31,6 +32,7 @@
     "Page Réparer ou refaire.",
     "Page Urgence toiture.",
     "Page Avis clients.",
+    "Page Étanchéité toiture ajoutée.",
     "10 pages prestations recréées avec liens internes et footer global.",
     "Diagnostic, simulateur couleur et réalisations inclus avec footer global.",
     "Aucune optimisation/compression des médias effectuée."
