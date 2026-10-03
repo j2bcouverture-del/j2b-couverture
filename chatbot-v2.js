@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  if (window.__J2B_CHATBOT_V5__) return;
-  window.__J2B_CHATBOT_V5__ = true;
+  if (window.__J2B_CHATBOT_V6__) return;
+  window.__J2B_CHATBOT_V6__ = true;
 
   function cloneWithoutListeners(el) {
     if (!el || !el.parentNode) return el;
@@ -12,13 +12,6 @@
   }
 
   function init() {
-    /*
-      IMPORTANT :
-      L'ancien chatbot V1 est intégré dans index.html et a déjà attaché
-      des événements au chargement de la page.
-      On remplace ici les éléments interactifs par des clones afin de
-      supprimer proprement tous les anciens listeners avant d'initialiser V3.
-    */
     let launcher = document.getElementById("chatLauncher");
     const box = document.getElementById("chatBox");
     let closeBtn = document.getElementById("chatClose");
@@ -44,12 +37,17 @@
     if (subtitle) subtitle.textContent = "Questions, urgence et devis";
 
     const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-    const OPEN_KEY = "j2b_chatbot_v5_open_sent";
+    const OPEN_KEY = "j2b_chatbot_v6_open_sent";
 
     let state = {};
     let started = false;
     let currentInputHandler = null;
     let inputLocked = false;
+
+    const conversation = {
+      lastTopic: null,
+      lastQuestion: ""
+    };
 
     function now() {
       try {
@@ -68,12 +66,7 @@
     function trafficSource() {
       const p = new URLSearchParams(location.search);
 
-      if (
-        p.get("gclid") ||
-        p.get("gbraid") ||
-        p.get("wbraid") ||
-        p.get("gad_source") === "1"
-      ) {
+      if (p.get("gclid") || p.get("gbraid") || p.get("wbraid") || p.get("gad_source") === "1") {
         return "Google Ads";
       }
 
@@ -183,7 +176,7 @@
         [
           "URGENCE CHATBOT - J2B COUVERTURE TOUL",
           "",
-          "Le visiteur a choisi : fuite / urgence",
+          "Le visiteur a signalé une fuite / urgence",
           "Page : " + location.pathname,
           "Provenance : " + trafficSource(),
           "Heure : " + now()
@@ -214,14 +207,6 @@
         "urgent",
         "fire,telephone,house"
       );
-
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "chatbot_lead", {
-          event_category: "Chatbot",
-          event_label: action,
-          page_path: location.pathname
-        });
-      }
     }
 
     function reportConversion() {
@@ -250,8 +235,7 @@
         "Précisions : " + (data.details || "Aucune")
       ];
 
-      return "https://wa.me/33601462612?text=" +
-        encodeURIComponent(lines.join("\n"));
+      return "https://wa.me/33601462612?text=" + encodeURIComponent(lines.join("\n"));
     }
 
     function addMessage(text, who) {
@@ -356,6 +340,7 @@
     function normalize(value) {
       return String(value || "")
         .toLowerCase()
+        .replace(/[’']/g, " ")
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9+ ]/g, " ")
@@ -363,133 +348,263 @@
         .trim();
     }
 
-    function hasAny(text, words) {
-      return words.some(function (word) {
-        return text.includes(word);
+    function levenshtein(a, b) {
+      a = String(a || "");
+      b = String(b || "");
+
+      const m = a.length;
+      const n = b.length;
+      const dp = Array.from({ length: m + 1 }, function () {
+        return new Array(n + 1).fill(0);
       });
+
+      for (let i = 0; i <= m; i++) dp[i][0] = i;
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          dp[i][j] = Math.min(
+            dp[i - 1][j] + 1,
+            dp[i][j - 1] + 1,
+            dp[i - 1][j - 1] + cost
+          );
+        }
+      }
+
+      return dp[m][n];
+    }
+
+    function fuzzyWord(text, word) {
+      if (text.includes(word)) return true;
+      if (word.includes(" ")) return false;
+
+      const tokens = text.split(" ");
+
+      return tokens.some(function (token) {
+        if (token.length < 4 || word.length < 4) return false;
+
+        const maxDistance = word.length >= 8 ? 2 : 1;
+
+        return Math.abs(token.length - word.length) <= maxDistance &&
+          levenshtein(token, word) <= maxDistance;
+      });
+    }
+
+    function smartHas(text, terms) {
+      return terms.some(function (term) {
+        return text.includes(term) || fuzzyWord(text, term);
+      });
+    }
+
+    function wantsQuote(text) {
+      if (text.includes("devis gratuit") ||
+          text.includes("devis est gratuit") ||
+          text.includes("prix du devis")) {
+        return false;
+      }
+
+      if (text === "devis") return true;
+      if (text.startsWith("devis ") && !text.includes("gratuit")) return true;
+
+      return smartHas(text, [
+        "je veux un devis",
+        "je voudrais un devis",
+        "faire un devis",
+        "faire devis",
+        "demande de devis",
+        "demander un devis",
+        "obtenir un devis",
+        "avoir un devis",
+        "besoin d un devis",
+        "devis pour",
+        "chiffrage",
+        "estimation des travaux"
+      ]);
+    }
+
+    function urgentSituation(text) {
+      if (text === "fuite" || text === "urgence") return true;
+
+      return smartHas(text, [
+        "j ai une fuite",
+        "ca fuit",
+        "eau entre",
+        "eau rentre",
+        "infiltration en cours",
+        "fuite active",
+        "urgence toiture",
+        "tuile envolee",
+        "tuiles envolees",
+        "toit ouvert",
+        "element menace de tomber",
+        "il pleut dans",
+        "eau dans la maison"
+      ]);
+    }
+
+    function topicLabel(topic) {
+      const labels = {
+        gutter: "les travaux de gouttière",
+        zinc: "la zinguerie",
+        ridge: "le faîtage",
+        cleaning: "le nettoyage ou démoussage",
+        renovation: "la rénovation de toiture",
+        insulation: "l’isolation",
+        wood: "la charpente",
+        velux: "les fenêtres de toit",
+        roof: "la couverture"
+      };
+      return labels[topic] || "les travaux";
     }
 
     function answerQuestion(question) {
       const q = normalize(question);
+      let topic = null;
+      let answer = "";
 
-      if (hasAny(q, [
-        "urgence", "fuite", "infiltration", "eau entre",
-        "tuile envolee", "tempete", "grele"
-      ])) {
-        return "Oui. J2B Couverture intervient pour les fuites, infiltrations et dégâts de toiture. Si de l’eau entre actuellement ou qu’un élément menace de tomber, ne montez pas sur le toit : appelez-nous ou envoyez des photos par WhatsApp.";
+      if (smartHas(q, ["bonjour", "salut", "bonsoir", "hello"])) {
+        return {
+          topic: "greeting",
+          text: "Bonjour 👋 Je peux répondre à vos questions sur votre toiture, les prestations de J2B Couverture, les zones d’intervention, les urgences ou préparer une demande de devis."
+        };
       }
 
-      if (hasAny(q, [
-        "prix", "tarif", "combien", "cout", "devis"
-      ])) {
-        return "Le tarif dépend de la surface, de l’état de la toiture, de l’accès et des travaux nécessaires. J2B Couverture préfère établir un devis adapté plutôt que donner un prix définitif sans voir le chantier. La demande de devis est gratuite.";
+      if (smartHas(q, ["merci", "super", "parfait", "d accord", "ok", "okay"])) {
+        return {
+          topic: "thanks",
+          text: "Avec plaisir 👌 Vous pouvez continuer à me poser vos questions ou demander un devis directement ici."
+        };
       }
 
-      if (hasAny(q, [
-        "gouttiere zinc", "gouttieres zinc", "zinc gouttiere",
-        "descente zinc"
-      ])) {
-        return "Oui. J2B Couverture réalise la pose, le remplacement et la réparation de gouttières et descentes, notamment en zinc, selon la configuration du chantier.";
+      if (smartHas(q, ["au revoir", "bonne journee", "bonne soiree", "a bientot"])) {
+        return {
+          topic: "bye",
+          text: "Avec plaisir. Bonne journée 👋 Si besoin, J2B Couverture reste joignable par téléphone ou WhatsApp."
+        };
       }
 
-      if (hasAny(q, [
-        "zinguerie", "zinc", "noue", "solin",
-        "couvertine", "rive zinc"
+      if (smartHas(q, [
+        "prix", "tarif", "combien", "cout", "combien ca coute",
+        "prix au metre", "prix au m2"
       ])) {
-        return "Oui. Les travaux de zinguerie peuvent comprendre les noues, solins, rives, couvertines, gouttières et autres éléments nécessaires à l’étanchéité et à l’évacuation des eaux.";
+        const context = conversation.lastTopic && conversation.lastTopic !== "price"
+          ? " pour " + topicLabel(conversation.lastTopic)
+          : "";
+
+        return {
+          topic: "price",
+          text: "Le prix" + context + " dépend surtout de la surface, de l’état de la toiture, de l’accès et du type d’intervention. Si vous me décrivez le chantier et la commune, je peux vous orienter vers une demande de devis gratuite."
+        };
       }
 
-      if (hasAny(q, [
+      if (q.includes("devis") && smartHas(q, ["gratuit", "payant", "prix du devis"])) {
+        return {
+          topic: "quote_info",
+          text: "Oui, la demande de devis est gratuite. Si vous le souhaitez, je peux recueillir les informations nécessaires directement ici."
+        };
+      }
+
+      if (smartHas(q, [
+        "fuite", "infiltration", "eau entre", "tempete", "grele",
+        "tuile envolee", "urgence"
+      ])) {
+        return {
+          topic: "emergency",
+          text: "J2B Couverture intervient pour les fuites, infiltrations et dégâts de toiture. Si de l’eau entre actuellement ou qu’un élément menace de tomber, ne montez pas sur le toit : appelez-nous ou envoyez des photos par WhatsApp."
+        };
+      }
+
+      if (smartHas(q, [
+        "gouttiere", "gouttieres", "descente zinc", "descente eau"
+      ])) {
+        topic = "gutter";
+        answer = "Oui. J2B Couverture réalise la pose, le remplacement et la réparation de gouttières et descentes, notamment en zinc, selon la configuration du chantier.";
+      } else if (smartHas(q, [
+        "zinguerie", "zinc", "noue", "solin", "couvertine", "rive zinc"
+      ])) {
+        topic = "zinc";
+        answer = "Oui. J2B Couverture réalise différents travaux de zinguerie : noues, solins, rives, couvertines, gouttières et autres éléments nécessaires à l’étanchéité et à l’évacuation des eaux.";
+      } else if (smartHas(q, [
         "faitage", "aretier", "arretiers", "closoir"
       ])) {
-        return "Oui. J2B Couverture intervient sur les faîtages et arêtiers : contrôle, réparation, remise en état ou pose sur closoir ventilé selon l’existant et l’état de la toiture.";
-      }
-
-      if (hasAny(q, [
+        topic = "ridge";
+        answer = "Oui. J2B Couverture intervient sur les faîtages et arêtiers : contrôle, réparation, remise en état ou pose sur closoir ventilé selon l’existant et l’état de la toiture.";
+      } else if (smartHas(q, [
         "demoussage", "mousse", "lichen", "nettoyage toiture",
         "hydrofuge", "entretien toiture"
       ])) {
-        return "Oui. J2B Couverture réalise le nettoyage, le démoussage et l’entretien de toiture. Le traitement à utiliser dépend du support, de l’encrassement et de l’état général de la couverture.";
-      }
-
-      if (hasAny(q, [
+        topic = "cleaning";
+        answer = "Oui. J2B Couverture réalise le nettoyage, le démoussage et l’entretien de toiture. Le traitement dépend du support, de l’encrassement et de l’état général de la couverture.";
+      } else if (smartHas(q, [
         "renovation", "refaire toiture", "toiture complete",
         "remaniage", "reparation toiture"
       ])) {
-        return "Oui. J2B Couverture réalise des réparations ciblées ainsi que des rénovations partielles ou complètes. Une infiltration ne signifie pas forcément qu’il faut refaire toute la toiture : l’état général doit d’abord être contrôlé.";
-      }
-
-      if (hasAny(q, [
+        topic = "renovation";
+        answer = "Oui. J2B Couverture réalise des réparations ciblées ainsi que des rénovations partielles ou complètes. Une infiltration ne signifie pas forcément qu’il faut refaire toute la toiture : l’état général doit d’abord être contrôlé.";
+      } else if (smartHas(q, [
         "isolation", "isoler", "isolant", "triso"
       ])) {
-        return "Oui. Des travaux d’isolation de toiture peuvent être intégrés à une rénovation selon la configuration du bâtiment et de la charpente.";
-      }
-
-      if (hasAny(q, [
+        topic = "insulation";
+        answer = "Oui. Des travaux d’isolation de toiture peuvent être intégrés à une rénovation selon la configuration du bâtiment et de la charpente.";
+      } else if (smartHas(q, [
         "charpente", "traitement bois", "insecte bois",
         "vrillette", "capricorne"
       ])) {
-        return "Oui. J2B Couverture peut intervenir sur le traitement de charpente lorsque l’état du bois nécessite une intervention. Un contrôle préalable permet de déterminer le traitement adapté.";
-      }
-
-      if (hasAny(q, [
+        topic = "wood";
+        answer = "Oui. J2B Couverture peut intervenir sur le traitement de charpente. Un contrôle préalable permet de déterminer l’état du bois et le traitement adapté.";
+      } else if (smartHas(q, [
         "velux", "fenetre de toit", "fenetre toit"
       ])) {
-        return "Les interventions autour des fenêtres de toit dépendent du chantier : étanchéité, raccords ou travaux associés à une rénovation. Le mieux est d’envoyer quelques photos pour confirmer ce qui est possible.";
-      }
-
-      if (hasAny(q, [
-        "tuiles", "tuile", "ardoise", "bac acier", "couverture"
+        topic = "velux";
+        answer = "Les interventions autour des fenêtres de toit peuvent concerner l’étanchéité, les raccords ou des travaux associés à une rénovation. Le mieux est d’envoyer quelques photos pour confirmer ce qui est possible.";
+      } else if (smartHas(q, [
+        "tuile", "tuiles", "ardoise", "bac acier", "couverture"
       ])) {
-        return "J2B Couverture intervient sur différents éléments de couverture selon le chantier. Pour confirmer la compatibilité avec votre toiture, envoyez une photo du toit et précisez la commune.";
-      }
-
-      if (hasAny(q, [
+        topic = "roof";
+        answer = "J2B Couverture intervient sur différents types d’éléments de couverture selon le chantier. Pour confirmer la solution adaptée, envoyez une photo du toit et précisez la commune.";
+      } else if (smartHas(q, [
         "toul", "nancy", "ecrouves", "dommartin", "gondreville",
         "liverdun", "meurthe et moselle", "secteur", "zone",
-        "intervenez", "deplacement"
+        "intervenez", "deplacement", "vous venez"
       ])) {
-        return "J2B Couverture intervient principalement à Toul et dans le Toulois, notamment à Écrouves, Dommartin-lès-Toul, Gondreville et Liverdun. Selon le chantier, nous intervenons aussi à Nancy et dans d’autres communes de Meurthe-et-Moselle.";
-      }
-
-      if (hasAny(q, [
+        topic = "area";
+        answer = "J2B Couverture intervient principalement à Toul et dans le Toulois, notamment à Écrouves, Dommartin-lès-Toul, Gondreville et Liverdun. Selon le chantier, des interventions sont aussi possibles à Nancy et dans d’autres communes de Meurthe-et-Moselle.";
+      } else if (smartHas(q, [
         "garantie", "decennale", "assurance", "qbe"
       ])) {
-        return "J2B Couverture dispose d’une garantie décennale QBE Europe SA/NV pour les travaux concernés par cette garantie.";
-      }
-
-      if (hasAny(q, [
+        topic = "warranty";
+        answer = "J2B Couverture dispose d’une garantie décennale QBE Europe SA/NV pour les travaux concernés par cette garantie.";
+      } else if (smartHas(q, [
         "photo", "photos", "whatsapp", "envoyer image", "image toiture"
       ])) {
-        return "Oui. Vous pouvez envoyer des photos de la toiture, de la fuite ou de l’élément endommagé directement par WhatsApp au 06 01 46 26 12.";
-      }
-
-      if (hasAny(q, [
+        topic = "photo";
+        answer = "Oui. Vous pouvez envoyer des photos de la toiture, de la fuite ou de l’élément endommagé directement par WhatsApp au 06 01 46 26 12.";
+      } else if (smartHas(q, [
         "telephone", "numero", "appeler", "contact", "email", "mail"
       ])) {
-        return "Vous pouvez joindre J2B Couverture au 06 01 46 26 12 ou au 03 72 76 00 60. L’adresse e-mail est j2b.couverture@gmail.com.";
-      }
-
-      if (hasAny(q, [
-        "rendez vous", "rendez-vous", "rdv",
-        "disponible", "disponibilite", "quand pouvez vous"
+        topic = "contact";
+        answer = "Vous pouvez joindre J2B Couverture au 06 01 46 26 12 ou au 03 72 76 00 60. L’adresse e-mail est j2b.couverture@gmail.com.";
+      } else if (smartHas(q, [
+        "rendez vous", "rdv", "disponible", "disponibilite",
+        "quand pouvez vous", "horaire", "ouvert", "samedi", "dimanche", "week end"
       ])) {
-        return "Les disponibilités varient selon les chantiers en cours et le niveau d’urgence. Envoyez votre commune, votre besoin et votre numéro de téléphone afin que J2B Couverture puisse vous proposer un créneau.";
-      }
-
-      if (hasAny(q, [
-        "gratuit", "devis gratuit"
+        topic = "availability";
+        answer = "Les disponibilités varient selon les chantiers en cours et le niveau d’urgence. Indiquez votre commune, votre besoin et votre numéro de téléphone afin que J2B Couverture puisse vous proposer un créneau.";
+      } else if (smartHas(q, [
+        "vous faites quoi", "prestations", "services", "travaux"
       ])) {
-        return "Oui, vous pouvez faire une demande de devis gratuitement depuis le site ou par téléphone.";
+        topic = "services";
+        answer = "J2B Couverture intervient notamment en réparation et rénovation de toiture, zinguerie, gouttières, faîtage, démoussage, entretien, isolation, charpente et recherche de fuite.";
+      } else if (q === "oui" || q === "non") {
+        topic = "clarify";
+        answer = "D’accord. Dites-moi simplement ce que vous souhaitez savoir ou décrivez votre problème de toiture en une phrase.";
+      } else {
+        topic = "unknown";
+        answer = "Je ne veux pas vous donner une mauvaise réponse. Donnez-moi un peu plus de contexte : le problème constaté, le type de toiture si vous le connaissez, et la commune du chantier.";
       }
 
-      if (hasAny(q, [
-        "bonjour", "salut", "bonsoir"
-      ])) {
-        return "Bonjour 👋 Je peux répondre à vos questions sur les travaux de toiture, les prestations de J2B Couverture, les zones d’intervention ou vous aider à préparer une demande de devis.";
-      }
-
-      return "Je n’ai pas assez d’informations pour répondre avec certitude à cette question. Je préfère ne pas inventer : vous pouvez reformuler votre question, demander un devis ou contacter directement J2B Couverture.";
+      return { topic: topic, text: answer };
     }
 
     function showQuestionActions() {
@@ -515,9 +630,7 @@
           } else if (item.includes("WhatsApp")) {
             window.open(
               "https://wa.me/33601462612?text=" +
-                encodeURIComponent(
-                  "Bonjour J2B Couverture, j’ai une question concernant ma toiture."
-                ),
+                encodeURIComponent("Bonjour J2B Couverture, j’ai une question concernant ma toiture."),
               "_blank",
               "noopener"
             );
@@ -528,6 +641,39 @@
 
         choices.appendChild(button);
       });
+    }
+
+    function handleFreeQuestion(question, rearm) {
+      const q = normalize(question);
+      conversation.lastQuestion = question;
+
+      if (wantsQuote(q)) {
+        const answer = "Bien sûr. Je vais vous poser quelques questions rapides pour préparer votre demande de devis.";
+        addMessage(answer, "bot");
+        notifyQuestion(question, answer);
+        hideInput();
+        quoteFlow(false);
+        return;
+      }
+
+      if (urgentSituation(q)) {
+        const answer = "D’accord, je traite cela comme une urgence toiture. Je vais vous proposer les moyens les plus rapides pour contacter J2B Couverture.";
+        addMessage(answer, "bot");
+        notifyQuestion(question, answer);
+        hideInput();
+        urgentFlow();
+        return;
+      }
+
+      const result = answerQuestion(question);
+      conversation.lastTopic = result.topic || conversation.lastTopic;
+
+      addMessage(result.text, "bot");
+      notifyQuestion(question, result.text);
+
+      if (typeof rearm === "function") {
+        rearm();
+      }
     }
 
     function questionMode(firstPrompt) {
@@ -544,18 +690,7 @@
         showInput(
           "Posez une autre question…",
           function (question) {
-            const answer = answerQuestion(question);
-
-            addMessage(answer, "bot");
-            notifyQuestion(question, answer);
-
-            /*
-              Conversation continue :
-              le champ reste actif après chaque réponse.
-              Le visiteur peut enchaîner autant de questions qu'il veut
-              sans recliquer sur « Poser une question ».
-            */
-            armQuestionInput();
+            handleFreeQuestion(question, armQuestionInput);
           },
           true
         );
@@ -588,9 +723,7 @@
 
           window.open(
             "https://wa.me/33601462612?text=" +
-              encodeURIComponent(
-                "Bonjour J2B Couverture, j’ai une fuite ou une urgence toiture. Je vous envoie des photos."
-              ),
+              encodeURIComponent("Bonjour J2B Couverture, j’ai une fuite ou une urgence toiture. Je vous envoie des photos."),
             "_blank",
             "noopener"
           );
@@ -707,17 +840,13 @@
       });
     }
 
-    function mainMenu() {
-      addMessage(
-        "Posez-moi directement votre question sur votre toiture ou les services de J2B Couverture.",
-        "bot"
-      );
-
-      /*
-        Le champ de saisie est actif immédiatement.
-        Les boutons ci-dessous restent uniquement comme raccourcis.
-      */
-      questionMode(false);
+    function mainMenu(showIntro) {
+      if (showIntro !== false) {
+        addMessage(
+          "Posez-moi directement votre question sur votre toiture ou les services de J2B Couverture.",
+          "bot"
+        );
+      }
 
       choices.innerHTML = "";
 
@@ -745,34 +874,31 @@
         choices.appendChild(button);
       });
 
-      /*
-        On réarme le champ après avoir ajouté les raccourcis,
-        afin que le visiteur puisse écrire immédiatement sans cliquer.
-      */
       showInput(
         "Écrivez votre question…",
         function (question) {
-          const answer = answerQuestion(question);
-          addMessage(answer, "bot");
-          notifyQuestion(question, answer);
-          mainMenu();
+          handleFreeQuestion(question, function () {
+            mainMenu(false);
+          });
         },
         true
       );
     }
 
-    function startV5() {
+    function startV6() {
       messages.innerHTML = "";
       choices.innerHTML = "";
       hideInput();
       state = {};
+      conversation.lastTopic = null;
+      conversation.lastQuestion = "";
 
       addMessage(
         "Bonjour 👋 Je suis l’assistant J2B Couverture. Écrivez directement votre question ci-dessous. Vous pouvez aussi utiliser les raccourcis Devis ou Urgence.",
         "bot"
       );
 
-      mainMenu();
+      mainMenu(true);
       started = true;
     }
 
@@ -782,7 +908,7 @@
       notifyOpen();
 
       if (!started) {
-        startV5();
+        startV6();
       }
     });
 
