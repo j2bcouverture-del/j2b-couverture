@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  if (window.__J2B_CHATBOT_V3__) return;
-  window.__J2B_CHATBOT_V3__ = true;
+  if (window.__J2B_CHATBOT_V5__) return;
+  window.__J2B_CHATBOT_V5__ = true;
 
   function cloneWithoutListeners(el) {
     if (!el || !el.parentNode) return el;
@@ -44,7 +44,7 @@
     if (subtitle) subtitle.textContent = "Questions, urgence et devis";
 
     const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-    const OPEN_KEY = "j2b_chatbot_v3_open_sent";
+    const OPEN_KEY = "j2b_chatbot_v5_open_sent";
 
     let state = {};
     let started = false;
@@ -311,8 +311,8 @@
       input.value = "";
     }
 
-    function showInput(placeholder, handler) {
-      choices.innerHTML = "";
+    function showInput(placeholder, handler, keepChoices) {
+      if (!keepChoices) choices.innerHTML = "";
       inputRow.hidden = false;
       input.placeholder = placeholder || "Votre réponse";
       input.value = "";
@@ -538,27 +538,30 @@
         );
       }
 
-      showQuestionActions();
-
-      showInput("Posez une autre question…", function (question) {
-        const answer = answerQuestion(question);
-        addMessage(answer, "bot");
-        notifyQuestion(question, answer);
-
-        /*
-          Le champ reste immédiatement disponible pour une nouvelle question.
-          Pas besoin de cliquer sur « Une autre question ».
-        */
+      function armQuestionInput() {
         showQuestionActions();
-        setInputHandler(function (nextQuestion) {
-          const nextAnswer = answerQuestion(nextQuestion);
-          addMessage(nextAnswer, "bot");
-          notifyQuestion(nextQuestion, nextAnswer);
 
-          showQuestionActions();
-          questionMode(false);
-        });
-      });
+        showInput(
+          "Posez une autre question…",
+          function (question) {
+            const answer = answerQuestion(question);
+
+            addMessage(answer, "bot");
+            notifyQuestion(question, answer);
+
+            /*
+              Conversation continue :
+              le champ reste actif après chaque réponse.
+              Le visiteur peut enchaîner autant de questions qu'il veut
+              sans recliquer sur « Poser une question ».
+            */
+            armQuestionInput();
+          },
+          true
+        );
+      }
+
+      armQuestionInput();
     }
 
     function urgentFlow() {
@@ -705,33 +708,67 @@
     }
 
     function mainMenu() {
-      addMessage("Que souhaitez-vous faire ?", "bot");
+      addMessage(
+        "Posez-moi directement votre question sur votre toiture ou les services de J2B Couverture.",
+        "bot"
+      );
 
-      setChoices([
+      /*
+        Le champ de saisie est actif immédiatement.
+        Les boutons ci-dessous restent uniquement comme raccourcis.
+      */
+      questionMode(false);
+
+      choices.innerHTML = "";
+
+      [
         "📩 Demander un devis",
-        "❓ Poser une question",
         "🚨 Fuite / urgence"
-      ], function (action) {
-        addMessage(action, "user");
+      ].forEach(function (item) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatChoice";
+        button.textContent = item;
 
-        if (action.includes("devis")) {
-          quoteFlow(false);
-        } else if (action.includes("question")) {
-          questionMode(true);
-        } else {
-          urgentFlow();
-        }
+        button.addEventListener("click", function () {
+          if (item.includes("devis")) {
+            hideInput();
+            choices.innerHTML = "";
+            quoteFlow(false);
+          } else {
+            hideInput();
+            choices.innerHTML = "";
+            urgentFlow();
+          }
+        });
+
+        choices.appendChild(button);
       });
+
+      /*
+        On réarme le champ après avoir ajouté les raccourcis,
+        afin que le visiteur puisse écrire immédiatement sans cliquer.
+      */
+      showInput(
+        "Écrivez votre question…",
+        function (question) {
+          const answer = answerQuestion(question);
+          addMessage(answer, "bot");
+          notifyQuestion(question, answer);
+          mainMenu();
+        },
+        true
+      );
     }
 
-    function startV3() {
+    function startV5() {
       messages.innerHTML = "";
       choices.innerHTML = "";
       hideInput();
       state = {};
 
       addMessage(
-        "Bonjour 👋 Je suis l’assistant J2B Couverture. Je peux répondre à vos questions, vous aider en cas d’urgence ou préparer une demande de devis.",
+        "Bonjour 👋 Je suis l’assistant J2B Couverture. Écrivez directement votre question ci-dessous. Vous pouvez aussi utiliser les raccourcis Devis ou Urgence.",
         "bot"
       );
 
@@ -745,7 +782,7 @@
       notifyOpen();
 
       if (!started) {
-        startV3();
+        startV5();
       }
     });
 
