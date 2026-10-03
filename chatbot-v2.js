@@ -1,32 +1,55 @@
 (function () {
   "use strict";
 
-  if (window.__J2B_CHATBOT_V2__) return;
-  window.__J2B_CHATBOT_V2__ = true;
+  if (window.__J2B_CHATBOT_V3__) return;
+  window.__J2B_CHATBOT_V3__ = true;
+
+  function cloneWithoutListeners(el) {
+    if (!el || !el.parentNode) return el;
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+    return clone;
+  }
 
   function init() {
-    const launcher = document.getElementById("chatLauncher");
+    /*
+      IMPORTANT :
+      L'ancien chatbot V1 est intégré dans index.html et a déjà attaché
+      des événements au chargement de la page.
+      On remplace ici les éléments interactifs par des clones afin de
+      supprimer proprement tous les anciens listeners avant d'initialiser V3.
+    */
+    let launcher = document.getElementById("chatLauncher");
     const box = document.getElementById("chatBox");
-    const closeBtn = document.getElementById("chatClose");
+    let closeBtn = document.getElementById("chatClose");
     const messages = document.getElementById("chatMessages");
     const choices = document.getElementById("chatChoices");
     const inputRow = document.getElementById("chatInputRow");
-    const input = document.getElementById("chatInput");
-    const send = document.getElementById("chatSend");
+    let input = document.getElementById("chatInput");
+    let send = document.getElementById("chatSend");
 
-    if (!launcher || !box || !messages || !choices || !inputRow || !input || !send) {
+    if (!launcher || !box || !closeBtn || !messages || !choices || !inputRow || !input || !send) {
       return;
     }
 
+    launcher = cloneWithoutListeners(launcher);
+    closeBtn = cloneWithoutListeners(closeBtn);
+    input = cloneWithoutListeners(input);
+    send = cloneWithoutListeners(send);
+
     launcher.textContent = "💬 Une question ?";
+    launcher.setAttribute("aria-expanded", "false");
 
     const subtitle = box.querySelector(".chatHead small");
     if (subtitle) subtitle.textContent = "Questions, urgence et devis";
 
     const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-    const OPEN_KEY = "j2b_chatbot_v2_open_sent";
+    const OPEN_KEY = "j2b_chatbot_v3_open_sent";
+
     let state = {};
     let started = false;
+    let currentInputHandler = null;
+    let inputLocked = false;
 
     function now() {
       try {
@@ -239,46 +262,37 @@
       messages.scrollTop = messages.scrollHeight;
     }
 
-    function stopInput() {
+    function clearInputHandler() {
+      currentInputHandler = null;
+      inputLocked = false;
       send.onclick = null;
       input.onkeydown = null;
     }
 
-    function setChoices(items, handler) {
-      stopInput();
-      choices.innerHTML = "";
-      inputRow.hidden = true;
-
-      items.forEach(function (item) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "chatChoice";
-        button.textContent = item;
-
-        button.addEventListener("click", function () {
-          handler(item);
-        });
-
-        choices.appendChild(button);
-      });
-    }
-
-    function askText(question, next, placeholder) {
-      choices.innerHTML = "";
-      addMessage(question, "bot");
-      inputRow.hidden = false;
-      input.value = "";
-      input.placeholder = placeholder || "Votre réponse";
-      input.focus();
+    function setInputHandler(handler) {
+      clearInputHandler();
+      currentInputHandler = handler;
 
       function submit() {
+        if (inputLocked || !currentInputHandler) return;
+
         const value = input.value.trim();
         if (!value) return;
 
+        inputLocked = true;
+        const activeHandler = currentInputHandler;
+        currentInputHandler = null;
+
         addMessage(value, "user");
-        inputRow.hidden = true;
-        stopInput();
-        next(value);
+        input.value = "";
+
+        Promise.resolve()
+          .then(function () {
+            return activeHandler(value);
+          })
+          .finally(function () {
+            inputLocked = false;
+          });
       }
 
       send.onclick = submit;
@@ -289,6 +303,54 @@
           submit();
         }
       };
+    }
+
+    function hideInput() {
+      clearInputHandler();
+      inputRow.hidden = true;
+      input.value = "";
+    }
+
+    function showInput(placeholder, handler) {
+      choices.innerHTML = "";
+      inputRow.hidden = false;
+      input.placeholder = placeholder || "Votre réponse";
+      input.value = "";
+      setInputHandler(handler);
+
+      try {
+        input.focus({ preventScroll: true });
+      } catch (e) {
+        input.focus();
+      }
+    }
+
+    function setChoices(items, handler) {
+      hideInput();
+      choices.innerHTML = "";
+
+      items.forEach(function (item) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatChoice";
+        button.textContent = item;
+
+        button.addEventListener("click", function () {
+          choices.innerHTML = "";
+          handler(item);
+        }, { once: true });
+
+        choices.appendChild(button);
+      });
+    }
+
+    function askText(question, next, placeholder) {
+      addMessage(question, "bot");
+
+      showInput(placeholder || "Votre réponse", function (value) {
+        hideInput();
+        return next(value);
+      });
     }
 
     function normalize(value) {
@@ -427,66 +489,76 @@
         return "Bonjour 👋 Je peux répondre à vos questions sur les travaux de toiture, les prestations de J2B Couverture, les zones d’intervention ou vous aider à préparer une demande de devis.";
       }
 
-      return "Je n’ai pas assez d’informations pour répondre avec certitude à cette question. Je préfère ne pas inventer : vous pouvez préciser votre question, demander un devis ou l’envoyer directement à J2B Couverture sur WhatsApp.";
+      return "Je n’ai pas assez d’informations pour répondre avec certitude à cette question. Je préfère ne pas inventer : vous pouvez reformuler votre question, demander un devis ou contacter directement J2B Couverture.";
     }
 
-    function mainMenu() {
-      addMessage("Que souhaitez-vous faire ?", "bot");
+    function showQuestionActions() {
+      choices.innerHTML = "";
 
-      setChoices([
+      const items = [
         "📩 Demander un devis",
-        "❓ Poser une question",
-        "🚨 Fuite / urgence"
-      ], function (action) {
-        addMessage(action, "user");
+        "💬 WhatsApp",
+        "📞 Appeler"
+      ];
 
-        if (action.includes("devis")) {
-          quoteFlow(false);
-        } else if (action.includes("question")) {
-          questionFlow();
-        } else {
-          urgentFlow();
-        }
+      items.forEach(function (item) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "chatChoice";
+        button.textContent = item;
+
+        button.addEventListener("click", function () {
+          if (item.includes("devis")) {
+            hideInput();
+            choices.innerHTML = "";
+            quoteFlow(false);
+          } else if (item.includes("WhatsApp")) {
+            window.open(
+              "https://wa.me/33601462612?text=" +
+                encodeURIComponent(
+                  "Bonjour J2B Couverture, j’ai une question concernant ma toiture."
+                ),
+              "_blank",
+              "noopener"
+            );
+          } else {
+            location.href = "tel:+33601462612";
+          }
+        });
+
+        choices.appendChild(button);
       });
     }
 
-    function questionFlow() {
-      askText(
-        "Posez-moi votre question sur votre toiture ou les services de J2B Couverture.",
-        function (question) {
-          const answer = answerQuestion(question);
+    function questionMode(firstPrompt) {
+      if (firstPrompt) {
+        addMessage(
+          "Posez-moi votre question sur votre toiture ou les services de J2B Couverture.",
+          "bot"
+        );
+      }
 
-          addMessage(answer, "bot");
-          notifyQuestion(question, answer);
+      showQuestionActions();
 
-          setChoices([
-            "❓ Une autre question",
-            "📩 Demander un devis",
-            "💬 WhatsApp",
-            "📞 Appeler"
-          ], function (action) {
-            addMessage(action, "user");
+      showInput("Posez une autre question…", function (question) {
+        const answer = answerQuestion(question);
+        addMessage(answer, "bot");
+        notifyQuestion(question, answer);
 
-            if (action.includes("autre question")) {
-              questionFlow();
-            } else if (action.includes("devis")) {
-              quoteFlow(false);
-            } else if (action.includes("WhatsApp")) {
-              window.open(
-                "https://wa.me/33601462612?text=" +
-                  encodeURIComponent(
-                    "Bonjour J2B Couverture, j’ai une question concernant ma toiture."
-                  ),
-                "_blank",
-                "noopener"
-              );
-            } else {
-              location.href = "tel:+33601462612";
-            }
-          });
-        },
-        "Ex. Faites-vous les gouttières zinc ?"
-      );
+        /*
+          Le champ reste immédiatement disponible pour une nouvelle question.
+          Pas besoin de cliquer sur « Une autre question ».
+        */
+        showQuestionActions();
+        setInputHandler(function (nextQuestion) {
+          const nextAnswer = answerQuestion(nextQuestion);
+          addMessage(nextAnswer, "bot");
+          notifyQuestion(nextQuestion, nextAnswer);
+
+          showQuestionActions();
+          questionMode(false);
+        });
+      });
     }
 
     function urgentFlow() {
@@ -587,6 +659,7 @@
                             if (action.includes("WhatsApp")) {
                               notifyLead("WhatsApp devis");
                               reportConversion();
+
                               window.open(
                                 whatsappLead(state),
                                 "_blank",
@@ -596,7 +669,7 @@
                               notifyLead("Appel devis");
                               location.href = "tel:+33601462612";
                             } else {
-                              questionFlow();
+                              questionMode(true);
                             }
                           });
                         },
@@ -631,11 +704,30 @@
       });
     }
 
-    function startV2() {
+    function mainMenu() {
+      addMessage("Que souhaitez-vous faire ?", "bot");
+
+      setChoices([
+        "📩 Demander un devis",
+        "❓ Poser une question",
+        "🚨 Fuite / urgence"
+      ], function (action) {
+        addMessage(action, "user");
+
+        if (action.includes("devis")) {
+          quoteFlow(false);
+        } else if (action.includes("question")) {
+          questionMode(true);
+        } else {
+          urgentFlow();
+        }
+      });
+    }
+
+    function startV3() {
       messages.innerHTML = "";
       choices.innerHTML = "";
-      inputRow.hidden = true;
-      stopInput();
+      hideInput();
       state = {};
 
       addMessage(
@@ -647,25 +739,20 @@
       started = true;
     }
 
-    /*
-      Le chatbot V1 de la page possède déjà son écouteur sur ce bouton.
-      Ce second écouteur s’exécute ensuite et remplace proprement son écran
-      par la version V2, sans modifier le reste du HTML.
-    */
     launcher.addEventListener("click", function () {
+      box.classList.add("open");
+      launcher.setAttribute("aria-expanded", "true");
       notifyOpen();
 
       if (!started) {
-        startV2();
+        startV3();
       }
     });
 
-    if (closeBtn) {
-      closeBtn.addEventListener("click", function () {
-        box.classList.remove("open");
-        launcher.setAttribute("aria-expanded", "false");
-      });
-    }
+    closeBtn.addEventListener("click", function () {
+      box.classList.remove("open");
+      launcher.setAttribute("aria-expanded", "false");
+    });
   }
 
   if (document.readyState === "loading") {
