@@ -59,32 +59,48 @@
   }
   </script>
 
-  <!-- Google Analytics + Google Ads -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR"></script>
+  <!-- Mesure d’audience : Google n’est chargé qu’après accord du visiteur -->
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ZGCBS6FYZR');
-    gtag('config', 'AW-16552414221');
+    window.j2bGoogleLoaded = false;
+
+    function gtag(){window.dataLayer.push(arguments);}
+
+    function loadGoogleTags(){
+      if(window.j2bGoogleLoaded) return;
+      window.j2bGoogleLoaded = true;
+
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ZGCBS6FYZR';
+      document.head.appendChild(s);
+
+      gtag('js', new Date());
+      gtag('config', 'G-ZGCBS6FYZR', {anonymize_ip:true});
+      gtag('config', 'AW-16552414221');
+    }
 
     function j2bConversion(){
-      if(typeof gtag === 'function'){
-        gtag('event','conversion',{
-          'send_to':'AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9'
-        });
-      }
+      if(!window.j2bGoogleLoaded) return;
+      gtag('event','conversion',{
+        'send_to':'AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9'
+      });
     }
 
     function j2bContactEvent(name,label){
-      if(typeof gtag === 'function'){
-        gtag('event',name,{
-          event_category:'Contact',
-          event_label:label || '',
-          page_path:location.pathname
-        });
-      }
+      if(!window.j2bGoogleLoaded) return;
+      gtag('event',name,{
+        event_category:'Contact',
+        event_label:label || '',
+        page_path:location.pathname
+      });
     }
+
+    try{
+      if(localStorage.getItem('j2b_cookie_choice') === 'accepted'){
+        loadGoogleTags();
+      }
+    }catch(e){}
   </script>
 
   <style>
@@ -258,6 +274,22 @@
       color:#7A838D;font-size:.72rem;line-height:1.35;margin:7px 0 0
     }
     .status{margin-top:9px;font-weight:850;font-size:.88rem}
+    .privacyInline{color:var(--navy);text-decoration:underline;text-underline-offset:2px;font-weight:800}
+    .footerLinkButton{
+      display:block;padding:4px 0;border:0;background:transparent;color:#fff;
+      font:inherit;cursor:pointer;text-align:left
+    }
+    .cookieBanner{
+      position:fixed;left:14px;right:14px;bottom:84px;z-index:1500;
+      max-width:760px;margin:auto;background:#fff;color:var(--text);
+      border:1px solid var(--border);border-radius:16px;box-shadow:0 18px 52px rgba(0,0,0,.22);
+      padding:16px
+    }
+    .cookieBanner[hidden]{display:none}
+    .cookieBanner p{margin:0 0 10px;font-size:.9rem;line-height:1.45}
+    .cookieActions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .cookieActions .btn{min-height:42px;padding:9px 13px;font-size:.86rem}
+    .cookieActions a{font-size:.84rem;text-decoration:underline;font-weight:800;color:var(--navy)}
 
     .trustStrip{
       margin-top:28px;background:rgba(10,20,31,.58);
@@ -509,8 +541,11 @@
           <label class="consentRow">
             <input id="heroConsent" type="checkbox" required>
             <span>
-              J’accepte que J2B Couverture utilise les informations saisies afin de me recontacter
-              au sujet de ma demande, y compris si je quitte ce formulaire avant son envoi.
+              J’accepte que J2B Couverture utilise les coordonnées saisies pour me rappeler ou m’écrire
+              afin d’échanger sur ma demande de travaux, proposer un devis ou convenir d’un rendez-vous,
+              y compris si je quitte ce formulaire avant de l’envoyer. Consentement valable 1 an et
+              retirable à tout moment.
+              <a class="privacyInline" href="./politique-confidentialite.html">Politique de confidentialité</a>.
             </span>
           </label>
 
@@ -518,7 +553,7 @@
           <p id="heroStatus" class="status" aria-live="polite"></p>
 
           <p class="quickPrivacy">
-            Aucune coordonnée n’est transmise tant que cette case n’est pas cochée.
+            Aucune coordonnée n’est enregistrée avant votre accord. La preuve de cet accord est conservée.
           </p>
         </form>
       </div>
@@ -887,8 +922,11 @@
           <label class="consentRow">
             <input id="quoteConsent" type="checkbox" required>
             <span>
-              J’accepte que J2B Couverture utilise les informations saisies afin de me recontacter
-              au sujet de ma demande, y compris si je quitte ce formulaire avant son envoi.
+              J’accepte que J2B Couverture utilise les coordonnées saisies pour me rappeler ou m’écrire
+              afin d’échanger sur ma demande de travaux, proposer un devis ou convenir d’un rendez-vous,
+              y compris si je quitte ce formulaire avant de l’envoyer. Consentement valable 1 an et
+              retirable à tout moment.
+              <a class="privacyInline" href="./politique-confidentialite.html">Politique de confidentialité</a>.
             </span>
           </label>
 
@@ -912,7 +950,7 @@
           <p id="quoteStatus" class="status" aria-live="polite"></p>
 
           <p class="quickPrivacy">
-            Aucune coordonnée n’est transmise tant que la case d’accord n’est pas cochée.
+            Aucune coordonnée n’est enregistrée avant votre accord. La preuve de cet accord est conservée.
           </p>
         </form>
       </div>
@@ -961,6 +999,9 @@
           <a href="./reparer-ou-refaire-toiture.html">Réparer ou refaire ?</a>
           <a href="./faq-toiture.html">FAQ toiture</a>
           <a href="./contact.html">Contact</a>
+          <a href="./politique-confidentialite.html">Politique de confidentialité</a>
+          <a href="./mentions-legales.html">Mentions légales</a>
+          <button class="footerLinkButton" id="cookieSettingsBtn" type="button">Gérer les cookies</button>
         </div>
       </div>
 
@@ -969,6 +1010,18 @@
       </div>
     </div>
   </footer>
+
+  <aside class="cookieBanner" id="cookieBanner" hidden aria-label="Choix des cookies de mesure d’audience">
+    <p>
+      J2B Couverture utilise Google Analytics et Google Ads uniquement avec votre accord pour mesurer
+      l’audience et les contacts issus du site. Le site et les formulaires fonctionnent aussi sans ces outils.
+    </p>
+    <div class="cookieActions">
+      <button class="btn red" id="acceptCookies" type="button">Accepter</button>
+      <button class="btn ghost" id="refuseCookies" type="button">Continuer sans</button>
+      <a href="./politique-confidentialite.html#cookies">En savoir plus</a>
+    </div>
+  </aside>
 
   <!-- BARRE FIXE MOBILE : les 3 actions demandées -->
   <div class="mobileBar" aria-label="Contact rapide">
@@ -989,11 +1042,15 @@
     </a>
   </div>
 
+  <script src="./lead-config.js"></script>
+
   <script>
     (function(){
       'use strict';
 
-      const NTFY_TOPIC = 'https://ntfy.sh/j2b-visites-X83LmP91Qa';
+      const LEAD_ENDPOINT = window.J2B_LEAD_ENDPOINT || '';
+      const CONSENT_VERSION = 'J2B-TOUL-2026-10-07-v1';
+      const CONSENT_TEXT = 'J’accepte que J2B Couverture utilise les coordonnées saisies pour me rappeler ou m’écrire afin d’échanger sur ma demande de travaux, proposer un devis ou convenir d’un rendez-vous, y compris si je quitte ce formulaire avant de l’envoyer. Consentement valable 1 an et retirable à tout moment.';
 
       const menuBtn = document.getElementById('menuBtn');
       const menuPanel = document.getElementById('menuPanel');
@@ -1023,34 +1080,27 @@
         return /^(?:\+33|0)[1-9]\d{8}$/.test(p);
       }
 
-      function nowFrance(){
-        return new Date().toLocaleString('fr-FR',{timeZone:'Europe/Paris'});
+      function nowIso(){
+        return new Date().toISOString();
       }
 
-      function ntfyUrl(title,tags,priority){
-        return NTFY_TOPIC +
-          '?title=' + encodeURIComponent(title) +
-          '&priority=' + encodeURIComponent(priority || 'high') +
-          '&tags=' + encodeURIComponent(tags || 'memo,house');
+      function endpointReady(){
+        return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:[?#].*)?$/.test(LEAD_ENDPOINT);
       }
 
-      function sendNtfy(title,message,tags,priority,useBeacon){
-        const url = ntfyUrl(title,tags,priority);
-
-        if(useBeacon && navigator.sendBeacon){
-          try{
-            return navigator.sendBeacon(url,new Blob([message],{type:'text/plain;charset=UTF-8'}));
-          }catch(e){}
+      function makeLeadId(label){
+        const key = 'j2b_lead_' + label.replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+        try{
+          let existing = sessionStorage.getItem(key);
+          if(existing) return existing;
+          const id = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2,10);
+          sessionStorage.setItem(key,id);
+          return id;
+        }catch(e){
+          return 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2,10);
         }
-
-        fetch(url,{
-          method:'POST',
-          body:message,
-          keepalive:true,
-          cache:'no-store'
-        }).catch(function(){});
-
-        return true;
       }
 
       function sendLeadViaWhatsApp(data){
@@ -1071,31 +1121,62 @@
           encodeURIComponent(lines.join('\n'));
       }
 
-      function leadMessage(label,data,state){
-        return [
-          state + ' - J2B COUVERTURE TOUL',
-          '',
-          'Formulaire : ' + label,
-          'Besoin : ' + (data.need || 'Non précisé'),
-          'Ville : ' + (data.city || 'Non précisée'),
-          'Nom : ' + (data.name || 'Non précisé'),
-          'Téléphone : ' + (data.phone || 'Non précisé'),
-          'E-mail : ' + (data.email || 'Non précisé'),
-          'Urgence : ' + (data.urgency || 'Non précisée'),
-          'Précisions : ' + (data.details || 'Aucune'),
-          '',
-          'Consentement au rappel : OUI',
-          'Page : ' + location.href,
-          'Heure : ' + nowFrance()
-        ].join('\n');
+      function buildLeadPayload(label,leadId,data,status,consentChecked,consentAt){
+        return {
+          site:'j2b-toul',
+          version:'2026-10-07',
+          lead_id:leadId,
+          status:status,
+          form_label:label,
+          need:(data.need || '').slice(0,120),
+          city:(data.city || '').slice(0,120),
+          name:(data.name || '').slice(0,120),
+          phone:(data.phone || '').slice(0,40),
+          email:(data.email || '').slice(0,180),
+          urgency:(data.urgency || '').slice(0,120),
+          details:(data.details || '').slice(0,1800),
+          consent:!!consentChecked,
+          consent_version:CONSENT_VERSION,
+          consent_text:CONSENT_TEXT,
+          consent_at:consentAt || nowIso(),
+          event_at:nowIso(),
+          page:location.href.slice(0,500),
+          referrer:(document.referrer || '').slice(0,500),
+          hp:''
+        };
+      }
+
+      function postLead(payload,useBeacon){
+        if(!endpointReady()) return Promise.reject(new Error('endpoint_not_configured'));
+        const body = JSON.stringify(payload);
+
+        if(useBeacon && navigator.sendBeacon){
+          try{
+            const ok = navigator.sendBeacon(
+              LEAD_ENDPOINT,
+              new Blob([body],{type:'text/plain;charset=UTF-8'})
+            );
+            if(ok) return Promise.resolve(true);
+          }catch(e){}
+        }
+
+        return fetch(LEAD_ENDPOINT,{
+          method:'POST',
+          mode:'no-cors',
+          headers:{'Content-Type':'text/plain;charset=UTF-8'},
+          body:body,
+          keepalive:true,
+          cache:'no-store',
+          referrerPolicy:'strict-origin-when-cross-origin'
+        }).then(function(){return true;});
       }
 
       /*
-       * Capture propre des formulaires commencés :
-       * - rien ne part avant consentement ;
-       * - un numéro valide est exigé ;
-       * - une alerte "commencé" est envoyée une seule fois ;
-       * - si la page est quittée sans envoi, une alerte "non finalisé" est envoyée.
+       * Enregistrement du prospect :
+       * - rien n'est enregistré avant accord + numéro valide ;
+       * - un identifiant unique permet de mettre à jour la même ligne dans Google Sheets ;
+       * - si le consentement est retiré dans le formulaire, les coordonnées sont effacées côté Apps Script ;
+       * - NTFY ne reçoit pas les coordonnées : l'alerte est déclenchée côté Apps Script.
        */
       function installDraftCapture(options){
         const form = options.form;
@@ -1104,57 +1185,70 @@
         const label = options.label;
 
         if(!form || !consent) return {
-          markSubmitted:function(){}
+          markSubmitted:function(){},
+          sendSubmitted:function(){return Promise.reject(new Error('form_unavailable'));}
         };
 
+        const leadId = makeLeadId(label);
         let startedSent = false;
         let submitted = false;
         let timer = null;
+        let consentAt = '';
 
         function eligible(){
           const data = getData();
           return consent.checked && validPhone(data.phone);
         }
 
-        function maybeSendStarted(){
+        function ensureConsentTime(){
+          if(consent.checked && !consentAt) consentAt = nowIso();
+          return consentAt;
+        }
+
+        function saveStatus(status,useBeacon){
+          const data = getData();
+          const payload = buildLeadPayload(
+            label,leadId,data,status,consent.checked,ensureConsentTime()
+          );
+          return postLead(payload,!!useBeacon);
+        }
+
+        function maybeSaveStarted(){
           clearTimeout(timer);
+          if(consent.checked) ensureConsentTime();
 
           timer = setTimeout(function(){
             if(startedSent || submitted || !eligible()) return;
-
-            const data = getData();
             startedSent = true;
-
-            sendNtfy(
-              '📲 Prospect formulaire commencé - J2B Toul',
-              leadMessage(label,data,'FORMULAIRE COMMENCÉ'),
-              'telephone,memo,house',
-              'high',
-              false
-            );
+            saveStatus('FORMULAIRE_COMMENCE',false).catch(function(){});
           },900);
         }
 
-        form.addEventListener('input',maybeSendStarted);
-        form.addEventListener('change',maybeSendStarted);
+        form.addEventListener('input',maybeSaveStarted);
+        form.addEventListener('change',maybeSaveStarted);
+
+        consent.addEventListener('change',function(){
+          if(consent.checked){
+            ensureConsentTime();
+            maybeSaveStarted();
+            return;
+          }
+          clearTimeout(timer);
+          if(startedSent && !submitted){
+            saveStatus('CONSENTEMENT_RETIRE',false).catch(function(){});
+          }
+        });
 
         window.addEventListener('pagehide',function(){
           if(submitted || !eligible()) return;
-
-          const data = getData();
-
-          sendNtfy(
-            '⚠️ Prospect formulaire non finalisé - J2B Toul',
-            leadMessage(label,data,'FORMULAIRE NON FINALISÉ'),
-            'warning,telephone,house',
-            'urgent',
-            true
-          );
+          saveStatus('FORMULAIRE_NON_FINALISE',true).catch(function(){});
         });
 
         return {
-          markSubmitted:function(){
-            submitted = true;
+          markSubmitted:function(){submitted = true;},
+          sendSubmitted:function(){
+            ensureConsentTime();
+            return saveStatus('FORMULAIRE_ENVOYE',false);
           }
         };
       }
@@ -1211,22 +1305,20 @@
             heroStatus.style.color = '#B32025';
             return;
           }
-
           heroDraft.markSubmitted();
 
-          sendNtfy(
-            '🔥 Nouveau prospect mini-formulaire - J2B Toul',
-            leadMessage('Mini formulaire accueil',data,'FORMULAIRE ENVOYÉ'),
-            'fire,telephone,house',
-            'urgent',
-            false
-          );
+          heroDraft.sendSubmitted().then(function(){
+            heroStatus.textContent = '✓ Demande enregistrée. Nous pouvons vous recontacter.';
+            heroStatus.style.color = '#16794B';
+          }).catch(function(){
+            heroStatus.textContent = 'Google Sheets n’est pas encore disponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
+            heroStatus.style.color = '#B32025';
+            window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
+          });
 
           j2bConversion();
           j2bContactEvent('formulaire_devis','Mini formulaire accueil');
 
-          heroStatus.textContent = '✓ Demande enregistrée. Nous pouvons vous recontacter.';
-          heroStatus.style.color = '#16794B';
         });
       }
 
@@ -1292,24 +1384,68 @@
             quoteStatus.style.color = '#B32025';
             return;
           }
-
           quoteDraft.markSubmitted();
 
-          sendNtfy(
-            '🔥 Nouveau devis J2B Toul',
-            leadMessage('Formulaire complet accueil',data,'FORMULAIRE ENVOYÉ'),
-            'fire,memo,house',
-            'urgent',
-            false
-          );
+          quoteDraft.sendSubmitted().then(function(){
+            quoteStatus.textContent = '✓ Demande enregistrée. Nous vous recontacterons.';
+            quoteStatus.style.color = '#16794B';
+          }).catch(function(){
+            quoteStatus.textContent = 'Google Sheets n’est pas encore disponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
+            quoteStatus.style.color = '#B32025';
+            window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
+          });
 
           j2bConversion();
           j2bContactEvent('formulaire_devis','Formulaire complet accueil');
 
-          quoteStatus.textContent = '✓ Demande enregistrée. Nous vous recontacterons.';
-          quoteStatus.style.color = '#16794B';
         });
       }
+
+      /* =========================
+         CHOIX DES COOKIES / MESURE D'AUDIENCE
+         ========================= */
+      const cookieBanner = document.getElementById('cookieBanner');
+      const acceptCookies = document.getElementById('acceptCookies');
+      const refuseCookies = document.getElementById('refuseCookies');
+      const cookieSettingsBtn = document.getElementById('cookieSettingsBtn');
+
+      function showCookieBanner(){
+        if(cookieBanner) cookieBanner.hidden = false;
+      }
+      function hideCookieBanner(){
+        if(cookieBanner) cookieBanner.hidden = true;
+      }
+      function getCookieChoice(){
+        try{return localStorage.getItem('j2b_cookie_choice') || '';}catch(e){return '';}
+      }
+      function setCookieChoice(value){
+        try{localStorage.setItem('j2b_cookie_choice',value);}catch(e){}
+      }
+
+      if(!getCookieChoice()) showCookieBanner();
+
+      if(acceptCookies){
+        acceptCookies.addEventListener('click',function(){
+          setCookieChoice('accepted');
+          hideCookieBanner();
+          if(typeof loadGoogleTags === 'function') loadGoogleTags();
+        });
+      }
+
+      if(refuseCookies){
+        refuseCookies.addEventListener('click',function(){
+          setCookieChoice('refused');
+          hideCookieBanner();
+        });
+      }
+
+      if(cookieSettingsBtn){
+        cookieSettingsBtn.addEventListener('click',function(){
+          try{localStorage.removeItem('j2b_cookie_choice');}catch(e){}
+          showCookieBanner();
+        });
+      }
+
     })();
   </script>
 
