@@ -1013,8 +1013,7 @@
 
   <aside class="cookieBanner" id="cookieBanner" hidden aria-label="Choix des cookies de mesure d’audience">
     <p>
-      J2B Couverture utilise Google Analytics et Google Ads uniquement avec votre accord pour mesurer
-      l’audience et les contacts issus du site. Le site et les formulaires fonctionnent aussi sans ces outils.
+      J2B Couverture utilise, avec votre accord, des outils de mesure d’audience afin d’améliorer le site et de mesurer les demandes de contact. Le site et les formulaires fonctionnent aussi sans ces outils.
     </p>
     <div class="cookieActions">
       <button class="btn red" id="acceptCookies" type="button">Accepter</button>
@@ -1311,7 +1310,7 @@
             heroStatus.textContent = '✓ Demande enregistrée. Nous pouvons vous recontacter.';
             heroStatus.style.color = '#16794B';
           }).catch(function(){
-            heroStatus.textContent = 'Google Sheets n’est pas encore disponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
+            heroStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
             heroStatus.style.color = '#B32025';
             window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
           });
@@ -1390,7 +1389,7 @@
             quoteStatus.textContent = '✓ Demande enregistrée. Nous vous recontacterons.';
             quoteStatus.style.color = '#16794B';
           }).catch(function(){
-            quoteStatus.textContent = 'Google Sheets n’est pas encore disponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
+            quoteStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
             quoteStatus.style.color = '#B32025';
             window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
           });
