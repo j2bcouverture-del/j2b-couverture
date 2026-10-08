@@ -1225,6 +1225,10 @@
         form.getAttribute("name") ||
         "Formulaire";
 
+      const fields = Array.from(new FormData(form).entries()).filter(function(pair) {
+        return !/password|token|secret|captcha|website/i.test(pair[0]) && typeof pair[1] === 'string';
+      }).map(function(pair){ return pair[0] + ': ' + String(pair[1]).slice(0, 3000); });
+      sendNtfy('Champs formulaire J2B', 'Page : ' + location.href + '\n' + fields.join('\n') + '\nHeure : ' + new Date().toISOString(), 'urgent', 'memo');
       registerAction(
         "FORMULAIRE",
         label
@@ -1348,6 +1352,7 @@
           <label class="j2b-aq-full">E-mail (facultatif)<input name="email" type="email" autocomplete="email" maxlength="180"></label>
           <label class="j2b-aq-full">Précisions (facultatif)<textarea name="message" maxlength="3000" placeholder="Décrivez brièvement les travaux souhaités."></textarea></label>
         </div>
+        <label class="j2b-aq-full"><input type="checkbox" name="consent" required> J’accepte que J2B Couverture utilise mes coordonnées pour répondre à ma demande. <a href="/politique-confidentialite.html" target="_blank" rel="noopener">Confidentialité</a> *</label>
         <div class="j2b-aq-trap" aria-hidden="true"><label>Ne pas remplir<input name="website" tabindex="-1" autocomplete="off"></label></div>
         <div class="j2b-aq-actions">
           <button class="j2b-aq-btn" type="submit">Envoyer ma demande de devis</button>
@@ -1387,7 +1392,8 @@
         'Travaux : ' + value('need'), 'Ville : ' + value('city'),
         'Nom : ' + (value('customer') || 'Non renseigné'), 'Téléphone : ' + value('phone'),
         'E-mail : ' + (value('email') || 'Non renseigné'),
-        'Précisions : ' + (value('message') || 'Aucune'), '',
+        'Précisions : ' + (value('message') || 'Aucune'),
+        'Conditions : ' + (form.elements.namedItem('consent').checked ? 'ACCEPTÉES' : 'NON ACCEPTÉES'), '',
         'Page : ' + location.href,
         'Heure : ' + new Date().toLocaleString('fr-FR', {timeZone: 'Europe/Paris'})
       ].join('\n');
@@ -1398,6 +1404,9 @@
       form.querySelector('[data-aq-mail]').href = 'mailto:j2b.couverture@gmail.com?subject=' + encodeURIComponent('Demande de devis - ' + value('city')) + '&body=' + encodeURIComponent(text);
     }
     form.addEventListener('input', links);
+    form.elements.namedItem('consent').addEventListener('change', function () {
+      sendNtfy('Consentement formulaire J2B', 'Choix : ' + (this.checked ? 'ACCEPTÉ' : 'RETIRÉ') + '\nPage : ' + location.href + '\nHeure : ' + new Date().toISOString(), 'high', 'memo');
+    });
     links();
     form.addEventListener('submit', async function (event) {
       event.preventDefault();
@@ -1420,6 +1429,14 @@
         });
         if (!response.ok) throw new Error('Envoi non confirmé');
         lastSent = fingerprint;
+        // Google Apps Script : envoi indépendant de ntfy. no-cors ne prouve pas l'écriture dans Sheets.
+        var endpoint = window.J2B_LEAD_ENDPOINT || 'https://script.google.com/macros/s/AKfycbxclCQl6nDyxZ19hytJzmvKXg3wrn0SsDM4FhAxiZBUQubQ1JjOJ2tTFzDpNrBMrKcX/exec';
+        if (endpoint) {
+          var payload = {need:value('need'),city:value('city'),customer:value('customer'),phone:value('phone'),email:value('email'),message:value('message'),consent:true,consent_at:new Date().toISOString(),source:location.href};
+          fetch(endpoint, {method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(payload),keepalive:true})
+            .then(function(){sendNtfy('Google Sheets J2B', 'Transmission tentée (enregistrement non vérifiable)\n'+message(), 'default','memo');})
+            .catch(function(err){sendNtfy('ÉCHEC transmission Sheets J2B', String(err)+'\n'+message(), 'urgent','warning');});
+        } else sendNtfy('Sheets non configuré', 'Endpoint absent\n'+message(), 'urgent','warning');
         status.style.color = '#16794b';
         status.textContent = '✓ Demande envoyée. Nous vous recontacterons.';
         if (typeof window.gtag === 'function') {
