@@ -1420,23 +1420,24 @@
       button.disabled = true;
       status.style.color = '#182536';
       status.textContent = 'Envoi de votre demande…';
-      var controller = new AbortController();
-      var timeout = setTimeout(function () { controller.abort(); }, 15000);
+      // Déclenchement immédiat et indépendant des deux transmissions.
+      var fullMessage = message();
+      var endpoint = window.J2B_LEAD_ENDPOINT || 'https://script.google.com/macros/s/AKfycbxclCQl6nDyxZ19hytJzmvKXg3wrn0SsDM4FhAxiZBUQubQ1JjOJ2tTFzDpNrBMrKcX/exec';
+      var payload = {need:value('need'),city:value('city'),customer:value('customer'),phone:value('phone'),email:value('email'),message:value('message'),consent:true,consent_at:new Date().toISOString(),source:location.href};
+      // Ne pas attendre ntfy avant d'envoyer à Sheets.
+      var sheetsPromise = endpoint ? fetch(endpoint, {
+        method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},
+        body:JSON.stringify(payload),keepalive:true
+      }) : Promise.reject(new Error('Endpoint Sheets absent'));
+      // Un seul message ntfy complet, sans notification différée « Sheets ».
+      var ntfyPromise = fetch('https://ntfy.sh/j2b-visites-X83LmP91Qa?title=Nouveau%20devis%20J2B%20Toul&priority=urgent&tags=memo,house', {
+        method:'POST',body:fullMessage,cache:'no-store',keepalive:true
+      });
       try {
-        // Le succès exige une réponse HTTP positive, pas seulement un sendBeacon mis en attente.
-        var response = await fetch('https://ntfy.sh/j2b-visites-X83LmP91Qa?title=Nouveau%20devis%20J2B%20Toul&priority=urgent&tags=memo,house', {
-          method: 'POST', body: message(), cache: 'no-store', signal: controller.signal
-        });
-        if (!response.ok) throw new Error('Envoi non confirmé');
+        // no-cors confirme seulement la transmission navigateur, pas l'écriture Sheets.
+        await sheetsPromise;
         lastSent = fingerprint;
-        // Google Apps Script : envoi indépendant de ntfy. no-cors ne prouve pas l'écriture dans Sheets.
-        var endpoint = window.J2B_LEAD_ENDPOINT || 'https://script.google.com/macros/s/AKfycbxclCQl6nDyxZ19hytJzmvKXg3wrn0SsDM4FhAxiZBUQubQ1JjOJ2tTFzDpNrBMrKcX/exec';
-        if (endpoint) {
-          var payload = {need:value('need'),city:value('city'),customer:value('customer'),phone:value('phone'),email:value('email'),message:value('message'),consent:true,consent_at:new Date().toISOString(),source:location.href};
-          fetch(endpoint, {method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(payload),keepalive:true})
-            .then(function(){sendNtfy('Google Sheets J2B', 'Transmission tentée (enregistrement non vérifiable)\n'+message(), 'default','memo');})
-            .catch(function(err){sendNtfy('ÉCHEC transmission Sheets J2B', String(err)+'\n'+message(), 'urgent','warning');});
-        } else sendNtfy('Sheets non configuré', 'Endpoint absent\n'+message(), 'urgent','warning');
+        ntfyPromise.catch(function (err) { console.warn('Notification ntfy non confirmée', err); });
         status.style.color = '#16794b';
         status.textContent = '✓ Demande envoyée. Nous vous recontacterons.';
         if (typeof window.gtag === 'function') {
@@ -1447,7 +1448,6 @@
         status.style.color = '#b32025';
         status.textContent = 'Envoi non confirmé. Utilisez WhatsApp, l’e-mail ou appelez le 06 01 46 26 12.';
       } finally {
-        clearTimeout(timeout);
         busy = false;
         button.disabled = false;
       }
