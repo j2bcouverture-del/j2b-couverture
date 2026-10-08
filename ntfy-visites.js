@@ -1217,6 +1217,30 @@
       const form = event.target;
 
       if (!form) return;
+      // Mini formulaire d'accueil : les champs n'ont pas d'attribut name,
+      // donc FormData(form) ne peut pas les lire. Utiliser leurs identifiants.
+      if (form.id === "heroQuoteForm") {
+        const need = (document.getElementById("heroNeed")?.value || "").trim();
+        const phone = (document.getElementById("heroPhone")?.value || "").trim();
+        const city = (document.getElementById("heroCity")?.value || "").trim();
+        const consent = !!document.getElementById("heroConsent")?.checked;
+        // Même garde-fou que le formulaire : pas d'alerte pour une demande invalide.
+        const digits = phone.replace(/\D/g, "");
+        if (!need || digits.length < 9 || digits.length > 15 || !consent) return;
+        const message = [
+          "NOUVELLE DEMANDE DE RAPPEL - J2B TOUL", "",
+          "Travaux : " + need,
+          "Téléphone : " + phone,
+          "Ville : " + (city || "Non renseignée"),
+          "Consentement : ACCEPTÉ (case cochée)",
+          "Page : " + location.href,
+          "Heure : " + new Date().toLocaleString("fr-FR", {timeZone:"Europe/Paris"}),
+          "", "Provenance :", ...adsInfoLines()
+        ].join("\n");
+        sendNtfy("☎️ Nouvelle demande de rappel - J2B Toul", message, "urgent", "telephone,memo");
+        registerAction("FORMULAIRE", "heroQuoteForm");
+        return; // Évite les deux anciennes notifications sans coordonnées.
+      }
       // Le formulaire automatique envoie lui-même la demande complète.
       if (form.hasAttribute("data-j2b-auto-quote")) return;
 
