@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  var OPACITY = 0.45;      // visibilité de l'animation (0 à 1)
+  var OPACITY = 0.85;      // visibilité de l'animation (0 à 1)
   var LOOP = false;        // true = recommence en boucle après une pause
   var HOLD = 6;            // secondes de pause avant de recommencer (si LOOP)
 
@@ -21,6 +21,7 @@
   st.textContent =
     '.hero{position:relative;overflow:hidden}' +
     '.hero>.container,.hero>.trustStrip{position:relative;z-index:1}' +
+    '.hero>.trustStrip{background:rgba(10,20,31,.2)}' +
     '.hero>.roof3d{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:' + OPACITY + '}';
   document.head.appendChild(st);
 
@@ -227,6 +228,7 @@
       var vf = cam.fov * Math.PI / 180;
       var hf = 2 * Math.atan(Math.tan(vf / 2) * cam.aspect);
       dist = Math.max(4.6 / Math.tan(hf / 2), 3.6 / Math.tan(vf / 2));
+      if (cam.aspect > 1.2) cam.setViewOffset(w, h, w * 0.2, 0, w, h); else cam.clearViewOffset();
       cam.updateProjectionMatrix();
       if (reduce) { orbit(0); renderer.render(scene, cam); }
     }
