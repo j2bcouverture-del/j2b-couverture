@@ -481,23 +481,41 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 .hero h1{color:#fff}.hero h1 span{color:#d7bf8d}.heroLead{color:#d9dfe5}.heroLead strong{color:#fff}
 .hero h1+p{color:#e5d4b1!important}.hero .btn.ghost{background:transparent;color:#fff;border-color:#ffffff55}
 .heroProof span{color:#e2e6ea}.trustStrip{background:#101c2a99}.trustItem strong{color:#fff}.trustItem span{color:#bbc6d1}
-/* Le vrai logo est utilisé dans chaque fragment, sans modification du dessin. */
+/* Apparition par éléments complets : petits zooms et rebond amorti. */
 .brand{position:relative;isolation:isolate;overflow:visible;flex-shrink:0}
-.brand>img{animation:none!important;filter:none;transform:none}
+.brand>img{animation:none!important;transform:none;filter:none}
 .brand:after{content:none!important;animation:none!important}
-.brand.logoAssembling>img{visibility:hidden}
-.logoPieceLayer{position:absolute;inset:0;pointer-events:none;z-index:2}
-.logoPiece{position:absolute;inset:0;opacity:0;transform-origin:50% 65%;will-change:transform,opacity;animation:logoPieceBounce 850ms both;animation-delay:var(--delay);clip-path:inset(var(--clip));-webkit-clip-path:inset(var(--clip))}
-.brand .logoPiece img{width:100%;height:100%;max-width:none;display:block;object-fit:fill;animation:none!important;transform:none!important;filter:none}
-@keyframes logoPieceBounce{
-  0%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--turn)) scale(.82)}
-  18%{opacity:1}
-  55%{opacity:1;transform:translate(0,-7px) rotate(0) scale(1.025)}
-  73%{opacity:1;transform:translate(0,3px) rotate(0) scale(.99)}
-  87%{opacity:1;transform:translate(0,-2px) rotate(0) scale(1.005)}
-  100%{opacity:1;transform:translate(0,0) rotate(0) scale(1)}
+.brand.logoBuilding>img{visibility:hidden}
+.logoElementLayer{position:absolute;inset:0;z-index:2;pointer-events:none}
+.logoWholeElement{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0;will-change:transform,opacity;animation:logoElementZoom 720ms both;animation-delay:var(--element-delay)}
+@keyframes logoElementZoom{
+ 0%{opacity:0;transform:translateY(5px) scale(.7)}
+ 25%{opacity:1}
+ 58%{opacity:1;transform:translateY(-1px) scale(1.075)}
+ 78%{opacity:1;transform:translateY(0) scale(.98)}
+ 100%{opacity:1;transform:translateY(0) scale(1)}
 }
-@media(prefers-reduced-motion:reduce){.brand.logoAssembling>img{visibility:visible}.logoPieceLayer{display:none}.logoPiece{animation:none!important}}
+/* Mouvement des boutons uniquement lors d’une interaction. */
+.btn,.mobileBar a,.menuBtn{position:relative;isolation:isolate;transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,background-color .22s ease,border-color .22s ease;transform:translateY(0) scale(1);-webkit-tap-highlight-color:transparent}
+.btn,.mobileBar a{overflow:hidden}
+.btn:before,.mobileBar a:before{content:'';position:absolute;inset:-60% -50%;pointer-events:none;z-index:0;background:linear-gradient(110deg,transparent 40%,#ffffff28 50%,transparent 60%);transform:translateX(-100%);opacity:0;transition:transform .55s ease,opacity .2s ease}
+@media(hover:hover) and (pointer:fine){
+ .btn:hover{transform:translateY(-3px);box-shadow:0 10px 24px #18253618}
+ .btn.red:hover{box-shadow:0 10px 24px #b3202530}
+ .btn.whatsapp:hover{box-shadow:0 10px 24px #1f6f5426}
+ .btn:hover:before,.mobileBar a:hover:before{transform:translateX(100%);opacity:1}
+ .menuBtn:hover{transform:translateY(-2px);box-shadow:0 6px 16px #18253618}
+ .mobileBar a:hover{transform:translateY(-2px)}
+}
+.btn:focus-visible,.mobileBar a:focus-visible,.menuBtn:focus-visible{outline:3px solid #c1a66b;outline-offset:4px;box-shadow:0 0 0 6px #c1a66b20}
+.btn:active,.mobileBar a:active,.menuBtn:active{transform:translateY(1px) scale(.97);box-shadow:0 2px 5px #18253612;transition-duration:.09s}
+.btn:disabled{cursor:wait;transform:none;opacity:.7}
+@media(prefers-reduced-motion:reduce){
+ .brand.logoBuilding>img{visibility:visible}.logoElementLayer{display:none}
+ .logoWholeElement{animation:none!important}
+ .btn,.mobileBar a,.menuBtn{transition:none!important;transform:none!important}
+ .btn:before,.mobileBar a:before{display:none}
+}
 
 </style>
 </head>
@@ -1705,54 +1723,64 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 </script>
 
 <script>
-/* Apparition unique du logo en dix fragments, sans bibliothèque externe. */
+/* Animation des éléments entiers du logo officiel, sans modifier le fichier image. */
 (function(){
  'use strict';
  const brand=document.querySelector('.brand');
  const original=brand&&brand.querySelector('img');
- if(!original||!window.matchMedia||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ if(!original||!window.matchMedia)return;
+ const motion=matchMedia('(prefers-reduced-motion: reduce)');
+ if(motion.matches)return;
  let started=false;
- function animateLogo(){
-  if(started||!original.naturalWidth)return;
+ function start(){
+  if(started||!original.naturalWidth||motion.matches)return;
   started=true;
-  const layer=document.createElement('span');
-  layer.className='logoPieceLayer';
-  layer.setAttribute('aria-hidden','true');
-  const motion=matchMedia('(prefers-reduced-motion: reduce)');
-  let cleanupTimer;
-  function cleanup(){
-   clearTimeout(cleanupTimer);
-   brand.classList.remove('logoAssembling');
-   layer.remove();
-   if(motion.removeEventListener)motion.removeEventListener('change',changedMotion);
-  }
-  function changedMotion(e){if(e.matches)cleanup();}
-  // Progression de gauche à droite, les deux rangées légèrement décalées.
-  for(let column=0;column<5;column++){
-   for(let row=0;row<2;row++){
-    const index=column*2+row;
-    const piece=document.createElement('span');
-    piece.className='logoPiece';
-    piece.style.setProperty('--clip',`${row*50}% ${100-(column+1)*20}% ${50-row*50}% ${column*20}%`);
-    piece.style.setProperty('--delay',`${index*65}ms`);
-    piece.style.setProperty('--dx',`${(column-2)*5}px`);
-    piece.style.setProperty('--dy',`${row===0?-24:30}px`);
-    piece.style.setProperty('--turn',`${index%2===0?-4:4}deg`);
-    const image=document.createElement('img');
-    image.src=original.currentSrc||original.src;
-    image.alt='';image.draggable=false;
-    image.decoding='sync';
-    piece.appendChild(image);layer.appendChild(piece);
+  let layer;
+  try{
+   // Lecture locale du logo ; si le navigateur la refuse, le logo reste visible.
+   const width=Math.min(1024,original.naturalWidth);
+   const height=Math.round(width*original.naturalHeight/original.naturalWidth);
+   const source=document.createElement('canvas');source.width=width;source.height=height;
+   const ctx=source.getContext('2d',{willReadFrequently:true});
+   ctx.drawImage(original,0,0,width,height);
+   const pixels=ctx.getImageData(0,0,width,height);
+   const parts=Array.from({length:5},()=>ctx.createImageData(width,height));
+   const boxes=Array.from({length:5},()=>({left:width,top:height,right:0,bottom:0,count:0}));
+   for(let i=0;i<pixels.data.length;i+=4){
+    const r=pixels.data[i],g=pixels.data[i+1],b=pixels.data[i+2],a=pixels.data[i+3];
+    if(!a)continue;
+    const pixel=i/4,x=pixel%width,y=Math.floor(pixel/width);
+    // Bleu : J ; sombre : 2 ; rouge : B ; gris : toit ; texte inférieur.
+    let part;
+    if(b>r*1.4&&b>g*1.4)part=0;
+    else if(r>g*1.6&&r>b*1.6)part=2;
+    else if(y>height*.79)part=4;
+    else if(Math.max(r,g,b)>18)part=3;
+    else part=1;
+    parts[part].data.set(pixels.data.subarray(i,i+4),i);
+    const box=boxes[part];box.left=Math.min(box.left,x);box.right=Math.max(box.right,x);box.top=Math.min(box.top,y);box.bottom=Math.max(box.bottom,y);box.count++;
    }
-  }
-  brand.appendChild(layer);
-  brand.classList.add('logoAssembling');
-  if(motion.addEventListener)motion.addEventListener('change',changedMotion);
-  // Retrait des calques : le logo original reste ensuite parfaitement net.
-  cleanupTimer=setTimeout(cleanup,1550);
+   layer=document.createElement('span');layer.className='logoElementLayer';layer.setAttribute('aria-hidden','true');
+   const labels=['J','2','B','Toit','Couverture'];
+   // Ordre visuel : lettres, puis toit, puis signature.
+   parts.forEach(function(data,index){
+    const box=boxes[index];if(!box.count)return;
+    const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+    canvas.className='logoWholeElement';canvas.dataset.element=labels[index];
+    canvas.getContext('2d').putImageData(data,0,0);
+    canvas.style.transformOrigin=`${(box.left+box.right)/2/width*100}% ${(box.top+box.bottom)/2/height*100}%`;
+    canvas.style.setProperty('--element-delay',`${index*160}ms`);
+    layer.appendChild(canvas);
+   });
+   brand.appendChild(layer);brand.classList.add('logoBuilding');
+   let timer;
+   function cleanup(){clearTimeout(timer);brand.classList.remove('logoBuilding');layer.remove();if(motion.removeEventListener)motion.removeEventListener('change',changed);}
+   function changed(e){if(e.matches)cleanup();}
+   if(motion.addEventListener)motion.addEventListener('change',changed);
+   timer=setTimeout(cleanup,1550);
+  }catch(e){brand.classList.remove('logoBuilding');if(layer)layer.remove();}
  }
- if(original.complete)animateLogo();
- else original.addEventListener('load',animateLogo,{once:true});
+ if(original.complete)start();else original.addEventListener('load',start,{once:true});
 })();
 
 </script>
