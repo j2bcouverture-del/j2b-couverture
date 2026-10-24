@@ -442,10 +442,43 @@
       .mobileBar .quoteBtn{background:var(--navy);color:#fff}
     }
   </style>
+<style id="j2b-modern-design">
+/* Refonte J2B — identité marine, or et rouge conservée. */
+:root{--bg:#fcfbf8;--soft:#f2f1ed;--border:#e5e5df;--shadow:0 12px 40px rgba(24,37,54,.055);--radius:22px;--max:1220px}
+html{scroll-padding-top:100px}body{background:var(--bg)}
+::selection{background:var(--gold);color:var(--navy)}
+a,button,input,select,textarea,summary{touch-action:manipulation}
+:focus-visible{outline:3px solid var(--gold);outline-offset:5px}
+.skipLink{position:fixed;top:8px;left:8px;z-index:2000;padding:12px 18px;background:#fff;color:var(--navy);border-radius:8px;transform:translateY(-160%)}.skipLink:focus{transform:translateY(0)}
+.container{width:min(var(--max),calc(100% - 64px))}.section{padding:88px 0}
+h1,h2,h3{font-weight:750}h1{font-size:clamp(3rem,5.5vw,5rem);line-height:1.01;letter-spacing:-.055em}h2{max-width:850px;line-height:1.15;letter-spacing:-.04em}h2:after{height:3px;width:42px;margin-top:20px}h3{font-size:1.23rem;letter-spacing:-.025em}p{line-height:1.75}
+.btn{font-weight:750;min-height:52px;padding:14px 20px;border-radius:11px;transition:transform .22s,background .22s,box-shadow .22s}.btn:hover{transform:translateY(-3px);box-shadow:0 8px 18px #18253615}.btn.red{box-shadow:0 5px 18px #b320251f}.btn.ghost{background:transparent;border-color:#cdd1d5}.btn:active{transform:translateY(0)}
+.topContact{background:var(--navy);border:0}.topContactInner{display:flex;justify-content:flex-end;gap:24px;padding:5px 0}.topContact a{min-height:30px;font-size:.79rem;letter-spacing:.03em;font-weight:650;padding:0;background:transparent;color:#f4f1e9}.topContact a:hover{color:#e3ca92}
+header{background:rgba(252,251,248,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 #18253612}header:after{height:1px;background:#18253614}.nav{padding:14px 0;gap:24px}.brand{display:inline-flex;align-items:center;position:relative;isolation:isolate}.brand img{height:62px;max-width:220px;object-fit:contain;transform-origin:50% 70%;animation:logoArrival 1s cubic-bezier(.2,.8,.2,1) both}.brand:after{content:'';position:absolute;inset:-5px -14px;z-index:-1;background:linear-gradient(110deg,transparent 35%,#c1a66b30 50%,transparent 65%);background-size:260% 100%;border-radius:12px;pointer-events:none;animation:logoShine 1.7s .35s both}
+@keyframes logoArrival{0%{opacity:0;transform:translateY(9px) scale(.93)}65%{opacity:1;transform:translateY(-2px) scale(1.015)}100%{opacity:1;transform:none}}
+@keyframes logoShine{from{background-position:170% 0;opacity:0}25%{opacity:1}to{background-position:-70% 0;opacity:0}}
+.headerLinks{display:flex;align-items:center;gap:26px;margin-left:auto;font-size:.86rem;font-weight:650}.headerLinks>a:not(.btn):hover{color:var(--red)}.headerLinks .btn{min-height:44px;padding:10px 16px;font-size:.84rem}.menuBtn{background:transparent;border:1px solid #d9dcd9;color:var(--navy);border-radius:11px}.menuPanel{top:62px;padding:12px;border-radius:18px;box-shadow:0 22px 60px #18253624}.menuPanel.open{animation:menuIn .2s ease-out}.menuPanel a{font-size:.9rem;font-weight:650;padding:12px}
+@keyframes menuIn{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+.hero{position:relative;isolation:isolate;overflow:hidden;padding-top:64px;background:radial-gradient(ellipse at 8% 0%,#34485e 0%,transparent 60%),linear-gradient(125deg,#182536,#152131)}.hero:before{content:'';position:absolute;z-index:-1;right:-200px;top:-250px;width:650px;height:650px;border-radius:50%;border:1px solid #c1a66b22;box-shadow:0 0 0 85px #c1a66b06,0 0 0 170px #c1a66b04;pointer-events:none}.heroGrid{grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);gap:64px;align-items:start}.locationBadge{background:transparent;color:#ead9b5;padding:0;border-radius:0;text-transform:uppercase;font-size:.7rem;letter-spacing:.16em;font-weight:700;margin-bottom:23px}.hero h1 span{display:block;color:#d7bf8d}.heroLead{font-size:1.09rem;max-width:510px;color:#d9dfe5;margin-top:20px}.heroLead strong{font-weight:650;color:#fff}.heroActions{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}.heroActions .btn{font-size:.83rem;padding:12px 15px;min-height:48px}.hero .btn.ghost{border-color:#ffffff45}.heroProof{font-size:.74rem;font-weight:500;margin-top:21px;gap:15px}.heroProof span{border:0;padding:0;background:none;color:#e2e6ea}
+.heroVisual{position:relative;margin:30px 0 0;overflow:hidden;border-radius:18px;border:1px solid #ffffff25;background:#27364a}.heroVisual img{width:100%;height:206px;object-fit:cover;object-position:center 54%}.heroVisual:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 35%,#0d1925b3)}.heroVisual figcaption{position:absolute;bottom:16px;left:18px;right:18px;z-index:1;font-size:.77rem;color:#fff;display:flex;justify-content:space-between;gap:8px}.heroVisual figcaption span{color:#e6d1a5}
+.quickForm{position:relative;padding:28px;border-radius:24px;background:#fdfcf9;box-shadow:0 24px 70px #08111b44;border:1px solid #ffffff8c}.quickForm:before{content:'';position:absolute;left:28px;top:0;width:42px;height:3px;background:var(--gold);border-radius:0 0 4px 4px}.quickForm h2{font-size:1.5rem;font-weight:750;margin:2px 0 8px}.quickForm>.small{margin-bottom:24px;font-size:.84rem}.quickGrid{gap:15px 12px}.field{gap:8px}.field label{font-size:.76rem;font-weight:650}.field input,.field select,.field textarea{min-height:49px;background:#fff;border-color:#dcdedb;border-radius:10px;padding:12px;transition:border-color .2s,box-shadow .2s}.consentRow{font-size:.7rem;line-height:1.6;margin-top:19px;gap:10px}.consentRow input{accent-color:var(--navy);margin-top:3px}.quickForm .btn{margin-top:20px}.quickPrivacy{font-size:.68rem;line-height:1.6}.status:empty{display:none}.quickForm .status{font-size:.8rem;line-height:1.6}.trustStrip{margin-top:48px;background:#101c2a77}.trustItem{padding:22px 24px}.trustItem strong{font-weight:650;font-size:.9rem}.trustItem span{font-size:.76rem;color:#bbc6d1;margin-top:5px}
+.introGrid{gap:60px;align-items:center}.introGrid>article:first-child>p{max-width:580px;color:var(--muted)}.introGrid .locationBadge{color:#82704a!important;background:none!important}.introGrid .btn{margin-top:8px}.card{border-radius:22px;padding:30px;box-shadow:var(--shadow)}.urgentBox{border:1px solid #ead7d4;background:#fbf6f3;padding:34px}.urgentBox h3{font-size:1.6rem}.urgentBox p{color:#6e6868}.urgentActions .btn{font-size:.83rem}.serviceIcon{display:flex;align-items:center;justify-content:center;width:49px;height:49px;border-radius:14px;background:#f3f0e9;font-size:1.4rem;margin-bottom:24px}.urgentBox .serviceIcon{background:#f2e5e1}.alt{background:#f2f1ed}.grid3{gap:18px}.serviceCard{position:relative;min-height:270px;background:#fcfbf8;border:1px solid #fff;box-shadow:none;transition:transform .25s,border-color .25s,box-shadow .25s}.serviceCard:hover{transform:translateY(-5px);border-color:#c1a66b80;box-shadow:0 18px 36px #1825360a}.serviceCard p{font-size:.91rem;margin-bottom:22px}.serviceCard a{font-size:.81rem;font-weight:750;padding-top:14px;border-top:1px solid var(--border)}
+.localBox{position:relative;overflow:hidden;background:var(--navy);border:1px solid var(--navy);color:#fff;padding:46px}.localBox h2{max-width:800px}.localBox p{max-width:930px;color:#d8dfe6}.localBox .locationBadge{background:transparent!important;color:#d8bf8b!important}.localLinks{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:30px}.localLinks a{background:#ffffff08;border-color:#ffffff24;color:#fff;font-size:.8rem;font-weight:550;padding:15px 10px;transition:background .2s,border-color .2s}.localLinks a:hover{background:#ffffff14;border-color:var(--gold)}
+.review{padding:28px;border:1px solid var(--border);box-shadow:none;border-radius:20px}.review p{font-size:1.05rem;margin:18px 0 24px}.review strong{font-size:.75rem;letter-spacing:.02em;color:var(--muted);font-weight:600}.stars{font-size:.86rem;color:#ae8a41;letter-spacing:3px}.gallery{gap:18px;margin-top:32px}.gallery img{border:0;border-radius:17px;box-shadow:none;transition:transform .4s}.gallery img:hover{transform:translateY(-4px)}.faq{max-width:none;margin-top:32px}.faq details{border:0;border-bottom:1px solid #dfe1db;border-radius:0;background:transparent;padding:23px 0;margin:0}.faq summary{font-size:1rem;font-weight:650;line-height:1.6}.faq details p{max-width:850px;font-size:.94rem}.quote{max-width:920px;padding:36px;border:1px solid #fff;box-shadow:0 18px 60px #18253607}.quoteGrid{gap:21px}.quote .consentRow{font-size:.76rem;max-width:760px}.quoteActions{margin-top:24px}.quoteActions .btn{font-size:.86rem}
+footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}footer p{font-size:.85rem;color:#c2cbd5}footer a,.footerLinkButton{font-size:.81rem;line-height:1.7;color:#c2cbd5}footer a:hover,.footerLinkButton:hover{color:#e5cfa5}footer h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}.footerGrid{gap:40px;grid-template-columns:1.4fr 1fr 1fr 1fr}.footerBottom{font-size:.72rem;color:#b9c4cf;margin-top:38px;padding-top:24px}.cookieBanner{bottom:22px;left:20px;right:20px;max-width:720px;border-radius:20px;padding:22px;box-shadow:0 16px 70px #0d192539}.cookieActions .btn{font-weight:650}.cookieBanner p{font-size:.84rem;line-height:1.65}
+@media(min-width:1400px){.heroGrid{gap:88px}}
+@media(max-width:1050px){.heroGrid{gap:32px;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr)}.headerLinks{gap:18px}.headerLinks>a:nth-child(2){display:none}.introGrid{gap:28px}.heroActions{gap:8px}.heroProof{gap:9px}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.footerGrid{gap:24px}}
+@media(max-width:800px){.container{width:calc(100% - 40px)}.section{padding:58px 0}.headerLinks>a:not(.btn){display:none}.hero{padding-top:36px}.heroGrid{grid-template-columns:1fr;gap:30px}.hero h1{font-size:clamp(3rem,8vw,4.5rem);max-width:640px}.heroLead{max-width:620px}.heroVisual{display:none}.heroProof{display:flex}.quickForm{padding:24px}.quickGrid{grid-template-columns:1fr 1fr}.quickGrid .full{grid-column:1/-1}.trustStrip{margin-top:32px}.trustGrid{grid-template-columns:repeat(2,1fr)}.trustItem{padding:17px 18px}.trustItem:nth-child(n+3){display:block}.introGrid{grid-template-columns:1fr;gap:28px}.localBox{padding:30px}.localLinks{grid-template-columns:repeat(2,minmax(0,1fr))}.footerGrid{grid-template-columns:1fr 1fr}.reviews{grid-template-columns:1fr}.review{padding:24px}.menuPanel{position:absolute;top:60px;left:auto;right:0;width:min(380px,calc(100vw - 40px))}}
+@media(max-width:650px){:root{--mobileBar:70px}.container{width:calc(100% - 36px)}html{scroll-padding-top:92px}.topContactInner{justify-content:center;width:100%;padding:5px 10px;gap:25px}.topContact a{font-size:.73rem;min-height:24px}.nav{padding:10px 0;gap:12px}.brand img{height:48px;max-width:175px}.headerLinks{gap:0}.headerLinks .btn{font-size:.7rem;min-height:40px;padding:8px 11px}.menuBtn{height:40px;width:40px;font-size:21px}.hero{padding-top:30px}.locationBadge{font-size:.64rem;letter-spacing:.12em;margin-bottom:17px}.hero h1{font-size:clamp(2.8rem,12vw,4rem)}.heroLead{font-size:.97rem;margin-top:18px}.heroActions{display:grid;grid-template-columns:1fr 1fr;margin-top:22px}.heroActions .btn{font-size:.79rem;padding:12px 10px}.heroActions .btn:last-child{grid-column:1/-1;background:#ffffff0a}.heroProof{font-size:.67rem;margin-top:18px;gap:10px;line-height:1.6}.heroProof span:last-child{display:none}.quickForm{padding:22px 18px;border-radius:20px}.quickForm h2{font-size:1.45rem}.quickForm>.small{margin-bottom:20px}.quickGrid{gap:14px 10px}.quickGrid .field{min-width:0}.quickGrid input{min-width:0}.quickForm .consentRow{font-size:.67rem;line-height:1.6}.quickForm .btn{margin-top:16px}.trustItem{padding:15px 10px}.trustItem:nth-child(n+3){display:none}.trustItem strong{font-size:.8rem}.trustItem span{font-size:.7rem}.grid3{grid-template-columns:1fr}.card{padding:24px}.serviceCard{min-height:0}.serviceCard .serviceIcon{margin-bottom:20px}.serviceCard p{font-size:.92rem}.urgentBox{padding:26px}.urgentBox h3{font-size:1.5rem}.urgentActions{display:grid;grid-template-columns:1fr}.localBox{padding:28px 22px}.localLinks{gap:8px}.localLinks a{font-size:.75rem}.gallery{grid-template-columns:1fr 1fr;gap:10px}.gallery img{border-radius:12px}.quote{padding:23px 18px;border-radius:20px}.quoteGrid{gap:18px}.quote .consentRow{font-size:.7rem}.quoteActions{display:grid;grid-template-columns:1fr}.quoteActions .btn{width:100%}.footerGrid{grid-template-columns:1fr 1fr;gap:30px 20px}.footerGrid>div:first-child{grid-column:1/-1}footer{padding-top:44px}.footerBottom{font-size:.68rem;line-height:1.7}.mobileBar{height:calc(var(--mobileBar) + env(safe-area-inset-bottom));padding-top:9px;padding-bottom:calc(9px + env(safe-area-inset-bottom));background:rgba(252,251,248,.98);backdrop-filter:blur(12px);box-shadow:0 -8px 32px #1825360b}.mobileBar a{font-size:.74rem;font-weight:700;border-radius:11px}.cookieBanner{left:10px;right:10px;bottom:calc(var(--mobileBar) + env(safe-area-inset-bottom) + 12px);padding:18px}.cookieActions{gap:8px}.cookieActions .btn{flex:1;min-width:100px}.cookieActions a{width:100%;font-size:.76rem;margin-top:4px}.menuPanel{top:56px;max-height:calc(100dvh - 175px - env(safe-area-inset-bottom))}}
+@media(max-width:370px){.headerLinks{display:none}.nav .menuWrap{margin-left:auto}.heroProof{font-size:.62rem}.quickGrid{grid-template-columns:1fr}.quickGrid .full{grid-column:auto}.footerGrid{grid-template-columns:1fr}.footerGrid>div:first-child{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+
+</style>
 </head>
 
 
 <body id="top">
+<a class="skipLink" href="#main">Aller au contenu</a>
 
 
   <div class="topContact" aria-label="Coordonnées J2B Couverture">
@@ -467,8 +500,9 @@
       </a>
 
 
+      <div class="headerLinks"><a href="#prestations">Nos prestations</a><a href="#realisations">Nos réalisations</a><a class="btn red" href="#devis">Devis gratuit ↗</a></div>
       <div class="menuWrap">
-        <button class="menuBtn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+        <button class="menuBtn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menuPanel">☰</button>
         <div class="menuPanel" id="menuPanel">
           <a href="./index.html">🏠 Accueil</a>
           <a href="./couvreur-toul.html">📍 Couvreur à Toul</a>
@@ -491,7 +525,7 @@
   </header>
 
 
-  <main>
+  <main id="main">
 
 
     <!-- PREMIER ÉCRAN : logo visible, localisation, appel, WhatsApp et devis immédiatement -->
@@ -503,7 +537,8 @@
           <span class="locationBadge">📍 Toul • Toulois • 54200</span>
 
 
-          <h1 id="hero-title">Couvreur à Toul</h1>
+          <h1 id="hero-title">Votre toiture.<br><span>Notre savoir-faire.</span></h1>
+<p style="font-size:1rem;font-weight:600;letter-spacing:.03em;margin:18px 0 0;color:#e5d4b1">Artisan couvreur à Toul · 54200</p>
 
 
           <p class="heroLead">
@@ -538,6 +573,10 @@
             <span>📍 Toul & Toulois</span>
             <span>📸 Photos par WhatsApp</span>
           </div>
+          <figure class="heroVisual">
+            <img src="./renovation-toiture-pose-tuiles-04.jpg" alt="Pose de tuiles réalisée par J2B Couverture" width="680" height="260" decoding="async" fetchpriority="high">
+            <figcaption>Le soin du détail, sur chaque toiture.<span>J2B Couverture ↗</span></figcaption>
+          </figure>
         </div>
 
 
@@ -678,7 +717,7 @@
 
     <section class="section alt">
       <div class="container">
-        <h2>Nos prestations de couverture à Toul</h2>
+        <h2 id="prestations">Nos prestations de couverture à Toul</h2>
         <p class="muted">Accédez directement au service correspondant à votre besoin.</p>
 
 
@@ -858,7 +897,7 @@
 
     <section class="section alt">
       <div class="container">
-        <h2>Réalisations de toiture</h2>
+        <h2 id="realisations">Réalisations de toiture</h2>
         <p class="muted">Exemples de rénovation, faîtage, gouttières et zinguerie réalisés par J2B Couverture.</p>
 
 
@@ -1626,6 +1665,18 @@
   <script src="https://j2b-couverture.fr/ntfy-visites.js?v=9" defer></script>
 
 
+
+
+<script>
+(function(){
+  const button=document.getElementById('menuBtn'), panel=document.getElementById('menuPanel');
+  function closeMenu(restore){panel.classList.remove('open');button.setAttribute('aria-expanded','false');document.body.classList.remove('menu-open');if(restore)button.focus();}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&panel.classList.contains('open'))closeMenu(true);});
+  panel.addEventListener('click',function(e){if(e.target.closest('a'))closeMenu(false);});
+  document.addEventListener('focusin',function(e){if(panel.classList.contains('open')&&!panel.contains(e.target)&&e.target!==button)closeMenu(false);});
+  window.addEventListener('resize',function(){if(innerWidth>=651)document.body.classList.remove('menu-open');});
+})();
+</script>
 
 </body>
 </html>
