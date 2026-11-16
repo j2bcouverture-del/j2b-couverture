@@ -1509,8 +1509,10 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
 
       if(heroForm){
+        let heroSending = false;
         heroForm.addEventListener('submit',function(e){
           e.preventDefault();
+          if(heroSending) return;
 
 
           const data = heroData();
@@ -1535,10 +1537,10 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
             heroStatus.style.color = '#B32025';
             return;
           }
-          heroDraft.markSubmitted();
-
-
+          heroSending = true;
           heroDraft.sendSubmitted().then(function(){
+            heroDraft.markSubmitted();
+            window.dispatchEvent(new CustomEvent('j2b:lead-sent', {detail:{label:'Mini formulaire accueil'}}));
             heroStatus.textContent = '✓ Demande transmise. Nous vous recontacterons après réception.';
             j2bConversion();
             j2bContactEvent('formulaire_devis','Mini formulaire accueil');
@@ -1546,8 +1548,14 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
           }).catch(function(){
             heroStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
             heroStatus.style.color = '#B32025';
-            window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
-          });
+            const fallback = document.createElement('a');
+            fallback.href = sendLeadViaWhatsApp(data);
+            fallback.target = '_blank';
+            fallback.rel = 'noopener noreferrer';
+            fallback.textContent = ' Ouvrir WhatsApp pour envoyer la demande';
+            fallback.style.display = 'block';
+            heroStatus.appendChild(fallback);
+          }).finally(function(){ heroSending = false; });
 
 
 
@@ -1587,6 +1595,7 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
 
       if(quoteForm){
+        let quoteSending = false;
         ['need','city','name','phone','email','urgency','details'].forEach(function(id){
           const el = document.getElementById(id);
           if(!el) return;
@@ -1604,6 +1613,7 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
         quoteForm.addEventListener('submit',function(e){
           e.preventDefault();
+          if(quoteSending) return;
 
 
           const data = currentQuoteData();
@@ -1628,10 +1638,10 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
             quoteStatus.style.color = '#B32025';
             return;
           }
-          quoteDraft.markSubmitted();
-
-
+          quoteSending = true;
           quoteDraft.sendSubmitted().then(function(){
+            quoteDraft.markSubmitted();
+            window.dispatchEvent(new CustomEvent('j2b:lead-sent', {detail:{label:'Formulaire complet accueil'}}));
             quoteStatus.textContent = '✓ Demande transmise. Nous vous recontacterons après réception.';
             j2bConversion();
             j2bContactEvent('formulaire_devis','Formulaire complet accueil');
@@ -1639,8 +1649,14 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
           }).catch(function(){
             quoteStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
             quoteStatus.style.color = '#B32025';
-            window.open(sendLeadViaWhatsApp(data),'_blank','noopener');
-          });
+            const fallback = document.createElement('a');
+            fallback.href = sendLeadViaWhatsApp(data);
+            fallback.target = '_blank';
+            fallback.rel = 'noopener noreferrer';
+            fallback.textContent = ' Ouvrir WhatsApp pour envoyer la demande';
+            fallback.style.display = 'block';
+            quoteStatus.appendChild(fallback);
+          }).finally(function(){ quoteSending = false; });
 
 
 
@@ -1725,12 +1741,8 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
             started=true;event('formulaire_commence',item.label);
           }
         });
-        form.addEventListener('submit',function(){
-          // Validation réelle réalisée par le gestionnaire principal.
-          var consent=form.querySelector('input[type=checkbox][required]');
-          if(consent && !consent.checked)return;
-          if(typeof form.checkValidity==='function' && !form.checkValidity())return;
-          submitted=true;
+        window.addEventListener('j2b:lead-sent',function(e){
+          if(e.detail && e.detail.label===item.label) submitted=true;
         });
         window.addEventListener('pagehide',function(){
           if(started && !submitted && !abandoned){abandoned=true;event('formulaire_abandonne',item.label);}
@@ -1740,7 +1752,7 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
         var link=e.target.closest('a[href]');if(!link)return;
         var href=link.getAttribute('href')||'';
         if(/^tel:/i.test(href))event('clic_telephone',link.textContent.trim().slice(0,65));
-        else if(/^(https?:\\/\\/)?(wa\\.me|api\\.whatsapp\\.com)/i.test(href))event('clic_whatsapp',link.textContent.trim().slice(0,65));
+        else if(/(?:wa\.me|api\.whatsapp\.com)/i.test(href))event('clic_whatsapp',link.textContent.trim().slice(0,65));
         else if(href==='#devis')event('clic_devis',link.textContent.trim().slice(0,65));
       },true);
       var scrolled=false;
@@ -1753,7 +1765,7 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
   <!-- Scripts habituels J2B -->
   <script src="./chatbot-v2.js?v=5" defer></script>
-  <script src="https://j2b-couverture.fr/ntfy-visites.js?v=9" defer></script>
+  <script src="https://j2b-couverture.fr/ntfy-visites.js?v=11" defer></script>
 
 
 
@@ -1830,6 +1842,50 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
  if(original.complete)start();else original.addEventListener('load',start,{once:true});
 })();
 </script>
-<script src="./ntfy-devis-confirmation.js?v=2" defer></script>
+<script id="j2b-ntfy-interactions-v3">
+(function(){
+  'use strict';
+  if(window.__j2bNtfyInteractionsV3) return;
+  window.__j2bNtfyInteractionsV3=true;
+  const topic='https://ntfy.sh/j2b-visites-X83LmP91Qa';
+  const started=Date.now();
+  let inactive=false,scrolled=false,exitSent=false;
+  const labels={formulaire_ouvert:'Formulaire ouvert',formulaire_commence:'Formulaire commencé',formulaire_abandonne:'Formulaire abandonné',clic_devis:'Clic sur devis',visiteur_scroll:'Défilement 300 px'};
+  function notify(title,description){
+    const body=[description,'Page : '+location.pathname,'Heure : '+new Date().toLocaleString('fr-FR',{timeZone:'Europe/Paris'}),'Aucune coordonnée de prospect transmise'].join('\n');
+    // no-cors : le navigateur ne peut pas certifier la réception ntfy.
+    try{fetch(topic+'?title='+encodeURIComponent(title)+'&tags=eyes,house',{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:body,keepalive:true,cache:'no-store'}).catch(function(){});}catch(e){}
+  }
+  window.addEventListener('j2b:interaction',function(e){
+    const d=e.detail||{};
+    // Les clics appel/WhatsApp/e-mail sont déjà notifiés par ntfy-visites.js.
+    if(!labels[d.name]) return;
+    if(d.name==='visiteur_scroll'){if(scrolled)return;scrolled=true;}
+    notify(labels[d.name]+' - J2B Toul', 'Événement : '+labels[d.name]+'\nZone : '+String(d.label||'').slice(0,80));
+  });
+  window.addEventListener('j2b:lead-sent',function(e){
+    notify('Demande de devis envoyée (navigateur) - J2B Toul',
+      'Formulaire : '+String((e.detail||{}).label||'').slice(0,80)+'\nTransmission lancée, réception Google Sheets non vérifiable depuis le navigateur');
+  });
+  // Inactivité : une alerte par page, après dix secondes sans interaction.
+  let idleTimer;
+  function resetIdle(){
+    if(inactive)return;
+    clearTimeout(idleTimer);
+    idleTimer=setTimeout(function(){
+      if(document.visibilityState==='hidden')return;
+      inactive=true;
+      notify('Visiteur inactif 10 s - J2B Toul','Aucune interaction depuis 10 secondes');
+    },10000);
+  }
+  ['pointerdown','keydown','touchstart','scroll'].forEach(function(type){window.addEventListener(type,resetIdle,{passive:true});});
+  resetIdle();
+  window.addEventListener('pagehide',function(){
+    if(exitSent)return;
+    exitSent=true;
+    notify('Sortie de page - J2B Toul','Durée approximative : '+Math.round((Date.now()-started)/1000)+' secondes');
+  });
+})();
+</script>
 </body>
 </html>
