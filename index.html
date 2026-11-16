@@ -1539,7 +1539,9 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
 
           heroDraft.sendSubmitted().then(function(){
-            heroStatus.textContent = '✓ Demande enregistrée. Nous pouvons vous recontacter.';
+            heroStatus.textContent = '✓ Demande transmise. Nous vous recontacterons après réception.';
+            j2bConversion();
+            j2bContactEvent('formulaire_devis','Mini formulaire accueil');
             heroStatus.style.color = '#16794B';
           }).catch(function(){
             heroStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
@@ -1548,8 +1550,6 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
           });
 
 
-          j2bConversion();
-          j2bContactEvent('formulaire_devis','Mini formulaire accueil');
 
 
         });
@@ -1632,7 +1632,9 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
 
 
           quoteDraft.sendSubmitted().then(function(){
-            quoteStatus.textContent = '✓ Demande enregistrée. Nous vous recontacterons.';
+            quoteStatus.textContent = '✓ Demande transmise. Nous vous recontacterons après réception.';
+            j2bConversion();
+            j2bContactEvent('formulaire_devis','Formulaire complet accueil');
             quoteStatus.style.color = '#16794B';
           }).catch(function(){
             quoteStatus.textContent = 'L’enregistrement est momentanément indisponible. Ouverture de WhatsApp pour ne pas perdre votre demande.';
@@ -1641,8 +1643,6 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
           });
 
 
-          j2bConversion();
-          j2bContactEvent('formulaire_devis','Formulaire complet accueil');
 
 
         });
@@ -1703,6 +1703,53 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
     })();
   </script>
 
+
+
+  <!-- Suivi d'interaction sans collecte de coordonnées personnelles : GA uniquement après consentement. -->
+  <script id="j2b-interaction-monitor">
+  (function(){
+    'use strict';
+    function event(name, label){
+      if(typeof window.j2bContactEvent === 'function') window.j2bContactEvent(name,label);
+      try { window.dispatchEvent(new CustomEvent('j2b:interaction',{detail:{name:name,label:label,page:location.pathname}})); } catch(e) {}
+    }
+    document.addEventListener('DOMContentLoaded',function(){
+      var forms=[{id:'heroQuoteForm',label:'Mini formulaire accueil'},{id:'quoteForm',label:'Formulaire complet accueil'}];
+      forms.forEach(function(item){
+        var form=document.getElementById(item.id);
+        if(!form)return;
+        var opened=false,started=false,submitted=false,abandoned=false;
+        form.addEventListener('focusin',function(){if(!opened){opened=true;event('formulaire_ouvert',item.label);}});
+        form.addEventListener('input',function(e){
+          if(!started && e.target && e.target.matches('input:not([type=checkbox]),textarea,select')){
+            started=true;event('formulaire_commence',item.label);
+          }
+        });
+        form.addEventListener('submit',function(){
+          // Validation réelle réalisée par le gestionnaire principal.
+          var consent=form.querySelector('input[type=checkbox][required]');
+          if(consent && !consent.checked)return;
+          if(typeof form.checkValidity==='function' && !form.checkValidity())return;
+          submitted=true;
+        });
+        window.addEventListener('pagehide',function(){
+          if(started && !submitted && !abandoned){abandoned=true;event('formulaire_abandonne',item.label);}
+        });
+      });
+      document.addEventListener('click',function(e){
+        var link=e.target.closest('a[href]');if(!link)return;
+        var href=link.getAttribute('href')||'';
+        if(/^tel:/i.test(href))event('clic_telephone',link.textContent.trim().slice(0,65));
+        else if(/^(https?:\\/\\/)?(wa\\.me|api\\.whatsapp\\.com)/i.test(href))event('clic_whatsapp',link.textContent.trim().slice(0,65));
+        else if(href==='#devis')event('clic_devis',link.textContent.trim().slice(0,65));
+      },true);
+      var scrolled=false;
+      window.addEventListener('scroll',function(){
+        if(!scrolled && window.scrollY>300){scrolled=true;event('visiteur_scroll','300px');}
+      },{passive:true});
+    });
+  })();
+  </script>
 
   <!-- Scripts habituels J2B -->
   <script src="./chatbot-v2.js?v=5" defer></script>
@@ -1782,7 +1829,7 @@ footer{padding:64px 0 32px;border-top:2px solid var(--gold);background:#152131}f
  }
  if(original.complete)start();else original.addEventListener('load',start,{once:true});
 })();
-<script src="./ntfy-devis-confirmation.js?v=1" defer></script>
 </script>
+<script src="./ntfy-devis-confirmation.js?v=2" defer></script>
 </body>
 </html>
