@@ -1,0 +1,22 @@
+# À placer dans le contexte http de nginx. Adapter les certificats et le domaine.
+limit_req_zone $binary_remote_addr zone=j2b_tracking:10m rate=4r/s;
+limit_req_zone $binary_remote_addr zone=j2b_leads:10m rate=4r/m;
+server {
+    listen 443 ssl;
+    server_name suivi.j2b-couverture.fr;
+    ssl_certificate /etc/letsencrypt/live/suivi.j2b-couverture.fr/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/suivi.j2b-couverture.fr/privkey.pem;
+    client_max_body_size 48k;
+    access_log off;
+    limit_req_status 429;
+    proxy_set_header X-J2B-Peer $remote_addr;
+    location = /lead {
+        limit_req zone=j2b_leads burst=10 nodelay;
+        proxy_pass http://127.0.0.1:8120;
+    }
+    location ~ ^/(events|forget)$ {
+        limit_req zone=j2b_tracking burst=25 nodelay;
+        proxy_pass http://127.0.0.1:8120;
+    }
+    location / { return 404; }
+}
