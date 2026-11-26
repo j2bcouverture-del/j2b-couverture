@@ -1,0 +1,24 @@
+name: Recette ntfy hors production
+on:
+  workflow_dispatch:
+  push:
+    branches: [recette/ntfy-v10]
+permissions:
+  contents: read
+jobs:
+  navigateur:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, firefox, webkit]
+    env:
+      BROWSER_ENGINE: ${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install playwright
+      - run: python -m playwright install --with-deps "${BROWSER_ENGINE}"
+      - run: python tests/serveur.py && node tests/client.cjs && python tests/recette.py
