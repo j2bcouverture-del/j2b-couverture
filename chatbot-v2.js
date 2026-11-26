@@ -36,9 +36,6 @@
     const subtitle = box.querySelector(".chatHead small");
     if (subtitle) subtitle.textContent = "Questions, urgence et devis";
 
-    const NTFY_TOPIC = "https://ntfy.sh/j2b-visites-X83LmP91Qa";
-    const OPEN_KEY = "j2b_chatbot_v6_open_sent";
-
     let state = {};
     let started = false;
     let currentInputHandler = null;
@@ -49,173 +46,6 @@
       lastQuestion: ""
     };
 
-    function now() {
-      try {
-        return new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
-      } catch (e) {
-        return new Date().toLocaleString("fr-FR");
-      }
-    }
-
-    function robotLikely() {
-      const ua = navigator.userAgent || "";
-      return navigator.webdriver === true ||
-        /bot|crawler|spider|headless|slurp|lighthouse|pagespeed|urlscan/i.test(ua);
-    }
-
-    function trafficSource() {
-      const p = new URLSearchParams(location.search);
-
-      if (p.get("gclid") || p.get("gbraid") || p.get("wbraid") || p.get("gad_source") === "1") {
-        return "Google Ads";
-      }
-
-      if (p.get("utm_source")) return p.get("utm_source");
-
-      if (document.referrer) {
-        try {
-          const host = new URL(document.referrer).hostname
-            .replace(/^www\./, "")
-            .toLowerCase();
-
-          if (host.includes("google.")) return "Google naturel";
-          if (host.includes("facebook.")) return "Facebook";
-          if (host.includes("instagram.")) return "Instagram";
-          return host;
-        } catch (e) {}
-      }
-
-      return "Direct / inconnue";
-    }
-
-    function sendNtfy(title, body, priority, tags) {
-      if (robotLikely()) return Promise.resolve(false);
-
-      const url =
-        NTFY_TOPIC +
-        "?title=" + encodeURIComponent(title) +
-        "&priority=" + encodeURIComponent(priority || "default") +
-        "&tags=" + encodeURIComponent(tags || "speech_balloon,house");
-
-      return fetch(url, {
-        method: "POST",
-        body: body,
-        keepalive: true,
-        cache: "no-store"
-      })
-        .then(function (r) { return r.ok; })
-        .catch(function () { return false; });
-    }
-
-    function notifyOpen() {
-      let already = false;
-
-      try {
-        already = sessionStorage.getItem(OPEN_KEY) === "1";
-      } catch (e) {}
-
-      if (already) return;
-
-      try {
-        sessionStorage.setItem(OPEN_KEY, "1");
-      } catch (e) {}
-
-      sendNtfy(
-        "💬 Chatbot ouvert - J2B Toul",
-        [
-          "UTILISATION CHATBOT - J2B COUVERTURE TOUL",
-          "",
-          "Action : ouverture du chatbot",
-          "Page : " + location.pathname,
-          "Provenance : " + trafficSource(),
-          "Heure : " + now()
-        ].join("\n"),
-        "default",
-        "speech_balloon,eyes,house"
-      );
-
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "chatbot_open", {
-          event_category: "Chatbot",
-          event_label: "Ouverture",
-          page_path: location.pathname
-        });
-      }
-    }
-
-    function notifyQuestion(question, answer) {
-      sendNtfy(
-        "❓ Question chatbot - J2B Toul",
-        [
-          "QUESTION CHATBOT - J2B COUVERTURE TOUL",
-          "",
-          "Question : " + question,
-          "",
-          "Réponse donnée : " + answer,
-          "",
-          "Page : " + location.pathname,
-          "Provenance : " + trafficSource(),
-          "Heure : " + now()
-        ].join("\n"),
-        "high",
-        "speech_balloon,question,house"
-      );
-
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "chatbot_question", {
-          event_category: "Chatbot",
-          event_label: "Question posée",
-          page_path: location.pathname
-        });
-      }
-    }
-
-    function notifyUrgency() {
-      sendNtfy(
-        "🚨 Urgence via chatbot - J2B Toul",
-        [
-          "URGENCE CHATBOT - J2B COUVERTURE TOUL",
-          "",
-          "Le visiteur a signalé une fuite / urgence",
-          "Page : " + location.pathname,
-          "Provenance : " + trafficSource(),
-          "Heure : " + now()
-        ].join("\n"),
-        "urgent",
-        "rotating_light,house"
-      );
-    }
-
-    function notifyLead(action) {
-      sendNtfy(
-        "🔥 Lead chatbot - J2B Toul",
-        [
-          "LEAD CHATBOT - J2B COUVERTURE TOUL",
-          "",
-          "Action finale : " + action,
-          "Besoin : " + (state.need || "Non précisé"),
-          "Urgence : " + (state.urgency || "Non précisée"),
-          "Ville : " + (state.city || "Non précisée"),
-          "Nom : " + (state.name || "Non précisé"),
-          "Téléphone : " + (state.phone || "Non précisé"),
-          "Précisions : " + (state.details || "Aucune"),
-          "",
-          "Page : " + location.pathname,
-          "Provenance : " + trafficSource(),
-          "Heure : " + now()
-        ].join("\n"),
-        "urgent",
-        "fire,telephone,house"
-      );
-    }
-
-    function reportConversion() {
-      if (typeof window.gtag === "function") {
-        window.gtag("event", "conversion", {
-          send_to: "AW-16552414221/vyNqCJ_ttfUcEI2Y59Q9"
-        });
-      }
-    }
 
     function validPhone(value) {
       const phone = String(value || "").replace(/[^\d+]/g, "");
@@ -635,7 +465,8 @@
               "noopener"
             );
           } else {
-            location.href = "tel:+33601462612";
+            window.dispatchEvent(new Event('j2b-call'));
+                              location.href = "tel:+33601462612";
           }
         });
 
@@ -650,7 +481,7 @@
       if (wantsQuote(q)) {
         const answer = "Bien sûr. Je vais vous poser quelques questions rapides pour préparer votre demande de devis.";
         addMessage(answer, "bot");
-        notifyQuestion(question, answer);
+
         hideInput();
         quoteFlow(false);
         return;
@@ -659,7 +490,7 @@
       if (urgentSituation(q)) {
         const answer = "D’accord, je traite cela comme une urgence toiture. Je vais vous proposer les moyens les plus rapides pour contacter J2B Couverture.";
         addMessage(answer, "bot");
-        notifyQuestion(question, answer);
+
         hideInput();
         urgentFlow();
         return;
@@ -669,7 +500,7 @@
       conversation.lastTopic = result.topic || conversation.lastTopic;
 
       addMessage(result.text, "bot");
-      notifyQuestion(question, result.text);
+
 
       if (typeof rearm === "function") {
         rearm();
@@ -701,7 +532,7 @@
 
     function urgentFlow() {
       state = { urgency: "Fuite active / urgent" };
-      notifyUrgency();
+
 
       addMessage(
         "Si de l’eau entre actuellement ou qu’un élément de toiture menace de tomber, ne montez pas sur le toit. Vous pouvez appeler J2B Couverture ou envoyer immédiatement des photos par WhatsApp.",
@@ -716,10 +547,11 @@
         addMessage(action, "user");
 
         if (action.includes("Appeler")) {
-          notifyLead("Appel urgence");
-          location.href = "tel:+33601462612";
+
+          window.dispatchEvent(new Event('j2b-call'));
+                              location.href = "tel:+33601462612";
         } else if (action.includes("photos")) {
-          notifyLead("WhatsApp urgence / photos");
+
 
           window.open(
             "https://wa.me/33601462612?text=" +
@@ -793,8 +625,8 @@
                             addMessage(action, "user");
 
                             if (action.includes("WhatsApp")) {
-                              notifyLead("WhatsApp devis");
-                              reportConversion();
+
+                              window.dispatchEvent(new Event('j2b-whatsapp'));
 
                               window.open(
                                 whatsappLead(state),
@@ -802,7 +634,8 @@
                                 "noopener"
                               );
                             } else if (action.includes("Appeler")) {
-                              notifyLead("Appel devis");
+
+                              window.dispatchEvent(new Event('j2b-call'));
                               location.href = "tel:+33601462612";
                             } else {
                               questionMode(true);
@@ -905,7 +738,7 @@
     launcher.addEventListener("click", function () {
       box.classList.add("open");
       launcher.setAttribute("aria-expanded", "true");
-      notifyOpen();
+
 
       if (!started) {
         startV6();
